@@ -1,0 +1,12 @@
+{
+  "name": "jsbyte",
+  "version": "0.0.0",
+  "author": "Gavin Lloyd <gavinhungry@gmail.com>",
+  "description": "An interactive JavaScript/HTML/CSS environment",
+  "license": "MIT",
+  "private": true,
+
+  "dependencies": {
+    "express": "3.3.x"
+  }
+}
