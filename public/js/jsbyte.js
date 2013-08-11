@@ -3,10 +3,10 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'frame', 'dom', 'config',
+  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config',
   'utils'
 ],
-function($, _, Backbone, templates, frame, dom, config, utils) {
+function($, _, Backbone, templates, dom, config, utils) {
   'use strict';
 
   var JSByte = utils.module('JSByte');
@@ -24,22 +24,16 @@ function($, _, Backbone, templates, frame, dom, config, utils) {
     },
 
     run: function(e) {
-      var markup = this.$markup.val();
-      var script = this.$script.val();
-      var style = this.$style.val();
-
-      var $frame = frame.build_frame(markup);
-      this.$output.empty().append($frame);
+      this.$input.submit();
     },
 
     render: function() {
       templates.get(this.template, function(template) {
-        // no data to pass to template yet
-        var html = _.template(template);
+        var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
         dom.backbone_cache(this, {
-          'by_id': ['markup', 'script', 'style', 'output', 'run']
+          'by_id': ['markup', 'style', 'script', 'input', 'output', 'run']
         });
 
       }, this);

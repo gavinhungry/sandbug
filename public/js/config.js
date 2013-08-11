@@ -13,10 +13,9 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
-    'root': 'http://jsbyte.localhost/'
+    'root': 'http://localhost:8080/',
+    'frame': 'http://localhost:8081/'
   };
-
-  if (config.debug) { window.config = config; }
 
   // options may always be functions, but any option originally declared as a
   // boolean must either be a boolean or a function that returns a boolean
@@ -36,5 +35,6 @@ function($, _) {
     });
   });
 
+  if (config.debug) { window.config = config; }
   return config;
 });

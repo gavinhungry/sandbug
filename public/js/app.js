@@ -38,7 +38,7 @@
   });
 
   require(['jquery', 'jsbyte'],
-  function($, JSByte) {
+  function($, JSByte, config) {
     'use strict';
 
     $(function() {
