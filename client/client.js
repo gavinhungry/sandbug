@@ -39,11 +39,11 @@
   });
 
   require(['jquery', 'app'],
-  function($, JSByte) {
+  function($, jsbyte) {
     'use strict';
 
     $(function() {
-      var jsbyte = new JSByte.App();
+      new jsbyte.App();
     });
 
   });

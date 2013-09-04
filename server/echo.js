@@ -28,6 +28,5 @@ function(module, path, express, cons, _) {
     });
   });
 
-
   return echo;
 });

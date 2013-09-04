@@ -3,15 +3,14 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config',
-  'utils'
+  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils'
 ],
 function($, _, Backbone, templates, dom, config, utils) {
   'use strict';
 
-  var JSByte = utils.module('JSByte');
+  var jsbyte = utils.module('jsbyte');
 
-  JSByte.App = Backbone.View.extend({
+  jsbyte.App = Backbone.View.extend({
     template: 'app',
     el: '#jsbyte',
 
@@ -40,5 +39,5 @@ function($, _, Backbone, templates, dom, config, utils) {
     }
   });
 
-  return JSByte;
+  return jsbyte;
 });
