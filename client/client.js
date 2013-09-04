@@ -7,6 +7,7 @@
   var CDNJS = '//cdnjs.cloudflare.com/ajax/libs';
 
   requirejs.config({
+    baseUrl: '/js',
     urlArgs: 'v=' + (new Date()).getTime(),
 
     paths: {
@@ -37,8 +38,8 @@
     }
   });
 
-  require(['jquery', 'jsbyte'],
-  function($, JSByte, config) {
+  require(['jquery', 'app'],
+  function($, JSByte) {
     'use strict';
 
     $(function() {

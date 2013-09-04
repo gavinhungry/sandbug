@@ -13,8 +13,8 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
-    'root': 'http://localhost:8080/',
-    'frame': 'http://localhost:8081/'
+    'root': 'http://localhost:8080/', // https://jsbyte.net/
+    'frame': 'http://localhost:8081/frame/' // https://echo.jsbyte.net/frame/
   };
 
   // options may always be functions, but any option originally declared as a
