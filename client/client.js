@@ -18,7 +18,7 @@
 
       // plugins
       transit: CDNJS + '/jquery.transit/0.9.9/jquery.transit.min',
-      string: CDNJS + '/underscore.string/2.3.1/underscore.string.min',
+      string: CDNJS + '/underscore.string/2.3.3/underscore.string.min',
 
       // libraries with plugins
       jquery: 'lib/jquery',
