@@ -16,18 +16,22 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
     el: '#jsbyte',
 
     initialize: function() {
+      this.init_keys();
       this.render();
     },
 
-    events: {
-      'click #run': 'run'
+    run: function() {
+      this.$input.submit();
     },
 
-    run: function(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    init_keys: function() {
+      var that = this;
 
-      this.$input.submit();
+      keys.register_handler({ ctrl: true, key: 'enter'}, function(e) {
+        that.run();
+      });
+
+      keys.init();
     },
 
     render: function() {
@@ -36,7 +40,7 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
         this.$el.html(html);
 
         dom.backbone_cache(this, {
-          'by_id': ['markup', 'style', 'script', 'input', 'output', 'run']
+          'by_id': ['markup', 'style', 'script', 'input', 'output']
         });
 
       }, this);
