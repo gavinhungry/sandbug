@@ -1,1 +1,1 @@
-*,*:before,*:after{box-sizing:border-box}#panels{width:100%;display:flex;border:2px solid red}#panels .panel{flex-grow:1;border:2px solid green}
+*,*:before,*:after{box-sizing:border-box}#header,#byte,#footer{width:100%}#input{display:flex}#input>.panel{flex-grow:1;border:2px solid green}

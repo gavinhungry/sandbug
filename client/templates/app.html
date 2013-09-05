@@ -1,11 +1,18 @@
-<div id='panels'>
+<div id='header'>
+  jsbyte
+</div>
+
+<div id='byte'>
   <form action='<%= frame %>' method='POST' id='input' target='output'>
     <textarea id='markup' class='panel' name='markup' placeholder='MARKUP'></textarea>
     <textarea id='style' class='panel' name='style' placeholder='STYLE'></textarea>
     <textarea id='script' class='panel' name='script' placeholder='SCRIPT'></textarea>
+    <iframe id='output' class='panel' name='output'></iframe>
   </form>
 
-  <iframe id='output' name='output' class='panel'></iframe>
+  <button id='run'>Run</button>
 </div>
 
-<button id='run'>Run</button>
+<div id='footer'>
+  Gavin Lloyd
+</div>

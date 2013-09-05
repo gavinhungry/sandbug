@@ -7,14 +7,15 @@
   box-sizing: border-box;
 }
 
-#panels {
+#header, #byte, #footer {
   width: 100%;
-  display: flex;
-  border: 2px solid red;
+}
 
-  .panel {
+#input {
+  display: flex;
+
+  > .panel {
     flex-grow: 1;
     border: 2px solid green;
   }
 }
-

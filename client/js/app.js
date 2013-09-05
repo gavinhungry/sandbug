@@ -3,9 +3,10 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils'
+  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils',
+  'keys'
 ],
-function($, _, Backbone, templates, dom, config, utils) {
+function($, _, Backbone, templates, dom, config, utils, keys) {
   'use strict';
 
   var jsbyte = utils.module('jsbyte');
@@ -23,6 +24,9 @@ function($, _, Backbone, templates, dom, config, utils) {
     },
 
     run: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
       this.$input.submit();
     },
 
