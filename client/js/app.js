@@ -35,7 +35,29 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
     },
 
     init_panels: function() {
-      
+      var $resizer;
+
+      var bind_resize = function(e) {
+        $(document).on('mousemove', resize_panel);
+        $(document).on('mouseup', unbind_resize);
+      };
+
+      var unbind_resize = function(e) {
+        $(document).off('mousemove', resize_panel);
+        $(document).off('mouseup', unbind_resize);
+      };
+
+      var resize_panel = function(e) {
+        if (!$resizer) { return; }
+
+        var $prev = $resizer.prev();
+        var $next = $resizer.next();
+      };
+
+      $('.panel-resizer').on('mousedown', function(e) {
+        $resizer = $(e.target).closest('.panel-resizer');
+        bind_resize(e);
+      });
     },
 
     render: function() {

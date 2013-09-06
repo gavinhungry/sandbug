@@ -4,35 +4,57 @@
 
 @header_height: 48px;
 
-// http://frontenddevreactions.tumblr.com/post/50110341554
+// frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
-html, body, #jsbyte { height: 100%; }
+
+html, body, #jsbyte {
+  height: 100%;
+  overflow: hidden;
+}
 
 #header {
   width: 100%;
   height: @header_height;
   background-color: #89A;
   border-bottom: 4px solid rgba(0,0,0, 0.15);
-
-
   padding: 8px;
 }
 
 #main { height: calc(100% ~'-' @header_height) }
 
 #input {
-  display: flex;
   height: 100%;
 
+  > * {
+    display: inline-block;
+    position: relative;
+  }
+
   > .panel {
-    flex-grow: 1;
     margin: 0;
     border: none;
+    width: 25% !important;
+    height: 100%;
   }
 
   > textarea {
+    top: -2px;
     resize: none;
     padding: 4px;
+    margin-right: -6px !important;
     border-right: 1px solid #DDD !important;
+  }
+
+  > .panel-resizer {
+    z-index: 1;
+    width: 0px;
+    height: 100%;
+
+    > div {
+      width: 8px;
+      height: 100%;
+      margin-left: -2px;
+      cursor: ew-resize;
+    }
   }
 }
