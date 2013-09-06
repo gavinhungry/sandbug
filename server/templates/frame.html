@@ -2,7 +2,21 @@
 <html>
   <head>
     <style type='text/css'><%= style %></style>
-    <script type='application/javascript'><%= script %></script>
+    <script type='application/javascript'>
+      document.addEventListener('DOMContentLoaded', function() {
+        'use strict';
+
+        try {
+          (function() {
+            // begin user script
+            <%= script %>
+            // end user script
+          }).call(window);
+        } catch(e) {
+          // log and output error message
+        }
+      }, false);
+    </script>
   </head>
 
   <body>

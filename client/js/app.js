@@ -16,8 +16,8 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
     el: '#jsbyte',
 
     initialize: function() {
-      this.init_keys();
       this.render();
+      this.init_keys();
     },
 
     run: function() {
@@ -34,14 +34,21 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
       keys.init();
     },
 
+    init_panels: function() {
+      
+    },
+
     render: function() {
       templates.get(this.template, function(template) {
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
         dom.backbone_cache(this, {
-          'by_id': ['markup', 'style', 'script', 'input', 'output']
+          'by_id': ['markup', 'style', 'script', 'input', 'output'],
+          'by_class': ['panel']
         });
+
+        this.init_panels();
 
       }, this);
     }

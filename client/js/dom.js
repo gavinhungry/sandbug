@@ -25,7 +25,7 @@ function($, _, config, utils) {
 
     // .panel elements cached to this.$panels
     _.each(utils.ensure_array(elements.by_class), _.bind(function(c) {
-      this['$' + c + 's'] = this.$el.find('#' + c);
+      this['$' + c + 's'] = this.$el.find('.' + c);
     }, context));
 
     return context;

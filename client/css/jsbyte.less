@@ -2,20 +2,37 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
+@header_height: 48px;
+
 // http://frontenddevreactions.tumblr.com/post/50110341554
-*, *:before, *:after {
-  box-sizing: border-box;
+*, *:before, *:after { box-sizing: border-box; }
+html, body, #jsbyte { height: 100%; }
+
+#header {
+  width: 100%;
+  height: @header_height;
+  background-color: #89A;
+  border-bottom: 4px solid rgba(0,0,0, 0.15);
+
+
+  padding: 8px;
 }
 
-#header, #byte, #footer {
-  width: 100%;
-}
+#main { height: calc(100% ~'-' @header_height) }
 
 #input {
   display: flex;
+  height: 100%;
 
   > .panel {
     flex-grow: 1;
-    border: 2px solid green;
+    margin: 0;
+    border: none;
+  }
+
+  > textarea {
+    resize: none;
+    padding: 4px;
+    border-right: 1px solid #DDD !important;
   }
 }

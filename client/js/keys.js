@@ -14,7 +14,6 @@ function($, _, config, utils) {
   var last_hid = 0;
   var initialized = false;
 
-
   /**
    * Get a char code from a single-char
    *
@@ -34,7 +33,6 @@ function($, _, config, utils) {
 
     return null;
   };
-
 
   /**
    * Register a new key callback function
@@ -59,7 +57,6 @@ function($, _, config, utils) {
     return hid;
   };
 
-
   /**
    * Unregister a key hander by id
    *
@@ -69,7 +66,6 @@ function($, _, config, utils) {
     utils.log('unregistering key handler', hid);
     delete handlers[hid];
   };
-
 
   /**
    * Start listening for key events and execute registered handlers
