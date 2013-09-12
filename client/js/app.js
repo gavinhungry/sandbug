@@ -34,10 +34,19 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
       keys.init();
     },
 
+    // resizable panels
     init_panels: function() {
-      var $resizer;
+      var $resizer, $prevPanel, $nextPanel;
+      var _prevOffset, _nextOffset;
+      var mde; // mousedown event
 
       var bind_resize = function(e) {
+        $prevPanel.addClass('resizing');
+
+        // load previously-stored panel offsets
+        _prevOffset = $prevPanel.data('width-offset') || 0;
+        _nextOffset = $nextPanel.data('width-offset') || 0;
+
         $(document).on('mousemove', resize_panel);
         $(document).on('mouseup', unbind_resize);
       };
@@ -45,17 +54,31 @@ function($, _, Backbone, templates, dom, config, utils, keys) {
       var unbind_resize = function(e) {
         $(document).off('mousemove', resize_panel);
         $(document).off('mouseup', unbind_resize);
+
+        $prevPanel.removeClass('resizing');
       };
 
       var resize_panel = function(e) {
         if (!$resizer) { return; }
 
-        var $prev = $resizer.prev();
-        var $next = $resizer.next();
+        var distance = e.pageX - mde.pageX;
+        var prevOffset = _prevOffset + distance;
+        var nextOffset = _nextOffset - distance;
+
+        $prevPanel.attr('style', 'width: calc(25% + ' + prevOffset + 'px) !important');
+        $nextPanel.attr('style', 'width: calc(25% + ' + nextOffset + 'px) !important');
+
+        // store panel offsets
+        $prevPanel.data('width-offset', prevOffset);
+        $nextPanel.data('width-offset', nextOffset);
       };
 
       $('.panel-resizer').on('mousedown', function(e) {
         $resizer = $(e.target).closest('.panel-resizer');
+        $prevPanel = $resizer.prev('.panel');
+        $nextPanel = $resizer.next('.panel');
+        mde = e;
+
         bind_resize(e);
       });
     },
