@@ -8,9 +8,12 @@
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
 
+textarea:focus, input:focus{ outline: 0; }
+
 html, body, #jsbyte {
   height: 100%;
   overflow: hidden;
+  margin: 0 !important; padding: 0 !important;
 }
 
 header {
@@ -59,7 +62,7 @@ main { height: calc(100% ~'-' @header_height) }
 
   > .panel {
     margin: 0;
-    border: none;
+    border: 0;
     width: 25% !important;
     height: 100%;
   }
