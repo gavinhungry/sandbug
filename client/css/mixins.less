@@ -1,0 +1,13 @@
+/*
+ * jsbyte: An interactive JS/HTML/CSS environment
+ */
+
+.button (@base: #AAA) {
+  background-color: @base;
+
+  &:hover { background-color: lighten(@base, 4%); }
+  &:active {
+    background-color: darken(@base, 4%);
+    padding-top: 2px;
+  }
+}
