@@ -8,7 +8,7 @@
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
 
-textarea:focus, input:focus{ outline: 0; }
+textarea:focus, input:focus, button:focus { outline: 0; }
 
 html, body, #jsbyte {
   height: 100%;
@@ -19,21 +19,21 @@ html, body, #jsbyte {
 header {
   width: 100%;
   height: @header_height;
-  background-color: #8f9daa;
+  background-color: #CCC;
   border-bottom: 4px solid rgba(0,0,0, 0.15);
-  padding: 8px;
+  padding: 6px;
 
   #title {
     display: inline-block;
     user-select: none;
     cursor: default;
     height: 100%;
-    margin-top: @header_height / 3 - 2px;
+    margin-top: @header_height / 3;
     margin-left: 2px;
     font-family: 'Coda';
     font-size: @header_height - 14px;
     line-height: 0px;
-    color: #F0F0F0;
+    color: #888;
   }
 }
 
@@ -62,7 +62,7 @@ main { height: calc(100% ~'-' @header_height) }
 
   > .panel {
     margin: 0;
-    border: 0;
+    border: none;
     width: 25% !important;
     height: 100%;
   }
@@ -92,6 +92,30 @@ main { height: calc(100% ~'-' @header_height) }
       margin-left: -2px;
       cursor: ew-resize;
     }
+  }
+}
+
+button {
+  user-select: none;
+  cursor: pointer;
+  height: 33px;
+  border: 1px solid rgba(0,0,0, 0.05);
+  border-bottom: 3px solid rgba(0,0,0, 0.15);
+  border-radius: 1px 1px 2px 2px;
+  box-shadow: 0 0 6px #B0B0B0;
+  font-family: 'Coda';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 0;
+  padding: 0 10px;
+  margin-left: 4px;
+  background-color: #AAA;
+  text-shadow: 2px 2px 0 #999;
+  color: #FAFAFA;
+
+  &.action {
+    background-color: #8AC;
+    text-shadow: 2px 2px 0 #79B;
   }
 }
 
