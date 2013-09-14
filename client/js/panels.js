@@ -61,8 +61,8 @@ function($, _, config, utils) {
       $prev.removeClass('resizing-limit');
       last_x = e.pageX;
 
-      $prev.attr('style', _.sprintf('width: calc(%s + %spx) !important;', width, prevOffset));
-      $next.attr('style', _.sprintf('width: calc(%s + %spx) !important;', width, nextOffset));
+      $prev.css({ 'width': _.sprintf('calc(%s + %spx)', width, prevOffset) });
+      $next.css({ 'width': _.sprintf('calc(%s + %spx)', width, nextOffset) });
 
       // store panel offsets
       $prev.data('width-offset', prevOffset);
