@@ -2,7 +2,7 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
-@header_height: 48px;
+@import 'config.less';
 
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
@@ -18,6 +18,19 @@ header {
   background-color: #89A;
   border-bottom: 4px solid rgba(0,0,0, 0.15);
   padding: 8px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 200%;
+  user-select: none;
+
+  &#loading { background: #EEE; }
+  &#cover { display: none; }
 }
 
 main { height: calc(100% ~'-' @header_height) }
@@ -61,4 +74,8 @@ main { height: calc(100% ~'-' @header_height) }
       cursor: ew-resize;
     }
   }
+}
+
+.nopointer {
+  pointer-events: none;
 }
