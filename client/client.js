@@ -20,6 +20,7 @@
       ui: CDNJS + '/jqueryui/1.10.3/jquery-ui.min',
       transit: CDNJS + '/jquery.transit/0.9.9/jquery.transit.min',
       string: CDNJS + '/underscore.string/2.3.3/underscore.string.min',
+      inflection: 'plugins/underscore.inflection.min',
 
       // libraries with plugins
       jquery: 'lib/jquery',
@@ -36,7 +37,8 @@
       // plugins
       ui: { deps: ['jqueryjs'], exports: '$.ui' },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
-      string: { deps: ['underscorejs'], exports: '_.str' }
+      string: { deps: ['underscorejs'], exports: '_.str' },
+      inflection: { deps: ['underscorejs'] }
     }
   });
 
