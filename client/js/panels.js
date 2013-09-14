@@ -14,9 +14,8 @@ function($, _, config, utils) {
    * Initializes a set of panels to be horizontally resizable
    *
    * @param {jQuery} $panels: set of panels
-   * @param {jQuery} $cover (optional): overlay to toggle on during resizing
    */
-  panels.resizable = function($panels, $cover) {
+  panels.resizable = function($panels) {
     var $resizer, $prev, $next;
     var _prevOffset, _nextOffset;
     var last_x; // cursor x position during mousemove
@@ -37,7 +36,6 @@ function($, _, config, utils) {
     };
 
     var unbind_resize = function(e) {
-      if ($cover) { $cover.hide(); }
       $panels.filter('iframe').removeClass('nopointer');
 
       $(document).off('mousemove', resize_panel);
@@ -74,7 +72,6 @@ function($, _, config, utils) {
     $panels.next('.panel-resizer').on('mousedown', function(e) {
       last_x = e.pageX;
 
-      if ($cover) { $cover.show(); }
       $panels.filter('iframe').addClass('nopointer');
 
       $resizer = $(e.target).closest('.panel-resizer');
@@ -83,6 +80,8 @@ function($, _, config, utils) {
       mde = e;
 
       bind_resize(e);
+    }).on('dblclick', function(e) {
+      $panels.data('width-offset', 0).transition({ 'width': width }, 'fast');
     });
   };
 

@@ -44,11 +44,11 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels) {
         this.$el.html(html);
 
         dom.cache(this, this.$el, {
-          'by_id': ['cover', 'markup', 'style', 'script', 'input', 'output'],
+          'by_id': ['markup', 'style', 'script', 'input', 'output'],
           'by_class': ['panel']
         });
 
-        panels.resizable(this.$panels, this.$cover);
+        panels.resizable(this.$panels);
 
         $('#loading').transition({ 'opacity': '0' }, 'fast', function() {
           $(this).remove();
