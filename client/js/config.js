@@ -13,6 +13,7 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
+    'panel_min': 100,
     'root': 'http://localhost:8080/', // https://jsbyte.net/
     'frame': 'http://localhost:8081/frame/' // https://echo.jsbyte.net/frame/
   };

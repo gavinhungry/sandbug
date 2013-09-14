@@ -57,6 +57,7 @@ main { height: calc(100% ~'-' @header_height) }
     margin-right: -6px !important;
     border-right: 1px solid #DDD !important;
     &.resizing { border-right-color: #BBB !important; }
+    &.resizing-limit { border-right-color: #D99 !important; }
 
     background-color: #FAFAFA;
     &:focus { background-color: #FCFCFC; }
@@ -64,6 +65,7 @@ main { height: calc(100% ~'-' @header_height) }
 
   > .panel-resizer {
     z-index: 1;
+    user-select: none;
     width: 0px;
     height: 100%;
 

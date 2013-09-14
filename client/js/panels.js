@@ -17,19 +17,20 @@ function($, _, config, utils) {
    * @param {jQuery} $cover (optional): overlay to toggle on during resizing
    */
   panels.resizable = function($panels, $cover) {
-    var $resizer, $prevPanel, $nextPanel;
+    var $resizer, $prev, $next;
     var _prevOffset, _nextOffset;
+    var last_x; // cursor x position during mousemove
     var mde; // mousedown event
 
     // default width, in percent
     var width = Math.floor(100 / ($panels.length || 1)) + '%';
 
     var bind_resize = function(e) {
-      $prevPanel.addClass('resizing');
+      $prev.addClass('resizing');
 
       // load previously-stored panel offsets
-      _prevOffset = $prevPanel.data('width-offset') || 0;
-      _nextOffset = $nextPanel.data('width-offset') || 0;
+      _prevOffset = $prev.data('width-offset') || 0;
+      _nextOffset = $next.data('width-offset') || 0;
 
       $(document).on('mousemove', resize_panel);
       $(document).on('mouseup', unbind_resize);
@@ -42,7 +43,7 @@ function($, _, config, utils) {
       $(document).off('mousemove', resize_panel);
       $(document).off('mouseup', unbind_resize);
 
-      $prevPanel.removeClass('resizing');
+      $panels.removeClass('resizing resizing-limit');
     };
 
     var resize_panel = function(e) {
@@ -52,21 +53,33 @@ function($, _, config, utils) {
       var prevOffset = _prevOffset + distance;
       var nextOffset = _nextOffset - distance;
 
-      $prevPanel.attr('style', _.sprintf('width: calc(%s + %spx) !important;', width, prevOffset));
-      $nextPanel.attr('style', _.sprintf('width: calc(%s + %spx) !important;', width, nextOffset));
+      if (($prev.width() < config.panel_min && e.pageX < last_x) ||
+          ($next.width() < config.panel_min && e.pageX > last_x))
+      {
+        $prev.addClass('resizing-limit');
+        return;
+      }
+
+      $prev.removeClass('resizing-limit');
+      last_x = e.pageX;
+
+      $prev.attr('style', _.sprintf('width: calc(%s + %spx) !important;', width, prevOffset));
+      $next.attr('style', _.sprintf('width: calc(%s + %spx) !important;', width, nextOffset));
 
       // store panel offsets
-      $prevPanel.data('width-offset', prevOffset);
-      $nextPanel.data('width-offset', nextOffset);
+      $prev.data('width-offset', prevOffset);
+      $next.data('width-offset', nextOffset);
     };
 
     $panels.next('.panel-resizer').on('mousedown', function(e) {
+      last_x = e.pageX;
+
       if ($cover) { $cover.show(); }
       $panels.filter('iframe').addClass('nopointer');
 
       $resizer = $(e.target).closest('.panel-resizer');
-      $prevPanel = $resizer.prev('.panel');
-      $nextPanel = $resizer.next('.panel');
+      $prev = $resizer.prev('.panel');
+      $next = $resizer.next('.panel');
       mde = e;
 
       bind_resize(e);
