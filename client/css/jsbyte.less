@@ -3,6 +3,7 @@
  */
 
 @import 'config.less';
+@import 'mixins.less';
 @import url('https://fonts.googleapis.com/css?family=Coda');
 
 // frontenddevreactions.tumblr.com/post/50110341554
@@ -30,7 +31,7 @@ header {
     height: 100%;
     margin-top: @header_height / 3;
     margin-left: 2px;
-    font-family: 'Coda';
+    font-family: @font;
     font-size: @header_height - 14px;
     line-height: 0px;
     color: #888;
@@ -96,6 +97,7 @@ main { height: calc(100% ~'-' @header_height) }
 }
 
 button {
+  display: inline-block;
   user-select: none;
   cursor: pointer;
   height: 33px;
@@ -103,20 +105,18 @@ button {
   border-bottom: 3px solid rgba(0,0,0, 0.15);
   border-radius: 1px 1px 2px 2px;
   box-shadow: 0 0 6px #B0B0B0;
-  font-family: 'Coda';
+  font-family: @font;
   font-weight: bold;
   font-size: 14px;
   line-height: 0;
   padding: 0 10px;
   margin-left: 4px;
-  background-color: #AAA;
-  text-shadow: 2px 2px 0 #999;
   color: #FAFAFA;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: background-color @hover_transition_time;
 
-  &.action {
-    background-color: #8AC;
-    text-shadow: 2px 2px 0 #79B;
-  }
+  .button(#AAA);
+  &.action { .button(#8AC); }
 }
 
 .nopointer { pointer-events: none; }
@@ -124,3 +124,4 @@ button {
 .bold { font-weight: bold; }
 .left { float: left; }
 .right { float: right; }
+.flex { display: flex; }

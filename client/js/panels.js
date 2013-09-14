@@ -80,6 +80,8 @@ function($, _, config, utils) {
       mde = e;
 
       bind_resize(e);
+
+    // reset dividers on double-click
     }).on('dblclick', function(e) {
       $panels.data('width-offset', 0).transition({ 'width': width }, 'fast');
     });
