@@ -3,6 +3,7 @@
  */
 
 @import 'config.less';
+@import url('https://fonts.googleapis.com/css?family=Coda');
 
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
@@ -15,9 +16,22 @@ html, body, #jsbyte {
 header {
   width: 100%;
   height: @header_height;
-  background-color: #89A;
+  background-color: #8f9daa;
   border-bottom: 4px solid rgba(0,0,0, 0.15);
   padding: 8px;
+
+  #title {
+    display: inline-block;
+    user-select: none;
+    cursor: default;
+    height: 100%;
+    margin-top: @header_height / 3 - 2px;
+    margin-left: 2px;
+    font-family: 'Coda';
+    font-size: @header_height - 14px;
+    line-height: 0px;
+    color: #F0F0F0;
+  }
 }
 
 .overlay {
@@ -78,6 +92,8 @@ main { height: calc(100% ~'-' @header_height) }
   }
 }
 
-.nopointer {
-  pointer-events: none;
-}
+.nopointer { pointer-events: none; }
+.faded { opacity: 0.7; }
+.bold { font-weight: bold; }
+.left { float: left; }
+.right { float: right; }
