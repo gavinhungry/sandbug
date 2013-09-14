@@ -43,7 +43,7 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels) {
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
-        dom.backbone_cache(this, {
+        dom.cache(this, this.$el, {
           'by_id': ['cover', 'markup', 'style', 'script', 'input', 'output'],
           'by_class': ['panel']
         });
