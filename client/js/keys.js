@@ -15,6 +15,37 @@ function($, _, config, utils) {
   var initialized = false;
 
   /**
+   * Start listening for key events and execute registered handlers
+   */
+  keys.init = function() {
+    if (initialized) {
+      utils.log('keys module already initialized');
+      return;
+    }
+
+    utils.log('initializing keys module');
+
+    $(document).on('keyup', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var key_handlers = _.filter(handlers, function(h) {
+        return h.ctrl === e.ctrlKey && h.alt === e.altKey && h.key === e.which;
+      });
+
+      _.each(key_handlers, function(handler) {
+        var callback = handler ? handler.callback : null;
+        if (_.isFunction(callback)) {
+          utils.log('executing callback for handler', handler.hid);
+          callback(e);
+        }
+      });
+    });
+
+    initialized = true;
+  };
+
+  /**
    * Get a char code from a single-char
    *
    * @param {String} key: single-char or key description
@@ -65,37 +96,6 @@ function($, _, config, utils) {
   keys.unregister_handler = function(hid) {
     utils.log('unregistering key handler', hid);
     delete handlers[hid];
-  };
-
-  /**
-   * Start listening for key events and execute registered handlers
-   */
-  keys.init = function() {
-    if (initialized) {
-      utils.log('keys module already initialized');
-      return;
-    }
-
-    utils.log('initializing keys module');
-
-    $(document).on('keyup', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      var key_handlers = _.filter(handlers, function(h) {
-        return h.ctrl === e.ctrlKey && h.alt === e.altKey && h.key === e.which;
-      });
-
-      _.each(key_handlers, function(handler) {
-        var callback = handler ? handler.callback : null;
-        if (_.isFunction(callback)) {
-          utils.log('executing callback for handler', handler.hid);
-          callback(e);
-        }
-      });
-    });
-
-    initialized = true;
   };
 
   return keys;
