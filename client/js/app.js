@@ -50,9 +50,11 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels) {
 
         panels.resizable(this.$panels);
 
-        $('#loading').transition({ 'opacity': '0' }, 'fast', function() {
-          $(this).remove();
-        });
+        _.delay(function() {
+          $('#loading').transition({ 'opacity': '0' }, 500, function() {
+            $(this).remove();
+          });
+        }, config.debug ? 0 : 1000);
 
       }, this);
     }
