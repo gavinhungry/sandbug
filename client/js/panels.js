@@ -11,7 +11,17 @@ function($, _, config, utils) {
   var panels = utils.module('panels');
 
   /**
-   * Initializes a set of panels to be horizontally resizable
+   * Get the defult width of a single panel, as a percentage
+   *
+   * @param {jQuery} $panels: set of panels
+   * @return {String}: percentage string (eg. '25%')
+   */
+  panels.get_panel_width = function($panels) {
+    return Math.floor(100 / ($panels.length || 1)) + '%';
+  };
+
+  /**
+   * Initialize a set of panels to be horizontally resizable
    *
    * @param {jQuery} $panels: set of panels
    */
@@ -21,8 +31,9 @@ function($, _, config, utils) {
     var last_x; // cursor x position during mousemove
     var mde; // mousedown event
 
-    // default width, in percent
-    var width = Math.floor(100 / ($panels.length || 1)) + '%';
+    var width = panels.get_panel_width($panels);
+
+    panels.set_default_widths($panels);
 
     var bind_resize = function(e) {
       $prev.addClass('resizing');
@@ -83,8 +94,18 @@ function($, _, config, utils) {
 
     // reset dividers on double-click
     }).on('dblclick', function(e) {
-      $panels.data('width-offset', 0).transition({ 'width': width }, 'fast');
+      panels.set_default_widths($panels);
     });
+  };
+
+  /**
+   * Reset all panels back to default widths with a CSS transition
+   *
+   * @param {jQuery} $panels: set of panels
+   */
+  panels.set_default_widths = function($panels) {
+    var width = panels.get_panel_width($panels);
+    $panels.data('width-offset', 0).transition({ 'width': width }, 'fast');
   };
 
   return panels;

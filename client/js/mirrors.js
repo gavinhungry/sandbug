@@ -13,7 +13,7 @@ function($, _, config, utils, CodeMirror) {
   var active_mirrors = [];
 
   /**
-   * Initializes a set of textareas to be CodeMirror instances
+   * Initialize a set of textareas to be CodeMirror instances
    *
    * @param {jQuery} $textareas: set of textareas
    */
