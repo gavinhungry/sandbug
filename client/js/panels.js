@@ -15,7 +15,7 @@ function($, _, config, utils) {
    *
    * @param {jQuery} $panels: set of panels
    */
-  panels.resizable = function($panels) {
+  panels.init_panels = function($panels) {
     var $resizer, $prev, $next;
     var _prevOffset, _nextOffset;
     var last_x; // cursor x position during mousemove
@@ -75,8 +75,8 @@ function($, _, config, utils) {
       $panels.filter('iframe').addClass('nopointer');
 
       $resizer = $(e.target).closest('.panel-resizer');
-      $prev = $resizer.prev('.panel');
-      $next = $resizer.next('.panel');
+      $prev = $resizer.prevAll('.panel').first();
+      $next = $resizer.nextAll('.panel').first();
       mde = e;
 
       bind_resize(e);

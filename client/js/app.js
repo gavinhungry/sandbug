@@ -4,9 +4,9 @@
 
 define([
   'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils',
-  'keys', 'panels'
+  'keys', 'panels', 'mirrors'
 ],
-function($, _, Backbone, templates, dom, config, utils, keys, panels) {
+function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
   'use strict';
 
   var jsbyte = utils.module('jsbyte');
@@ -40,15 +40,20 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels) {
 
     render: function() {
       templates.get(this.template, function(template) {
+
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
         dom.cache(this, this.$el, {
           'by_id': ['markup', 'style', 'script', 'input', 'output'],
-          'by_class': ['panel']
+          'by_class': ['textarea']
         });
 
-        panels.resizable(this.$panels);
+        mirrors.init_mirrors(this.$textareas);
+
+        dom.cache(this, this.$el, { 'by_class': 'panel' });
+
+        panels.init_panels(this.$panels);
 
         _.delay(function() {
           $('#loading').transition({ 'opacity': '0' }, 500, function() {

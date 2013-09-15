@@ -13,11 +13,11 @@
 
 <main>
   <form action='<%= frame %>' method='POST' id='input' target='output'>
-    <textarea id='markup' class='panel' name='markup' placeholder='MARKUP'></textarea>
+    <textarea id='markup' class='textarea' name='markup' data-mode='htmlmixed'></textarea>
     <div class='panel-resizer'><div></div></div>
-    <textarea id='style' class='panel' name='style' placeholder='STYLE'></textarea>
+    <textarea id='style' class='textarea' name='style' data-mode='css'></textarea>
     <div class='panel-resizer'><div></div></div>
-    <textarea id='script' class='panel' name='script' placeholder='SCRIPT'></textarea>
+    <textarea id='script' class='textarea' name='script' data-mode='javascript'></textarea>
     <div class='panel-resizer'><div></div></div>
     <iframe id='output' class='panel' name='output'></iframe>
   </form>

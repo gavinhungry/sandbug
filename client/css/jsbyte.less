@@ -88,19 +88,19 @@ main { height: calc(100% ~'-' @header_height) }
     border: none;
     width: 25%;
     height: 100%;
-  }
 
-  > textarea {
-    top: -2px;
-    resize: none;
-    padding: 4px;
-    margin-right: -6px !important;
-    border-right: 1px solid #DDD !important;
-    &.resizing { border-right-color: #BBB !important; }
-    &.resizing-limit { border-right-color: #D99 !important; }
+    &.CodeMirror {
+      top: -2px;
+      resize: none;
+      padding: 4px;
+      margin-right: -6px !important;
+      border-right: 1px solid #DDD !important;
+      &.resizing { border-right-color: #BBB !important; }
+      &.resizing-limit { border-right-color: #D99 !important; }
 
-    background-color: #FAFAFA;
-    &:focus { background-color: #FCFCFC; }
+      background-color: #FAFAFA;
+      &:focus { background-color: #FCFCFC; }
+    }
   }
 
   > .panel-resizer {
