@@ -6,6 +6,11 @@
   "license": "MIT",
   "private": true,
 
+  "devDependencies" : {
+    "grunt": "0.4.x",
+    "grunt-contrib-less": "0.7.x"
+  },
+
   "dependencies": {
     "requirejs": "2.1.x",
     "express": "3.3.x",
