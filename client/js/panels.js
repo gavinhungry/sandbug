@@ -26,8 +26,6 @@ function($, _, config, utils) {
     panels.set_default_width($panels, 0);
 
     var bind_resize = function(e) {
-      $prev.addClass('resizing');
-
       // load previously-stored panel offsets
       _prevOffset = $prev.data('width-offset') || 0;
       _nextOffset = $next.data('width-offset') || 0;
@@ -37,12 +35,11 @@ function($, _, config, utils) {
     };
 
     var unbind_resize = function(e) {
+      $resizer.removeClass('dragging');
       $panels.filter('iframe').removeClass('nopointer');
 
       $(document).off('mousemove', resize_panel);
       $(document).off('mouseup', unbind_resize);
-
-      $panels.removeClass('resizing resizing-limit');
     };
 
     var resize_panel = function(e) {
@@ -53,13 +50,8 @@ function($, _, config, utils) {
       var nextOffset = _nextOffset - distance;
 
       if (($prev.width() < config.panel_min && e.pageX < last_x) ||
-          ($next.width() < config.panel_min && e.pageX > last_x))
-      {
-        $prev.addClass('resizing-limit');
-        return;
-      }
+          ($next.width() < config.panel_min && e.pageX > last_x)) { return; }
 
-      $prev.removeClass('resizing-limit');
       last_x = e.pageX;
 
       $prev.css({ 'width': _.sprintf('calc(%s + %spx)', width, prevOffset) });
@@ -75,7 +67,7 @@ function($, _, config, utils) {
 
       $panels.filter('iframe').addClass('nopointer');
 
-      $resizer = $(e.target).closest('.panel-resizer');
+      $resizer = $(e.target).closest('.panel-resizer').addClass('dragging');
       $prev = $resizer.prevAll('.panel').first();
       $next = $resizer.nextAll('.panel').first();
       mde = e;

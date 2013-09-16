@@ -72,14 +72,16 @@ header {
   }
 }
 
-main { height: calc(100% ~'-' @header_height) }
+main {
+  height: calc(100% ~'-' @header_height);
+}
 
 #input {
   height: 100%;
   white-space: nowrap;
+  display: flex;
 
   > * {
-    display: inline-block;
     position: relative;
   }
 
@@ -88,30 +90,35 @@ main { height: calc(100% ~'-' @header_height) }
     border: none;
     height: 100%;
 
-    &.CodeMirror {
-      top: -2px;
+    > .panel-options {
+      height: @panel_options_height;
+      padding: 4px;
+      border-bottom: 1px solid @panel_resizer_color;
+      background-color: #EEE;
+    }
+
+    > .CodeMirror {
+      height: calc(100% ~'-' @panel_options_height);
       resize: none;
       padding: 4px;
-      margin-right: -6px !important;
-      border-right: 1px solid #DDD !important;
-      &.resizing { border-right-color: #BBB !important; }
-      &.resizing-limit { border-right-color: #D99 !important; }
 
-      background-color: #FAFAFA;
       &:focus { background-color: #FCFCFC; }
     }
   }
 
   > .panel-resizer {
-    z-index: 1;
+    z-index: 8;
     user-select: none;
-    width: 0px;
+    width: 1px;
     height: 100%;
+    background-color: @panel_resizer_color;
+
+    &.dragging { background-color: darken(@panel_resizer_color, 15%); }
 
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -2px;
+      margin-left: -3px;
       cursor: ew-resize;
     }
   }

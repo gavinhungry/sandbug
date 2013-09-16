@@ -1,6 +1,6 @@
 <header>
   <div class='left flex noselect'>
-    <button><i class='icon-social icon-only github'></i></button>
+    <button id='github'><i class='icon-social icon-only github'></i></button>
   </div>
 
   <div id='title'><span class='bold'>js</span>byte</div></div>
@@ -13,12 +13,26 @@
 
 <main>
   <form action='<%= frame %>' method='POST' id='input' target='output'>
-    <textarea id='markup' class='textarea' name='markup' data-mode='htmlmixed'></textarea>
+
+    <div id='markup' class='panel'>
+      <div class='panel-options'></div>
+      <textarea class='textarea' name='markup' data-mode='htmlmixed'></textarea>
+    </div>
     <div class='panel-resizer'><div></div></div>
-    <textarea id='style' class='textarea' name='style' data-mode='css'></textarea>
+
+    <div id='style' class='panel'>
+      <div class='panel-options'></div>
+      <textarea class='textarea' name='style' data-mode='css'></textarea>
+    </div>
     <div class='panel-resizer'><div></div></div>
-    <textarea id='script' class='textarea' name='script' data-mode='javascript'></textarea>
+
+    <div id='script' class='panel'>
+      <div class='panel-options'></div>
+      <textarea class='textarea' name='script' data-mode='javascript'></textarea>
+    </div>
     <div class='panel-resizer'><div></div></div>
+
     <iframe id='output' class='panel' name='output'></iframe>
+
   </form>
 </main>

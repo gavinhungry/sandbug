@@ -26,9 +26,7 @@ function($, _, config, utils, CodeMirror) {
         lineWrapping: true
       });
 
-      // the CodeMirror instances are the real panels
       var element = cm.getWrapperElement();
-      $(element).addClass('panel');
 
       active_mirrors.push({
         id: $textarea.attr('id'),

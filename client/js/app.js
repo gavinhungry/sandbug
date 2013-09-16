@@ -15,17 +15,15 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
     template: 'app',
     el: '#jsbyte',
 
-
     initialize: function() {
       this.render();
       this.init_keys();
     },
 
-
+    // submit byte to the echo server
     run: function() {
       this.$input.submit();
     },
-
 
     init_keys: function() {
       var that = this;
@@ -37,24 +35,23 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
       keys.init();
     },
 
-
     render: function() {
       templates.get(this.template, function(template) {
 
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
+        // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           'by_id': ['markup', 'style', 'script', 'input', 'output'],
-          'by_class': ['textarea']
+          'by_class': ['panel']
         });
 
-        mirrors.init_mirrors(this.$textareas);
-
-        dom.cache(this, this.$el, { 'by_class': 'panel' });
-
+        // init CodeMirror and resizable panels
+        mirrors.init_mirrors(this.$panels.not('iframe').children('textarea'));
         panels.init_panels(this.$panels);
 
+        // we're ready!
         _.delay(function() {
           $('#loading').transition({ 'opacity': '0' }, 500, function() {
             $(this).remove();
