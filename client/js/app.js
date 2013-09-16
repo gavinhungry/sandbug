@@ -55,7 +55,7 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
         mirrors.init_mirrors(this.$panels.not('iframe').children('textarea'));
         panels.init_panels(this.$panels);
 
-        // we're ready!
+        // ready: remove the loading overlay
         _.delay(function() {
           $('#loading').transition({ 'opacity': '0' }, 500, function() {
             $(this).remove();

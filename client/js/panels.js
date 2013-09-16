@@ -16,6 +16,7 @@ function($, _, config, utils) {
    * @param {jQuery} $panels: set of panels
    */
   panels.init_panels = function($panels) {
+    var $body = $('body');
     var $resizer, $prev, $next;
     var _prevOffset, _nextOffset;
     var last_x; // cursor x position during mousemove
@@ -26,23 +27,24 @@ function($, _, config, utils) {
     panels.set_default_width($panels, 0);
 
     var bind_resize = function(e) {
-      // load previously-stored panel offsets
-      _prevOffset = $prev.data('width-offset') || 0;
-      _nextOffset = $next.data('width-offset') || 0;
+      $panels.filter('iframe').addClass('nopointer');
+      $resizer.addClass('dragging');
+      $body.addClass('ew');
 
-      $(document).on('mousemove', resize_panel);
+      $(document).on('mousemove', do_resize);
       $(document).on('mouseup', unbind_resize);
     };
 
     var unbind_resize = function(e) {
-      $resizer.removeClass('dragging');
       $panels.filter('iframe').removeClass('nopointer');
+      $resizer.removeClass('dragging');
+      $body.removeClass('ew');
 
-      $(document).off('mousemove', resize_panel);
+      $(document).off('mousemove', do_resize);
       $(document).off('mouseup', unbind_resize);
     };
 
-    var resize_panel = function(e) {
+    var do_resize = function(e) {
       if (!$resizer) { return; }
 
       var distance = e.pageX - mde.pageX;
@@ -63,14 +65,17 @@ function($, _, config, utils) {
     };
 
     $panels.next('.panel-resizer').on('mousedown', function(e) {
+      e.preventDefault();
       last_x = e.pageX;
 
-      $panels.filter('iframe').addClass('nopointer');
-
-      $resizer = $(e.target).closest('.panel-resizer').addClass('dragging');
+      $resizer = $(e.target).closest('.panel-resizer');
       $prev = $resizer.prevAll('.panel').first();
       $next = $resizer.nextAll('.panel').first();
       mde = e;
+
+      // load previously-stored panel offsets
+      _prevOffset = $prev.data('width-offset') || 0;
+      _nextOffset = $next.data('width-offset') || 0;
 
       bind_resize(e);
 

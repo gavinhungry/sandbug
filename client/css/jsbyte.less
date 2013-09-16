@@ -18,6 +18,8 @@ html, body, #jsbyte {
   margin: 0 !important; padding: 0 !important;
 }
 
+body.ew, body.ew * { cursor: ew-resize !important; }
+
 header {
   width: 100%;
   height: @header_height;
@@ -101,6 +103,7 @@ main {
       height: calc(100% ~'-' @panel_options_height);
       resize: none;
       padding: 4px;
+      cursor: text;
 
       &:focus { background-color: #FCFCFC; }
     }
