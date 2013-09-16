@@ -41,13 +41,14 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
 
     render: function() {
       templates.get(this.template, function(template) {
+        var that = this;
 
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
-          'by_id': ['markup', 'style', 'script', 'input', 'output'],
+          'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
           'by_class': ['panel']
         });
 
@@ -59,6 +60,8 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
         _.delay(function() {
           $('#loading').transition({ 'opacity': '0' }, 500, function() {
             $(this).remove();
+
+            that.$title.children('.text').transition({ 'opacity': 1 }, 'slow');
           });
         }, config.debug ? 0 : 1000);
 
