@@ -14,6 +14,7 @@ function($, _) {
   var options = {
     'debug': true,
     'panel_min': 100,
+    'github': 'https://github.com/gavinhungry/jsbyte',
     'root': 'http://localhost:8080/', // https://jsbyte.net/
     'frame': 'http://localhost:8081/frame/' // https://echo.jsbyte.net/frame/
   };

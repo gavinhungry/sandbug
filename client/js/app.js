@@ -20,6 +20,10 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
       this.init_keys();
     },
 
+    events: {
+      'click #github': function(e) { window.open(config.github); }
+    },
+
     // submit byte to the echo server
     run: function() {
       this.$input.submit();
