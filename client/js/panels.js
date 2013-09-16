@@ -11,16 +11,6 @@ function($, _, config, utils) {
   var panels = utils.module('panels');
 
   /**
-   * Get the defult width of a single panel, as a percentage
-   *
-   * @param {jQuery} $panels: set of panels
-   * @return {String}: percentage string (eg. '25%')
-   */
-  panels.get_panel_width = function($panels) {
-    return Math.floor(100 / ($panels.length || 1)) + '%';
-  };
-
-  /**
    * Initialize a set of panels to be horizontally resizable
    *
    * @param {jQuery} $panels: set of panels
@@ -31,9 +21,9 @@ function($, _, config, utils) {
     var last_x; // cursor x position during mousemove
     var mde; // mousedown event
 
-    var width = panels.get_panel_width($panels);
+    var width = panels.get_default_width($panels);
 
-    panels.set_default_widths($panels);
+    panels.set_default_width($panels, 0);
 
     var bind_resize = function(e) {
       $prev.addClass('resizing');
@@ -94,18 +84,31 @@ function($, _, config, utils) {
 
     // reset dividers on double-click
     }).on('dblclick', function(e) {
-      panels.set_default_widths($panels);
+      panels.set_default_width($panels);
     });
+  };
+
+  /**
+   * Get the defult width of a single panel, as a percentage
+   *
+   * @param {jQuery} $panels: set of panels
+   * @return {String}: percentage string (eg. '25%')
+   */
+  panels.get_default_width = function($panels) {
+    return Math.floor(100 / ($panels.length || 1)) + '%';
   };
 
   /**
    * Reset all panels back to default widths with a CSS transition
    *
    * @param {jQuery} $panels: set of panels
+   * @param {String|Integer} duration (optional): transition duration
    */
-  panels.set_default_widths = function($panels) {
-    var width = panels.get_panel_width($panels);
-    $panels.data('width-offset', 0).transition({ 'width': width }, 'fast');
+  panels.set_default_width = function($panels, duration) {
+    var width = panels.get_default_width($panels);
+    duration = duration !== undefined ? duration : 'fast';
+
+    $panels.data('width-offset', 0).transition({ 'width': width }, duration);
   };
 
   return panels;
