@@ -1,0 +1,61 @@
+/*
+ * jsbyte: An interactive JS/HTML/CSS environment
+ */
+
+@panel_resizer_color: #DDD;
+@panel_options_height: 28px;
+
+@mirror_font: 'Droid Sans Mono', 'Menlo', monospace;
+@mirror_font_size: 11px;
+
+body.ew, body.ew * { cursor: ew-resize !important; }
+
+#input {
+  height: 100%;
+  white-space: nowrap;
+  display: flex;
+
+  > * {
+    position: relative;
+  }
+
+  > .panel {
+    margin: 0;
+    border: none;
+    height: 100%;
+
+    > .panel-options {
+      height: @panel_options_height;
+      padding: 4px;
+      border-bottom: 1px solid @panel_resizer_color;
+      background-color: #EEE;
+    }
+
+    > .CodeMirror {
+      height: calc(100% ~'-' @panel_options_height);
+      resize: none;
+      padding: 4px;
+      cursor: text;
+
+      font-family: @mirror_font !important;
+      font-size: @mirror_font_size !important;
+    }
+  }
+
+  > .panel-resizer {
+    z-index: 8;
+    user-select: none;
+    width: 1px;
+    height: 100%;
+    background-color: @panel_resizer_color;
+
+    &.dragging { background-color: darken(@panel_resizer_color, 5%); }
+
+    > div {
+      width: 8px;
+      height: 100%;
+      margin-left: -3px;
+      cursor: ew-resize;
+    }
+  }
+}

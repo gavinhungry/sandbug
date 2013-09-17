@@ -1,0 +1,57 @@
+/*
+ * jsbyte: An interactive JS/HTML/CSS environment
+ */
+
+@button_transition_time: 0.05s;
+
+.button (@base: #B5B5B5) {
+  background-color: @base;
+
+  &:hover { background-color: lighten(@base, 4%); }
+  &:active {
+    background-color: darken(@base, 4%);
+    padding-top: 2px;
+  }
+}
+
+button {
+  display: inline-block;
+  user-select: none;
+  cursor: pointer;
+  height: 33px;
+  border: 1px solid rgba(0,0,0, 0.05);
+  border-bottom: 3px solid rgba(0,0,0, 0.15);
+  border-radius: 1px 1px 2px 2px;
+  box-shadow: 0 0 4px #BBB;
+  font-family: @font;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 0;
+  padding: 0 10px;
+  margin-left: 0;
+  margin-right: 6px;
+  color: #FAFAFA;
+  text-align: right;
+  text-shadow: 2px 2px 0 rgba(0,0,0, 0.05);
+  transition: background-color @button_transition_time;
+
+  > i.icon, > i.icon-social {
+    width: 22px;
+    display: block;
+    text-align: center;
+    margin: 0 48px 0 -8px;
+
+    &.icon-only { margin: 0 -6px; }
+  }
+
+  .button(#B5B5B5);
+  &.action { .button(#8AC); }
+  &.proceed { .button(#9B6); }
+  &.warning { .button(#DB6); }
+  &.danger { .button(#D66); }
+}
+
+.right > button {
+  margin-left: 6px;
+  margin-right: 0;
+}
