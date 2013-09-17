@@ -15,7 +15,7 @@ function($, _, config, utils) {
    *
    * @param {jQuery} $panels: set of panels
    */
-  panels.init_panels = function($panels) {
+  panels.init = function($panels) {
     var $body = $('body');
     var $resizer, $prev, $next;
     var _prevOffset, _nextOffset;

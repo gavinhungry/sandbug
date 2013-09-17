@@ -17,7 +17,7 @@ function($, _, config, utils, CodeMirror) {
    *
    * @param {jQuery} $textareas: set of textareas
    */
-  mirrors.init_mirrors = function($textareas) {
+  mirrors.init = function($textareas) {
     $textareas.each(function() {
       var $textarea = $(this);
 

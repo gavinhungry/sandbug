@@ -17,7 +17,7 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
 
     initialize: function() {
       this.render();
-      this.init_keys();
+      this.register_keys();
     },
 
     events: {
@@ -29,7 +29,7 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
       this.$input.submit();
     },
 
-    init_keys: function() {
+    register_keys: function() {
       var that = this;
 
       keys.register_handler({ ctrl: true, key: 'enter'}, function(e) {
@@ -53,8 +53,8 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
         });
 
         // init CodeMirror and resizable panels
-        mirrors.init_mirrors(this.$panels.not('iframe').children('textarea'));
-        panels.init_panels(this.$panels);
+        mirrors.init(this.$panels.not('iframe').children('textarea'));
+        panels.init(this.$panels);
 
         // ready: remove the loading overlay
         _.delay(function() {
