@@ -20,6 +20,14 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
       this.register_keys();
     },
 
+    post_render: function() {
+      // init CodeMirror and resizable panels
+      mirrors.init(this.$panels.not('iframe').children('textarea'));
+      panels.init(this.$panels);
+
+      this.remove_splash();
+    },
+
     events: {
       'click #github': function(e) { window.open(config.github); }
     },
@@ -39,10 +47,19 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
       keys.init();
     },
 
+    remove_splash: function() {
+      var that = this;
+      _.delay(function() {
+        $('#loading').transition({ 'opacity': '0' }, 500, function() {
+          $(this).remove();
+
+          that.$title.children('.text').transition({ 'opacity': 1 }, 'slow');
+        });
+      }, config.debug ? 0 : 1000);
+    },
+
     render: function() {
       templates.get(this.template, function(template) {
-        var that = this;
-
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
@@ -52,19 +69,7 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
           'by_class': ['panel']
         });
 
-        // init CodeMirror and resizable panels
-        mirrors.init(this.$panels.not('iframe').children('textarea'));
-        panels.init(this.$panels);
-
-        // ready: remove the loading overlay
-        _.delay(function() {
-          $('#loading').transition({ 'opacity': '0' }, 500, function() {
-            $(this).remove();
-
-            that.$title.children('.text').transition({ 'opacity': 1 }, 'slow');
-          });
-        }, config.debug ? 0 : 1000);
-
+        this.post_render();
       }, this);
     }
   });
