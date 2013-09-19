@@ -2,8 +2,10 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
+@import url('//cdnjs.cloudflare.com/ajax/libs/codemirror/3.16.0/codemirror.css');
+
 @panel_resizer_color: #DDD;
-@panel_options_height: 28px;
+@panel_options_height: 32px;
 
 @mirror_font: 'Droid Sans Mono', 'Menlo', monospace;
 @mirror_font_size: 11px;
@@ -29,6 +31,11 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       padding: 4px;
       border-bottom: 1px solid @panel_resizer_color;
       background-color: #EEE;
+
+      > .chosen-container {
+        position: absolute;
+        z-index: 1;
+      }
     }
 
     > .CodeMirror {

@@ -16,24 +16,30 @@
 <main>
   <form action='<%= frame %>' method='POST' id='input' target='output'>
 
+    <!-- MARKUP -->
     <div id='markup' class='panel'>
-      <div class='panel-options'></div>
+      <div class='panel-options'>
+        <input id='cdn' type='search' placeholder='Add library from CDNJS'>
+      </div>
       <textarea class='textarea' name='markup' data-mode='htmlmixed'></textarea>
     </div>
     <div class='panel-resizer'><div></div></div>
 
+    <!-- STYLE -->
     <div id='style' class='panel'>
       <div class='panel-options'></div>
       <textarea class='textarea' name='style' data-mode='css'></textarea>
     </div>
     <div class='panel-resizer'><div></div></div>
 
+    <!-- SCRIPT -->
     <div id='script' class='panel'>
       <div class='panel-options'></div>
       <textarea class='textarea' name='script' data-mode='javascript'></textarea>
     </div>
     <div class='panel-resizer'><div></div></div>
 
+    <!-- OUTPUT -->
     <iframe id='output' class='panel' name='output'></iframe>
 
   </form>

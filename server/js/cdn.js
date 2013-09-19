@@ -51,7 +51,7 @@ function(module, path, http, https, Q, _, utils, fs) {
   };
 
   /**
-   * Check if CDN package cache exists
+   * Check if server-side CDN package cache exists
    *
    * @return {Boolean}: true if cache exists, false otherwise
    */

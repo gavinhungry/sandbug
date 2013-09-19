@@ -4,9 +4,11 @@
 
 define([
   'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils',
-  'keys', 'panels', 'mirrors'
+  'keys', 'panels', 'mirrors', 'cdn'
 ],
-function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
+function(
+  $, _, Backbone, templates, dom, config, utils, keys, panels, mirrors, cdn
+) {
   'use strict';
 
   var jsbyte = utils.module('jsbyte');
@@ -16,16 +18,20 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
     el: '#jsbyte',
 
     initialize: function() {
-      this.render();
-      this.register_keys();
-    },
+      var that = this;
 
-    post_render: function() {
-      // init CodeMirror and resizable panels
-      mirrors.init(this.$panels.not('iframe').children('textarea'));
-      panels.init(this.$panels);
+      // fetch the CDN package cache right away
+      cdn.update_cache();
 
-      this.remove_splash();
+      this.render(function() {
+
+        // init CodeMirror and resizable panels
+        mirrors.init(this.$panels.not('iframe').children('textarea'));
+        panels.init(this.$panels);
+
+        this.register_keys();
+        this.remove_splash();
+      });
     },
 
     events: {
@@ -58,18 +64,20 @@ function($, _, Backbone, templates, dom, config, utils, keys, panels, mirrors) {
       }, config.debug ? 0 : 1000);
     },
 
-    render: function() {
+    render: function(callback) {
       templates.get(this.template, function(template) {
         var html = _.template(template, { frame: config.frame });
         this.$el.html(html);
 
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
-          'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
+          'by_id': [
+            'title', 'markup', 'cdn', 'style', 'script', 'input', 'output'
+          ],
           'by_class': ['panel']
         });
 
-        this.post_render();
+        if (_.isFunction(callback)) { callback.call(this); }
       }, this);
     }
   });

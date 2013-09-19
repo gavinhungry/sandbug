@@ -1,5 +1,5 @@
-define(['jqueryjs', 'transit', 'ui'],
-function($, transit, ui) {
+define(['jqueryjs', 'ui', 'transit'],
+function($, ui, transit) {
   // jQuery.transit fallback to $.fn.animate
   if (!$.support.transition) { $.fn.transition = $.fn.animate; }
 
