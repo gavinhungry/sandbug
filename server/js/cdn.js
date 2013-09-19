@@ -3,68 +3,101 @@
  */
 
 define([
-  'module', 'path', 'http', 'https', 'underscore', 'underscore.string', 'fs',
-  'server/js/utils'
+  'module', 'path', 'http', 'https', 'q', 'underscore', 'server/js/utils', 'fs'
 ],
-function(module, path, http, https, _, str, fs, utils) {
+function(module, path, http, https, Q, _, utils, fs) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
   var cdn = {};
 
-  _.mixin(str.exports());
+  var cache = null;
 
   /**
    * Load CDNJS packages.json
    *
-   * @param {Function} callback: function provided with statusCode, parsed JSON
-   * @return {http.ClientRequest}
+   * @return {Promise}: promise to return CDN JSON
    */
-  var cdnjsBusy = false;
-  cdn.getCDNJS = function(callback) {
+  cdn.get_JSON = function() {
+    var d = Q.defer();
 
     // /* --- debug: return local file
     var str = fs.readFileSync('./server/packages.json', 'utf8');
     var cdnjs = JSON.parse(str);
 
-    // simulate a return
-    callback(200, _.map(cdnjs.packages, function(pkg) {
+    var picked = _.map((cdnjs ? cdnjs.packages : []), function(pkg) {
       return _.pick(pkg, 'name', 'filename', 'version');
-    }));
+    });
 
-    return;
+    d.resolve(picked);
+    return d.promise;
     // --- */
 
-    if (cdnjsBusy) { return; }
-    cdnjsBusy = true;
-
-    return utils.getJSON({
+    utils.get_JSON({
       host: 'cdnjs.com',
       path: '/packages.json',
       port: 443
-    }, function(statusCode, cdnjs) {
-      cdnjsBusy = false;
-      callback(statusCode, _.map(cdnjs.packages, function(pkg) {
+    }).then(function(result) {
+      var picked = _.map((result ? result.packages : []), function(pkg) {
         return _.pick(pkg, 'name', 'filename', 'version');
-      }));
+      });
+
+      d.resolve(picked);
+    }, function(err) {
+      d.reject(err);
     });
+
+    return d.promise;
   };
 
   /**
-   * Filter CDN packages by a filter, sort by Levenshtein distance from filter
+   * Check if CDN package cache exists
    *
-   * @param {Array} pkgs: array of CDN packages
-   * @param {String} filter: filter to search for
-   * @return {Array}: sorted packages matching filter
+   * @return {Boolean}: true if cache exists, false otherwise
    */
-  cdn.filterBy = function(pkgs, filter) {
-    var filtered = _.filter(pkgs, function(pkg) {
-      return pkg.name.indexOf(filter) >= 0;
+  cdn.cache_exists = function() {
+    return _.isArray(cache) && cache.length > 0;
+  };
+
+  /**
+   * Return a cached version of CDN packages
+   *
+   * @param {Boolean} update: if true, force the cache to update first
+   * @return {Promise}: promise to return the CDN packages
+   */
+  cdn.get_cache = function(update) {
+    var d = Q.defer();
+
+    if (!update && cdn.cache_exists()) {
+      d.resolve(cache);
+    } else {
+      cdn.update_cache().then(function(packages) {
+        d.resolve(packages);
+      }, function(err) {
+        d.resolve(cdn.cache_exists() ? cache : []);
+      });
+    }
+
+    return d.promise;
+  };
+
+  /**
+   * Update the CDN package cache now
+   *
+   * @return {Promise}
+   */
+  cdn.update_cache = function() {
+    var d = Q.defer();
+    utils.log('Updating CDN cache');
+
+    cdn.get_JSON().then(function(packages) {
+      cache = packages;
+      d.resolve(packages);
+    }, function(err) {
+      d.reject(err);
     });
 
-    return _.sortBy(filtered, function(pkg) {
-      return _.levenshtein(filter, pkg.name);
-    });
+    return d.promise;
   };
 
   return cdn;

@@ -2,30 +2,25 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
-define(['module', 'path', 'express', 'less', 'underscore', 'server/js/cdn'],
-function(module, path, express, less, _, cdn) {
+define([
+  'module', 'path', 'express', 'less', 'underscore', 'q', 'server/js/utils',
+  'server/js/cdn'
+],
+function(module, path, express, less, _, Q, utils, cdn) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
   var jsbyte = {};
 
-  jsbyte.cdn = {};
-  jsbyte.updateCDN = function() {
-    cdn.getCDNJS(function(statusCode, cdnjs) {
-      if (statusCode === 200) { jsbyte.cdn = cdnjs; }
-    });
-  };
-
   // Express server
   jsbyte.server = express();
   jsbyte.port = 8080;
 
-  jsbyte.updateCDN();
-  jsbyte.server.get('/cdn/:filter?', function(req, res) {
-    var filter = req.params.filter;
-    var pkgs = cdn.filterBy(jsbyte.cdn, filter);
-
-    res.send(pkgs);
+  // get list of CDN packages
+  jsbyte.server.get('/cdn', function(req, res) {
+    cdn.get_cache().done(function(packages) {
+      res.send(packages);
+    });
   });
 
   jsbyte.server.use(express.static(__dirname + '/../client'));

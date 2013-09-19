@@ -2,8 +2,8 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
-define(['module', 'path', 'http', 'https'],
-function(module, path, http, https, _, fs) {
+define(['module', 'path', 'http', 'https', 'q', 'underscore'],
+function(module, path, http, https, Q, _) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
@@ -13,19 +13,34 @@ function(module, path, http, https, _, fs) {
    * Load remote JSON
    *
    * @param {Object} opts: options to http.get
-   * @param {Function} callback: function provided with statusCode, parsed JSON
-   * @return {http.ClientRequest}
+   * @return {Promise}: promise to return JSON
    */
-  utils.getJSON = function(opts, callback) {
+  utils.get_JSON = function(opts) {
+    var d = Q.defer();
+
     var protocol = (opts.port === 443) ? https : http;
 
-    return protocol.get(opts, function(res) {
+    protocol.get(opts, function(res) {
       var datas = [];
       res.on('data', function (data) { datas.push(data); });
       res.on('end', function() {
-        callback(res.statusCode, JSON.parse(datas.join('')));
+        var result = JSON.parse(datas.join(''));
+        d.resolve(result);
       });
+    }).on('error', function(err) {
+      d.reject(err);
     });
+
+    return d.promise;
+  };
+
+  /**
+   *
+   */
+  utils.log = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift('==>');
+    console.log.apply(console, args);
   };
 
   return utils;
