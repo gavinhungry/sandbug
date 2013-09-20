@@ -28,13 +28,12 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
     > .panel-options {
       height: @panel_options_height;
-      padding: 4px;
+      padding: 2px;
       border-bottom: 1px solid @panel_resizer_color;
       background-color: #EEE;
 
-      > .chosen-container {
-        position: absolute;
-        z-index: 1;
+      > * {
+        height: 100%;
       }
     }
 
@@ -43,6 +42,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       resize: none;
       padding: 4px;
       cursor: text;
+      opacity: 0.7;
 
       font-family: @mirror_font !important;
       font-size: @mirror_font_size !important;

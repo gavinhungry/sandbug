@@ -26,7 +26,7 @@ function(
       this.render(function() {
 
         // init CodeMirror and resizable panels
-        mirrors.init(this.$panels.not('iframe').children('textarea'));
+        mirrors.init(this.$inputPanels.children('textarea'));
         panels.init(this.$panels);
 
         this.register_keys();
@@ -50,8 +50,13 @@ function(
         that.run();
       });
 
+      // don't submit anything on input return
+      this.$inputPanels.find('input').on('keypress keydown keyup', function(e) {
+        if (e.keyCode === 13) { e.preventDefault(); }
+      });
+
       keys.register_handler({ ctrl: true, key: '/' }, function(e) {
-        that.$cdn.focus();
+        that.$cdn.select();
       });
 
       keys.init();
@@ -80,6 +85,8 @@ function(
           ],
           'by_class': ['panel']
         });
+
+        this.$inputPanels = this.$panels.not('iframe');
 
         if (_.isFunction(callback)) { callback.call(this); }
       }, this);

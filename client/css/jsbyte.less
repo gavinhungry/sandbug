@@ -9,11 +9,10 @@
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
 
-textarea:focus, input:focus, button:focus { outline: none; }
-
 html, body, #jsbyte {
   height: 100%;
   overflow: hidden;
+  background-color: #F6F6F6;
 }
 
 .flex { display: flex; }
@@ -21,6 +20,8 @@ html, body, #jsbyte {
 .right { float: right; }
 .faded { opacity: 0.7; }
 .bold { font-weight: bold; }
+.fwidth { width: 100%; }
+.fheight { height: 100%; }
 .noselect { user-select: none; }
 .nopointer { pointer-events: none; }
 
@@ -29,3 +30,4 @@ html, body, #jsbyte {
 @import 'header.less';
 @import 'panels.less';
 @import 'buttons.less';
+@import 'inputs.less';
