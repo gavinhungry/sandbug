@@ -80,9 +80,9 @@ function($, _, config, utils) {
 
       // hide results when there is no filter
       if (!filter) {
-        $results.stop().transition({ 'opacity': 0 }, 'fast', function() {
+        results_visible = false;
+        $results.transition({ 'opacity': 0 }, 'fast', function() {
           if (!results_visible) { $results.css('display', 'none'); }
-          results_visible = false;
         });
 
         return;
@@ -108,8 +108,7 @@ function($, _, config, utils) {
           $results.append($pkg);
         });
 
-        $results.css('display', 'block');
-        $results.stop().transition({ 'opacity': 1 }, 'fast');
+        $results.css({ 'display': 'block', 'opacity': 1 });
       });
     }, 10));
 

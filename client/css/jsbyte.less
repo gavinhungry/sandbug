@@ -4,7 +4,9 @@
 
 @import url('//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
 @import url('//fonts.googleapis.com/css?family=Coda');
-@font: 'Coda', sans-serif;
+@title_font: 'Coda', sans-serif;
+@font: 'Ubuntu', sans-serif;
+@font_size: 12px;
 
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
@@ -13,6 +15,7 @@ html, body, #jsbyte {
   height: 100%;
   overflow: hidden;
   background-color: #F6F6F6;
+  font-family: @font;
 }
 
 .flex { display: flex; }

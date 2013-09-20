@@ -12,7 +12,8 @@ input[type='text'], input[type='search'] {
   background-color: #F8F8F8;
   color: #666;
   padding: 2px 4px;
-  font-size: 11px;
+  font-family: @font;
+  font-size: @font_size;
 
   &::-webkit-input-placeholder { opacity: 0.3; }
   &::-ms-input-placeholder { opacity: 0.3; }
@@ -62,7 +63,7 @@ input[type='text'] + ol.results {
     padding: 6px 4px;
 
     border: 1px solid green;
-    font-size: 11px;
+    font-size: @font_size;
 
     > .version {
       font-weight: bold;
