@@ -1,9 +1,15 @@
-jsbyte
+JSByte
 ======
-An interactive JavaScript/HTML/CSS environment (eventually). **jsbyte** will
-also support CSS pre-processors ([LESS](http://lesscss.org/ "LESS"),
-[Sass/SCSS](http://sass-lang.com/ "Sass")), Markdown,
-CoffeeScript/GorillaScript/etc. (eventually).
+An interactive JavaScript/HTML/CSS environment (eventually). **JSByte** will
+also support CSS pre-processors ([LESS](http://lesscss.org),
+[Sass/SCSS](http://sass-lang.com)), Markdown and CoffeeScript (eventually).
+
+Installation
+============
+    # npm -g install grunt-cli
+    $ npm install
+    $ grunt
+    $ node jsbyte.js
 
 Attributions
 ============
@@ -11,4 +17,4 @@ Attributions
 
 License
 =======
-**jsbyte** is released under the terms of the MIT license.
+**JSByte** is released under the terms of the MIT license.
