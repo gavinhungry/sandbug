@@ -19,8 +19,12 @@
     <!-- MARKUP -->
     <div id='markup' class='panel'>
       <div class='panel-options'>
-        <input id='cdn' class='fwidth fheight' type='text' disabled='true' 
+        <input id='cdn' class='fwidth fheight' type='text' disabled='true'
           placeholder='Add a library hosted by CDNJS'>
+        <div class="results">
+          <div class='nomatch hide'>No matching results.</div>
+          <ol></ol>
+        </div>
       </div>
       <textarea class='textarea' name='markup' data-mode='htmlmixed'></textarea>
     </div>

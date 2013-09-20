@@ -59,6 +59,14 @@ input[type='text'] + .results {
   box-shadow: 0 0 4px fade(@input_border_color, 90%),
     inset 0 0 8px fade(@input_border_color, 30%);
 
+  > .nomatch {
+    text-align: center;
+    color: #777;
+    user-select: none;
+    cursor: default;
+    padding: 4px 0;
+  }
+
   > ol {
     max-height: 300px;
     overflow-x: hidden;
@@ -70,16 +78,25 @@ input[type='text'] + .results {
       color: #555;
       overflow: hidden;
       user-select: none;
-      cursor: pointer;
+      cursor: default;
       font-family: @monospace;
-      font-size: @font_size - 1px;      
+      font-size: @font_size - 1px;
       padding: 5px 4px 3px 4px;
-      margin: 0;
+      margin: 0 0 2px 0;
+
+      &:last-child { margin-bottom: 0; }
 
       border: 1px solid transparent;
       border-radius: 2px;
 
       &:hover {
+        box-shadow: 0 0 2px fade(@input_border_focus_color, 40%);
+        background-color: #DDE;
+        border-color: #BBC;
+        > .right { border-color: #BBC; }
+      }
+
+      &.active {
         box-shadow: 0 0 2px fade(@input_border_focus_color, 80%);
         background-color: #ABC;
         border-color: #89A;
