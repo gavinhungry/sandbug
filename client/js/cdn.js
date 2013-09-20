@@ -67,11 +67,13 @@ function($, _, config, utils) {
    * @param {jQuery} $cdn: CDN input element
    */
   cdn.init_filter = function($cdn) {
-    var $results = $cdn.next('ol.results');
+    var $results = $cdn.next('.results');
     if (!$results.length) {
-      $results = $('<ol class="results"></ol>');
+      $results = $('<div class="results"><ol></ol></div>');
       $cdn.after($results);
     }
+
+    var $ol = $results.children('ol');
 
     var results_visible = false;
 
@@ -99,16 +101,21 @@ function($, _, config, utils) {
           return _.levenshtein(filter, pkg.name.toLowerCase());
         });
 
-        $results.empty();
+        $ol.empty();
         _.each(sorted, function(pkg) {
-          var liStr = _.sprintf('<li>%s <span class="version">%s</span></li>',
+          var liStr = _.sprintf('<li>%s <span class="right">%s</span></li>',
             pkg.name, pkg.version);
 
           var $pkg = $(liStr).attr('data-filename', pkg.filename);
-          $results.append($pkg);
+          $ol.append($pkg);
         });
 
-        $results.css({ 'display': 'block', 'opacity': 1 });
+        $results.css({ 'display': 'block' });
+
+        // adjust margins when overflowing
+        $ol.toggleClass('overflow', $ol[0].scrollHeight > $ol[0].offsetHeight);
+
+        $results.css({ 'opacity': 1 });
       });
     }, 10));
 
