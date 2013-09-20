@@ -17,7 +17,11 @@ function($, _, config) {
    * @params {Mixed}: messages to log
    */
   utils.log = function() {
-    config.debug && console.log.apply(console, arguments);
+    if (config.debug) {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift('==>');
+      console.log.apply(console, args);
+    }
   };
 
   /**

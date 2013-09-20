@@ -35,7 +35,9 @@ function(module, path, http, https, Q, _) {
   };
 
   /**
+   * Log messages to console
    *
+   * @params {Mixed}: messages to log
    */
   utils.log = function() {
     var args = Array.prototype.slice.call(arguments);
