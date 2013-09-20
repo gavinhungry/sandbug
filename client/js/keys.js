@@ -26,12 +26,15 @@ function($, _, config, utils) {
     utils.log('initializing keys module');
 
     $(document).on('keyup', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
       var key_handlers = _.filter(handlers, function(h) {
-        return h.ctrl === e.ctrlKey && h.alt === e.altKey && h.key === e.which;
+        return !h.paused && h.ctrl === e.ctrlKey && h.alt === e.altKey &&
+          h.key === e.which;
       });
+
+      if (key_handlers.length) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
 
       _.each(key_handlers, function(handler) {
         var callback = handler ? handler.callback : null;
@@ -70,11 +73,13 @@ function($, _, config, utils) {
    *
    * @param {Map} opts: { ctrl: Boolean, alt: Boolean, key: String }
    * @param {Function} callback: callback function, passed up event
-   * @return {Integer}: unique handler id
+   * @return {Integer}: unique handler id, null if opts.key is undefined
    */
   keys.register_handler = function(opts, callback) {
     var opts = opts || {};
     var hid = last_hid++;
+
+    if (_.isUndefined(opts.key)) { return null; }
     utils.log('registering key handler', hid);
 
     handlers[hid] = {
@@ -89,13 +94,51 @@ function($, _, config, utils) {
   };
 
   /**
+   * Pause a key hander by id
+   *
+   * @param {Integer} hid: handler id
+   */
+  keys.pause_handler = function(hid) {
+    if (_.has(handlers, hid)) {
+      utils.log('pausing key handler', hid);
+      handlers[hid].paused = true;
+    }
+  };
+
+  /**
+   * Resume a paused a key hander by id
+   *
+   * @param {Integer} hid: handler id
+   */
+  keys.resume_handler = function(hid) {
+    if (_.has(handlers, hid)) {
+      utils.log('resuming key handler', hid);
+      handlers[hid].paused = false;
+    }
+  };
+
+  /**
+   * Toggle a key hander by id
+   *
+   * @param {Integer} hid: handler id
+   */
+  keys.toggle_handler = function(hid) {
+    if (_.has(handlers, hid)) {
+      utils.log('toggling key handler', hid);
+      handlers[hid].paused = !handlers[hid].paused;
+    }
+  };
+
+  /**
    * Unregister a key hander by id
    *
    * @param {Integer} hid: handler id
    */
   keys.unregister_handler = function(hid) {
-    utils.log('unregistering key handler', hid);
-    delete handlers[hid];
+    if (_.has(handlers, hid)) {
+      utils.log('unregistering key handler', hid);
+      delete handlers[hid];
+    }
   };
 
   return keys;
