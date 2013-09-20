@@ -33,4 +33,39 @@ input[type='text'], input[type='search'] {
     box-shadow: 0 0 2px fade(@input_border_focus_color, 60%),
       inset 0 0 4px fade(@input_border_focus_color, 30%);
   }
+
+  &:disabled { background-color: #EEE; }
+}
+
+// CDN filter results
+input[type='text'] + ol.results {
+  display: none;
+  opacity: 0;
+
+  z-index: 1;
+  position: absolute;
+  max-height: 200px;
+  overflow-x: hidden;
+
+  margin-top: @panel_padding;
+  padding: 4px;
+  left: @panel_padding;
+  right: @panel_padding;
+
+  border: 1px solid red;
+
+  > li {
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+    margin-bottom: 4px;
+    padding: 6px 4px;
+
+    border: 1px solid green;
+    font-size: 11px;
+
+    > .version {
+      font-weight: bold;
+    }
+  }
 }

@@ -25,9 +25,10 @@ function(
 
       this.render(function() {
 
-        // init CodeMirror and resizable panels
+        // init various components
         mirrors.init(this.$inputPanels.children('textarea'));
         panels.init(this.$panels);
+        cdn.init_filter(this.$cdn);
 
         this.register_keys();
         this.remove_splash();

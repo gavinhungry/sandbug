@@ -61,5 +61,63 @@ function($, _, config, utils) {
     return d.promise();
   };
 
+  /**
+   * Init the CDN input for filterable library selection
+   *
+   * @param {jQuery} $cdn: CDN input element
+   */
+  cdn.init_filter = function($cdn) {
+    var $results = $cdn.next('ol.results');
+    if (!$results.length) {
+      $results = $('<ol class="results"></ol>');
+      $cdn.after($results);
+    }
+
+    var results_visible = false;
+
+    $cdn.on('keyup', _.debounce(function(e) {
+      var filter = _.trim($cdn.val().toLowerCase());
+
+      // hide results when there is no filter
+      if (!filter) {
+        $results.stop().transition({ 'opacity': 0 }, 'fast', function() {
+          if (!results_visible) { $results.css('display', 'none'); }
+          results_visible = false;
+        });
+
+        return;
+      }
+
+      results_visible = true;
+
+      cdn.get_cache().done(function(packages) {
+        var filtered = _.filter(packages, function(pkg) {
+          return _.str.include(pkg.name.toLowerCase(), filter);
+        });
+
+        var sorted = _.sortBy(filtered, function(pkg) {
+          return _.levenshtein(filter, pkg.name.toLowerCase());
+        });
+
+        $results.empty();
+        _.each(sorted, function(pkg) {
+          var liStr = _.sprintf('<li>%s <span class="version">%s</span></li>',
+            pkg.name, pkg.version);
+
+          var $pkg = $(liStr).attr('data-filename', pkg.filename);
+          $results.append($pkg);
+        });
+
+        $results.css('display', 'block');
+        $results.stop().transition({ 'opacity': 1 }, 'fast');
+      });
+    }, 10));
+
+    // only enable the filter input if there are packages in the cache
+    cdn.get_cache().done(function(packages) {
+      $cdn.prop('disabled', !packages.length);
+    });
+  };
+
   return cdn;
 });
