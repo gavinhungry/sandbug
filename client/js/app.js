@@ -46,8 +46,12 @@ function(
     register_keys: function() {
       var that = this;
 
-      keys.register_handler({ ctrl: true, key: 'enter'}, function(e) {
+      keys.register_handler({ ctrl: true, key: 'enter' }, function(e) {
         that.run();
+      });
+
+      keys.register_handler({ ctrl: true, key: '/' }, function(e) {
+        that.$cdn.focus();
       });
 
       keys.init();

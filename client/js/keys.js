@@ -14,6 +14,15 @@ function($, _, config, utils) {
   var last_hid = 0;
   var initialized = false;
 
+  var key_map = {
+    'enter': 13,
+    'left':  37,
+    'up':    38,
+    'right': 39,
+    'down':  40,
+    '/':     191
+  };
+
   /**
    * Start listening for key events and execute registered handlers
    */
@@ -56,14 +65,8 @@ function($, _, config, utils) {
    */
   keys.key_code_for = function(key) {
     if (!_.isString(key)) { return null; }
+    if (_.has(key_map, key)) { return key_map[key]; }
     if (key.length === 1) { return key.toUpperCase().charCodeAt(0); }
-    switch(key) {
-      case 'enter': return 13; break;
-      case 'left':  return 37; break;
-      case 'up':    return 38; break;
-      case 'right': return 39; break;
-      case 'down':  return 40; break;
-    }
 
     return null;
   };
