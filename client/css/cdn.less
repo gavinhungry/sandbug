@@ -1,0 +1,80 @@
+/*
+ * jsbyte: An interactive JS/HTML/CSS environment
+ */
+
+#cdn-results {
+  display: none;
+  opacity: 0;
+
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+
+  margin-top: @panel_padding * 3;
+  padding: 4px;
+  left: @panel_padding * 2;
+  right: @panel_padding * 2;
+
+  background-color: #F2F2F2;
+  border: 1px solid @input_border_color;
+  border-radius: 2px;
+
+  box-shadow: 0 0 4px fade(@input_border_color, 90%),
+    inset 0 0 8px fade(@input_border_color, 30%);
+
+  > .nomatch {
+    text-align: center;
+    color: #777;
+    user-select: none;
+    cursor: default;
+    padding: 4px 0;
+  }
+
+  > ol {
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &.overflow > li { margin-right: 4px; }
+
+    > li {
+      color: #555;
+      overflow: hidden;
+      user-select: none;
+      cursor: default;
+      font-family: @monospace;
+      font-size: @font_size - 1px;
+      padding: 5px 4px 3px 4px;
+      margin: 0 0 2px 0;
+
+      &:last-child { margin-bottom: 0; }
+
+      border: 1px solid transparent;
+      border-radius: 2px;
+
+      &:hover {
+        box-shadow: 0 0 2px fade(@input_border_focus_color, 40%);
+        background-color: #DDE;
+        border-color: #BBC;
+        > .right { border-color: #BBC; }
+      }
+
+      &.active {
+        box-shadow: 0 0 2px fade(@input_border_focus_color, 80%);
+        background-color: #ABC;
+        border-color: #89A;
+        > .right { border-color: #89A; }
+      }
+
+      // version number
+      > .right {
+        background-color: #DDD;
+        border: 1px solid #AAA;
+        border-radius: 2px;
+        padding: 2px;
+        margin-top: -2px;
+        margin-left: -100%;
+      }
+    }
+  }
+}
