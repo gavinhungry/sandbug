@@ -11,6 +11,8 @@ function($, _, Backbone, templates, dom, config, utils) {
   'use strict';
 
   var cdn = utils.module('cdn');
+
+  var cdnjs = '%s://cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
   var cache = null;
 
   /**
@@ -60,6 +62,15 @@ function($, _, Backbone, templates, dom, config, utils) {
     });
 
     return d.promise();
+  };
+
+  /**
+   *
+   */
+  cdn.init_filter = function() {
+    // CDN packages filter input
+    var filterModel = new cdn.FilterInput();
+    var filterView = new cdn.FilterInputView({ model: filterModel });
   };
 
   /**
@@ -137,11 +148,7 @@ function($, _, Backbone, templates, dom, config, utils) {
    * An available CDN package
    */
   cdn.FilterResult = Backbone.Model.extend({
-    defaults: {
-      name: '',
-      filename: '',
-      version: '0'
-    }
+    defaults: { name: '', filename: '', version: '' }
   });
 
   /**
@@ -161,9 +168,15 @@ function($, _, Backbone, templates, dom, config, utils) {
       'click': 'add_lib'
     },
 
+    get_uri: function(secure) {
+      var pkg = this.model.toJSON();
+      var protocol = !!secure ? 'https' : 'http';
+      return _.sprintf(cdnjs, protocol, pkg.name, pkg.version, pkg.filename);
+    },
+
     add_lib: function() {
-      var result = this.model.toJSON();
-      utils.log('adding lib to markup panel:', result.filename);
+      var uri = this.get_uri();
+      var str = dom.resource_element_string(uri);
     },
 
     render: function() {
@@ -242,15 +255,6 @@ function($, _, Backbone, templates, dom, config, utils) {
       }, this);
     }
   });
-
-  /**
-   *
-   */
-  cdn.init_filter = function() {
-    // CDN packages filter input
-    var filterModel = new cdn.FilterInput();
-    var filterView = new cdn.FilterInputView({ model: filterModel });
-  };
 
   return cdn;
 });
