@@ -177,6 +177,8 @@ function($, _, Backbone, templates, dom, config, utils) {
     add_lib: function() {
       var uri = this.get_uri();
       var str = dom.resource_element_string(uri);
+
+      utils.log(str);
     },
 
     render: function() {
