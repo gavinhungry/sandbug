@@ -49,6 +49,16 @@ function($, _, config) {
   };
 
   /**
+   * Remove all double quotes (") from a string
+   *
+   * @param {String} str: input string
+   * @return {String}: input string with double quotes removed
+   */
+  utils.no_quotes = function(str) {
+    return _.isString(str) ? str.replace(/\"/g, '') : '';
+  };
+
+  /**
    * Get an absolute URI on the jsbyte domain
    * TODO: if URI is already absolute, return the string unmodified
    *
