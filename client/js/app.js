@@ -24,11 +24,10 @@ function(
       cdn.update_cache();
 
       this.render(function() {
-
         // init various components
         mirrors.init(this.$inputPanels.children('textarea'));
         panels.init(this.$panels);
-        cdn.init_filter(this.$cdn);
+        cdn.init_filter();
 
         this.register_keys();
         this.remove_splash();
@@ -56,10 +55,6 @@ function(
         if (e.keyCode === 13) { e.preventDefault(); }
       });
 
-      keys.register_handler({ ctrl: true, key: '/' }, function(e) {
-        that.$cdn.select();
-      });
-
       keys.init();
     },
 
@@ -81,9 +76,7 @@ function(
 
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
-          'by_id': [
-            'title', 'markup', 'cdn', 'style', 'script', 'input', 'output'
-          ],
+          'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
           'by_class': ['panel']
         });
 
@@ -91,6 +84,8 @@ function(
 
         if (_.isFunction(callback)) { callback.call(this); }
       }, this);
+
+      return this;
     }
   });
 

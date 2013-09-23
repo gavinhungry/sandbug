@@ -62,17 +62,98 @@ function($, _, Backbone, templates, dom, config, utils) {
     return d.promise();
   };
 
-  // FilterResult: Model
-  cdn.FilterResult = Backbone.Model.extend({
-    // defaults
+  /**
+   * Current filter value
+   */
+  cdn.FilterInput = Backbone.Model.extend({
+    'defaults': { value: '' }
   });
 
-  // FilterResultView: li
+  /**
+   * Input element for filtering CDN packages
+   *
+   * @param {cdn.FilterInput}: filter model
+   */
+  cdn.FilterInputView = Backbone.View.extend({
+    template: 'cdn-filter',
+    el: '#markup > .panel-options',
+
+    initialize: function(options) {
+      this.render();
+    },
+
+    events: {
+      'keyup #cdn': _.debounce(function(e) {
+        this.model.set({ value: $(e.target).val() });
+        this.update();
+      }, 10)
+    },
+
+    update: function() {
+      var that = this;
+      var filter = _.trim(this.model.get('value'));
+
+      cdn.get_cache().done(function(packages) {
+        // filter for the packages that match the input
+        var filtered = _.filter(packages, function(pkg) {
+          return !!pkg.name && !!pkg.filename && !!pkg.version &&
+            _.str.include(pkg.name.toLowerCase(), filter);
+        });
+
+        // sort filtered packages by comparing them with the filter string
+        var sorted = _.sortBy(filtered, function(pkg) {
+          return _.levenshtein(filter, pkg.name.toLowerCase());
+        });
+
+        // create a new cdn.FilterResultsView with the updated results
+        var results = new cdn.FilterResults(sorted);
+        var resultsView = new cdn.FilterResultsView({
+          filter: filter,
+          collection: results,
+          $el: that.$el.children('#cdn-results')
+        });
+      });
+    },
+
+    render: function() {
+      var that = this;
+
+      templates.get(this.template, function(template) {
+        var html = template;
+        this.$el.html(html);
+        this.$cdn = this.$el.find('#cdn');
+
+        // focus the input on key command
+        keys.register_handler({ ctrl: true, key: '/' }, function(e) {
+          that.$cdn.select();
+        });
+
+        this.update();
+      }, this);
+    }
+  });
+
+  /**
+   * An available CDN package
+   */
+  cdn.FilterResult = Backbone.Model.extend({
+    defaults: {
+      name: '',
+      filename: '',
+      version: '0'
+    }
+  });
+
+  /**
+   * List element representing an available CDN package
+   *
+   * @param {cdn.FilterResult}: model of an available package
+   */
   cdn.FilterResultView = Backbone.View.extend({
     template: 'cdn-result',
     tagName: 'li',
 
-    initialize: function() {
+    initialize: function(options) {
       this.render();
     },
 
@@ -80,9 +161,9 @@ function($, _, Backbone, templates, dom, config, utils) {
       'click': 'add_lib'
     },
 
-    add_lib: function(e) {
-      // add lib to markup panel
-      utils.log('add lib to markup panel');
+    add_lib: function() {
+      var result = this.model.toJSON();
+      utils.log('adding lib to markup panel:', result.filename);
     },
 
     render: function() {
@@ -90,25 +171,29 @@ function($, _, Backbone, templates, dom, config, utils) {
         var html = _.template(template, { pkg: this.model.toJSON() });
         this.$el.html(html);
       }, this);
-      return this;
     }
   });
 
-  // FilterResults: Collection of FilterResult
+  /**
+   * Collection of cdn.FilterResult(s)
+   */
   cdn.FilterResults = Backbone.Collection.extend({
     model: cdn.FilterResult,
-
-    initialize: function(models, options) {
-
-    }
   });
 
-  // FilterResultsView: <div><ol>
+  /**
+   * List of CDN packages to add to project
+   * filtered and sorted by cdn.FilterInput
+   *
+   * @param {cdn.FilterResults}: collection of available packages
+   * @param {jQuery} $el: element to template into
+   * @param {String} filter: filter used
+   */
   cdn.FilterResultsView = Backbone.View.extend({
     template: 'cdn-results',
-    el: '#cdn-results',
 
-    initialize: function() {
+    initialize: function(options) {
+      _.extend(this, _.pick(this.options, '$el', 'filter'));
       this.render();
     },
 
@@ -119,64 +204,53 @@ function($, _, Backbone, templates, dom, config, utils) {
       var overflow = this.$ol[0].scrollHeight > this.$ol[0].offsetHeight;
       this.$ol.toggleClass('overflow', overflow);
 
-      this.$el.css({ 'opacity': 1 });
+      this.$el.transition({ 'opacity': 1 }, 'fast');
     },
 
-    hide: function() {
+    hide: function(callback) {
+      var that = this;
+
       this.$el.transition({ 'opacity': 0 }, 'fast', function() {
         this.css({ 'display': 'none' });
+        if (_.isFunction(callback)) { callback.call(that); }
       });
     },
 
     render: function() {
+      // close the results list if there is no filter
+      if (!this.filter) {
+        this.hide(function() { this.$el.empty(); });
+        return;
+      }
+
       templates.get(this.template, function(template) {
         var html = template;
         this.$el.html(html);
 
-        this.$ol = this.$el.children('ol');
-        dom.cache(this, this.$el, {
-          'by_class': ['results']
-        });
+        // show "no results" as appropriate
+        var $nomatch = this.$el.children('.nomatch');
+        $nomatch.toggleClass('hide', !!this.collection.models.length);
 
+        // populate filtered/sorted packages
+        this.$ol = this.$el.children('ol').empty();
         _.each(this.collection.models, function(result) {
           var rv = new cdn.FilterResultView({ model: result });
-          this.$results.append(rv.el);
+          this.$ol.append(rv.el);
         }, this);
 
         this.show();
       }, this);
-
-      return this;
     }
   });
 
   /**
    *
-   * @param {jQuery} $cdn:
    */
-  cdn.init_filter = function($cdn) {
-    cdn.get_cache().done(function(packages) {
-      var resultsCol = new cdn.FilterResults(packages);
-      var resultsView = new cdn.FilterResultsView({ collection: resultsCol });
-    });
+  cdn.init_filter = function() {
+    // CDN packages filter input
+    var filterModel = new cdn.FilterInput();
+    var filterView = new cdn.FilterInputView({ model: filterModel });
   };
-
-  /*
-    $cdn.on('keyup', _.debounce(function(e) {
-      var filter = _.trim($cdn.val().toLowerCase());
-
-      cdn.get_cache().done(function(packages) {
-
-        // filter for the packages that match the input
-        var filtered = _.filter(packages, function(pkg) {
-          return _.str.include(pkg.name.toLowerCase(), filter);
-        });
-
-        // sort filtered packages by comparing them with the filter string
-        var sorted = _.sortBy(filtered, function(pkg) {
-          return _.levenshtein(filter, pkg.name.toLowerCase());
-        });
-  */
 
   return cdn;
 });
