@@ -5,9 +5,10 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils'
+  'jquery', 'underscore', 'backbone', 'templates', 'bus', 'dom', 'config',
+  'utils'
 ],
-function($, _, Backbone, templates, dom, config, utils) {
+function($, _, Backbone, templates, bus, dom, config, utils) {
   'use strict';
 
   var cdn = utils.module('cdn');
@@ -90,14 +91,21 @@ function($, _, Backbone, templates, dom, config, utils) {
     el: '#markup > .panel-options',
 
     initialize: function(options) {
+      bus.on('cdn:addlib', this.clear, this);
+      this.model.on('change:value', this.update, this);
+
       this.render();
     },
 
     events: {
       'keyup #cdn': _.debounce(function(e) {
         this.model.set({ value: $(e.target).val() });
-        this.update();
       }, 10)
+    },
+
+    clear: function() {
+      this.model.set({ value: '' });
+      this.$cdn.val('').select();
     },
 
     update: function() {
@@ -178,6 +186,7 @@ function($, _, Backbone, templates, dom, config, utils) {
       var uri = this.get_uri();
       var str = dom.resource_element_string(uri);
 
+      bus.trigger('cdn:addlib');
       utils.log(str);
     },
 
@@ -209,6 +218,8 @@ function($, _, Backbone, templates, dom, config, utils) {
 
     initialize: function(options) {
       _.extend(this, _.pick(this.options, '$el', 'filter'));
+      bus.on('cdn:addlib', this.hide, this);
+
       this.render();
     },
 
