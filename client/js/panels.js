@@ -10,7 +10,7 @@ function($, _, config, utils) {
 
   var panels = utils.module('panels');
 
-  var cache = {};
+  var cache;
 
   /**
    * Initialize a set of panels to be horizontally resizable
@@ -116,14 +116,14 @@ function($, _, config, utils) {
    * Get a panel by its id
    *
    * @param {String} id: panel id
-   * @return {jQuery}: panel with matching id, if found
+   * @return {jQuery}: panel with matching id
    */
   panels.get_by_id = function(id) {
-    if (!id) { return; }
-
-    return _.find(cache, function(panel) {
-      return $(panel).attr('id') === id;
+    var panel = _.find(cache, function(panel) {
+      return panel.id === id;
     });
+
+    return utils.ensure_jquery(panel);
   };
 
   return panels;

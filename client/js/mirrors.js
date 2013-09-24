@@ -29,7 +29,7 @@ function($, _, config, utils, CodeMirror) {
       var element = cm.getWrapperElement();
 
       active_mirrors.push({
-        id: $textarea.attr('id'),
+        panel: $textarea.closest('.panel').attr('id'),
         cm: cm,
         $textarea: $textarea
       });
@@ -37,16 +37,27 @@ function($, _, config, utils, CodeMirror) {
   };
 
   /**
-   * Set the mode for a CodeMirror instance
+   * Get a mirror by its id
    *
-   * @param {String} mirrorName: 'markup', 'style' or 'script'
-   * @param {String} mode: new mode to set, or use the mode from data-mode
+   * @param {String} id: panel id
+   * @return {CodeMirror}: mirror with matching panel id
    */
-  mirrors.set_mirror_mode = function(mirrorName, mode) {
-    var mirror = _.find(active_mirrors, function(mirror_element) {
-      return mirror_element.id === mirrorName;
+  mirrors.get_by_id = function(id) {
+    var mirror = _.find(active_mirrors, function(mirror) {
+      return mirror.panel === id;
     });
 
+    return mirror ? mirror.cm : mirror;
+  };
+
+  /**
+   * Set the mode for a CodeMirror instance
+   *
+   * @param {String} id: panel id
+   * @param {String} mode: new mode to set, or use the mode from data-mode
+   */
+  mirrors.set_mirror_mode = function(id, mode) {
+    var mirror = mirrors.get_by_id(id);
     if (!mirror) { return; }
 
     mode = mode || mirror.$textarea.attr('data-mode');
