@@ -10,12 +10,16 @@ function($, _, config, utils) {
 
   var panels = utils.module('panels');
 
+  var cache = {};
+
   /**
    * Initialize a set of panels to be horizontally resizable
    *
    * @param {jQuery} $panels: set of panels
    */
   panels.init = function($panels) {
+    cache = $panels;
+
     var $body = $('body');
     var $resizer, $prev, $next;
     var _prevOffset, _nextOffset;
@@ -106,6 +110,20 @@ function($, _, config, utils) {
     duration = duration !== undefined ? duration : 'fast';
 
     $panels.data('width-offset', 0).transition({ 'width': width }, duration);
+  };
+
+  /**
+   * Get a panel by its id
+   *
+   * @param {String} id: panel id
+   * @return {jQuery}: panel with matching id, if found
+   */
+  panels.get_by_id = function(id) {
+    if (!id) { return; }
+
+    return _.find(cache, function(panel) {
+      return $(panel).attr('id') === id;
+    });
   };
 
   return panels;
