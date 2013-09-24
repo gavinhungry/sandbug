@@ -25,10 +25,23 @@ function($, _, config) {
   };
 
   /**
-   * Ensure that a value is, in fact, an array
+   * Ensure that a value is wrapped with jQuery
+   *
+   * @param {Mixed} value
+   * @return {jQuery}
+   */
+  utils.ensure_jquery = function(value) {
+    if (value instanceof $) { return value; }
+    if ((value instanceof HTMLElement) || _.isArray(value)) { return $(value); }
+    return $();
+  };
+
+  /**
+   * Ensure that a value is an array
    * (useful when passing an unknown value to Array.forEach)
    *
    * @param {Mixed} value
+   * @return {Array}
    */
   utils.ensure_array = function(value) {
     if (value === undefined || value === null) { return []; }
