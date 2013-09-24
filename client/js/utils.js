@@ -40,10 +40,11 @@ function($, _, config) {
    * object if config.debug is set
    *
    * @param {String} name: name of the module (only relevant to window)
+   * @param {Object} base (optional): base model to use
    * @return {Object}: empty module object
    */
-  utils.module = function(name) {
-    var module = {};
+  utils.module = function(name, base) {
+    var module = base || {};
     if (config.debug) { window[name] = module; }
     return module;
   };
