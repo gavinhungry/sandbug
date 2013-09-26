@@ -2,26 +2,23 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
-@input_border_color: #AAA;
-@input_border_focus_color: #BBC;
+@input_border_color: #9A9A9A;
+@input_border_focus_color: #89C;
+@input_background_color: #F8F8F8;
+@input_background_focus_color: #F4F4FF;
+@input_text_color: #666;
 @input_transition_time: 0.1s;
 
 textarea:focus, input:focus, button:focus { outline: none; }
 
 input[type='text'], input[type='search'] {
-  background-color: #F8F8F8;
-  color: #666;
+  background-color: @input_background_color;
+  color: @input_text_color;
   padding: 2px 4px;
   font-family: @font;
   font-size: @font_size;
 
-  &::-webkit-input-placeholder { opacity: 0.4; }
-  &::-ms-input-placeholder { opacity: 0.4; }
-  &::-o-input-placeholder { opacity: 0.4; }
-  &::-moz-placeholder { opacity: 0.4; }
-
   border: 1px solid fade(@input_border_color, 60%);
-  border-radius: 1px;
   box-shadow: 0 0 2px fade(@input_border_color, 30%),
     inset 0 0 4px fade(@input_border_color, 10%);
 
@@ -29,7 +26,7 @@ input[type='text'], input[type='search'] {
     box-shadow @input_transition_time;
 
   &:focus {
-    background-color: #F8F8FF;
+    background-color: @input_background_focus_color;
     border-color: fade(@input_border_focus_color, 95%);
     box-shadow: 0 0 2px fade(@input_border_focus_color, 60%),
       inset 0 0 4px fade(@input_border_focus_color, 30%);

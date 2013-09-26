@@ -10,17 +10,17 @@
   position: absolute;
   overflow: hidden;
 
-  margin-top: @panel_padding * 3;
+  margin-top: @panel_padding * 2;
   padding: 4px;
-  left: @panel_padding * 2;
-  right: @panel_padding * 2;
+  left: @panel_padding;
+  right: @panel_padding;
 
-  background-color: #F2F2F2;
+  background-color: #F5F5F5;
   border: 1px solid @input_border_color;
-  border-radius: 2px;
+  border-radius: 1px;
 
-  box-shadow: 0 0 4px fade(@input_border_color, 90%),
-    inset 0 0 8px fade(@input_border_color, 30%);
+  box-shadow: 0 0 4px fade(@input_border_color, 80%),
+    inset 0 0 8px fade(@input_border_color, 20%);
 
   > .nomatch {
     text-align: center;
@@ -66,9 +66,8 @@
         > .right { border-color: #89A; }
       }
 
-      // version number
-      > .right {
-        background-color: #DDD;
+      > .right { // version
+        background-color: #E5E5E5;
         border: 1px solid #AAA;
         border-radius: 2px;
         padding: 2px;
