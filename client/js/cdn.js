@@ -19,7 +19,7 @@ function($, _, Backbone, templates, bus, config, utils, mirrors) {
   /**
    * Check if client-side CDN package cache exists
    *
-   * @return {Boolean}: true if cache exists, false otherwise
+   * @return {Boolean} true if cache exists, false otherwise
    */
   cdn.cache_exists = function() {
     return _.isArray(cache) && cache.length > 0;
@@ -28,8 +28,8 @@ function($, _, Backbone, templates, bus, config, utils, mirrors) {
   /**
    * Return a cached version of CDN packages
    *
-   * @param {Boolean} update: if true, force the cache to update first
-   * @return {Promise}: promise to return the CDN packages {Array}
+   * @param {Boolean} update - if true, force the cache to update first
+   * @return {Promise} promise to return the CDN packages {Array}
    */
   cdn.get_cache = function(update) {
     var d = $.Deferred();
@@ -137,7 +137,7 @@ function($, _, Backbone, templates, bus, config, utils, mirrors) {
   /**
    * Input element for filtering CDN packages
    *
-   * @param {cdn.FilterInput}: filter model
+   * @param {cdn.FilterInput} - filter model
    */
   cdn.FilterInputView = Backbone.View.extend({
     template: 'cdn-filter',
@@ -215,7 +215,7 @@ function($, _, Backbone, templates, bus, config, utils, mirrors) {
   /**
    * List element representing an available CDN package
    *
-   * @param {cdn.FilterResult}: model of an available package
+   * @param {cdn.FilterResult} - model of an available package
    */
   cdn.FilterResultView = Backbone.View.extend({
     template: 'cdn-result',
@@ -259,9 +259,9 @@ function($, _, Backbone, templates, bus, config, utils, mirrors) {
    * List of CDN packages to add to project
    * filtered and sorted by cdn.FilterInput
    *
-   * @param {cdn.FilterResults}: collection of available packages
-   * @param {jQuery} $el: element to template into
-   * @param {String} filter: filter used
+   * @param {cdn.FilterResults} - collection of available packages
+   * @param {jQuery} $el - element to template into
+   * @param {String} filter - filter used
    */
   cdn.FilterResultsView = Backbone.View.extend({
     template: 'cdn-results',

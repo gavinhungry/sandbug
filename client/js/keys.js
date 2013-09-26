@@ -60,8 +60,8 @@ function($, _, config, utils) {
   /**
    * Get a char code from a single-char
    *
-   * @param {String} key: single-char or key description
-   * @return {Integer | null}: char code if found, null otherwise
+   * @param {String} key - single-char or key description
+   * @return {Integer | null} char code if found, null otherwise
    */
   keys.key_code_for = function(key) {
     if (!_.isString(key)) { return null; }
@@ -74,9 +74,9 @@ function($, _, config, utils) {
   /**
    * Register a new key callback function
    *
-   * @param {Map} opts: { ctrl: Boolean, alt: Boolean, key: String }
-   * @param {Function} callback: callback function, passed up event
-   * @return {Integer}: unique handler id, null if opts.key is undefined
+   * @param {Map} opts - { ctrl: Boolean, alt: Boolean, key: String }
+   * @param {Function} callback - callback function, passed up event
+   * @return {Integer} unique handler id, null if opts.key is undefined
    */
   keys.register_handler = function(opts, callback) {
     var opts = opts || {};
@@ -99,7 +99,7 @@ function($, _, config, utils) {
   /**
    * Pause a key hander by id
    *
-   * @param {Integer} hid: handler id
+   * @param {Integer} hid - handler id
    */
   keys.pause_handler = function(hid) {
     if (_.has(handlers, hid)) {
@@ -111,7 +111,7 @@ function($, _, config, utils) {
   /**
    * Resume a paused a key hander by id
    *
-   * @param {Integer} hid: handler id
+   * @param {Integer} hid - handler id
    */
   keys.resume_handler = function(hid) {
     if (_.has(handlers, hid)) {
@@ -123,7 +123,7 @@ function($, _, config, utils) {
   /**
    * Toggle a key hander by id
    *
-   * @param {Integer} hid: handler id
+   * @param {Integer} hid - handler id
    */
   keys.toggle_handler = function(hid) {
     if (_.has(handlers, hid)) {
@@ -135,7 +135,7 @@ function($, _, config, utils) {
   /**
    * Unregister a key hander by id
    *
-   * @param {Integer} hid: handler id
+   * @param {Integer} hid - handler id
    */
   keys.unregister_handler = function(hid) {
     if (_.has(handlers, hid)) {

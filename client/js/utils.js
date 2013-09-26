@@ -14,7 +14,7 @@ function($, _, config) {
   /**
    * Log messages to console only in debug
    *
-   * @params {Mixed}: messages to log
+   * @param {Mixed} - messages to log
    */
   utils.log = function() {
     if (config.debug) {
@@ -52,9 +52,9 @@ function($, _, config) {
    * New module is just an empty object, but attach it to the global window
    * object if config.debug is set
    *
-   * @param {String} name: name of the module (only relevant to window)
-   * @param {Object} base (optional): base model to use
-   * @return {Object}: empty module object
+   * @param {String} name - name of the module (only relevant to window)
+   * @param {Object} [base] - base object to use
+   * @return {Object} empty module object
    */
   utils.module = function(name, base) {
     var module = base || {};
@@ -65,8 +65,8 @@ function($, _, config) {
   /**
    * Remove all double quotes (") from a string
    *
-   * @param {String} str: input string
-   * @return {String}: input string with double quotes removed
+   * @param {String} str - input string
+   * @return {String} input string with double quotes removed
    */
   utils.no_quotes = function(str) {
     return _.isString(str) ? str.replace(/\"/g, '') : '';
@@ -76,8 +76,8 @@ function($, _, config) {
    * Get an absolute URI on the jsbyte domain
    * TODO: if URI is already absolute, return the string unmodified
    *
-   * @param {String} path: relative or absolute URI
-   * @return {String}: absolute URI
+   * @param {String} path - relative or absolute URI
+   * @return {String} absolute URI
    */
   utils.uri = function(path) {
     return config.root + path;
@@ -97,9 +97,9 @@ function($, _, config) {
   /**
    * Get string for a new script element
    *
-   * @param {String} uri: URI of script
-   * @param {String} type (optional): script MIME type, defaults to JavaScript
-   * @return {String}: script string
+   * @param {String} uri - URI of script
+   * @param {String} [type] - script MIME type, defaults to JavaScript
+   * @return {String} script string
    */
   utils.script_element_string = function(uri, type) {
     uri = _.trim(utils.no_quotes(uri));
@@ -111,9 +111,9 @@ function($, _, config) {
   /**
    * Get string for a new stylesheet link element
    *
-   * @param {String} uri: URI of stylesheet
-   * @param {String} type (optional): style MIME type, defaults to CSS
-   * @return {String}: style link string
+   * @param {String} uri - URI of stylesheet
+   * @param {String} [type] - style MIME type, defaults to CSS
+   * @return {String} style link string
    */
   utils.style_element_string = function(uri, type) {
     uri = _.trim(utils.no_quotes(uri));
@@ -122,12 +122,7 @@ function($, _, config) {
     return _.sprintf('<link rel="stylesheet" type="%s" href="%s">', type, uri);
   };
 
-  /**
-   * Map file extensions to functions generating the appropriate element string
-   *
-   * {Function} fn: function accepting URI and (optional) MIME type
-   * {String} type: MIME type
-   */
+  // map file extensions to functions generating the appropriate element string
   var ext_map = {
     'js': {
       tag: 'script',

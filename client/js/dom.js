@@ -13,10 +13,10 @@ function($, _, config, utils) {
   /**
    * Cache DOM elements by id and class name onto another object
    *
-   * @param {Object} context: object to save references to
-   * @param {jQuery} $source: source set within which to find elements
-   * @param {Object} elements: { 'by_id' => Array, 'by_class' => Array }
-   * @return {Object}: context used
+   * @param {Object} context - object to save references to
+   * @param {jQuery} $source - source set within which to find elements
+   * @param {Object} elements - { 'by_id' => Array, 'by_class' => Array }
+   * @return {Object} context used
    */
   dom.cache = function(context, $source, elements) {
     context = context || {};

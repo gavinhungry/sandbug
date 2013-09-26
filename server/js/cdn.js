@@ -16,7 +16,7 @@ function(module, path, http, https, Q, _, utils, fs) {
   /**
    * Load CDNJS packages.json
    *
-   * @return {Promise}: promise to return CDN JSON
+   * @return {Promise} promise to return CDN JSON
    */
   cdn.get_JSON = function() {
     var d = Q.defer();
@@ -53,7 +53,7 @@ function(module, path, http, https, Q, _, utils, fs) {
   /**
    * Check if server-side CDN package cache exists
    *
-   * @return {Boolean}: true if cache exists, false otherwise
+   * @return {Boolean} true if cache exists, false otherwise
    */
   cdn.cache_exists = function() {
     return _.isArray(cache) && cache.length > 0;
@@ -62,8 +62,8 @@ function(module, path, http, https, Q, _, utils, fs) {
   /**
    * Return a cached version of CDN packages
    *
-   * @param {Boolean} update: if true, force the cache to update first
-   * @return {Promise}: promise to return the CDN packages
+   * @param {Boolean} update - if true, force the cache to update first
+   * @return {Promise} promise to return the CDN packages
    */
   cdn.get_cache = function(update) {
     var d = Q.defer();

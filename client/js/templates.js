@@ -16,7 +16,7 @@ function($, _, config, utils) {
   /**
    * Load template(s) into cache
    *
-   * @param {String | Array}: template(s) to load
+   * @param {String | Array} - template(s) to load
    */ 
   templates.load = function(ids) {
     _.each(utils.ensure_array(ids), function(id) {
@@ -32,9 +32,9 @@ function($, _, config, utils) {
    * Make sure a template is loaded (either from cache or the server),
    * then pass the template to a callback function
    *
-   * @param {String} id: 
-   * @param {Function} callback: 
-   * @param {Object} context: 
+   * @param {String} id - template id
+   * @param {Function} callback - passed the template after loading
+   * @param {Object} context - context to bind to callback
    */
   templates.get = function(id, callback, context) {
     templates.load(id);

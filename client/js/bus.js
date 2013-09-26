@@ -13,10 +13,10 @@ function($, _, Backbone, config, utils) {
   /**
    * Turn off all events in a colon-delimited namespace (eg. namespace:event)
    *
-   * @param {String} namespace: namespace to turn off events
-   * @param {Function} callback (optional): only turn off events firing callback
-   * @param {Object} context (optional): only turn off events bound to context
-   * @return {Object}: event bus
+   * @param {String} namespace - namespace to turn off events
+   * @param {Function} [callback] - only turn off events firing callback
+   * @param {Object} [context] - only turn off events bound to context
+   * @return {Object} event bus
    */
   bus.off_ns = function(namespace, callback, context) {
     if (_.isUndefined(this._events)) { return this; }

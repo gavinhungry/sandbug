@@ -12,8 +12,8 @@ function(module, path, http, https, Q, _) {
   /**
    * Load remote JSON
    *
-   * @param {Object} opts: options to http.get
-   * @return {Promise}: promise to return JSON
+   * @param {Object} opts - options to http.get
+   * @return {Promise} promise to return JSON
    */
   utils.get_JSON = function(opts) {
     var d = Q.defer();
@@ -37,7 +37,7 @@ function(module, path, http, https, Q, _) {
   /**
    * Log messages to console
    *
-   * @params {Mixed}: messages to log
+   * @param {Mixed} - messages to log
    */
   utils.log = function() {
     var args = Array.prototype.slice.call(arguments);

@@ -15,7 +15,7 @@ function($, _, config, utils, bus) {
   /**
    * Initialize a set of panels to be horizontally resizable
    *
-   * @param {jQuery} $panels set of panels
+   * @param {jQuery} $panels - set of panels
    */
   panels.init = function($panels) {
     cache = $panels;
@@ -92,8 +92,8 @@ function($, _, config, utils, bus) {
   /**
    * Get the defult width of a single panel, as a percentage
    *
-   * @param {jQuery} $panels: set of panels
-   * @return {String}: percentage string (eg. '25%')
+   * @param {jQuery} $panels - set of panels
+   * @return {String} percentage string (eg. '25%')
    */
   panels.get_default_width = function($panels) {
     return Math.floor(100 / ($panels.length || 1)) + '%';
@@ -115,8 +115,8 @@ function($, _, config, utils, bus) {
   /**
    * Get a panel by its id
    *
-   * @param {String} id: panel id
-   * @return {jQuery}: panel with matching id, null otherwise
+   * @param {String} id - panel id
+   * @return {jQuery} - panel with matching id, null otherwise
    */
   panels.get_by_id = function(id) {
     var panel = _.find(cache, function(panel) {

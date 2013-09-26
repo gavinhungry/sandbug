@@ -15,7 +15,7 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Initialize a set of textareas to be CodeMirror instances
    *
-   * @param {jQuery} $textareas: set of textareas
+   * @param {jQuery} $textareas - set of textareas
    */
   mirrors.init = function($textareas) {
     $textareas.each(function() {
@@ -39,8 +39,8 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Get a mirror by its panel id
    *
-   * @param {String} id: panel id
-   * @return {CodeMirror}: mirror with matching panel id, null otherwise
+   * @param {String} id - panel id
+   * @return {CodeMirror} mirror with matching panel id, null otherwise
    */
   mirrors.get_by_id = function(id) {
     var mirror = _.find(active_mirrors, function(mirror) {
@@ -63,8 +63,8 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Set the mode for a mirror
    *
-   * @param {String | CodeMirror} m: panel id or mirror
-   * @param {String} mode: new mode to set, or use the mode from data-mode
+   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String} mode - new mode to set, or use the mode from data-mode
    */
   mirrors.set_mode = function(m, mode) {
     var mirror = mirrors.get_instance(m);
@@ -77,7 +77,7 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Search a mirror for the first occurrence of a string
    *
-   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | CodeMirror} m - panel id or mirror
    * @param {String | RegExp} str - string to search for
    * @param {Boolean} ci - if true, search is case-insensitive
    * @return {Object} position map { line, ch } if found, null otherwise
@@ -93,7 +93,7 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Search a mirror for the last occurrence of a string
    *
-   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | CodeMirror} m - panel id or mirror
    * @param {String | RegExp} str - string to search for
    * @param {Boolean} ci - if true, search is case-insensitive
    * @return {Object} position map { line, ch } if found, null otherwise
@@ -115,7 +115,7 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Add content to a mirror at a specific position
    *
-   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | CodeMirror} m - panel id or mirror
    * @param {String} str - content to add
    * @param {Object} pos - position map { line, ch } to insert at
    */
@@ -129,7 +129,7 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Add content to a mirror as the first line(s)
    *
-   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | CodeMirror} m - panel id or mirror
    * @param {String} str - content to add
    */
   mirrors.add_content_start = function(m, str) {
@@ -140,7 +140,7 @@ function($, _, config, utils, CodeMirror) {
   /**
    * Add content to a mirror as the last line(s)
    *
-   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | CodeMirror} m - panel id or mirror
    * @param {String} str - content to add
    */
   mirrors.add_content_end = function(m, str) {
