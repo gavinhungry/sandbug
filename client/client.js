@@ -26,6 +26,7 @@
       codemirror_css: CDNJS + '/codemirror/3.16.0/mode/css/css.min',
       codemirror_xml: CDNJS + '/codemirror/3.16.0/mode/xml/xml.min',
       codemirror_html: CDNJS + '/codemirror/3.16.0/mode/htmlmixed/htmlmixed.min',
+      codemirror_search: CDNJS + '/codemirror/3.16.0/addon/search/searchcursor.min',
 
       // libraries with plugins
       jquery: 'lib/jquery',
@@ -49,7 +50,8 @@
       codemirror_js: { deps: ['codemirrorjs'] },
       codemirror_css: { deps: ['codemirrorjs'] },
       codemirror_xml: { deps: ['codemirrorjs'] },
-      codemirror_html: { deps: ['codemirrorjs'] }
+      codemirror_html: { deps: ['codemirrorjs'] },
+      codemirror_search: { deps: ['codemirrorjs'] }
     }
   });
 
