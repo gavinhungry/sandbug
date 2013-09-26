@@ -21,6 +21,8 @@ function(module, path, express, cons, _) {
   echo.server.use(express.bodyParser());
 
   echo.server.post('/frame', function(req, res) {
+    res.setHeader('X-XSS-Protection', '0');
+
     res.render('frame', {
       markup: req.body.markup,
       style: req.body.style,
