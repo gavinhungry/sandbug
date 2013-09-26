@@ -37,31 +37,121 @@ function($, _, config, utils, CodeMirror) {
   };
 
   /**
-   * Get a mirror by its id
+   * Get a mirror by its panel id
    *
    * @param {String} id: panel id
-   * @return {CodeMirror}: mirror with matching panel id
+   * @return {CodeMirror}: mirror with matching panel id, null otherwise
    */
   mirrors.get_by_id = function(id) {
     var mirror = _.find(active_mirrors, function(mirror) {
       return mirror.panel === id;
     });
 
-    return mirror ? mirror.cm : mirror;
+    return mirror ? mirror.cm : null;
   };
 
   /**
-   * Set the mode for a CodeMirror instance
+   * Get a mirror for either its panel id or the mirror itself
    *
-   * @param {String} id: panel id
+   * @param {String | CodeMirror} m - panel id or mirror
+   * @return {CodeMirror} - null if requested mirror does not exist
+   */
+  mirrors.get_instance = function(m) {
+    return m instanceof CodeMirror ? m : mirrors.get_by_id(m);
+  };
+
+  /**
+   * Set the mode for a mirror
+   *
+   * @param {String | CodeMirror} m: panel id or mirror
    * @param {String} mode: new mode to set, or use the mode from data-mode
    */
-  mirrors.set_mirror_mode = function(id, mode) {
-    var mirror = mirrors.get_by_id(id);
+  mirrors.set_mode = function(m, mode) {
+    var mirror = mirrors.get_instance(m);
     if (!mirror) { return; }
 
     mode = mode || mirror.$textarea.attr('data-mode');
     mirror.cm.setOption('mode', mode);
+  };
+
+  /**
+   * Search a mirror for the first occurrence of a string
+   *
+   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | RegExp} str - string to search for
+   * @param {Boolean} ci - if true, search is case-insensitive
+   * @return {Object} position map { line, ch } if found, null otherwise
+   */
+  mirrors.search_first = function(m, str, ci) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror || (!_.isString(str) && !_.isRegExp(str))) { return null; }
+
+    var cur = mirror.getSearchCursor(str, null, !!ci);
+    return (cur && cur.find()) ? { from: cur.from(), to: cur.to() } : null;
+  };
+
+  /**
+   * Search a mirror for the last occurrence of a string
+   *
+   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String | RegExp} str - string to search for
+   * @param {Boolean} ci - if true, search is case-insensitive
+   * @return {Object} position map { line, ch } if found, null otherwise
+   */
+  mirrors.search_last = function(m, str, ci) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror || (!_.isString(str) && !_.isRegExp(str))) { return null; }
+
+    var cur = mirror.getSearchCursor(str, null, !!ci);
+
+    var pos;
+    while (cur && cur.find()) {
+      pos = { from: cur.from(), to: cur.to() };
+    }
+
+    return pos || null;
+  };
+
+  /**
+   * Add content to a mirror at a specific position
+   *
+   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String} str - content to add
+   * @param {Object} pos - position map { line, ch } to insert at
+   */
+  mirrors.add_content_at = function(m, str, pos) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror || !_.isString(str)) { return; }
+
+    mirror.replaceRange(str, pos);
+  };
+
+  /**
+   * Add content to a mirror as the first line(s)
+   *
+   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String} str - content to add
+   */
+  mirrors.add_content_start = function(m, str) {
+    if (!_.isString(str)) { return; }
+    return mirrors.add_content_at(m, str + '\n', { line: 0, ch: 0 });
+  };
+
+  /**
+   * Add content to a mirror as the last line(s)
+   *
+   * @param {String | CodeMirror} m: panel id or mirror
+   * @param {String} str - content to add
+   */
+  mirrors.add_content_end = function(m, str) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror || !_.isString(str)) { return; }
+
+    var lastLine = mirror.lastLine();
+    var lastLineContent = mirror.getLine(lastLine);
+    var nlStr = !lastLineContent ? str : '\n' + str;
+
+    return mirrors.add_content_at(m, nlStr, { line: lastLine });
   };
 
   return mirrors;

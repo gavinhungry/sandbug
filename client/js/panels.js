@@ -4,8 +4,8 @@
  * panels.js: resizable panels
  */
 
-define(['jquery', 'underscore', 'config', 'utils'],
-function($, _, config, utils) {
+define(['jquery', 'underscore', 'config', 'utils', 'bus'],
+function($, _, config, utils, bus) {
   'use strict';
 
   var panels = utils.module('panels');
@@ -15,7 +15,7 @@ function($, _, config, utils) {
   /**
    * Initialize a set of panels to be horizontally resizable
    *
-   * @param {jQuery} $panels: set of panels
+   * @param {jQuery} $panels set of panels
    */
   panels.init = function($panels) {
     cache = $panels;
@@ -102,8 +102,8 @@ function($, _, config, utils) {
   /**
    * Reset all panels back to default widths with a CSS transition
    *
-   * @param {jQuery} $panels: set of panels
-   * @param {String|Integer} duration (optional): transition duration
+   * @param {jQuery} $panels - set of panels
+   * @param {String|Integer} [duration] - transition duration
    */
   panels.set_default_width = function($panels, duration) {
     var width = panels.get_default_width($panels);
@@ -116,14 +116,14 @@ function($, _, config, utils) {
    * Get a panel by its id
    *
    * @param {String} id: panel id
-   * @return {jQuery}: panel with matching id
+   * @return {jQuery}: panel with matching id, null otherwise
    */
   panels.get_by_id = function(id) {
     var panel = _.find(cache, function(panel) {
       return panel.id === id;
     });
 
-    return utils.ensure_jquery(panel);
+    return panel ? $(panel) : null;
   };
 
   return panels;

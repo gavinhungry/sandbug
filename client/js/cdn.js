@@ -5,10 +5,10 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'bus', 'dom', 'config',
-  'utils'
+  'jquery', 'underscore', 'backbone', 'templates', 'bus', 'config',
+  'utils', 'mirrors'
 ],
-function($, _, Backbone, templates, bus, dom, config, utils) {
+function($, _, Backbone, templates, bus, config, utils, mirrors) {
   'use strict';
 
   var cdn = utils.module('cdn');
@@ -66,10 +66,63 @@ function($, _, Backbone, templates, bus, dom, config, utils) {
   };
 
   /**
+   * Add a library element string at the best position that can be found
    *
+   * @param {String} uri - URI of the library to be added
+   */
+  cdn.add_lib_to_markup = function(uri) {
+    var markup = mirrors.get_by_id('markup');
+    if (!markup || !uri) { return; }
+
+    var indent = markup.getOption('indentUnit'); // default 2
+    var tag = utils.resource_tag(uri);
+    var lib = utils.resource_element_string(uri); // <script ...> or <link ...>
+    var indentLib = _.sprintf('%s%s', indent, lib);
+
+    var scriptPos, linkPos, headPos, htmlPos;
+
+    // put the new script element after the last script element in the document
+    if (scriptPos = mirrors.search_last(markup, /<script [^>]*><\/script>/i)) {
+      if (tag === 'script') {
+        lib = _.sprintf('\n%s%s', _.repeat(' ', scriptPos.from.ch), lib);
+        return mirrors.add_content_at(markup, lib, scriptPos.to);
+      }
+    }
+
+    // put the new link element after the last link element in the document
+    if (linkPos = mirrors.search_last(markup, /<link [^>]*>/i)) {
+      if (tag === 'link') {
+        lib = _.sprintf('\n%s%s', _.repeat(' ', linkPos.from.ch), lib);
+        return mirrors.add_content_at(markup, lib, linkPos.to);
+      }
+    }
+
+    // put the new element as the last item in <head>
+    if (headPos = mirrors.search_first(markup, '</head>', true)) {
+      lib = _.sprintf('%s%s\n', _.repeat(' ', indent), lib);
+      return mirrors.add_content_at(markup, lib, headPos.from);
+    }
+
+    // put the new element as the first item in <head>
+    if (headPos = mirrors.search_first(markup, '<head>', true)) {
+      lib = _.sprintf('\n%s%s', _.repeat(' ', headPos.from.ch + indent), lib);
+      return mirrors.add_content_at(markup, lib, headPos.to);
+    }
+
+    // put the new element as the first item in <html>
+    if (htmlPos = mirrors.search_first(markup, '<html>', true)) {
+      lib = _.sprintf('\n%s%s', _.repeat(' ', htmlPos.from.ch + indent), lib);
+      return mirrors.add_content_at(markup, lib, htmlPos.to);
+    }
+
+    // last resort: just prepend the entire document
+    mirrors.add_content_start(markup, lib);
+  };
+
+  /**
+   * Init the CDN filter input
    */
   cdn.init_filter = function() {
-    // CDN packages filter input
     var filterModel = new cdn.FilterInput();
     var filterView = new cdn.FilterInputView({ model: filterModel });
   };
@@ -91,7 +144,7 @@ function($, _, Backbone, templates, bus, dom, config, utils) {
     el: '#markup > .panel-options',
 
     initialize: function(options) {
-      bus.on('cdn:addlib', this.clear, this);
+      bus.on('cdn:select', this.clear, this);
       this.model.on('change:value', this.update, this);
 
       this.render();
@@ -173,7 +226,7 @@ function($, _, Backbone, templates, bus, dom, config, utils) {
     },
 
     events: {
-      'click': 'add_lib'
+      'click': 'select_lib'
     },
 
     get_uri: function(secure) {
@@ -182,12 +235,9 @@ function($, _, Backbone, templates, bus, dom, config, utils) {
       return _.sprintf(cdnjs, protocol, pkg.name, pkg.version, pkg.filename);
     },
 
-    add_lib: function() {
-      var uri = this.get_uri();
-      var str = dom.resource_element_string(uri);
-
-      bus.trigger('cdn:addlib');
-      utils.log(str);
+    select_lib: function() {
+      bus.trigger('cdn:select');
+      cdn.add_lib_to_markup(this.get_uri());
     },
 
     render: function() {
@@ -218,7 +268,7 @@ function($, _, Backbone, templates, bus, dom, config, utils) {
 
     initialize: function(options) {
       _.extend(this, _.pick(this.options, '$el', 'filter'));
-      bus.on('cdn:addlib', this.hide, this);
+      bus.on('cdn:select', this.hide, this);
 
       this.render();
     },
