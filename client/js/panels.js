@@ -4,8 +4,8 @@
  * panels.js: resizable panels
  */
 
-define(['jquery', 'underscore', 'config', 'utils', 'bus'],
-function($, _, config, utils, bus) {
+define(['config', 'utils', 'jquery', 'underscore', 'bus'],
+function(config, utils, $, _, bus) {
   'use strict';
 
   var panels = utils.module('panels');

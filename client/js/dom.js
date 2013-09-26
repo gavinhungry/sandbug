@@ -4,8 +4,8 @@
  * dom.js: DOM helpers
  */
 
-define(['jquery', 'underscore', 'config', 'utils'],
-function($, _, config, utils) {
+define(['config', 'utils', 'jquery', 'underscore'],
+function(config, utils, $, _) {
   'use strict';
 
   var dom = utils.module('dom');

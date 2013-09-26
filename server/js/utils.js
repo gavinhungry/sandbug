@@ -2,8 +2,8 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
-define(['module', 'path', 'http', 'https', 'q', 'underscore'],
-function(module, path, http, https, Q, _) {
+define(['module', 'path', 'underscore', 'http', 'https', 'q'],
+function(module, path, _, http, https, Q) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);

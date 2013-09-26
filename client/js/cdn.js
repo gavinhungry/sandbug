@@ -5,10 +5,10 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'bus', 'config',
-  'utils', 'mirrors'
+  'config', 'utils', 'jquery', 'underscore',
+  'backbone', 'bus', 'mirrors', 'templates'
 ],
-function($, _, Backbone, templates, bus, config, utils, mirrors) {
+function(config, utils, $, _, Backbone, bus, mirrors, templates) {
   'use strict';
 
   var cdn = utils.module('cdn');

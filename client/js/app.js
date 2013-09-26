@@ -3,11 +3,12 @@
  */
 
 define([
-  'jquery', 'underscore', 'backbone', 'templates', 'dom', 'config', 'utils',
-  'keys', 'panels', 'mirrors', 'cdn'
+  'config', 'utils', 'jquery', 'underscore',
+  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'templates'
 ],
 function(
-  $, _, Backbone, templates, dom, config, utils, keys, panels, mirrors, cdn
+  config, utils, $, _,
+  Backbone, cdn, dom, keys, mirrors, panels, templates
 ) {
   'use strict';
 

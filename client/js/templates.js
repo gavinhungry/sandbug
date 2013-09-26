@@ -4,8 +4,8 @@
  * templates.js: template cache manager
  */
 
-define(['jquery', 'underscore', 'config', 'utils'],
-function($, _, config, utils) {
+define(['config', 'utils', 'jquery', 'underscore'],
+function(config, utils, $, _) {
   'use strict';
 
   var templates = utils.module('templates');

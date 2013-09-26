@@ -4,8 +4,8 @@
  * mirrors.js: CodeMirror instances
  */
 
-define(['jquery', 'underscore', 'config', 'utils', 'codemirror'],
-function($, _, config, utils, CodeMirror) {
+define(['config', 'utils', 'jquery', 'underscore', 'codemirror'],
+function(config, utils, $, _, CodeMirror) {
   'use strict';
 
   var mirrors = utils.module('mirrors');
