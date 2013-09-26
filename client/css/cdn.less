@@ -16,13 +16,12 @@
   right: @panel_padding;
 
   background-color: #F5F5F5;
-  border: 1px solid @input_border_color;
-  border-radius: 1px;
-
-  box-shadow: 0 0 4px fade(@input_border_color, 80%),
-    inset 0 0 8px fade(@input_border_color, 20%);
+  border: 1px solid #BBB;
+  box-shadow: 0 0 4px rgba(0,0,0, 0.2),
+    inset 0 0 12px rgba(0,0,0, 0.05);
 
   > .nomatch {
+    font-weight: bold;
     text-align: center;
     color: #777;
     user-select: none;
