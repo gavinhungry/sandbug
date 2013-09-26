@@ -74,7 +74,7 @@ function(config, utils, $, _, Backbone, bus, mirrors, templates) {
     var markup = mirrors.get_by_id('markup');
     if (!markup || !uri) { return; }
 
-    var indent = markup.getOption('indentUnit'); // default 2
+    var indent = markup.cm.getOption('indentUnit'); // default 2
     var tag = utils.resource_tag(uri);
     var lib = utils.resource_element_string(uri); // <script ...> or <link ...>
     var indentLib = _.sprintf('%s%s', indent, lib);
@@ -158,7 +158,7 @@ function(config, utils, $, _, Backbone, bus, mirrors, templates) {
 
     clear: function() {
       this.model.set({ value: '' });
-      this.$cdn.val('').select();
+      this.$cdn.val('');
     },
 
     update: function() {
@@ -238,6 +238,7 @@ function(config, utils, $, _, Backbone, bus, mirrors, templates) {
     select_lib: function() {
       bus.trigger('cdn:select');
       cdn.add_lib_to_markup(this.get_uri());
+      mirrors.refocus();
     },
 
     render: function() {

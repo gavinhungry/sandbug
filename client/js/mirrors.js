@@ -10,7 +10,8 @@ function(config, utils, $, _, CodeMirror) {
 
   var mirrors = utils.module('mirrors');
 
-  var active_mirrors = [];
+  var instances = [];
+  var last_focused;
 
   /**
    * Initialize a set of textareas to be CodeMirror instances
@@ -26,13 +27,17 @@ function(config, utils, $, _, CodeMirror) {
         lineWrapping: true
       });
 
-      var element = cm.getWrapperElement();
-
-      active_mirrors.push({
+      var mirror = {
         panel: $textarea.closest('.panel').attr('id'),
-        cm: cm,
-        $textarea: $textarea
+        $textarea: $textarea,
+        cm: cm
+      };
+
+      cm.on('focus', function() {
+        last_focused = mirror;
       });
+
+      instances.push(mirror);
     });
   };
 
@@ -43,27 +48,27 @@ function(config, utils, $, _, CodeMirror) {
    * @return {CodeMirror} mirror with matching panel id, null otherwise
    */
   mirrors.get_by_id = function(id) {
-    var mirror = _.find(active_mirrors, function(mirror) {
+    var mirror = _.find(instances, function(mirror) {
       return mirror.panel === id;
     });
 
-    return mirror ? mirror.cm : null;
+    return mirror && mirror.cm instanceof CodeMirror ? mirror : null;
   };
 
   /**
    * Get a mirror for either its panel id or the mirror itself
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @return {CodeMirror} - null if requested mirror does not exist
    */
   mirrors.get_instance = function(m) {
-    return m instanceof CodeMirror ? m : mirrors.get_by_id(m);
+    return m && m.cm instanceof CodeMirror ? m : mirrors.get_by_id(m);
   };
 
   /**
    * Set the mode for a mirror
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @param {String} mode - new mode to set, or use the mode from data-mode
    */
   mirrors.set_mode = function(m, mode) {
@@ -75,9 +80,28 @@ function(config, utils, $, _, CodeMirror) {
   };
 
   /**
+   * Set the cursor focus on a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   */
+  mirrors.focus = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror) { return; }
+
+    mirror.cm.focus();
+  };
+
+  /**
+   * Refocus the last focused mirror
+   */
+  mirrors.refocus = function() {
+    mirrors.focus(last_focused);
+  };
+
+  /**
    * Search a mirror for the first occurrence of a string
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @param {String | RegExp} str - string to search for
    * @param {Boolean} ci - if true, search is case-insensitive
    * @return {Object} position map { line, ch } if found, null otherwise
@@ -86,14 +110,14 @@ function(config, utils, $, _, CodeMirror) {
     var mirror = mirrors.get_instance(m);
     if (!mirror || (!_.isString(str) && !_.isRegExp(str))) { return null; }
 
-    var cur = mirror.getSearchCursor(str, null, !!ci);
+    var cur = mirror.cm.getSearchCursor(str, null, !!ci);
     return (cur && cur.find()) ? { from: cur.from(), to: cur.to() } : null;
   };
 
   /**
    * Search a mirror for the last occurrence of a string
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @param {String | RegExp} str - string to search for
    * @param {Boolean} ci - if true, search is case-insensitive
    * @return {Object} position map { line, ch } if found, null otherwise
@@ -102,7 +126,7 @@ function(config, utils, $, _, CodeMirror) {
     var mirror = mirrors.get_instance(m);
     if (!mirror || (!_.isString(str) && !_.isRegExp(str))) { return null; }
 
-    var cur = mirror.getSearchCursor(str, null, !!ci);
+    var cur = mirror.cm.getSearchCursor(str, null, !!ci);
 
     var pos;
     while (cur && cur.find()) {
@@ -115,7 +139,7 @@ function(config, utils, $, _, CodeMirror) {
   /**
    * Add content to a mirror at a specific position
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @param {String} str - content to add
    * @param {Object} pos - position map { line, ch } to insert at
    */
@@ -123,13 +147,13 @@ function(config, utils, $, _, CodeMirror) {
     var mirror = mirrors.get_instance(m);
     if (!mirror || !_.isString(str)) { return; }
 
-    mirror.replaceRange(str, pos);
+    mirror.cm.replaceRange(str, pos);
   };
 
   /**
    * Add content to a mirror as the first line(s)
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @param {String} str - content to add
    */
   mirrors.add_content_start = function(m, str) {
@@ -140,15 +164,15 @@ function(config, utils, $, _, CodeMirror) {
   /**
    * Add content to a mirror as the last line(s)
    *
-   * @param {String | CodeMirror} m - panel id or mirror
+   * @param {String | Object} m - panel id or mirror
    * @param {String} str - content to add
    */
   mirrors.add_content_end = function(m, str) {
     var mirror = mirrors.get_instance(m);
     if (!mirror || !_.isString(str)) { return; }
 
-    var lastLine = mirror.lastLine();
-    var lastLineContent = mirror.getLine(lastLine);
+    var lastLine = mirror.cm.lastLine();
+    var lastLineContent = mirror.cm.getLine(lastLine);
     var nlStr = !lastLineContent ? str : '\n' + str;
 
     return mirrors.add_content_at(m, nlStr, { line: lastLine });
