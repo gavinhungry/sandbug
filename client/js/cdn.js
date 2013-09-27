@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'mirrors', 'templates'
+  'backbone', 'bus', 'templates'
 ],
-function(config, utils, $, _, Backbone, bus, mirrors, templates) {
+function(config, utils, $, _, Backbone, bus, templates) {
   'use strict';
 
   var cdn = utils.module('cdn');
@@ -63,60 +63,6 @@ function(config, utils, $, _, Backbone, bus, mirrors, templates) {
     });
 
     return d.promise();
-  };
-
-  /**
-   * Add a library element string at the best position that can be found
-   *
-   * @param {String} uri - URI of the library to be added
-   */
-  cdn.add_lib_to_markup = function(uri) {
-    var markup = mirrors.get_by_id('markup');
-    if (!markup || !uri) { return; }
-
-    var indent = markup.cm.getOption('indentUnit'); // default 2
-    var tag = utils.resource_tag(uri);
-    var lib = utils.resource_element_string(uri); // <script ...> or <link ...>
-    var indentLib = _.sprintf('%s%s', indent, lib);
-
-    var scriptPos, linkPos, headPos, htmlPos;
-
-    // put the new script element after the last script element in the document
-    if (scriptPos = mirrors.search_last(markup, /<script [^>]*><\/script>/i)) {
-      if (tag === 'script') {
-        lib = _.sprintf('\n%s%s', _.repeat(' ', scriptPos.from.ch), lib);
-        return mirrors.add_content_at(markup, lib, scriptPos.to);
-      }
-    }
-
-    // put the new link element after the last link element in the document
-    if (linkPos = mirrors.search_last(markup, /<link [^>]*>/i)) {
-      if (tag === 'link') {
-        lib = _.sprintf('\n%s%s', _.repeat(' ', linkPos.from.ch), lib);
-        return mirrors.add_content_at(markup, lib, linkPos.to);
-      }
-    }
-
-    // put the new element as the last item in <head>
-    if (headPos = mirrors.search_first(markup, '</head>', true)) {
-      lib = _.sprintf('%s%s\n', _.repeat(' ', indent), lib);
-      return mirrors.add_content_at(markup, lib, headPos.from);
-    }
-
-    // put the new element as the first item in <head>
-    if (headPos = mirrors.search_first(markup, '<head>', true)) {
-      lib = _.sprintf('\n%s%s', _.repeat(' ', headPos.from.ch + indent), lib);
-      return mirrors.add_content_at(markup, lib, headPos.to);
-    }
-
-    // put the new element as the first item in <html>
-    if (htmlPos = mirrors.search_first(markup, '<html>', true)) {
-      lib = _.sprintf('\n%s%s', _.repeat(' ', htmlPos.from.ch + indent), lib);
-      return mirrors.add_content_at(markup, lib, htmlPos.to);
-    }
-
-    // last resort: just prepend the entire document
-    mirrors.add_content_start(markup, lib);
   };
 
   /**
@@ -236,9 +182,7 @@ function(config, utils, $, _, Backbone, bus, mirrors, templates) {
     },
 
     select_lib: function() {
-      bus.trigger('cdn:select');
-      cdn.add_lib_to_markup(this.get_uri());
-      mirrors.refocus();
+      bus.trigger('cdn:select', this.get_uri());
     },
 
     render: function() {
