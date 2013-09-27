@@ -37,6 +37,7 @@ function(config, utils, $, _, bus, CodeMirror) {
       };
 
       cm.on('focus', function() {
+        bus.trigger('mirror:focus', mirror);
         last_focused = mirror;
       });
 
