@@ -90,7 +90,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
     el: '#markup > .panel-options',
 
     initialize: function(options) {
-      bus.on('cdn:select, mirror:focus', this.clear, this);
+      bus.on('cdn:select mirror:focus', this.clear, this);
       this.model.on('change:value', this.update, this);
 
       this.render();
@@ -213,7 +213,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
     initialize: function(options) {
       _.extend(this, _.pick(this.options, '$el', 'filter'));
-      bus.on('cdn:select, mirror:focus', this.hide, this);
+      bus.on('cdn:select mirror:focus', this.hide, this);
 
       this.render();
     },
