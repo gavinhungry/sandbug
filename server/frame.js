@@ -7,20 +7,20 @@ function(module, path, express, cons, _) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
-  var echo = {};
+  var frame = {};
 
   // Express server
-  echo.server = express();
-  echo.port = 8081;
+  frame.server = express();
+  frame.port = 8081;
 
   // use Underscore templates
-  echo.server.engine('html', cons.underscore);
-  echo.server.set('view engine', 'html');
-  echo.server.set('views', __dirname + '/templates');
+  frame.server.engine('html', cons.underscore);
+  frame.server.set('view engine', 'html');
+  frame.server.set('views', __dirname + '/templates');
 
-  echo.server.use(express.bodyParser());
+  frame.server.use(express.bodyParser());
 
-  echo.server.post('/frame', function(req, res) {
+  frame.server.post('/', function(req, res) {
     res.setHeader('X-XSS-Protection', '0');
 
     res.render('frame', {
@@ -30,5 +30,5 @@ function(module, path, express, cons, _) {
     });
   });
 
-  return echo;
+  return frame;
 });

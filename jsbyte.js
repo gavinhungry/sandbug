@@ -7,10 +7,10 @@
 (function() {
   var requirejs = require('requirejs');
 
-  requirejs(['server/server', 'server/echo'],
-  function(jsbyte, echo) {
+  requirejs(['server/server', 'server/frame'],
+  function(jsbyte, frame) {
     jsbyte.server.listen(jsbyte.port);
-    echo.server.listen(echo.port);
+    frame.server.listen(frame.port);
   });
 
 })();

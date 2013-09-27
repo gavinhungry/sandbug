@@ -39,7 +39,7 @@ function(
       'click #github': function(e) { window.open(config.github); }
     },
 
-    // submit byte to the echo server
+    // submit byte to the frame server
     run: function() {
       this.$input.submit();
     },
