@@ -56,6 +56,10 @@ function(
         if (e.keyCode === keys.key_code_for('enter')) { e.preventDefault(); }
       });
 
+      this.$inputPanels.find('button').on('click', function(e) {
+        e.preventDefault();
+      });
+
       keys.init();
     },
 
