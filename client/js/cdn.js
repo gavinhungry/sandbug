@@ -167,7 +167,10 @@ function(config, utils, $, _, Backbone, bus, templates) {
           that.$cdn.select();
         });
 
-        this.update();
+        cdn.get_cache().done(function(packages) {
+          that.$cdn.prop('disabled', false);
+          that.update();
+        });
       }, this);
     }
   });
