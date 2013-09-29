@@ -44,7 +44,7 @@ function(config, utils, $, _, bus, CodeMirror) {
       instances.push(mirror);
     });
 
-    bus.on('cdn:select', function(uri) {
+    bus.on('cdn:result:select', function(uri) {
       mirrors.add_lib_to_markup(uri);
       mirrors.refocus();
     });

@@ -32,5 +32,36 @@ function(config, utils, $, _, Backbone) {
     return this;
   };
 
+  /**
+   * Remove all event handlers for a given context
+   *
+   * @param {Object} context - context to have events removed
+   * @return {Object} event bus
+   */
+  bus.off_for = function(context) {
+    if (_.isUndefined(this._events)) { return this; }
+
+    this.off(null, null, context);
+
+    return this;
+  };
+
+  /**
+   * Enable an event only after disabling other events wih the same name
+   *
+   * @param {String} event - event name
+   * @param {Function} [callback] - callback function for event
+   * @param {Object} [context] - context for event callback
+   * @return {Object} event bus
+   */
+  bus.only = function(event, callback, context) {
+    if (_.isUndefined(this._events)) { return this; }
+
+    this.off(event);
+    this.on(event, callback, context);
+
+    return this;
+  };
+
   return bus;
 });

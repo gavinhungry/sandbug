@@ -15,6 +15,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
   var cdnjs = '%s://cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
   var cache = null;
+  var lastResultsView;
 
   /**
    * Check if client-side CDN package cache exists
@@ -90,16 +91,27 @@ function(config, utils, $, _, Backbone, bus, templates) {
     el: '#markup > .panel-options',
 
     initialize: function(options) {
-      bus.on('cdn:select mirror:focus', this.clear, this);
+      bus.on('cdn:result:select mirror:focus', this.clear, this);
       this.model.on('change:value', this.update, this);
 
       this.render();
     },
 
     events: {
-      'keyup #cdn': _.debounce(function(e) {
-        this.model.set({ value: $(e.target).val() });
-      }, 10)
+      'input #cdn': 'keypress',
+      'keydown #cdn': 'keypress'
+    },
+
+    keypress: function(e) {
+      if (e.which === keys.key_code_for('up')) {
+        bus.trigger('cdn:results:prev-active');
+      } else if (e.which === keys.key_code_for('down')) {
+        bus.trigger('cdn:results:next-active');
+      } else if (e.which === keys.key_code_for('enter')) {
+        bus.trigger('cdn:results:select-active');
+      }
+
+      this.model.set({ value: $(e.target).val() });
     },
 
     clear: function() {
@@ -125,7 +137,13 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
         // create a new cdn.FilterResultsView with the updated results
         var results = new cdn.FilterResults(sorted);
-        var resultsView = new cdn.FilterResultsView({
+
+        if (lastResultsView instanceof cdn.FilterResultsView) {
+          lastResultsView.stopListening();
+          bus.off_for(lastResultsView);
+        }
+
+        lastResultsView = new cdn.FilterResultsView({
           filter: filter,
           collection: results,
           $el: that.$el.children('#cdn-results')
@@ -155,7 +173,12 @@ function(config, utils, $, _, Backbone, bus, templates) {
    * An available CDN package
    */
   cdn.FilterResult = Backbone.Model.extend({
-    defaults: { name: '', filename: '', version: '' }
+    defaults: {
+      name: '',
+      filename: '',
+      version: '',
+      active: false
+    }
   });
 
   /**
@@ -182,7 +205,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
     },
 
     select_lib: function() {
-      bus.trigger('cdn:select', this.get_uri());
+      bus.trigger('cdn:result:select', this.get_uri());
     },
 
     render: function() {
@@ -197,7 +220,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
    * Collection of cdn.FilterResult(s)
    */
   cdn.FilterResults = Backbone.Collection.extend({
-    model: cdn.FilterResult,
+    model: cdn.FilterResult
   });
 
   /**
@@ -212,8 +235,15 @@ function(config, utils, $, _, Backbone, bus, templates) {
     template: 'cdn-results',
 
     initialize: function(options) {
-      _.extend(this, _.pick(this.options, '$el', 'filter'));
-      bus.on('cdn:select mirror:focus', this.hide, this);
+      _.extend(this, _.pick(this.options, 'filter'));
+      this.setElement(this.options.$el);
+
+      bus.on('cdn:result:select mirror:focus', this.hide, this);
+
+      bus.off_ns('cdn:results');
+      bus.on('cdn:results:prev-active', this.prev_active, this);
+      bus.on('cdn:results:next-active', this.next_active, this);
+      bus.on('cdn:results:select-active', this.select_active, this);
 
       this.render();
     },
@@ -231,10 +261,77 @@ function(config, utils, $, _, Backbone, bus, templates) {
     hide: function(callback) {
       var that = this;
 
+      this.stopListening();
+      bus.off_for(this);
+
       this.$el.transition({ 'opacity': 0 }, 'fast', function() {
         this.css({ 'display': 'none' });
         if (_.isFunction(callback)) { callback.call(that); }
       });
+    },
+
+    prev_active: function() {
+      var $children = this.$ol.children();
+      var $active = $children.filter('.active');
+      var $prev = $active.first().prev();
+
+      if ($prev.length) {
+        $active.removeClass('active');
+        $prev.addClass('active');
+      }
+
+      this.scroll_active();
+    },
+
+    next_active: function() {
+      var $children = this.$ol.children();
+      var $active = $children.filter('.active');
+      var $next = $active.first().next();
+
+      if ($next.length) {
+        $active.removeClass('active');
+        $next.addClass('active');
+      } else if (!$active.length) {
+        $children.first().addClass('active');
+      }
+
+      this.scroll_active();
+    },
+
+    // keep the active element visible
+    scroll_active: function() {
+      var $active = this.$ol.children().filter('.active').first();
+      if ($active.length && this.$ol.hasClass('overflow')) {
+        var $parent = this.$ol.parent();
+
+        var paddingTop = parseInt($parent.css('padding-top'), 10);
+        var paddingBottom = parseInt($parent.css('padding-bottom'), 10);
+        var olHeight = this.$ol.outerHeight();
+        var olTop = this.$ol.scrollTop();
+        var olBottom = olTop + olHeight;
+        var activeHeight = $active.outerHeight();
+        var activeTop = olTop + $active.position().top;
+        var activeBottom = activeTop + activeHeight;
+
+        // too far down
+        if (activeBottom > olBottom) {
+          this.$ol.scrollTop(activeBottom - olHeight - paddingBottom);
+        }
+        // too far up
+        else if (activeTop < olTop) {
+          this.$ol.scrollTop(activeTop - paddingTop);
+        }
+      }
+    },
+
+    select_active: function() {
+      var activeResultView = _.find(this._rvs, function(rv) {
+        return rv.$el.hasClass('active');
+      });
+
+      if (activeResultView instanceof cdn.FilterResultView) {
+        activeResultView.select_lib();
+      }
     },
 
     render: function() {
@@ -253,9 +350,11 @@ function(config, utils, $, _, Backbone, bus, templates) {
         $nomatch.toggleClass('hide', !!this.collection.models.length);
 
         // populate filtered/sorted packages
+        this._rvs = [];
         this.$ol = this.$el.children('ol').empty();
         _.each(this.collection.models, function(result) {
           var rv = new cdn.FilterResultView({ model: result });
+          this._rvs.push(rv);
           this.$ol.append(rv.el);
         }, this);
 

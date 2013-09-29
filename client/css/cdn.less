@@ -2,6 +2,8 @@
  * jsbyte: An interactive JS/HTML/CSS environment
  */
 
+@filter_active_bg_color: #D7DDE5;
+
 #cdn-results {
   display: none;
   opacity: 0;
@@ -36,7 +38,8 @@
     &.overflow > li { margin-right: 4px; }
 
     > li {
-      color: #555;
+      color: #777;
+      text-shadow: 1px 1px 0 #E0E0E0;
       overflow: hidden;
       user-select: none;
       cursor: default;
@@ -48,20 +51,19 @@
       &:last-child { margin-bottom: 0; }
 
       border: 1px solid transparent;
-      border-radius: 2px;
+      border-bottom-width: 2px;
+      border-radius: 1px;
 
       &:hover {
-        box-shadow: 0 0 2px fade(@input_border_focus_color, 40%);
-        background-color: #DDE;
-        border-color: #BBC;
-        > .right { border-color: #BBC; }
+        background-color: lighten(@filter_active_bg_color, 5%);
+        border-color: darken(@filter_active_bg_color, 5%);
+        > .right { border-color: darken(@filter_active_bg_color, 10%); }
       }
 
       &.active {
-        box-shadow: 0 0 2px fade(@input_border_focus_color, 80%);
-        background-color: #ABC;
-        border-color: #89A;
-        > .right { border-color: #89A; }
+        background-color: @filter_active_bg_color;
+        border-color: darken(@filter_active_bg_color, 10%);
+        > .right { border-color: darken(@filter_active_bg_color, 15%); }
       }
 
       > .right { // version

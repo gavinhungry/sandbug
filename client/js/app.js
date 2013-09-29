@@ -53,7 +53,7 @@ function(
 
       // don't submit anything on input return
       this.$inputPanels.find('input').on('keypress keydown keyup', function(e) {
-        if (e.keyCode === 13) { e.preventDefault(); }
+        if (e.keyCode === keys.key_code_for('enter')) { e.preventDefault(); }
       });
 
       keys.init();
