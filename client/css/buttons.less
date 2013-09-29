@@ -14,7 +14,7 @@
   }
 }
 
-button.big {
+button {
   display: inline-block;
   user-select: none;
   cursor: pointer;
@@ -49,6 +49,15 @@ button.big {
   &.proceed { .button(#9B6); }
   &.warning { .button(#DB6); }
   &.danger { .button(#D66); }
+  &.purple { .button(#A8A); }
+  &.slate { .button(#99A); }
+
+  &.btn-small {
+    font-size: 11px;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 0 rgba(0,0,0, 0.2);
+  }
 }
 
 .right > button {

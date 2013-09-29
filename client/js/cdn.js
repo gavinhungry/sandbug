@@ -88,7 +88,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
    */
   cdn.FilterInputView = Backbone.View.extend({
     template: 'cdn-filter',
-    el: '#markup > .panel-options',
+    el: '#markup > .panel-options > .panel-controls',
 
     initialize: function(options) {
       bus.on('cdn:result:select mirror:focus', this.clear, this);

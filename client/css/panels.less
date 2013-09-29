@@ -28,10 +28,22 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     height: 100%;
 
     > .panel-options {
+      display: flex;
       height: @panel_options_height;
+      width: 100%;
       padding: @panel_padding;
       border-bottom: 1px solid @panel_resizer_color;
       background-color: #EEE;
+
+      > * {
+        height: 100%;
+      }
+
+      > .panel-controls { flex-grow: 1; }
+      > .panel-switch {
+        margin-left: @panel_padding;
+        margin-right: 0;
+      }
     }
 
     > .CodeMirror {

@@ -1,15 +1,10 @@
 <header>
-  <div class='left flex noselect'>
-    <button id='github' class='big'><i class='icon-social icon-only github'></i></button>
-  </div>
-
   <div id='title'>
      &#123;<span class='text'><span class='bold'>JS</span>Byte</span>&#125;
   </div>
 
   <div class='right flex noselect'>
-    <button class='big'>Sign Up</button>
-    <button class='big action'>Login</button>
+    <button id='github'><i class='icon-social icon-only github'></i></button>
   </div>
 </header>
 
@@ -18,21 +13,30 @@
 
     <!-- MARKUP -->
     <div id='markup' class='panel'>
-      <div class='panel-options'></div>
+      <div class='panel-options'>
+        <div class='panel-controls'></div>
+        <button class='panel-switch btn-small'>HTML</button>
+      </div>
       <textarea class='textarea' name='markup' data-mode='htmlmixed'></textarea>
     </div>
     <div class='panel-resizer'><div></div></div>
 
     <!-- STYLE -->
     <div id='style' class='panel'>
-      <div class='panel-options'></div>
+      <div class='panel-options'>
+        <div class='panel-controls'></div>
+        <button class='panel-switch btn-small'>CSS</button>
+      </div>
       <textarea class='textarea' name='style' data-mode='css'></textarea>
     </div>
     <div class='panel-resizer'><div></div></div>
 
     <!-- SCRIPT -->
     <div id='script' class='panel'>
-      <div class='panel-options'></div>
+      <div class='panel-options'>
+        <div class='panel-controls'></div>
+        <button class='panel-switch btn-small'>JavaScript</button>
+      </div>
       <textarea class='textarea' name='script' data-mode='javascript'></textarea>
     </div>
     <div class='panel-resizer'><div></div></div>
