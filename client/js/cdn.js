@@ -135,8 +135,11 @@ function(config, utils, $, _, Backbone, bus, templates) {
           return _.levenshtein(filter, pkg.name.toLowerCase());
         });
 
+        // limit the number of displayed results for performance
+        var limited = _.first(sorted, config.cdn_results);
+
         // create a new cdn.FilterResultsView with the updated results
-        var results = new cdn.FilterResults(sorted);
+        var results = new cdn.FilterResults(limited);
 
         if (lastResultsView instanceof cdn.FilterResultsView) {
           lastResultsView.stopListening();
