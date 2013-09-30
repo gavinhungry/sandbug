@@ -40,14 +40,17 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       }
 
       > .panel-controls { flex-grow: 1; }
-      > .panel-switch {
+      > .btn-small {
         margin-left: @panel_padding;
         margin-right: 0;
       }
     }
 
-    > .CodeMirror {
+    > .CodeMirror, iframe {
       height: calc(100% ~'-' @panel_options_height);
+    }
+
+    > .CodeMirror {
       resize: none;
       padding: 4px;
       cursor: text;
@@ -55,6 +58,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
       font-family: @mirror_font !important;
       font-size: @mirror_font_size !important;
+    }
+
+    > iframe {
+      width: 100%;
     }
   }
 

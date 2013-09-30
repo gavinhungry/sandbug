@@ -31,7 +31,7 @@ function(config, utils, $, _, bus) {
     panels.set_default_width($panels, 0);
 
     var bind_resize = function(e) {
-      $panels.filter('iframe').addClass('nopointer');
+      $panels.filter('#output').addClass('nopointer');
       $resizer.addClass('dragging');
       $body.addClass('ew');
 
@@ -40,7 +40,7 @@ function(config, utils, $, _, bus) {
     };
 
     var unbind_resize = function(e) {
-      $panels.filter('iframe').removeClass('nopointer');
+      $panels.filter('#output').removeClass('nopointer');
       $resizer.removeClass('dragging');
       $body.removeClass('ew');
 

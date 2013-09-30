@@ -23,12 +23,12 @@ function(config, utils, $, _) {
 
     // #output cached to this.$output
     _.each(utils.ensure_array(elements.by_id), _.bind(function(id) {
-      this['$' + id] = $source.find('#' + id);
+      this['$' + _.underscored(id)] = $source.find('#' + id);
     }, context));
 
-    // .panel elements cached to this.$panels
+    // .panel-options elements cached to this.$panel_options
     _.each(utils.ensure_array(elements.by_class), _.bind(function(c) {
-      this['$' + _.pluralize(c)] = $source.find('.' + c);
+      this['$' + _.pluralize(_.underscored(c))] = $source.find('.' + c);
     }, context));
 
     return context;

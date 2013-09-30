@@ -26,7 +26,7 @@ function(
 
       this.render(function() {
         // init various components
-        mirrors.init(this.$inputPanels.children('textarea'));
+        mirrors.init(this.$panels.not(this.$output).children('textarea'));
         panels.init(this.$panels);
         cdn.init_filter();
 
@@ -36,7 +36,8 @@ function(
     },
 
     events: {
-      'click #github': function(e) { window.open(config.github); }
+      'click #github': function(e) { window.open(config.github); },
+      'click #run': 'run'
     },
 
     // submit byte to the frame server
@@ -52,11 +53,11 @@ function(
       });
 
       // don't submit anything on input return
-      this.$inputPanels.find('input').on('keypress keydown keyup', function(e) {
+      this.$panel_options.find('> input').on('input keydown', function(e) {
         if (e.keyCode === keys.key_code_for('enter')) { e.preventDefault(); }
       });
 
-      this.$inputPanels.find('button').on('click', function(e) {
+      this.$panel_options.find('> button').on('click', function(e) {
         e.preventDefault();
       });
 
@@ -82,10 +83,8 @@ function(
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
-          'by_class': ['panel']
+          'by_class': ['panel', 'panel-options']
         });
-
-        this.$inputPanels = this.$panels.not('iframe');
 
         if (_.isFunction(callback)) { callback.call(this); }
       }, this);
