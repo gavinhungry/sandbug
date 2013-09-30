@@ -121,7 +121,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
     update: function() {
       var that = this;
-      var filter = _.trim(this.model.get('value'));
+      var filter = _.trim(this.model.get('value')).toLowerCase();
 
       cdn.get_cache().done(function(packages) {
         // filter for the packages that match the input
