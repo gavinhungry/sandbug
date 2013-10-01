@@ -57,12 +57,14 @@ button {
     padding-right: 8px;
     font-size: 11px;
     text-align: center;
+    margin-right: 4px;
     color: white;
     text-shadow: 1px 1px 0 rgba(0,0,0, 0.2);
   }
 }
 
-.right > button {
-  margin-left: 6px;
+.right > button, button.right {
   margin-right: 0;
+  margin-left: 6px;
+  &.btn-small { margin-left: 4px; }
 }

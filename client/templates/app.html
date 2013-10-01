@@ -14,8 +14,8 @@
     <!-- MARKUP -->
     <div id='markup' class='panel'>
       <div class='panel-options'>
-        <div class='panel-controls'></div>
-        <button class='panel-switch btn-small'>HTML</button>
+        <div class='panel-controls noselect'></div>
+        <button class='panel-switch btn-small right'>HTML</button>
       </div>
       <textarea class='textarea' name='markup' data-mode='htmlmixed'></textarea>
     </div>
@@ -23,9 +23,9 @@
 
     <!-- STYLE -->
     <div id='style' class='panel'>
-      <div class='panel-options'>
+      <div class='panel-options noselect'>
         <div class='panel-controls'></div>
-        <button class='panel-switch btn-small'>CSS</button>
+        <button class='panel-switch btn-small right'>CSS</button>
       </div>
       <textarea class='textarea' name='style' data-mode='css'></textarea>
     </div>
@@ -34,8 +34,8 @@
     <!-- SCRIPT -->
     <div id='script' class='panel'>
       <div class='panel-options'>
-        <div class='panel-controls'></div>
-        <button class='panel-switch btn-small'>JavaScript</button>
+        <div class='panel-controls noselect'></div>
+        <button class='panel-switch btn-small right'>JavaScript</button>
       </div>
       <textarea class='textarea' name='script' data-mode='javascript'></textarea>
     </div>
@@ -44,8 +44,9 @@
     <!-- OUTPUT -->
     <div id='output' class='panel'>
       <div class='panel-options'>
-        <div class='panel-controls'></div>
-        <button id='run' class='btn-small action'>Run</button>
+        <div class='panel-controls noselect'></div>
+        <button class='btn-small right'><i class='icon icon-only layout'></i></button>
+        <button id='run' class='btn-small right action'>Run</button>
       </div>
       <iframe name='output'></iframe>
     </div>
