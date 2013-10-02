@@ -9,7 +9,8 @@
 </header>
 
 <main>
-  <form autocomplete='off' action='<%= frame %>' method='POST' id='input' target='output'>
+  <form id='input' action='<%= frame %>' method='POST' target='output'
+    autocomplete='off' class='layout-a'>
 
     <!-- MARKUP -->
     <div id='markup' class='panel'>
@@ -45,7 +46,9 @@
     <div id='output' class='panel'>
       <div class='panel-options'>
         <div class='panel-controls noselect'></div>
-        <button class='btn-small right'><i class='icon icon-only layout'></i></button>
+        <button id='layout' class='btn-small right'>
+          <i class='icon icon-only layout'></i>
+        </button>
         <button id='run' class='btn-small right action'>Run</button>
       </div>
       <iframe name='output'></iframe>

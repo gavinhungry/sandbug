@@ -10,7 +10,7 @@ function(config, utils, $, _, bus) {
 
   var panels = utils.module('panels');
 
-  var cache;
+  var $active_panels;
 
   /**
    * Initialize a set of panels to be horizontally resizable
@@ -18,7 +18,7 @@ function(config, utils, $, _, bus) {
    * @param {jQuery} $panels - set of panels
    */
   panels.init = function($panels) {
-    cache = $panels;
+    $active_panels = $panels;
 
     var $body = $('body');
     var $resizer, $prev, $next;
@@ -119,11 +119,30 @@ function(config, utils, $, _, bus) {
    * @return {jQuery} - panel with matching id, null otherwise
    */
   panels.get_by_id = function(id) {
-    var panel = _.find(cache, function(panel) {
+    var panel = _.find($active_panels, function(panel) {
       return panel.id === id;
     });
 
     return panel ? $(panel) : null;
+  };
+
+  /**
+   * Rotate panels parent through available layouts
+   */
+  panels.cycle_layout = function() {
+    var layouts = ['layout-a', 'layout-b', 'layout-c'];
+    var $parent = $active_panels.first().parent();
+
+    var hasLayout = _.some(layouts, function(layout, i) {
+      if ($parent.hasClass(layout)) {
+        var nextLayout = layouts[(i + 1) % layouts.length];
+        $parent.removeClass(layout).addClass(nextLayout);
+        return true;
+      }
+    });
+
+    // layout-a is the default 'first', use next layout
+    if (!hasLayout) { $parent.addClass(layouts[1]); }
   };
 
   return panels;
