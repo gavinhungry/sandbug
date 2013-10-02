@@ -13,19 +13,28 @@
 
 body.ew, body.ew * { cursor: ew-resize !important; }
 
+// layout-a
 #input {
   height: 100%;
   white-space: nowrap;
-  display: flex;
+  font-size: 0;
 
   > * {
+    display: inline-block;
     position: relative;
+    height: 100%;
   }
 
   > .panel {
-    margin: 0;
-    border: none;
-    height: 100%;
+    vertical-align: top;
+    width: 25%;
+
+    &.input-panel {
+      border-right: 1px solid @panel_resizer_color;
+
+      // FIXME: this should be disabled when manually dragging
+      transition: width 0.25s;
+    }
 
     > .panel-options {
       display: flex;
@@ -50,7 +59,6 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       resize: none;
       padding: 4px;
       cursor: text;
-      opacity: 0.7;
 
       font-family: @mirror_font !important;
       font-size: @mirror_font_size !important;
@@ -64,17 +72,38 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   > .panel-resizer {
     z-index: 8;
     user-select: none;
-    width: 1px;
+    width: 0;
     height: 100%;
-    background-color: @panel_resizer_color;
-
-    &.dragging { background-color: darken(@panel_resizer_color, 5%); }
 
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -3px;
+      margin-left: -4px;
       cursor: ew-resize;
     }
+  }
+
+  > .panel-section-resizer { display: none; }
+}
+
+// layout-b
+#input.layout-b {
+
+  white-space: normal;
+
+  > * { height: 50%; }
+  > .panel, .panel-resizer { height: 50%; }
+
+  > .panel.input-panel {
+    transition: width 0.25s, height 0.25s;
+    width: 33%;
+    &#style { width: 34%; } // symmetry
+  }
+
+  > #output {
+    transition: none;
+
+    width: 100%;
+    height: 50%;
   }
 }

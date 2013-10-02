@@ -19,6 +19,7 @@ function(config, utils, $, _, bus) {
    */
   panels.init = function($panels) {
     $active_panels = $panels;
+    return;
 
     var $body = $('body');
     var $resizer, $prev, $next;
@@ -130,13 +131,15 @@ function(config, utils, $, _, bus) {
    * Rotate panels parent through available layouts
    */
   panels.cycle_layout = function() {
-    var layouts = ['layout-a', 'layout-b', 'layout-c'];
+    var layouts = ['layout-a', 'layout-b']; // 'layout-c'
     var $parent = $active_panels.first().parent();
 
     var hasLayout = _.some(layouts, function(layout, i) {
       if ($parent.hasClass(layout)) {
         var nextLayout = layouts[(i + 1) % layouts.length];
         $parent.removeClass(layout).addClass(nextLayout);
+
+        document.title = nextLayout;
         return true;
       }
     });
