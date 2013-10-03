@@ -131,7 +131,7 @@ function(config, utils, $, _, bus) {
    * Rotate panels parent through available layouts
    */
   panels.cycle_layout = function() {
-    var layouts = ['layout-a', 'layout-b']; // 'layout-c'
+    var layouts = ['layout-a', 'layout-b', 'layout-c'];
     var $parent = $active_panels.first().parent();
 
     var hasLayout = _.some(layouts, function(layout, i) {
