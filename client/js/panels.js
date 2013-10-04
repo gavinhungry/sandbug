@@ -10,6 +10,7 @@ function(config, utils, $, _, bus) {
 
   var panels = utils.module('panels');
 
+  var layouts = ['layout-a', 'layout-b', 'layout-c'];
   var $active_panels;
 
   /**
@@ -114,38 +115,127 @@ function(config, utils, $, _, bus) {
   };
 
   /**
+   * Get all active panels
+   *
+   * @return {jQuery} active panels
+   */
+  panels.get_panels = function() {
+    return utils.ensure_jquery($active_panels);
+  };
+
+  /**
    * Get a panel by its id
    *
    * @param {String} id - panel id
-   * @return {jQuery} - panel with matching id, null otherwise
+   * @return {jQuery} - panel with matching id
    */
   panels.get_by_id = function(id) {
-    var panel = _.find($active_panels, function(panel) {
+    var panel = _.find(panels.get_panels(), function(panel) {
       return panel.id === id;
     });
 
-    return panel ? $(panel) : null;
+    return utils.ensure_jquery(panel);
+  };
+
+  /**
+   * Get the parent of the active panels
+   *
+   * @return {jQuery} parent of active panels
+   */
+  panels.get_parent = function() {
+    return panels.get_panels().first().parent();
+  };
+
+  /**
+   * Get the input panels
+   *
+   * @return {jQuery} input panels
+   */
+  panels.get_inputs = function() {
+    return panels.get_panels().filter('.input-panel');
+  };
+
+  /**
+   * Get the output panel
+   *
+   * @return {jQuery} out panel
+   */
+  panels.get_output = function() {
+    return panels.get_by_id('output');
+  };
+
+  /**
+   * Get the current layout id
+   *
+   * @return {String} id of current layout
+   */
+  panels.get_layout = function() {
+    var $parent = panels.get_parent();
+
+    return _.find(layouts, function(layout) {
+      return $parent.hasClass(layout);
+    }) || _.first(layouts);
+  };
+
+  /**
+   * Get the master resizer (between input and output panels)
+   *
+   * @return {jQuery} master resizer
+   */
+  panels.get_master_resizer = function() {
+    return panels.get_parent().find('.panel-master-resizer');
+  };
+
+  /**
+   * Set the layout by layout id
+   *
+   * @param {String} layout - id of layout to set
+   */
+  panels.set_layout = function(layout) {
+    // do nothing if an invalid layout or the current layout is requested
+    if (!_.contains(layouts, layout) || layout === panels.get_layout()) {
+      return;
+    }
+
+    var $panels = panels.get_panels();
+    var $parent = panels.get_parent();
+    var $inputs = panels.get_inputs();
+    var $output = panels.get_output();
+    var $master = panels.get_master_resizer();
+
+    $panels.removeAttr('style');
+    $master.removeAttr('style');
+
+    _.each(layouts, $.fn.removeClass.bind($parent));
+    $parent.addClass(layout);
+
+    // additional transition effects
+    if (layout === 'layout-a') {
+      $inputs.css({ 'width':  '33.3%' });
+      $panels.transition({ 'width': '25%' }, config.layout_transition_time);
+    } else if (layout === 'layout-c') {
+      $master.transition({ 'left' : '40%' }, config.layout_transition_time);
+      $inputs.transition({ 'width': '40%' }, config.layout_transition_time);
+      $output.transition({ 'right': 0 }, config.layout_transition_time);
+    }
   };
 
   /**
    * Rotate panels parent through available layouts
    */
   panels.cycle_layout = function() {
-    var layouts = ['layout-a', 'layout-b', 'layout-c'];
-    var $parent = $active_panels.first().parent();
+    var $parent = panels.get_parent();
 
     var hasLayout = _.some(layouts, function(layout, i) {
       if ($parent.hasClass(layout)) {
         var nextLayout = layouts[(i + 1) % layouts.length];
-        $parent.removeClass(layout).addClass(nextLayout);
+        panels.set_layout(nextLayout);
 
-        document.title = nextLayout;
         return true;
       }
     });
 
-    // layout-a is the default 'first', use next layout
-    if (!hasLayout) { $parent.addClass(layouts[1]); }
+    if (!hasLayout) { panels.set_layout(_.first(layouts)); }
   };
 
   return panels;

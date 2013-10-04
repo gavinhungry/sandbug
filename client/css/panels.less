@@ -5,13 +5,18 @@
 @import url('//cdnjs.cloudflare.com/ajax/libs/codemirror/3.16.0/codemirror.css');
 
 @panel_resizer_color: #DDD;
+@panel_resizer_hover_time: 0.1s;
 @panel_options_height: 38px;
 @panel_padding: 4px;
 
 @mirror_font: 'Droid Sans Mono', 'Menlo', monospace;
 @mirror_font_size: 11px;
 
+// should match config.layout_transition_time
+@layout_transition_time: 0.3s;
+
 body.ew, body.ew * { cursor: ew-resize !important; }
+body.ns, body.ns * { cursor: ns-resize !important; }
 
 // layout-a
 #input {
@@ -29,14 +34,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     vertical-align: top;
     width: 25%;
 
-    &.input-panel {
-      border-right: 1px solid @panel_resizer_color;
-
-      // FIXME: this should be disabled when manually dragging
-      transition: width 0.25s;
-    }
-
-    > .panel-options {
+    .panel-options {
       display: flex;
       height: @panel_options_height;
       width: 100%;
@@ -44,18 +42,15 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       border-bottom: 1px solid @panel_resizer_color;
       background-color: #EEE;
 
-      > * {
-        height: 100%;
-      }
-
-      > .panel-controls { flex: 1 auto; }
+      > * { height: 100%; }
+      .panel-controls { flex: 1 auto; }
     }
 
-    > .CodeMirror, iframe {
+    .CodeMirror, iframe {
       height: calc(100% ~'-' @panel_options_height);
     }
 
-    > .CodeMirror {
+    .CodeMirror {
       resize: none;
       padding: 4px;
       cursor: text;
@@ -63,13 +58,18 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       font-family: @mirror_font !important;
       font-size: @mirror_font_size !important;
     }
-
-    > iframe {
-      width: 100%;
-    }
   }
 
-  > .panel-resizer {
+  .input-panel {
+    border-right: 1px solid @panel_resizer_color;
+    transition: width @layout_transition_time;
+  }
+
+  #output {
+    > iframe { width: 100%; }
+  }
+
+  .panel-resizer {
     z-index: 8;
     user-select: none;
     width: 0;
@@ -78,24 +78,20 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -4px;
+      margin-left: -5px;
       cursor: ew-resize;
+
+      background-color: red;
     }
   }
-
-  > .panel-section-resizer { display: none; }
 }
 
-// layout-b
 #input.layout-b {
-
   white-space: normal;
 
   > * { height: 50%; }
-  > .panel, .panel-resizer { height: 50%; }
-
-  > .panel.input-panel {
-    transition: width 0.25s, height 0.25s;
+  .panel.input-panel {
+    transition: width @layout_transition_time, height @layout_transition_time;
     width: 33%;
   }
 
@@ -103,46 +99,68 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   #output {
     border-top: 1px solid @panel_resizer_color;
     transition: none;
-
     width: 100%;
-    height: 50%;
-  }
-}
-
-
-
-#input.layout-c {
-  > .panel.input-panel {
-    transition: width 0.25s, height 0.25s;
-    display: block;
-    border-right: none;
-    border-bottom: 1px solid @panel_resizer_color;
-
-    width: 40%;
-    height: 33.3%;
   }
 
-  #style { height: 33.4%; }
-  #script + .panel-resizer { display: none; }
-
-  #output {
-    position: absolute;
-    right: 0;
-    top: @header_height;
-    width: 60%;
-    border-left: 1px solid @panel_resizer_color;
-  }
-
-
-  > .panel-resizer {
-    width: 40%;
+  .panel-master-resizer {
+    width: 100%;
     height: 0;
 
     > div {
       width: 100%;
       height: 8px;
       margin-top: -4px;
+      margin-left: 0;
       cursor: ns-resize;
+    }
+  }
+}
+
+#input.layout-c {
+  .panel.input-panel {
+    display: block;
+    border-right: none;
+    border-bottom: 1px solid @panel_resizer_color;
+
+    width: 100%; // goes to 40%
+    height: 33.3%;
+  }
+
+  #style { height: 33.4%; }
+  #output {
+    position: absolute;
+    top: @header_height;
+    right: -60%; // goes to 0
+    width: 60%;
+    border-left: 1px solid @panel_resizer_color;
+  }
+
+  .panel-resizer {
+    width: 40%;
+    height: 0;
+
+    > div {
+      width: 100%;
+      height: 8px;
+      margin-top: -5px;
+      margin-left: 0;
+      cursor: ns-resize;
+    }
+  }
+
+  .panel-master-resizer {
+    width: 0;
+    height: 100%;
+    position: absolute;
+    left: 100%; // goes to 40%
+    top: @header_height;
+
+    > div {
+      width: 8px;
+      height: 100%;
+      margin-left: -4px;
+      margin-top: 0;
+      cursor: ew-resize;
     }
   }
 }

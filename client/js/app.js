@@ -26,7 +26,7 @@ function(
 
       this.render(function() {
         // init various components
-        mirrors.init(this.$panels.not(this.$output).children('textarea'));
+        mirrors.init(this.$input_panels.find('textarea'));
         panels.init(this.$panels);
         cdn.init_filter();
 
@@ -84,7 +84,7 @@ function(
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
-          'by_class': ['panel', 'panel-options']
+          'by_class': ['panel', 'input-panel', 'panel-options']
         });
 
         if (_.isFunction(callback)) { callback.call(this); }
