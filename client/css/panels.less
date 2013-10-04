@@ -12,9 +12,6 @@
 @mirror_font: 'Droid Sans Mono', 'Menlo', monospace;
 @mirror_font_size: 11px;
 
-// should match config.layout_transition_time
-@layout_transition_time: 0.3s;
-
 body.ew, body.ew * { cursor: ew-resize !important; }
 body.ns, body.ns * { cursor: ns-resize !important; }
 
@@ -62,7 +59,6 @@ body.ns, body.ns * { cursor: ns-resize !important; }
 
   .input-panel {
     border-right: 1px solid @panel_resizer_color;
-    transition: width @layout_transition_time;
   }
 
   #output {
@@ -80,8 +76,6 @@ body.ns, body.ns * { cursor: ns-resize !important; }
       height: 100%;
       margin-left: -5px;
       cursor: ew-resize;
-
-      background-color: red;
     }
   }
 }
@@ -89,18 +83,12 @@ body.ns, body.ns * { cursor: ns-resize !important; }
 #input.layout-b {
   white-space: normal;
 
-  > * { height: 50%; }
-  .panel.input-panel {
-    transition: width @layout_transition_time, height @layout_transition_time;
-    width: 33%;
-  }
-
-  #style { width: 34%; } // symmetry
   #output {
     border-top: 1px solid @panel_resizer_color;
-    transition: none;
     width: 100%;
   }
+
+  .panel-resizer { height: 50%; }
 
   .panel-master-resizer {
     width: 100%;
@@ -123,10 +111,10 @@ body.ns, body.ns * { cursor: ns-resize !important; }
     border-bottom: 1px solid @panel_resizer_color;
 
     width: 100%; // goes to 40%
-    height: 33.3%;
+    height: 33%;
   }
 
-  #style { height: 33.4%; }
+  #style { height: 34%; }
   #output {
     position: absolute;
     top: @header_height;

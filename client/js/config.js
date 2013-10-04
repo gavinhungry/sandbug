@@ -15,7 +15,7 @@ function($, _) {
     'debug': true,
     'panel_min': 100,
     'cdn_results': 16, // number of filtered CDN results to display at once
-    'layout_transition_time': 300,
+    'layout_ms': 800,
     'github': 'https://github.com/gavinhungry/jsbyte',
     'root': 'http://localhost:8080/', // https://jsbyte.net/
     'frame': 'http://localhost:8081/' // https://frame.jsbyte.net/
