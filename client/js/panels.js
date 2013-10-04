@@ -13,9 +13,16 @@ function(config, utils, $, _, bus) {
   var layouts = ['layout-a', 'layout-b', 'layout-c'];
   var $active_panels;
 
+  /**
+   * Remove resize handlers
+   */
+  panels.disable_resize_handlers = function() {
+    panels.get_all_resizers().off('mousedown').off('dblclick');
+  };
 
-
-
+  /**
+   * Update resize handlers for the current layout
+   */
   panels.update_resize_handlers = function() {
     var $body = $('body');
     var $parent = panels.get_parent();
@@ -23,14 +30,19 @@ function(config, utils, $, _, bus) {
     var layout = panels.get_layout();
 
     utils.log('updating panel resize handlers for layout', layout);
+    panels.disable_resize_handlers();
 
     // remove any old resize handlers
-    var $resizers = panels.get_all_resizers().off('mousedown').off('dblclick');
+    var $resizers = panels.get_all_resizers();
+    var $inputResizers = panels.get_input_resizers();
     var $master = panels.get_master_resizer();
-    var $input_resizers = panels.get_input_resizers();
+    var $inputs = panels.get_input_panels();
     var $output = panels.get_output_panel();
 
-    var $resizer, $prev, $next, prevWidth, prevHeight, nextWidth, nextHeight;
+    var $inputsAll = $inputs.add($inputResizers);
+
+    var $resizer, isInputResizer;
+    var $prev, $next, prevWidth, prevHeight, nextWidth, nextHeight;
     var _prevOffsetX, _prevOffsetY, _nextOffsetX, _nextOffsetY;
     var last_x, last_y; // cursor position during mousemove
     var mde; // mousedown event
@@ -43,9 +55,6 @@ function(config, utils, $, _, bus) {
       $panel.data('x-offset', 0);
       $panel.data('y-offset', 0);
     });
-
-
-
 
     var bind_resize = function(e) {
       $parent.addClass('dragging');
@@ -65,37 +74,47 @@ function(config, utils, $, _, bus) {
       $(document).off('mouseup', unbind_resize);
     };
 
-
-
-
-
-
-
     var do_resize = function(e) {
       if (!$resizer) { return; }
 
       var distanceX = e.pageX - mde.pageX;
-      var distanceY = e.pageX - mde.pageX;
+      var distanceY = e.pageY - mde.pageY;
 
       var prevOffsetX = _prevOffsetX + distanceX;
       var prevOffsetY = _prevOffsetY + distanceY;
       var nextOffsetX = _nextOffsetX - distanceX;
       var nextOffsetY = _nextOffsetY - distanceY;
 
-//      if (($prev.width() < config.panel_min && e.pageX < last_x) ||
-//          ($next.width() < config.panel_min && e.pageX > last_x)) { return; }
+      var newPrevWidth = _.sprintf('calc(%s + %spx)', prevWidth, prevOffsetX);
+      var newNextWidth = _.sprintf('calc(%s + %spx)', nextWidth, nextOffsetX);
+      var newPrevHeight = _.sprintf('calc(%s + %spx)', prevHeight, prevOffsetY);
+      var newNextHeight = _.sprintf('calc(%s + %spx)', nextHeight, nextOffsetY);
+
+      // if (($prev.width() < config.panel_min && e.pageX < last_x) ||
+      // ($next.width() < config.panel_min && e.pageX > last_x)) { return; }
 
       last_x = e.pageX;
       last_y = e.pageY;
 
       if (layout === 'layout-a' ||
-        (layout === 'layout-b' && _.contains(panels.get_input_resizers(), $resizer[0])) ||
-        (layout === 'layout-c' && $resizer.is($master)))
+         (layout === 'layout-b' && isInputResizer) ||
+         (layout === 'layout-c' && !isInputResizer))
       {
-        $prev.css({ 'width': _.sprintf('calc(%s + %spx)', prevWidth, prevOffsetX) });
-        $next.css({ 'width': _.sprintf('calc(%s + %spx)', nextWidth, nextOffsetX) });
+        ((layout === 'layout-c') ? $inputs : $prev).width(newPrevWidth);
+        $next.width(newNextWidth);
+
+        if (layout === 'layout-c') {
+          $inputResizers.width(newPrevWidth);
+          $master.css({ 'left': newPrevWidth });
+        }
       }
 
+      else if ((layout === 'layout-b' && !isInputResizer) ||
+        (layout === 'layout-c' && isInputResizer))
+      {
+        ((layout === 'layout-c') ? $prev : $inputsAll).height(newPrevHeight);
+        $next.height(newNextHeight);
+      }
 
       // store panel offsets
       $prev.data('x-offset', prevOffsetX);
@@ -104,12 +123,9 @@ function(config, utils, $, _, bus) {
       $next.data('y-offset', nextOffsetY);
     };
 
-
-
-
-
     $panels.next('.panel-resizer').on('mousedown', function(e) {
       $resizer = $(e.target).closest('.panel-resizer');
+      isInputResizer = _.contains(panels.get_input_resizers(), $resizer[0]);
 
       e.preventDefault();
       last_x = e.pageX;
@@ -136,14 +152,9 @@ function(config, utils, $, _, bus) {
 
     // reset dividers on double-click
     }).on('dblclick', function(e) {
-      utils.log('default that bitch');
+      // set to default
     });
   };
-
-
-
-
-
 
   /**
    * Initialize a set of panels and panel resizers
@@ -154,21 +165,6 @@ function(config, utils, $, _, bus) {
     $active_panels = $panels;
     panels.update_resize_handlers();
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   /**
    * Get all active panels
@@ -234,7 +230,9 @@ function(config, utils, $, _, bus) {
   };
 
   /**
+   * Get all panel resizers
    *
+   * @return {jQuery} all panel resizers
    */
   panels.get_all_resizers = function() {
     return panels.get_parent().find('.panel-resizer');
@@ -250,7 +248,9 @@ function(config, utils, $, _, bus) {
   };
 
   /**
+   * Get only the input panel resizers
    *
+   * @return {jQuery} input panel resizers
    */
   panels.get_input_resizers = function() {
     var $master = panels.get_master_resizer();
@@ -270,14 +270,16 @@ function(config, utils, $, _, bus) {
 
     var $parent = panels.get_parent();
     var $panels = panels.get_all_panels();
+    var $resizers = panels.get_all_resizers()
+    var $master = panels.get_master_resizer();
     var $inputs = panels.get_input_panels();
     var $output = panels.get_output_panel();
-    var $master = panels.get_master_resizer();
 
     // use the original widths to start the transition
-    var widths = _.map($panels, function(panel) { return $(panel).width(); });
+    var widths = _.map($inputs, function(panel) { return $(panel).width(); });
 
     $panels.removeAttr('style');
+    $resizers.removeAttr('style');
     $master.removeAttr('style');
 
     _.each(layouts, $.fn.removeClass.bind($parent));
@@ -292,6 +294,9 @@ function(config, utils, $, _, bus) {
     }
 
     else if (layout === 'layout-b') {
+      // restore the original width temporarily
+      _.each(widths, function(width, i) { $inputs.eq(i).width(width); });
+
       var $sym = $inputs.eq(1);
       $output.transition({ 'height': '50%' }, config.layout_ms);
       $sym.transition({ 'width': '34%', 'height': '50%' }, config.layout_ms);
