@@ -58,6 +58,7 @@ function(config, $, _) {
    */
   utils.module = function(name, base) {
     var module = base || {};
+    module.priv = module.priv || {};
     if (config.debug) { window[name] = module; }
     return module;
   };
