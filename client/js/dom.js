@@ -34,5 +34,29 @@ function(config, utils, $, _) {
     return context;
   };
 
+  /**
+   * Get a *rounded* approximation of the width of an element, as a percentage
+   *
+   * @param {jQuery} $element - some element in the DOM
+   * @return {String} percentage string
+   */
+  dom.get_percent_width = function($element) {
+    var width = $element.width();
+    var parentWidth = $element.parent().width();
+    return Math.round((width / parentWidth) * 100) + '%';
+  };
+
+  /**
+   * Get a *rounded* approximation of the height of an element, as a percentage
+   *
+   * @param {jQuery} $element - some element in the DOM
+   * @return {String} percentage string
+   */
+  dom.get_percent_height = function($element) {
+    var height = $element.height();
+    var parentHeight = $element.parent().height();
+    return Math.round((height / parentHeight) * 100) + '%';
+  };
+
   return dom;
 });
