@@ -46,6 +46,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       padding: 4px;
       cursor: text;
 
+      background-color: @background_color;
       font-family: @monospace !important;
       font-size: @mirror_font_size !important;
     }
@@ -54,7 +55,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   .panel:not(:first-child) { border-left: 1px solid @panel_resizer_color; }
 
   #output {
-    > iframe { width: 100%; }
+    > iframe {
+      width: 100%;
+      background-color: #F3F3F3;
+    }
   }
 
   .panel-resizer {

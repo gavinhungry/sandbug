@@ -47,7 +47,8 @@ function(config, utils, $, _, bus) {
     var _prevOffsetX, _prevOffsetY, _nextOffsetX, _nextOffsetY;
     var lastX, lastY; // cursor position during mousemove
     var mde; // mousedown event
-    var min = config.panel_min;
+
+    var leftEdge, minEdge, rightEdge;
 
     _.each($panels, function(panel) {
       var $panel = $(panel);
@@ -79,16 +80,18 @@ function(config, utils, $, _, bus) {
     var do_resize = function(e) {
       if (!$resizer) { return; }
 
-      if ((!isHorizResizer && $prev.width()  < min && e.pageX < lastX) ||
-          (!isHorizResizer && $next.width()  < min && e.pageX > lastX) ||
-          (isHorizResizer  && $prev.height() < min && e.pageY < lastY) ||
-          (isHorizResizer  && $next.height() < min && e.pageY > lastY))
-      {
-        return;
-      }
+      var minDistanceX = -1 * (minEdge.left - leftEdge.left - config.panel_min);
+      var maxDistanceX = rightEdge.left - minEdge.left - config.panel_min;
+      var minDistanceY = -1 * (minEdge.top - leftEdge.top - config.panel_min);
+      var maxDistanceY = rightEdge.top - minEdge.top - config.panel_min;
 
       var distanceX = e.pageX - mde.pageX;
       var distanceY = e.pageY - mde.pageY;
+
+      if (distanceX < minDistanceX) { distanceX = minDistanceX; }
+      if (distanceX > maxDistanceX) { distanceX = maxDistanceX; }
+      if (distanceY < minDistanceY) { distanceY = minDistanceY; }
+      if (distanceY > maxDistanceY) { distanceY = maxDistanceY; }
 
       var prevOffsetX = _prevOffsetX + distanceX;
       var prevOffsetY = _prevOffsetY + distanceY;
@@ -142,6 +145,13 @@ function(config, utils, $, _, bus) {
       $prev = $resizer.prevAll('.panel').first();
       $next = $resizer.nextAll('.panel').first();
 
+      leftEdge = $prev.offset();
+      minEdge = $next.offset();
+      rightEdge = {
+        'left': minEdge.left + $next.width(),
+        'top': minEdge.top + $next.height()
+      };
+
       // default widths
       prevWidth = $prev.data('default-width');
       prevHeight = $prev.data('default-height');
@@ -189,21 +199,25 @@ function(config, utils, $, _, bus) {
   var reset_horiz_panel = function(panel, withResizer) {
     var $panel = utils.ensure_jquery(panel);
     var h = $panel.data('default-height');
-    $panel.data('y-offset', 0).transition({ 'height': h }, config.layout_ms);
+    var dur = config.layout_ms;
+
+    $panel.data('y-offset', 0).transition({ 'height': h }, dur);
 
     if (withResizer) {
-      $panel.prev('.panel-resizer').css({ 'height': h });
+      $panel.prev('.panel-resizer').transition({ 'height': h }, dur);
     }
   };
 
   var reset_vert_panel = function(panel, withResizer) {
     var $panel = utils.ensure_jquery(panel);
     var w = $panel.data('default-width');
-    $panel.data('x-offset', 0).transition({ 'width': w }, config.layout_ms);
+    var dur = config.layout_ms;
+
+    $panel.data('x-offset', 0).transition({ 'width': w }, dur);
 
     if (withResizer) {
-      $panel.prev('.panel-resizer').css({ 'width': w });
-      panels.get_master_resizer().css({ 'left': w });
+      $panel.prev('.panel-resizer').transition({ 'width': w }, dur);
+      panels.get_master_resizer().transition({ 'left': w }, dur);
     }
   };
 

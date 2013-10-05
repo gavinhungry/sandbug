@@ -13,7 +13,7 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
-    'panel_min': 100,
+    'panel_min': 48, // config.less:@panel_options_height + 10px
     'cdn_results': 16, // number of filtered CDN results to display at once
     'layout_ms': 300,
     'github': 'https://github.com/gavinhungry/jsbyte',
