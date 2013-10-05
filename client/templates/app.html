@@ -4,6 +4,7 @@
   </div>
 
   <div class='right flex noselect'>
+    <button id='layout'><i class='icon icon-only layout'></i></button>
     <button id='github'><i class='icon-social icon-only github'></i></button>
   </div>
 </header>
@@ -15,8 +16,8 @@
     <!-- MARKUP -->
     <div id='markup' class='panel input-panel'>
       <div class='panel-options'>
+        <button class='panel-switch btn-small'>HTML</button>
         <div class='panel-controls noselect'></div>
-        <button class='panel-switch btn-small right'>HTML</button>
       </div>
       <textarea class='textarea' name='markup' data-mode='htmlmixed'></textarea>
     </div>
@@ -25,8 +26,8 @@
     <!-- STYLE -->
     <div id='style' class='panel input-panel'>
       <div class='panel-options noselect'>
+        <button class='panel-switch btn-small'>CSS</button>
         <div class='panel-controls'></div>
-        <button class='panel-switch btn-small right'>CSS</button>
       </div>
       <textarea class='textarea' name='style' data-mode='css'></textarea>
     </div>
@@ -35,8 +36,8 @@
     <!-- SCRIPT -->
     <div id='script' class='panel input-panel'>
       <div class='panel-options'>
+        <button class='panel-switch btn-small'>JavaScript</button>
         <div class='panel-controls noselect'></div>
-        <button class='panel-switch btn-small right'>JavaScript</button>
       </div>
       <textarea class='textarea' name='script' data-mode='javascript'></textarea>
     </div>
@@ -46,9 +47,6 @@
     <div id='output' class='panel'>
       <div class='panel-options'>
         <div class='panel-controls noselect'></div>
-        <button id='layout' class='btn-small right'>
-          <i class='icon icon-only layout'></i>
-        </button>
         <button id='run' class='btn-small right action'>Run</button>
       </div>
       <iframe name='output'></iframe>

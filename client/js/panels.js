@@ -1,7 +1,7 @@
 /*
  * jsbyte: An interactive JS/HTML/CSS environment
  *
- * panels.js: resizable panels
+ * panels.js: resizable panels and layouts
  */
 
 define(['config', 'utils', 'jquery', 'underscore', 'bus'],
@@ -11,6 +11,7 @@ function(config, utils, $, _, bus) {
   var panels = utils.module('panels');
 
   var layouts = ['layout-a', 'layout-b', 'layout-c'];
+  var layout_transitioning = false;
   var $active_panels;
 
   /**
@@ -41,11 +42,12 @@ function(config, utils, $, _, bus) {
 
     var $inputsAll = $inputs.add($inputResizers);
 
-    var $resizer, isInputResizer;
+    var $resizer, isInputResizer, isHorizontalResizer;
     var $prev, $next, prevWidth, prevHeight, nextWidth, nextHeight;
     var _prevOffsetX, _prevOffsetY, _nextOffsetX, _nextOffsetY;
-    var last_x, last_y; // cursor position during mousemove
+    var lastX, lastY; // cursor position during mousemove
     var mde; // mousedown event
+    var min = config.panel_min;
 
     _.each($panels, function(panel) {
       var $panel = $(panel);
@@ -59,7 +61,7 @@ function(config, utils, $, _, bus) {
     var bind_resize = function(e) {
       $parent.addClass('dragging');
       $output.addClass('nopointer');
-      $body.addClass('ew');
+      $body.addClass(isHorizontalResizer ? 'ns' : 'ew');
 
       $(document).on('mousemove', do_resize);
       $(document).on('mouseup', unbind_resize);
@@ -68,7 +70,7 @@ function(config, utils, $, _, bus) {
     var unbind_resize = function(e) {
       $parent.removeClass('dragging');
       $output.removeClass('nopointer');
-      $body.removeClass('ew');
+      $body.removeClass('ns ew');
 
       $(document).off('mousemove', do_resize);
       $(document).off('mouseup', unbind_resize);
@@ -76,6 +78,14 @@ function(config, utils, $, _, bus) {
 
     var do_resize = function(e) {
       if (!$resizer) { return; }
+
+      if ((!isHorizontalResizer && $prev.width()  < min && e.pageX < lastX) ||
+          (!isHorizontalResizer && $next.width()  < min && e.pageX > lastX) ||
+          (isHorizontalResizer  && $prev.height() < min && e.pageY < lastY) ||
+          (isHorizontalResizer  && $next.height() < min && e.pageY > lastY))
+      {
+        return;
+      }
 
       var distanceX = e.pageX - mde.pageX;
       var distanceY = e.pageY - mde.pageY;
@@ -90,46 +100,42 @@ function(config, utils, $, _, bus) {
       var newPrevHeight = _.sprintf('calc(%s + %spx)', prevHeight, prevOffsetY);
       var newNextHeight = _.sprintf('calc(%s + %spx)', nextHeight, nextOffsetY);
 
-      // if (($prev.width() < config.panel_min && e.pageX < last_x) ||
-      // ($next.width() < config.panel_min && e.pageX > last_x)) { return; }
+      lastX = e.pageX;
+      lastY = e.pageY;
 
-      last_x = e.pageX;
-      last_y = e.pageY;
-
-      if (layout === 'layout-a' ||
-         (layout === 'layout-b' && isInputResizer) ||
-         (layout === 'layout-c' && !isInputResizer))
-      {
-        ((layout === 'layout-c') ? $inputs : $prev).width(newPrevWidth);
-        $next.width(newNextWidth);
-
-        if (layout === 'layout-c') {
-          $inputResizers.width(newPrevWidth);
-          $master.css({ 'left': newPrevWidth });
-        }
-      }
-
-      else if ((layout === 'layout-b' && !isInputResizer) ||
-        (layout === 'layout-c' && isInputResizer))
-      {
-        ((layout === 'layout-c') ? $prev : $inputsAll).height(newPrevHeight);
-        $next.height(newNextHeight);
-      }
-
-      // store panel offsets
-      $prev.data('x-offset', prevOffsetX);
-      $prev.data('y-offset', prevOffsetY);
-      $next.data('x-offset', nextOffsetX);
-      $next.data('y-offset', nextOffsetY);
+      switch(layout) {
+        case 'layout-a':
+          $prev.width(newPrevWidth).data('x-offset', prevOffsetX);
+          $next.width(newNextWidth).data('x-offset', nextOffsetX);
+        break; case 'layout-b':
+          if (isInputResizer) {
+            $prev.width(newPrevWidth).data('x-offset', prevOffsetX);
+            $next.width(newNextWidth).data('x-offset', nextOffsetX);
+          } else { // master resizer
+            $inputsAll.height(newPrevHeight).data('y-offset', prevOffsetY);
+            $next.height(newNextHeight).data('y-offset', nextOffsetY);
+          }
+        break; case 'layout-c':
+          if (isInputResizer) {
+            $prev.height(newPrevHeight).data('y-offset', prevOffsetY);
+            $next.height(newNextHeight).data('y-offset', nextOffsetY);
+          } else { // master resizer
+            $inputsAll.width(newPrevWidth).data('x-offset', prevOffsetX);
+            $next.width(newNextWidth).data('x-offset', nextOffsetX);
+            $master.css({ 'left': newPrevWidth });
+          }
+        break;
+      };
     };
 
     $panels.next('.panel-resizer').on('mousedown', function(e) {
       $resizer = $(e.target).closest('.panel-resizer');
       isInputResizer = _.contains(panels.get_input_resizers(), $resizer[0]);
+      isHorizontalResizer = !!$resizer.width();
 
       e.preventDefault();
-      last_x = e.pageX;
-      last_y = e.pageY;
+      lastX = e.pageX;
+      lastY = e.pageY;
       mde = e;
 
       // find the surrounding panels
@@ -263,10 +269,15 @@ function(config, utils, $, _, bus) {
    * @param {String} layout - id of layout to set
    */
   panels.set_layout = function(layout) {
+    if (layout_transitioning) { return; }
+
     // do nothing if an invalid layout or the current layout is requested
     if (!_.contains(layouts, layout) || layout === panels.get_layout()) {
+      layout_transitioning = false;
       return;
     }
+
+    layout_transitioning = true;
 
     var $parent = panels.get_parent();
     var $panels = panels.get_all_panels();
@@ -285,7 +296,10 @@ function(config, utils, $, _, bus) {
     _.each(layouts, $.fn.removeClass.bind($parent));
     $parent.addClass(layout);
 
-    var callback = _.once(panels.update_resize_handlers);
+    var callback = _.once(function() {
+      panels.update_resize_handlers();
+      layout_transitioning = false;
+    });
 
     // additional transition effects
     if (layout === 'layout-a') {
