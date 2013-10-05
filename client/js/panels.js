@@ -42,7 +42,7 @@ function(config, utils, $, _, bus) {
 
     var $inputsAll = $inputs.add($inputResizers);
 
-    var $resizer, isInputResizer, isHorizontalResizer;
+    var $resizer, isInputResizer, isHorizResizer;
     var $prev, $next, prevWidth, prevHeight, nextWidth, nextHeight;
     var _prevOffsetX, _prevOffsetY, _nextOffsetX, _nextOffsetY;
     var lastX, lastY; // cursor position during mousemove
@@ -61,7 +61,7 @@ function(config, utils, $, _, bus) {
     var bind_resize = function(e) {
       $parent.addClass('dragging');
       $output.addClass('nopointer');
-      $body.addClass(isHorizontalResizer ? 'ns' : 'ew');
+      $body.addClass(isHorizResizer ? 'ns' : 'ew');
 
       $(document).on('mousemove', do_resize);
       $(document).on('mouseup', unbind_resize);
@@ -79,10 +79,10 @@ function(config, utils, $, _, bus) {
     var do_resize = function(e) {
       if (!$resizer) { return; }
 
-      if ((!isHorizontalResizer && $prev.width()  < min && e.pageX < lastX) ||
-          (!isHorizontalResizer && $next.width()  < min && e.pageX > lastX) ||
-          (isHorizontalResizer  && $prev.height() < min && e.pageY < lastY) ||
-          (isHorizontalResizer  && $next.height() < min && e.pageY > lastY))
+      if ((!isHorizResizer && $prev.width()  < min && e.pageX < lastX) ||
+          (!isHorizResizer && $next.width()  < min && e.pageX > lastX) ||
+          (isHorizResizer  && $prev.height() < min && e.pageY < lastY) ||
+          (isHorizResizer  && $next.height() < min && e.pageY > lastY))
       {
         return;
       }
@@ -131,7 +131,7 @@ function(config, utils, $, _, bus) {
     $panels.next('.panel-resizer').on('mousedown', function(e) {
       $resizer = $(e.target).closest('.panel-resizer');
       isInputResizer = _.contains(panels.get_input_resizers(), $resizer[0]);
-      isHorizontalResizer = !!$resizer.width();
+      isHorizResizer = _.contains(panels.get_horiz_resizers(), $resizer[0]);
 
       e.preventDefault();
       lastX = e.pageX;
@@ -158,7 +158,13 @@ function(config, utils, $, _, bus) {
 
     // reset dividers on double-click
     }).on('dblclick', function(e) {
-      // set to default
+      /*
+      var $panels = isHorizResizer ?
+        panels.get_horiz_panels() :
+        panels.get_vert_panels();
+
+      $panels.removeAttr('style').data({ 'x-offset': 0, 'y-offset': 0 });
+      */
     });
   };
 
@@ -223,6 +229,31 @@ function(config, utils, $, _, bus) {
   };
 
   /**
+   * Get only the horizontal panels
+   *
+   * @return {jQuery} horizontal panels
+   */
+  panels.get_horiz_panels = function() {
+    var $panels = panels.get_horiz_resizers().next('.panel');
+    var $first = $panels.first();
+
+    if (_.contains(panels.get_input_panels(), $first[0])) {
+      $panels = $panels.add($first.prevAll('.panel'));
+    }
+
+    return $panels;
+  };
+
+  /**
+   * Get only the vertical panels
+   *
+   * @return {jQuery} vertical panels
+   */
+  panels.get_vert_panels = function() {
+    return panels.get_all_panels().not(panels.get_horiz_panels());
+  };
+
+  /**
    * Get the current layout id
    *
    * @return {String} id of current layout
@@ -261,6 +292,26 @@ function(config, utils, $, _, bus) {
   panels.get_input_resizers = function() {
     var $master = panels.get_master_resizer();
     return panels.get_all_resizers().not($master);
+  };
+
+  /**
+   * Get only the horizontal panel resizers
+   *
+   * @return {jQuery} horizontal panel resizers
+   */
+  panels.get_horiz_resizers = function() {
+    return $(_.filter(panels.get_all_resizers(), function(resizer) {
+      return !!$(resizer).width();
+    }));
+  };
+
+  /**
+   * Get only the vertical panel resizers
+   *
+   * @return {jQuery} vertical panel resizers
+   */
+  panels.get_vert_resizers = function() {
+    return panels.get_all_resizers().not(panels.get_horiz_resizers());
   };
 
   /**
