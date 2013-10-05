@@ -30,7 +30,7 @@ function(config, utils, $, _, bus) {
     var $panels = panels.get_all_panels();
     var layout = panels.get_layout();
 
-    utils.log('updating panel resize handlers for layout', layout);
+    utils.log('updating panel resize handlers for', layout);
     panels.disable_resize_handlers();
 
     // remove any old resize handlers
@@ -156,16 +156,55 @@ function(config, utils, $, _, bus) {
 
       bind_resize(e);
 
-    // reset dividers on double-click
+    // reset panels on double-click
     }).on('dblclick', function(e) {
-      /*
-      var $panels = isHorizResizer ?
-        panels.get_horiz_panels() :
-        panels.get_vert_panels();
+      $resizer = $(e.target).closest('.panel-resizer');
+      isInputResizer = _.contains(panels.get_input_resizers(), $resizer[0]);
+      isHorizResizer = _.contains(panels.get_horiz_resizers(), $resizer[0]);
 
-      $panels.removeAttr('style').data({ 'x-offset': 0, 'y-offset': 0 });
-      */
+      if(isHorizResizer) {
+        _.each(panels.get_horiz_panels(), function(panel) {
+          reset_horiz_panel(panel);
+        });
+
+        if (layout === 'layout-b' && !isInputResizer) {
+          _.each(panels.get_input_panels(), function(panel) {
+            reset_horiz_panel(panel, true);
+          });
+        }
+      } else {
+        _.each(panels.get_vert_panels(), function(panel) {
+          reset_vert_panel(panel);
+        });
+
+        if (layout === 'layout-c' && !isInputResizer) {
+          _.each(panels.get_input_panels(), function(panel) {
+            reset_vert_panel(panel, true);
+          });
+        }
+      }
     });
+  };
+
+  var reset_horiz_panel = function(panel, withResizer) {
+    var $panel = utils.ensure_jquery(panel);
+    var h = $panel.data('default-height');
+    $panel.data('y-offset', 0).transition({ 'height': h }, config.layout_ms);
+
+    if (withResizer) {
+      $panel.prev('.panel-resizer').css({ 'height': h });
+    }
+  };
+
+  var reset_vert_panel = function(panel, withResizer) {
+    var $panel = utils.ensure_jquery(panel);
+    var w = $panel.data('default-width');
+    $panel.data('x-offset', 0).transition({ 'width': w }, config.layout_ms);
+
+    if (withResizer) {
+      $panel.prev('.panel-resizer').css({ 'width': w });
+      panels.get_master_resizer().css({ 'left': w });
+    }
   };
 
   /**
@@ -318,8 +357,9 @@ function(config, utils, $, _, bus) {
    * Set the layout by layout id
    *
    * @param {String} layout - id of layout to set
+   * @param {Boolean} now - if true, do not transition the layout change
    */
-  panels.set_layout = function(layout) {
+  panels.set_layout = function(layout, now) {
     if (layout_transitioning) { return; }
 
     // do nothing if an invalid layout or the current layout is requested
@@ -347,6 +387,7 @@ function(config, utils, $, _, bus) {
     _.each(layouts, $.fn.removeClass.bind($parent));
     $parent.addClass(layout);
 
+    var dur = now ? 0 : config.layout_ms;
     var callback = _.once(function() {
       panels.update_resize_handlers();
       layout_transitioning = false;
@@ -355,7 +396,7 @@ function(config, utils, $, _, bus) {
     // additional transition effects
     if (layout === 'layout-a') {
       $inputs.css({ 'width':  '33.3%' });
-      $panels.transition({ 'width': '25%' }, config.layout_ms, callback);
+      $panels.transition({ 'width': '25%' }, dur, callback);
     }
 
     else if (layout === 'layout-b') {
@@ -363,16 +404,17 @@ function(config, utils, $, _, bus) {
       _.each(widths, function(width, i) { $inputs.eq(i).width(width); });
 
       var $sym = $inputs.eq(1);
-      $output.transition({ 'height': '50%' }, config.layout_ms);
-      $sym.transition({ 'width': '34%', 'height': '50%' }, config.layout_ms);
-      $inputs.not($sym).transition({ 'width': '33%', 'height': '50%' },
-        config.layout_ms, callback);
+      $output.transition({ 'height': '50%' }, dur);
+      $sym.transition({ 'width': '34%', 'height': '50%' }, dur);
+      $inputs.not($sym).transition({
+        'width': '33%', 'height': '50%'
+      }, dur, callback);
     }
 
     else if (layout === 'layout-c') {
-      $master.transition({ 'left' : '40%' }, config.layout_ms);
-      $inputs.transition({ 'width': '40%' }, config.layout_ms);
-      $output.transition({ 'right': 0 }, config.layout_ms, callback);
+      $master.transition({ 'left' : '40%' }, dur);
+      $inputs.transition({ 'width': '40%' }, dur);
+      $output.transition({ 'right': 0 }, dur, callback);
     }
   };
 
