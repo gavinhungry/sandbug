@@ -4,11 +4,14 @@
  * bus.js: Backbone event bus
  */
 
-define(['config', 'utils', 'jquery', 'underscore', 'backbone'],
+define([
+  'config', 'utils', 'jquery', 'underscore',
+  'backbone'
+],
 function(config, utils, $, _, Backbone) {
   'use strict';
 
-  var bus = utils.module('bus', _.extend({}, Backbone.Events));
+  var bus = utils.module('bus', _.clone(Backbone.Events));
 
   /**
    * Turn off all events in a colon-delimited namespace (eg. namespace:event)

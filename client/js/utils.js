@@ -38,7 +38,6 @@ function(config, $, _) {
 
   /**
    * Ensure that a value is an array
-   * (useful when passing an unknown value to Array.forEach)
    *
    * @param {Mixed} value
    * @return {Array}

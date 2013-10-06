@@ -97,6 +97,18 @@ function(config, utils, $, _) {
   };
 
   /**
+   * Unregister a key hander by id
+   *
+   * @param {Integer} hid - handler id
+   */
+  keys.unregister_handler = function(hid) {
+    if (_.has(handlers, hid)) {
+      utils.log('unregistering key handler', hid);
+      delete handlers[hid];
+    }
+  };
+
+  /**
    * Pause a key hander by id
    *
    * @param {Integer} hid - handler id
@@ -129,18 +141,6 @@ function(config, utils, $, _) {
     if (_.has(handlers, hid)) {
       utils.log('toggling key handler', hid);
       handlers[hid].paused = !handlers[hid].paused;
-    }
-  };
-
-  /**
-   * Unregister a key hander by id
-   *
-   * @param {Integer} hid - handler id
-   */
-  keys.unregister_handler = function(hid) {
-    if (_.has(handlers, hid)) {
-      utils.log('unregistering key handler', hid);
-      delete handlers[hid];
     }
   };
 
