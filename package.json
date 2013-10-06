@@ -2,7 +2,7 @@
   "name": "debugger.io",
   "version": "0.0.0",
   "author": "Gavin Lloyd <gavinhungry@gmail.com>",
-  "description": "An interactive JavaScript/HTML/CSS environment",
+  "description": "An interactive web scripting sandbox",
   "license": "MIT",
   "private": true,
 
