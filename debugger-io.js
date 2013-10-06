@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
 /*
- * jsbyte: An interactive JS/HTML/CSS environment
+ * debugger.io: An interactive web scripting sandbox
  */
 
 (function() {
   var requirejs = require('requirejs');
 
   requirejs(['server/server', 'server/frame'],
-  function(jsbyte, frame) {
-    jsbyte.server.listen(jsbyte.port);
+  function(DebuggerIO, frame) {
+    DebuggerIO.server.listen(DebuggerIO.port);
     frame.server.listen(frame.port);
   });
 

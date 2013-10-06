@@ -1,5 +1,5 @@
 /*
- * jsbyte: An interactive JS/HTML/CSS environment
+ * debugger.io: An interactive web scripting sandbox
  *
  * config.js: simple configuration manager
  */
@@ -16,9 +16,9 @@ function($, _) {
     'panel_min': 48, // config.less:@panel_options_height + 10px
     'cdn_results': 16, // number of filtered CDN results to display at once
     'layout_ms': 300,
-    'github': 'https://github.com/gavinhungry/jsbyte',
-    'root': 'http://localhost:8080/', // https://jsbyte.net/
-    'frame': 'http://localhost:8081/' // https://frame.jsbyte.net/
+    'github': 'https://github.com/gavinhungry/debugger.io',
+    'root': 'http://localhost:8080/', // https://debugger.io/
+    'frame': 'http://localhost:8081/' // https://frame.debugger.io/
   };
 
   // options may always be functions, but any option originally declared as a

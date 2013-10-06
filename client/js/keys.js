@@ -1,5 +1,5 @@
 /*
- * jsbyte: An interactive JS/HTML/CSS environment
+ * debugger.io: An interactive web scripting sandbox
  *
  * keys.js: key-command handlers
  */

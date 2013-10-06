@@ -4,7 +4,9 @@ module.exports = function(grunt) {
     less: {
       production: {
         options: { yuicompress: true },
-        files: { 'client/css/jsbyte.min.css': 'client/css/jsbyte.less' }
+        files: {
+          'client/css/debugger-io.min.css': 'client/css/debugger-io.less'
+        }
       }
     }
   });

@@ -1,5 +1,5 @@
 /*
- * jsbyte: An interactive JS/HTML/CSS environment
+ * debugger.io: An interactive web scripting sandbox
  */
 
 (function() {
@@ -56,11 +56,11 @@
   });
 
   require(['jquery', 'app'],
-  function($, jsbyte) {
+  function($, DebuggerIO) {
     'use strict';
 
     $(function() {
-      new jsbyte.App();
+      new DebuggerIO.App();
     });
 
   });

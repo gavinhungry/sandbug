@@ -1,5 +1,5 @@
 /*
- * jsbyte: An interactive JS/HTML/CSS environment
+ * debugger.io: An interactive web scripting sandbox
  *
  * utils.js: utility functions
  */
@@ -74,7 +74,7 @@ function(config, $, _) {
   };
 
   /**
-   * Get an absolute URI on the jsbyte domain
+   * Get an absolute URI on the debugger.io domain
    * TODO: if URI is already absolute, return the string unmodified
    *
    * @param {String} path - relative or absolute URI

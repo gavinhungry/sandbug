@@ -1,5 +1,5 @@
 /*
- * jsbyte: An interactive JS/HTML/CSS environment
+ * debugger.io: An interactive web scripting sandbox
  */
 
 define([
@@ -12,11 +12,11 @@ function(
 ) {
   'use strict';
 
-  var jsbyte = utils.module('jsbyte');
+  var DebuggerIO = utils.module('DebuggerIO');
 
-  jsbyte.App = Backbone.View.extend({
+  DebuggerIO.App = Backbone.View.extend({
     template: 'app',
-    el: '#jsbyte',
+    el: '#debugger-io',
 
     initialize: function() {
       var that = this;
@@ -41,7 +41,7 @@ function(
       'click #run': 'run'
     },
 
-    // submit byte to the frame server
+    // submit bug to the frame server
     run: function() {
       this.$input.submit();
     },
@@ -94,5 +94,5 @@ function(
     }
   });
 
-  return jsbyte;
+  return DebuggerIO;
 });
