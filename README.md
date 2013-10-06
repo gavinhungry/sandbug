@@ -1,8 +1,6 @@
 debugger.io
 ===========
-An interactive web scripting sandbox (eventually). `debugger.io` will also
-support CSS pre-processors ([LESS](http://lesscss.org),
-[Sass/SCSS](http://sass-lang.com)), Markdown and CoffeeScript (eventually).
+An interactive web scripting sandbox (eventually).
 
 Installation
 ============
