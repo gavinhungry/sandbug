@@ -26,7 +26,7 @@ function(
 
       this.render(function() {
         // init various components
-        mirrors.init(this.$input_panels.find('textarea'));
+        mirrors.init(this.$input_panels);
         panels.init(this.$panels);
         cdn.init_filter();
 

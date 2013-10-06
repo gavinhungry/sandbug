@@ -17,21 +17,23 @@ function(config, utils, $, _, bus, CodeMirror) {
   var last_focused;
 
   /**
-   * Initialize a set of textareas to be CodeMirror instances
+   * Initialize a set of panels to contain CodeMirror instances
    *
-   * @param {jQuery} $textareas - set of textareas
+   * @param {jQuery} $panels - set of panels
    */
-  mirrors.init = function($textareas) {
-    $textareas.each(function() {
-      var $textarea = $(this);
+  mirrors.init = function($panels) {
+    _.each($panels, function(panel) {
+      var $panel = $(panel);
+      var $textarea = $panel.children('textarea');
+      var mode = $panel.children('.mode').val();
 
-      var cm = CodeMirror.fromTextArea(this, {
-        mode: $textarea.attr('data-mode'),
-        lineWrapping: true
+      var cm = CodeMirror.fromTextArea($textarea[0], {
+        lineWrapping: true,
+        mode: mode
       });
 
       var mirror = {
-        panel: $textarea.closest('.panel').attr('id'),
+        panel: $panel.attr('id'),
         $textarea: $textarea,
         cm: cm
       };
@@ -75,6 +77,19 @@ function(config, utils, $, _, bus, CodeMirror) {
   };
 
   /**
+   * Get the mode for a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   * @return {String} current mirror mode
+   */
+  mirrors.get_mode = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror) { return null; }
+
+    return mirror.cm.getOption('mode');
+  };
+
+  /**
    * Set the mode for a mirror
    *
    * @param {String | Object} m - panel id or mirror
@@ -82,9 +97,8 @@ function(config, utils, $, _, bus, CodeMirror) {
    */
   mirrors.set_mode = function(m, mode) {
     var mirror = mirrors.get_instance(m);
-    if (!mirror) { return; }
+    if (!mirror || !_.isString(mode)) { return; }
 
-    mode = mode || mirror.$textarea.attr('data-mode');
     mirror.cm.setOption('mode', mode);
   };
 
