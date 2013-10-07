@@ -36,8 +36,9 @@ function(
     },
 
     events: {
-      'click #github': function(e) { window.open(config.github); },
       'click #layout': function(e) { panels.cycle_layout(); },
+      'click #theme': function(e) { $('body').toggleClass('alt-theme'); },
+      'click #github': function(e) { window.open(config.github); },
       'click #run': 'run'
     },
 

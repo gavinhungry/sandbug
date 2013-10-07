@@ -5,7 +5,7 @@
 header {
   width: 100%;
   height: @header_height;
-  background-color: #CFCFCF;
+  background-color: @header_bg_color;
   border-bottom: 4px solid rgba(0,0,0, 0.15);
   padding: 6px;
 
@@ -19,11 +19,11 @@ header {
     font-family: @title_font;
     font-size: @header_height - 20px;
     line-height: 0px;
-    color: #BBB;
+    color: @header_text_color;
 
     > .text {
       opacity: 0;
-      color: #888;
+      color: @header_text_fade_color;
       margin: 0 8px 0 10px;
     }
   }

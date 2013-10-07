@@ -20,7 +20,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   }
 
   > .panel {
-    background-color: @background_color;
+    background-color: @bg_color;
     vertical-align: top;
     width: 25%;
 
@@ -30,7 +30,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       width: 100%;
       padding: @panel_padding;
       border-bottom: 1px solid @panel_resizer_color;
-      background-color: #EEE;
+      background-color: @panel_options_bg_color;
       overflow: hidden;
 
       > * { height: 100%; }
@@ -48,7 +48,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       cursor: text;
       opacity: 0.65;
 
-      background-color: @background_color;
+      background-color: @bg_color;
       font-family: @monospace !important;
       font-size: @mirror_font_size !important;
     }
@@ -56,12 +56,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
   .panel:not(:first-child) { border-left: 1px solid @panel_resizer_color; }
 
-  #output {
-    > iframe {
-      width: 100%;
-      background-color: #F3F3F3;
-    }
-  }
+  #output > iframe { width: 100%; }
 
   .panel-resizer {
     z-index: 8;

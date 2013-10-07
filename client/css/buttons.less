@@ -2,7 +2,7 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-.button (@base: #B5B5B5) {
+.button (@base: @button_default_base_color) {
   background-color: @base;
 
   &:hover { background-color: lighten(@base, 4%); }
@@ -20,7 +20,7 @@ button {
   border: 1px solid rgba(0,0,0, 0.05);
   border-bottom: 3px solid rgba(0,0,0, 0.15);
   border-radius: 1px 1px 2px 2px;
-  box-shadow: 0 0 4px #BBB;
+  box-shadow: 0 0 4px @button_box_shadow_color;
   font-family: @title_font;
   font-weight: bold;
   font-size: 14px;
@@ -28,7 +28,7 @@ button {
   padding: 0 10px;
   margin-left: 0;
   margin-right: 6px;
-  color: #FAFAFA;
+  color: @button_text_color;
   text-align: right;
   text-shadow: 2px 2px 0 rgba(0,0,0, 0.05);
   transition: background-color @button_transition_time;
@@ -42,13 +42,13 @@ button {
     &.icon-only { margin: 0 -6px; }
   }
 
-  .button(#B5B5B5);
-  &.action { .button(#8AC); }
-  &.proceed { .button(#9B6); }
-  &.warning { .button(#DB6); }
-  &.danger { .button(#D66); }
-  &.purple { .button(#A8A); }
-  &.slate { .button(#99A); }
+  .button(@button_default_base_color);
+  &.action { .button(@button_action_base_color); }
+  &.proceed { .button(@button_proceed_base_color); }
+  &.warning { .button(@button_warning_base_color); }
+  &.danger { .button(@button_danger_base_color); }
+  &.purple { .button(@button_purple_base_color); }
+  &.slate { .button(@button_slate_base_color); }
 
   &.btn-small {
     padding-left: 8px;
