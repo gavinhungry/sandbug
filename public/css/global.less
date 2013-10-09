@@ -2,14 +2,15 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
+// must import either config.less or config.alt.less
+
 @import url('//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
 @import url('//fonts.googleapis.com/css?family=Coda');
-@import 'config.less';
 
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }
 
-html, body, #debugger-io {
+html, body, #debuggerio {
   height: 100%;
   overflow: hidden;
   background-color: @bg_color;
@@ -34,3 +35,11 @@ html, body, #debugger-io {
 @import 'inputs.less';
 @import 'overlays.less';
 @import 'panels.less';
+
+
+html, body, #debuggerio {
+  height: 100%;
+  overflow: hidden;
+  background-color: @bg_color;
+  font-family: @font;
+}

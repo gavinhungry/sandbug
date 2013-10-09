@@ -35,17 +35,17 @@ function(config, utils, $, _) {
     utils.log('initializing keys module');
 
     $(document).on('keyup', function(e) {
-      var key_handlers = _.filter(handlers, function(h) {
+      var keyHandlers = _.filter(handlers, function(h) {
         return !h.paused && h.ctrl === e.ctrlKey && h.alt === e.altKey &&
           h.key === e.which;
       });
 
-      if (key_handlers.length) {
+      if (keyHandlers.length) {
         e.preventDefault();
         e.stopPropagation();
       }
 
-      _.each(key_handlers, function(handler) {
+      _.each(keyHandlers, function(handler) {
         var callback = handler ? handler.callback : null;
         if (_.isFunction(callback)) {
           utils.log('executing callback for handler', handler.hid);

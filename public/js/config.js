@@ -13,6 +13,7 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
+    'default_theme': 'std',
     'panel_min': 48, // config.less:@panel_options_height + 10px
     'cdn_results': 16, // number of filtered CDN results to display at once
     'layout_ms': 300,

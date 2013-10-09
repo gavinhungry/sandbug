@@ -7,7 +7,7 @@ Installation
     # npm -g install grunt-cli
     $ npm install
     $ grunt
-    $ node debugger-io.js
+    $ node debuggerio.js
 
 Attributions
 ============

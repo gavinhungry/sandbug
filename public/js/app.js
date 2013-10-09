@@ -4,11 +4,11 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'templates'
+  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'templates', 'themes'
 ],
 function(
   config, utils, $, _,
-  Backbone, cdn, dom, keys, mirrors, panels, templates
+  Backbone, cdn, dom, keys, mirrors, panels, templates, themes
 ) {
   'use strict';
 
@@ -16,13 +16,15 @@ function(
 
   app.App = Backbone.View.extend({
     template: 'app',
-    el: '#debugger-io',
+    el: '#debuggerio',
 
     initialize: function() {
       var that = this;
 
       // fetch the CDN package cache right away
       cdn.update_cache();
+
+      themes.init();
 
       this.render(function() {
         // init various components
@@ -36,8 +38,8 @@ function(
     },
 
     events: {
+      'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
-      'click #theme': function(e) { $('body').toggleClass('alt-theme'); },
       'click #github': function(e) { window.open(config.github); },
       'click #run': 'run'
     },
