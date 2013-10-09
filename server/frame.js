@@ -10,17 +10,21 @@ function(module, path, express, cons, _) {
   var frame = {};
 
   // Express server
-  frame.server = express();
+  var server = express();
   frame.port = 8081;
 
+  frame.start = function() {
+    server.listen(frame.port);
+  };
+
   // use Underscore templates
-  frame.server.engine('html', cons.underscore);
-  frame.server.set('view engine', 'html');
-  frame.server.set('views', __dirname + '/templates');
+  server.engine('html', cons.underscore);
+  server.set('view engine', 'html');
+  server.set('views', __dirname + '/templates');
 
-  frame.server.use(express.bodyParser());
+  server.use(express.bodyParser());
 
-  frame.server.post('/', function(req, res) {
+  server.post('/', function(req, res) {
     res.setHeader('X-XSS-Protection', '0');
 
     res.render('frame', {

@@ -56,11 +56,11 @@
   });
 
   require(['jquery', 'app'],
-  function($, DebuggerIO) {
+  function($, app) {
     'use strict';
 
     $(function() {
-      new DebuggerIO.App();
+      new app.App();
     });
 
   });

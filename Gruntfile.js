@@ -5,7 +5,7 @@ module.exports = function(grunt) {
       production: {
         options: { yuicompress: true },
         files: {
-          'client/css/debugger-io.min.css': 'client/css/debugger-io.less'
+          'public/css/debugger-io.min.css': 'public/css/debugger-io.less'
         }
       }
     }

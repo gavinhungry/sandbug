@@ -6,11 +6,12 @@
 
 (function() {
   var requirejs = require('requirejs');
+  requirejs.config({ baseUrl: 'server/js' });
 
-  requirejs(['server/server', 'server/frame'],
-  function(DebuggerIO, frame) {
-    DebuggerIO.server.listen(DebuggerIO.port);
-    frame.server.listen(frame.port);
+  requirejs(['../app', 'utils'],
+  function(app, utils) {
+    app.start();
+    utils.log('debugger.io running on port ' + app.port);
   });
 
 })();

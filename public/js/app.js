@@ -12,9 +12,9 @@ function(
 ) {
   'use strict';
 
-  var DebuggerIO = utils.module('DebuggerIO');
+  var app = utils.module('app');
 
-  DebuggerIO.App = Backbone.View.extend({
+  app.App = Backbone.View.extend({
     template: 'app',
     el: '#debugger-io',
 
@@ -95,5 +95,5 @@ function(
     }
   });
 
-  return DebuggerIO;
+  return app;
 });

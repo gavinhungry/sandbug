@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'q', 'underscore', 'server/js/utils', 'fs'
+  'module', 'path', 'q', 'underscore', 'utils', 'fs'
 ],
 function(module, path, Q, _, utils, fs) {
   'use strict';
@@ -22,7 +22,7 @@ function(module, path, Q, _, utils, fs) {
     var d = Q.defer();
 
     // /* --- debug: return local file
-    var str = fs.readFileSync('./server/packages.json', 'utf8');
+    var str = fs.readFileSync('./server/cdnjs.json', 'utf8');
     var cdnjs = JSON.parse(str);
 
     var picked = _.map((cdnjs ? cdnjs.packages : []), function(pkg) {
