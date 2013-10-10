@@ -6,10 +6,10 @@ module.exports = function(grunt) {
         options: { yuicompress: true },
         files: {
           'public/css/debuggerio.light.min.css':
-          'source/less/debuggerio.light.less',
+          'src/less/debuggerio.light.less',
 
           'public/css/debuggerio.dark.min.css':
-          'source/less/debuggerio.dark.less'
+          'src/less/debuggerio.dark.less'
         }
       }
     }
