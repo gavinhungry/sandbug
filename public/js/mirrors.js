@@ -93,13 +93,50 @@ function(config, utils, $, _, bus, CodeMirror) {
    * Set the mode for a mirror
    *
    * @param {String | Object} m - panel id or mirror
-   * @param {String} mode - new mode to set, or use the mode from data-mode
+   * @param {String} mode - new mode to set
    */
   mirrors.set_mode = function(m, mode) {
     var mirror = mirrors.get_instance(m);
     if (!mirror || !_.isString(mode)) { return; }
 
     mirror.cm.setOption('mode', mode);
+  };
+
+  /**
+   * Get the theme for a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   * @return {String} current mirror theme
+   */
+  mirrors.get_theme = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror) { return null; }
+
+    return mirror.cm.getOption('theme');
+  };
+
+  /**
+   * Set the theme for a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   * @param {String} theme - new theme to set
+   */
+  mirrors.set_theme = function(m, theme) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror || !_.isString(theme)) { return; }
+
+    mirror.cm.setOption('theme', theme);
+  };
+
+  /**
+   * Set the theme for all mirrors
+   *
+   * @param {String} theme - new theme to set
+   */
+  mirrors.set_theme_all = function(theme) {
+    _.each(instances, function(mirror) {
+      mirrors.set_theme(mirror, theme);
+    });
   };
 
   /**

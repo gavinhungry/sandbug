@@ -13,8 +13,8 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
-    'default_theme': 'std',
-    'panel_min': 48, // config.less:@panel_options_height + 10px
+    'default_theme': 'light',
+    'panel_min': 52, // config.less:@panel_options_height + 10px
     'cdn_results': 16, // number of filtered CDN results to display at once
     'layout_ms': 300,
     'github': 'https://github.com/gavinhungry/debugger.io',

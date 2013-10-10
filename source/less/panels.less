@@ -2,7 +2,7 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-@import url('//cdnjs.cloudflare.com/ajax/libs/codemirror/3.16.0/codemirror.css');
+@import url('//cdnjs.cloudflare.com/ajax/libs/codemirror/3.16.0/codemirror.min.css');
 
 body.ns, body.ns * { cursor: ns-resize !important; }
 body.ew, body.ew * { cursor: ew-resize !important; }
@@ -29,7 +29,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       height: @panel_options_height;
       width: 100%;
       padding: @panel_padding;
-      border-bottom: 1px solid @panel_resizer_color;
+      border-bottom: 4px solid @panel_resizer_color;
       background-color: @panel_options_bg_color;
       overflow: hidden;
 
@@ -46,7 +46,6 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       resize: none;
       padding: 4px;
       cursor: text;
-      opacity: 0.65;
 
       background-color: @bg_color;
       font-family: @monospace !important;
@@ -56,7 +55,13 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
   .panel:not(:first-child) { border-left: 1px solid @panel_resizer_color; }
 
-  #output > iframe { width: 100%; }
+  #output {
+    background-color: @output_bg_color;
+    > iframe {
+      width: 100%;
+      opacity: 0;
+    }
+  }
 
   .panel-resizer {
     z-index: 8;

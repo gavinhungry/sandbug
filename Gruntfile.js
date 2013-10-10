@@ -5,8 +5,11 @@ module.exports = function(grunt) {
       production: {
         options: { yuicompress: true },
         files: {
-          'public/css/debuggerio.std.min.css': 'source/less/debuggerio.std.less',
-          'public/css/debuggerio.alt.min.css': 'source/less/debuggerio.alt.less'
+          'public/css/debuggerio.light.min.css':
+          'source/less/debuggerio.light.less',
+
+          'public/css/debuggerio.dark.min.css':
+          'source/less/debuggerio.dark.less'
         }
       }
     }

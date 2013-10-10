@@ -24,13 +24,12 @@ function(
       // fetch the CDN package cache right away
       cdn.update_cache();
 
-      themes.init();
-
       this.render(function() {
         // init various components
         mirrors.init(this.$input_panels);
         panels.init(this.$panels);
         cdn.init_filter();
+        themes.init();
 
         this.register_keys();
         this.remove_splash();
@@ -46,6 +45,7 @@ function(
 
     // submit bug to the frame server
     run: function() {
+      this.$iframe.css({ 'opacity': '1' });
       this.$input.submit();
     },
 
@@ -74,7 +74,7 @@ function(
         $('#loading').transition({ 'opacity': '0' }, 500, function() {
           $(this).remove();
 
-          that.$title.children('.text').transition({ 'opacity': 1 }, 'slow');
+          that.$title.transition({ 'opacity': 1 }, 'slow');
         });
       }, config.debug ? 0 : 1000);
     },
@@ -89,6 +89,8 @@ function(
           'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
           'by_class': ['panel', 'input-panel', 'panel-options']
         });
+
+        this.$iframe = this.$output.children('iframe');
 
         if (_.isFunction(callback)) { callback.call(this); }
       }, this);

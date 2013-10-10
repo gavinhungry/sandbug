@@ -17,8 +17,8 @@ button {
   user-select: none;
   cursor: pointer;
   height: 33px;
-  border: 1px solid rgba(0,0,0, 0.05);
-  border-bottom: 3px solid rgba(0,0,0, 0.15);
+  border: 1px solid @button_border_color;
+  border-bottom: 3px solid @button_bottom_border_color;
   border-radius: 1px 1px 2px 2px;
   box-shadow: 0 0 4px @button_box_shadow_color;
   font-family: @title_font;
@@ -43,22 +43,25 @@ button {
   }
 
   .button(@button_default_base_color);
+  &.btn-small {
+    .button(@button_small_default_base_color);
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 11px;
+    text-align: center;
+    margin-right: 4px;
+    color: @button_text_color;
+    text-shadow: 1px 1px 0 rgba(0,0,0, 0.2);
+    border-color: @button_small_border_color;
+    border-bottom-color: @button_small_bottom_border_color;
+  }
+
   &.action { .button(@button_action_base_color); }
   &.proceed { .button(@button_proceed_base_color); }
   &.warning { .button(@button_warning_base_color); }
   &.danger { .button(@button_danger_base_color); }
   &.purple { .button(@button_purple_base_color); }
   &.slate { .button(@button_slate_base_color); }
-
-  &.btn-small {
-    padding-left: 8px;
-    padding-right: 8px;
-    font-size: 11px;
-    text-align: center;
-    margin-right: 4px;
-    color: white;
-    text-shadow: 1px 1px 0 rgba(0,0,0, 0.2);
-  }
 }
 
 .right > button, button.right {

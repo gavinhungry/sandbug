@@ -6,8 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
+  'mirrors'
 ],
-function(config, utils, $, _) {
+function(config, utils, $, _, mirrors) {
   'use strict';
 
   var themes = utils.module('themes');
@@ -58,6 +59,7 @@ function(config, utils, $, _) {
 
     if (!themeExists) { return; }
 
+    mirrors.set_theme_all(id === 'dark' ? 'dark' : 'light');
     _.each(theme_map, function(theme, i) {
       theme.stylesheet.disabled = (theme.id !== id);
     });

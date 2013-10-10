@@ -11,11 +11,12 @@ input[type='text'], input[type='search'] {
   font-family: @font;
   font-size: @font_size;
 
-  border: 1px solid fade(@input_border_color, 60%);
-  box-shadow: 0 0 2px fade(@input_border_color, 30%),
+  border: 1px solid fade(@input_border_color, 80%);
+  box-shadow: 0 0 2px fade(@input_border_color, 70%),
     inset 0 0 4px fade(@input_border_color, 10%);
 
   transition: border-color @input_transition_time,
+    background-color @input_transition_time,
     box-shadow @input_transition_time;
 
   &:focus {
@@ -26,4 +27,8 @@ input[type='text'], input[type='search'] {
   }
 
   &:disabled { background-color: @input_bg_disabled_color; }
+
+  &::-webkit-input-placeholder { color: @input_placeholder_color; }
+  &::-moz-placeholder { color: @input_placeholder_color; }
+  &:-ms-input-placeholder { color: @input_placeholder_color; }
 }
