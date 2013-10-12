@@ -4,6 +4,8 @@
 
 @import 'codemirror-light.less';
 
+* { transition: background 0.2s, border-color 0.2s; }
+
 @bg_color: #FCFCFC;
 @output_bg_color: #EEE;
 
@@ -34,8 +36,8 @@
 @button_box_shadow_color: rgba(0,0,0, 0.15);
 @button_text_color: #FAFAFA;
 
-@button_border_color: rgba(0,0,0, 0.15);
-@button_bottom_border_color: rgba(0,0,0, 0.2);
+@button_border_color: rgba(0,0,0, 0.2);
+@button_bottom_border_color: rgba(0,0,0, 0.25);
 @button_small_border_color: @button_border_color;
 @button_small_bottom_border_color: @button_bottom_border_color;
 
@@ -55,7 +57,6 @@
 @input_bg_color: #F8F8F8;
 @input_bg_focus_color: #F4F4FF;
 @input_text_color: #666;
-@input_transition_time: 0.1s;
 @input_bg_disabled_color: #EEE;
 @input_placeholder_color: #999;
 
@@ -63,9 +64,10 @@
 @filter_results_bg_color: #F5F5F5;
 @filter_results_border_color: #BBB;
 @filter_results_box_shadow_color: rgba(0,0,0, 0.15);
-
 @filter_result_text_color: #777;
 @filter_result_box_shadow_color: rgba(0,0,0, 0.05);
+@filter_result_version_text_color: @filter_result_text_color;
 @filter_result_version_bg_color: #E5E5E5;
 @filter_result_version_border_color: #AAA;
 @filter_result_active_bg_color: #D7DDE5;
+@filter_result_active_border_color: darken(@filter_result_active_bg_color, 10%);

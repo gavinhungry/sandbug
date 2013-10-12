@@ -10,12 +10,12 @@
   position: absolute;
   overflow: hidden;
 
-  margin-top: @panel_padding * 2;
+  margin-top: @panel_padding * 2 + 4px;
   padding: 4px;
   left: @panel_padding;
   right: @panel_padding;
 
-  background-color: @filter_results_bg_color;
+  background: @filter_results_bg_color;
   border: 1px solid @filter_results_border_color;
   box-shadow: 0 0 4px @filter_results_box_shadow_color;
 
@@ -37,7 +37,7 @@
 
     > li {
       color: @filter_result_text_color;
-      text-shadow: 1px 1px 0 @filter_result_box_shadow_color;
+      text-shadow: 1px 1px 0 darken(@filter_results_bg_color, 10%);
       overflow: hidden;
       user-select: none;
       cursor: default;
@@ -46,6 +46,8 @@
       padding: 5px 4px 3px 4px;
       margin: 0 0 2px 0;
 
+      transition: none;
+
       &:last-child { margin-bottom: 0; }
 
       border: 1px solid transparent;
@@ -53,24 +55,31 @@
       border-radius: 1px;
 
       &:hover {
-        background-color: lighten(@filter_result_active_bg_color, 5%);
-        border-color: darken(@filter_result_active_bg_color, 5%);
-        > .right { border-color: darken(@filter_result_active_bg_color, 10%); }
+        background: lighten(@filter_result_active_bg_color, 5%);
+        border-color: @filter_result_active_border_color;
+        > .right {
+          border-color: darken(@filter_result_active_bg_color, 15%)
+        }
       }
 
       &.active {
-        background-color: @filter_result_active_bg_color;
-        border-color: darken(@filter_result_active_bg_color, 10%);
-        > .right { border-color: darken(@filter_result_active_bg_color, 15%); }
+        background: @filter_result_active_bg_color;
+        border-color: darken(@filter_result_active_border_color, 3%);
+        > .right {
+          border-color: darken(@filter_result_active_bg_color, 20%)
+        }
       }
 
       > .right { // version
-        background-color: @filter_result_version_bg_color;
-        border: 1px solid @filter_result_version_border_color;
+        color: @filter_result_version_text_color;
+        text-shadow: 1px 1px 0 darken(@filter_result_version_bg_color, 5%);
+        background: @filter_result_version_bg_color;
+        border: 1px solid darken(@filter_result_active_bg_color, 10%);
         border-radius: 2px;
         padding: 2px;
         margin-top: -2px;
         margin-left: -100%;
+        transition: none;
       }
     }
   }

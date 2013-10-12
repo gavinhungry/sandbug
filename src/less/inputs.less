@@ -5,7 +5,7 @@
 textarea:focus, input:focus, button:focus { outline: none; }
 
 input[type='text'], input[type='search'] {
-  background-color: @input_bg_color;
+  background: @input_bg_color;
   color: @input_text_color;
   padding: 2px 4px;
   font-family: @font;
@@ -15,18 +15,14 @@ input[type='text'], input[type='search'] {
   box-shadow: 0 0 2px fade(@input_border_color, 70%),
     inset 0 0 4px fade(@input_border_color, 10%);
 
-  transition: border-color @input_transition_time,
-    background-color @input_transition_time,
-    box-shadow @input_transition_time;
-
   &:focus {
-    background-color: @input_bg_focus_color;
+    background: @input_bg_focus_color;
     border-color: fade(@input_border_focus_color, 95%);
     box-shadow: 0 0 2px fade(@input_border_focus_color, 60%),
       inset 0 0 4px fade(@input_border_focus_color, 30%);
   }
 
-  &:disabled { background-color: @input_bg_disabled_color; }
+  &:disabled { background: @input_bg_disabled_color; }
 
   &::-webkit-input-placeholder { color: @input_placeholder_color; }
   &::-moz-placeholder { color: @input_placeholder_color; }

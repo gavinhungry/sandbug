@@ -20,7 +20,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   }
 
   > .panel {
-    background-color: @bg_color;
+    background: @bg_color;
     vertical-align: top;
     width: 25%;
 
@@ -30,7 +30,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       width: 100%;
       padding: @panel_padding;
       border-bottom: 4px solid @panel_resizer_color;
-      background-color: @panel_options_bg_color;
+      background: @panel_options_bg_color;
       overflow: hidden;
 
       > * { height: 100%; }
@@ -47,7 +47,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       padding: 4px;
       cursor: text;
 
-      background-color: @bg_color;
+      background: @bg_color;
       font-family: @monospace !important;
       font-size: @mirror_font_size !important;
     }
@@ -56,7 +56,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   .panel:not(:first-child) { border-left: 1px solid @panel_resizer_color; }
 
   #output {
-    background-color: @output_bg_color;
+    background: @output_bg_color;
     > iframe {
       width: 100%;
       opacity: 0;
@@ -83,6 +83,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
   #output {
     border-top: 1px solid @panel_resizer_color;
+    border-left: none;
     width: 100%;
   }
 
@@ -107,12 +108,14 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     display: block;
     border-right: none;
     border-bottom: 1px solid @panel_resizer_color;
+    border-left: none;
 
     width: 100%; // goes to 40%
     height: 33%;
   }
 
   #style { height: 34%; }
+  #script { border-bottom: none; }
   #output {
     position: absolute;
     top: @header_height;

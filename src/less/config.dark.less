@@ -4,6 +4,8 @@
 
 @import 'codemirror-dark.less';
 
+* { transition: background 0.2s, border-color 0.2s; }
+
 @bg_color: #2C2C2C;
 @output_bg_color: #444;
 
@@ -21,7 +23,7 @@
 
 // Panels
 @panel_padding: 4px;
-@panel_resizer_color: #666;
+@panel_resizer_color: #555;
 @panel_resizer_hover_time: 0.1s;
 @panel_options_height: 42px; // keep in sync with config.panel_min
 @panel_options_bg_color: #777;
@@ -50,22 +52,22 @@
 @button_slate_base_color: #99A;
 
 // Inputs
-@input_border_color: #333;
-@input_border_focus_color: #348;
-@input_bg_color: #CCC;
-@input_bg_focus_color: #DDD;
-@input_text_color: #666;
-@input_transition_time: 0.1s;
+@input_border_color: #3F3F3F;
+@input_border_focus_color: #3A3A40;
+@input_bg_color: #555;
+@input_bg_focus_color: #58585C;
+@input_text_color: #CCC;
 @input_bg_disabled_color: #BBB;
-@input_placeholder_color: #444;
+@input_placeholder_color: #999;
 
 // CDN filter
-@filter_results_bg_color: #F5F5F5;
-@filter_results_border_color: #BBB;
-@filter_results_box_shadow_color: rgba(0,0,0, 0.15);
-
-@filter_result_text_color: #777;
-@filter_result_box_shadow_color: rgba(0,0,0, 0.05);
-@filter_result_version_bg_color: #E5E5E5;
-@filter_result_version_border_color: #AAA;
-@filter_result_active_bg_color: #D7DDE5;
+@filter_results_bg_color: #666;
+@filter_results_border_color: #888;
+@filter_results_box_shadow_color: rgba(255,255,255, 0.15);
+@filter_result_text_color: #DDD;
+@filter_result_box_shadow_color: rgba(255,255,255, 0.1);
+@filter_result_version_text_color: #333;
+@filter_result_version_bg_color: #959595;
+@filter_result_version_border_color: #444;
+@filter_result_active_bg_color: #676D75;
+@filter_result_active_border_color: darken(@filter_result_active_bg_color, 13%);

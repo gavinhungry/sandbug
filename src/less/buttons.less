@@ -3,11 +3,11 @@
  */
 
 .button (@base: @button_default_base_color) {
-  background-color: @base;
+  background: @base;
 
-  &:hover { background-color: lighten(@base, 4%); }
+  &:hover { background: lighten(@base, 4%); }
   &:active {
-    background-color: darken(@base, 4%);
+    background: darken(@base, 4%);
     padding-top: 2px;
   }
 }
@@ -31,7 +31,7 @@ button {
   color: @button_text_color;
   text-align: right;
   text-shadow: 2px 2px 0 rgba(0,0,0, 0.05);
-  transition: background-color @button_transition_time;
+  transition: background @button_transition_time;
 
   > i.icon, > i.icon-social {
     width: 22px;
