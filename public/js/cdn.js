@@ -256,12 +256,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
     show: function() {
       this.$el.css({ 'display': 'block' });
-
-      // adjust margins when overflowing
-      var overflow = this.$ol[0].scrollHeight > this.$ol[0].offsetHeight;
-      this.$ol.toggleClass('overflow', overflow);
-
-      this.$el.transition({ 'opacity': 1 }, 'fast');
+      dom.transition_with_scrollbar(this.$el, { 'opacity': 1 });
     },
 
     hide: function(callback) {
@@ -272,7 +267,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
       this.$el.transition({ 'opacity': 0 }, 'fast', function() {
         this.css({ 'display': 'none' });
-        if (_.isFunction(callback)) { callback.call(that); }
+        _.isFunction(callback) && callback.call(that);
       });
     },
 

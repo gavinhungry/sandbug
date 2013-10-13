@@ -74,7 +74,7 @@ function(config, utils, $, _) {
   /**
    * Register a new key callback function
    *
-   * @param {Map} opts - { ctrl: Boolean, alt: Boolean, key: String }
+   * @param {Object} opts - { ctrl: Boolean, alt: Boolean, key: String }
    * @param {Function} callback - callback function, passed up event
    * @return {Integer} unique handler id, null if opts.key is undefined
    */

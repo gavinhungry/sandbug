@@ -58,5 +58,56 @@ function(config, utils, $, _) {
     return Math.round((height / parentHeight) * 100) + '%';
   };
 
+  /**
+   * Determine is a node is currently detached from the DOM
+   *
+   * @param {jQuery} $element - some element which may or may not be in the DOM
+   * @param {Document} [doc] - document to check, defaults to window.document
+   * @return {Boolean} true if $element is not in the DOM, false otherwise
+   */
+  dom.is_detached = function($element, doc) {
+    doc = doc || window.document;
+    var docEl = doc.documentElement;
+
+    return !$element.closest(docEl).length;
+  };
+
+  /**
+   * (Re)initialize an element with a nanoScrollerJS scrollbar
+   * $element may need to have the 'has-scrollbar' class removed first
+   *
+   * @param {jQuery} $element - some .nano element in the DOM
+   */
+  dom.init_scrollbar = function($element) {
+    if (!$element.hasClass('nano') || !$element.children('.content').length) {
+      return;
+    }
+
+    // remove the old nanoscroller property if the content has been replaced
+    if ($element[0].nanoscroller) {
+      var $nanoContent = $element[0].nanoscroller.$content;
+      if (dom.is_detached($nanoContent)) { $element[0].nanoscroller = null; }
+    }
+
+    $element.nanoScroller();
+  };
+
+  /**
+   * Transition an element, then (re)initialize a nanoScrollerJS scrollbar
+   *
+   * @param {jQuery} $element - some .nano element in the DOM
+   * @param {Object} [opts] - options to $.fn.transition
+   * @param {Function} [callback] - callback to $.fn.transition
+   */
+  dom.transition_with_scrollbar = function($element, opts, callback) {
+      opts = opts || {};
+
+      $element.removeClass('has-scrollbar');
+      $element.transition(opts, 'fast', function() {
+        dom.init_scrollbar($element);
+        _.isFunction(callback) && callback.call($element[0]);
+      });
+  };
+
   return dom;
 });

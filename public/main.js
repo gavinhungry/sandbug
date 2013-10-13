@@ -20,6 +20,7 @@
       // plugins
       ui: CDNJS + '/jqueryui/1.10.3/jquery-ui.min',
       transit: CDNJS + '/jquery.transit/0.9.9/jquery.transit.min',
+      nano: CDNJS + '/jquery.nanoscroller/0.7.2/jquery.nanoscroller.min',
       string: CDNJS + '/underscore.string/2.3.3/underscore.string.min',
       inflection: 'plugins/underscore.inflection.min',
       codemirror_js: CDNJS + '/codemirror/3.16.0/mode/javascript/javascript.min',
@@ -45,6 +46,7 @@
       // plugins
       ui: { deps: ['jqueryjs'], exports: '$.ui' },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
+      nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
       codemirror_js: { deps: ['codemirrorjs'] },

@@ -13,7 +13,7 @@ function($, _) {
   // default options
   var options = {
     'debug': true,
-    'default_theme': 'light',
+    'default_theme': 'dark',
     'panel_min': 52, // config.less:@panel_options_height + 10px
     'cdn_results': 16, // number of filtered CDN results to display at once
     'layout_ms': 300,
@@ -25,17 +25,17 @@ function($, _) {
   // options may always be functions, but any option originally declared as a
   // boolean must either be a boolean or a function that returns a boolean
   _.each(options, function(value, option) {
-    var is_bool = _.isBoolean(value);
+    var isBool = _.isBoolean(value);
 
     Object.defineProperty(config, option, {
       get: function() {
         var val = options[option];
-        var is_fn = _.isFunction(val);
-        return is_fn ? (is_bool ? !!val() : val()) : val;
+        var isFn = _.isFunction(val);
+        return isFn ? (isBool ? !!val() : val()) : val;
       },
       set: function(val) {
-        var is_fn = _.isFunction(val);
-        options[option] = (is_bool && !is_fn) ? !!val : val;
+        var isFn = _.isFunction(val);
+        options[option] = (isBool && !isFn) ? !!val : val;
       }
     });
   });

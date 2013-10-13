@@ -26,7 +26,7 @@ function(module, path, Q, _, utils, fs) {
     var cdnjs = JSON.parse(str);
 
     var picked = _.map((cdnjs ? cdnjs.packages : []), function(pkg) {
-      return _.pick(pkg, 'name', 'filename', 'version');
+      return _.pick(pkg, 'name', 'description', 'filename', 'version');
     });
 
     d.resolve(picked);
@@ -39,7 +39,7 @@ function(module, path, Q, _, utils, fs) {
       port: 443
     }).then(function(result) {
       var picked = _.map((result ? result.packages : []), function(pkg) {
-        return _.pick(pkg, 'name', 'filename', 'version');
+        return _.pick(pkg, 'name', 'description', 'filename', 'version');
       });
 
       d.resolve(picked);

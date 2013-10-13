@@ -92,7 +92,7 @@ function(
 
         this.$iframe = this.$output.children('iframe');
 
-        if (_.isFunction(callback)) { callback.call(this); }
+        _.isFunction(callback) && callback.call(this);
       }, this);
 
       return this;
