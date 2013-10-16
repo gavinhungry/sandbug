@@ -53,7 +53,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     }
   }
 
-  .panel:not(:first-child) { border-left: 1px solid @panel_resizer_color; }
+  .panel:not(:first-child) { border-left: 2px solid @panel_resizer_color; }
 
   #output {
     background: @output_bg_color;
@@ -72,8 +72,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -5px;
+      margin-left: -3px;
       cursor: ew-resize;
+      transition: background 0.1s;
+      transition-delay: 0.05s;
     }
   }
 }
@@ -82,7 +84,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   white-space: normal;
 
   #output {
-    border-top: 1px solid @panel_resizer_color;
+    border-top: 2px solid @panel_resizer_color;
     border-left: none;
     width: 100%;
   }
@@ -96,7 +98,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     > div {
       width: 100%;
       height: 8px;
-      margin-top: -4px;
+      margin-top: -3px;
       margin-left: 0;
       cursor: ns-resize;
     }
@@ -107,7 +109,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   .panel.input-panel {
     display: block;
     border-right: none;
-    border-bottom: 1px solid @panel_resizer_color;
+    border-bottom: 2px solid @panel_resizer_color;
     border-left: none;
 
     width: 100%; // goes to 40%
@@ -121,7 +123,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     top: @header_height;
     right: -60%; // goes to 0
     width: 60%;
-    border-left: 1px solid @panel_resizer_color;
+    border-left: 2px solid @panel_resizer_color;
   }
 
   .panel-resizer {
@@ -147,7 +149,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -4px;
+      margin-left: -3px;
       margin-top: 0;
       cursor: ew-resize;
     }

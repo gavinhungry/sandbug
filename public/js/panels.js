@@ -60,7 +60,7 @@ function(config, utils, bus, $, _) {
     });
 
     var bind_resize = function(e) {
-      $parent.addClass('dragging');
+      $resizer.addClass('dragging');
       $output.addClass('nopointer');
       $body.addClass(isHorizResizer ? 'ns' : 'ew');
 
@@ -69,7 +69,7 @@ function(config, utils, bus, $, _) {
     };
 
     var unbind_resize = function(e) {
-      $parent.removeClass('dragging');
+      $resizer.removeClass('dragging');
       $output.removeClass('nopointer');
       $body.removeClass('ns ew');
 
