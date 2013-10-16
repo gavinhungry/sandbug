@@ -80,8 +80,8 @@ function(
     },
 
     render: function(callback) {
-      templates.get(this.template, function(template) {
-        var html = _.template(template, { frame: config.frame });
+      templates.get(this.template, this).done(function(template_fn) {
+        var html = template_fn({ frame: config.frame });
         this.$el.html(html);
 
         // cache elements to the Backbone View
@@ -93,7 +93,7 @@ function(
         this.$iframe = this.$output.children('iframe');
 
         _.isFunction(callback) && callback.call(this);
-      }, this);
+      });
 
       return this;
     }

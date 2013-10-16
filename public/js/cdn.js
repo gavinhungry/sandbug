@@ -145,8 +145,8 @@ function(config, utils, $, _, Backbone, bus, templates) {
     render: function() {
       var that = this;
 
-      templates.get(this.template, function(template) {
-        var html = template;
+      templates.get(this.template, this).done(function(template_fn) {
+        var html = template_fn();
         this.$el.html(html);
         this.$cdn = this.$el.find('#cdn');
 
@@ -163,7 +163,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
             collection: that.resultsCollection
           });
         });
-      }, this);
+      });
     }
   });
 
@@ -207,10 +207,10 @@ function(config, utils, $, _, Backbone, bus, templates) {
     },
 
     render: function() {
-      templates.get(this.template, function(template) {
-        var html = _.template(template, { pkg: this.model.toJSON() });
+      templates.get(this.template, this).done(function(template_fn) {
+        var html = template_fn({ pkg: this.model.toJSON() });
         this.$el.html(html);
-      }, this);
+      });
     }
   });
 

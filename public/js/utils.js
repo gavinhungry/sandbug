@@ -163,5 +163,15 @@ function(config, $, _) {
     return map ? map.fn(uri, map.type) : null;
   };
 
+  /**
+   * Create a promise that resolves to a value now
+   *
+   * @param {Mixed} value - value that the promise will resolve to
+   * @return {Promise} promise to return value
+   */
+  utils.promise_now = function(value) {
+    return $.Deferred().resolve(value).promise();
+  };
+
   return utils;
 });
