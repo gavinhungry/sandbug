@@ -14,9 +14,10 @@ function($, _) {
   var options = {
     'debug': true,
     'default_theme': 'dark',
-    'panel_min': 52, // config.less:@panel_options_height + 10px
-    'cdn_results': 16, // number of filtered CDN results to display at once
-    'layout_ms': 300,
+    'panel_min': 52, // config.*.less:@panel_options_height + 10px
+    'cdn_results': 32, // number of filtered CDN results to display at once
+    'cdn_height': 298, // px, cdn.less:#cdn-results max-height
+    'layout_time': 300, // ms
     'github': 'https://github.com/gavinhungry/debugger.io',
     'root': 'http://localhost:8080/', // https://debugger.io/
     'frame': 'http://localhost:8081/' // https://frame.debugger.io/

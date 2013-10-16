@@ -199,7 +199,7 @@ function(config, utils, bus, $, _) {
   var reset_horiz_panel = function(panel, withResizer) {
     var $panel = utils.ensure_jquery(panel);
     var h = $panel.data('default-height');
-    var dur = config.layout_ms;
+    var dur = config.layout_time;
 
     $panel.data('y-offset', 0).transition({ 'height': h }, dur);
 
@@ -211,7 +211,7 @@ function(config, utils, bus, $, _) {
   var reset_vert_panel = function(panel, withResizer) {
     var $panel = utils.ensure_jquery(panel);
     var w = $panel.data('default-width');
-    var dur = config.layout_ms;
+    var dur = config.layout_time;
 
     $panel.data('x-offset', 0).transition({ 'width': w }, dur);
 
@@ -401,7 +401,7 @@ function(config, utils, bus, $, _) {
     _.each(layouts, $.fn.removeClass.bind($parent));
     $parent.addClass(layout);
 
-    var dur = now ? 0 : config.layout_ms;
+    var dur = now ? 0 : config.layout_time;
     var callback = _.once(function() {
       panels.update_resize_handlers();
       layout_transitioning = false;

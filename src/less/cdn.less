@@ -8,7 +8,7 @@
 
   z-index: 4;
   position: absolute;
-  max-height: 300px;
+  max-height: 298px; // sync with config.cdn_height
 
   width: calc(100% ~'-' @panel_padding * 2);
   margin-top: @panel_padding * 2 + 4px;
@@ -28,7 +28,7 @@
     padding: 4px 0;
   }
 
-  > ol {
+  > .content > ol {
     overflow-x: hidden;
     padding: 4px;
 
@@ -74,5 +74,11 @@
         opacity: 0.8;
       }
     }
+
+    &.overflow {
+      color: red !important;
+      padding-right: 14px;
+    }
+
   }
 }

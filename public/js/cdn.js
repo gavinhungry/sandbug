@@ -15,7 +15,6 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
   var cdnjs = '%s://cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
   var cache = null;
-  var lastResultsView;
 
   /**
    * Check if client-side CDN package cache exists
@@ -138,19 +137,8 @@ function(config, utils, $, _, Backbone, bus, templates) {
         // limit the number of displayed results for performance
         var limited = _.first(sorted, config.cdn_results);
 
-        // create a new cdn.FilterResultsView with the updated results
-        var results = new cdn.FilterResults(limited);
-
-        if (lastResultsView instanceof cdn.FilterResultsView) {
-          lastResultsView.stopListening();
-          bus.off_for(lastResultsView);
-        }
-
-        lastResultsView = new cdn.FilterResultsView({
-          filter: filter,
-          collection: results,
-          $el: that.$el.children('#cdn-results')
-        });
+        that.resultsView.set_filter(filter);
+        that.resultsCollection.reset(limited);
       });
     },
 
@@ -169,7 +157,11 @@ function(config, utils, $, _, Backbone, bus, templates) {
 
         cdn.get_cache().done(function(packages) {
           that.$cdn.prop('disabled', false);
-          that.update();
+
+          that.resultsCollection = new cdn.FilterResults([]);
+          that.resultsView = new cdn.FilterResultsView({
+            collection: that.resultsCollection
+          });
         });
       }, this);
     }
@@ -238,34 +230,47 @@ function(config, utils, $, _, Backbone, bus, templates) {
    * @param {String} filter - filter used
    */
   cdn.FilterResultsView = Backbone.View.extend({
-    template: 'cdn-results',
+    el: '#cdn-results',
 
     initialize: function(options) {
-      _.extend(this, _.pick(this.options, 'filter'));
-      this.setElement(this.options.$el);
-
-      bus.on('cdn:result:select mirror:focus', this.hide, this);
+      this.collection.on('reset', this.render, this);
 
       bus.off_ns('cdn:results');
       bus.on('cdn:results:prev-active', this.prev_active, this);
       bus.on('cdn:results:next-active', this.next_active, this);
       bus.on('cdn:results:select-active', this.select_active, this);
 
+      bus.on('cdn:result:select mirror:focus', this.hide, this);
+
+      this.$content = this.$el.children('.content');
+      this.filter = '';
       this.render();
+    },
+
+    set_filter: function(filter) {
+      this.filter = filter;
     },
 
     show: function() {
       this.$el.css({ 'display': 'block' });
+
+      // adjust margins when overflowing
+      var overflow = dom.is_overflowing_with_scrollbar(this.$ol);
+      this.$ol.toggleClass('overflow', overflow);
+
+      var maxHeight = Math.min(this.$ol.outerHeight() + 2, config.cdn_height);
+      this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
+
+      dom.scrollbar_scroll_top(this.$el);
       dom.transition_with_scrollbar(this.$el, { 'opacity': 1 });
     },
 
-    hide: function(callback) {
+    hide: function(callback, stopFn) {
       var that = this;
 
-      this.stopListening();
-      bus.off_for(this);
-
       this.$el.transition({ 'opacity': 0 }, 'fast', function() {
+        if (_.isFunction(stopFn) && stopFn() === true) { return; }
+
         this.css({ 'display': 'none' });
         _.isFunction(callback) && callback.call(that);
       });
@@ -303,24 +308,28 @@ function(config, utils, $, _, Backbone, bus, templates) {
     scroll_active: function() {
       var $active = this.$ol.children().filter('.active').first();
       if ($active.length && this.$ol.hasClass('overflow')) {
-        var $parent = this.$ol.parent();
+        var paddingTop = parseInt(this.$ol.css('padding-top'), 10);
+        var paddingBottom = parseInt(this.$ol.css('padding-bottom'), 10);
 
-        var paddingTop = parseInt($parent.css('padding-top'), 10);
-        var paddingBottom = parseInt($parent.css('padding-bottom'), 10);
-        var olHeight = this.$ol.outerHeight();
-        var olTop = this.$ol.scrollTop();
-        var olBottom = olTop + olHeight;
+        var contentHeight = this.$content.outerHeight();
+        var contentTop = this.$content.scrollTop();
+        var contentBottom = contentTop + contentHeight;
+
         var activeHeight = $active.outerHeight();
-        var activeTop = olTop + $active.position().top;
+        var activeTop = contentTop + $active.position().top;
         var activeBottom = activeTop + activeHeight;
 
+        var scrollTop;
+
         // too far down
-        if (activeBottom > olBottom) {
-          this.$ol.scrollTop(activeBottom - olHeight - paddingBottom);
+        if (activeBottom > contentBottom) {
+          scrollTop = activeBottom - contentHeight + paddingBottom;
+          dom.scrollbar_scroll_top(this.$ol, scrollTop);
         }
         // too far up
-        else if (activeTop < olTop) {
-          this.$ol.scrollTop(activeTop - paddingTop);
+        else if (activeTop < contentTop) {
+          scrollTop = activeTop - paddingTop;
+          dom.scrollbar_scroll_top(this.$ol, scrollTop);
         }
       }
     },
@@ -336,31 +345,33 @@ function(config, utils, $, _, Backbone, bus, templates) {
     },
 
     render: function() {
+      var that = this;
+
       // close the results list if there is no filter
       if (!this.filter) {
-        this.hide(function() { this.$el.empty(); });
+        this.hide(function() { that.$content.empty(); },
+        // abort if a filter exists by the time the transition completes
+        function() { return !!that.filter; });
+
         return;
       }
 
-      templates.get(this.template, function(template) {
-        var html = template;
-        this.$el.html(html);
+      // show "no results" as appropriate
+      // var $nomatch = this.$el.children('.nomatch');
+      // $nomatch.toggleClass('hide', !!this.collection.models.length);
 
-        // show "no results" as appropriate
-        var $nomatch = this.$el.children('.nomatch');
-        $nomatch.toggleClass('hide', !!this.collection.models.length);
+      this._rvs = [];
+      this.$ol = $('<ol>');
 
-        // populate filtered/sorted packages
-        this._rvs = [];
-        this.$ol = this.$el.children('ol').empty();
-        _.each(this.collection.models, function(result) {
-          var rv = new cdn.FilterResultView({ model: result });
-          this._rvs.push(rv);
-          this.$ol.append(rv.el);
-        }, this);
-
-        this.show();
+      // populate filtered/sorted packages
+      _.each(this.collection.models, function(result) {
+        var rv = new cdn.FilterResultView({ model: result });
+        this._rvs.push(rv);
+        this.$ol.append(rv.el);
       }, this);
+
+      this.$content.html(this.$ol);
+      this.show();
     }
   });
 

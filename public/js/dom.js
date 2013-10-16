@@ -74,7 +74,6 @@ function(config, utils, $, _) {
 
   /**
    * (Re)initialize an element with a nanoScrollerJS scrollbar
-   * $element may need to have the 'has-scrollbar' class removed first
    *
    * @param {jQuery} $element - some .nano element in the DOM
    */
@@ -86,10 +85,13 @@ function(config, utils, $, _) {
     // remove the old nanoscroller property if the content has been replaced
     if ($element[0].nanoscroller) {
       var $nanoContent = $element[0].nanoscroller.$content;
-      if (dom.is_detached($nanoContent)) { $element[0].nanoscroller = null; }
+      if (dom.is_detached($nanoContent)) {
+        $element.removeClass('has-scrollbar');
+        $element[0].nanoscroller = null;
+      }
     }
 
-    $element.nanoScroller();
+    $element.nanoScroller({ alwaysVisible: true });
   };
 
   /**
@@ -102,11 +104,46 @@ function(config, utils, $, _) {
   dom.transition_with_scrollbar = function($element, opts, callback) {
       opts = opts || {};
 
-      $element.removeClass('has-scrollbar');
       $element.transition(opts, 'fast', function() {
         dom.init_scrollbar($element);
         _.isFunction(callback) && callback.call($element[0]);
       });
+  };
+
+  /**
+   * Determine if an element is overflowing itself or a parent
+   *
+   * @param {jQuery} $element - some element in the DOM
+   * @param {String} [closest] - compare $element to $element.closest(closest)
+   * @return {Boolean} true if $element is overflowing, false otherwise
+   */
+  dom.is_overflowing = function($element, closest) {
+    var $compare = closest ? $element.closest(closest) : $element;
+    return $element[0].scrollHeight > $compare[0].offsetHeight;
+  };
+
+  /**
+   * Determine if a nanoScrollerJS content area is overflowing
+   *
+   * @param {jQuery} $element - some element within a nanoScrollerJS scrollbar
+   * @return {Boolean} true if $element is overflowing, false otherwise
+   */
+  dom.is_overflowing_with_scrollbar = function($element) {
+    return dom.is_overflowing($element, '.nano');
+  };
+
+  /**
+   * Scroll a nanoScrollerJS container to a specified scrollTop
+   *
+   * @param {jQuery} $element - some element within a nanoScrollerJS scrollbar
+   * @param {Number | String} [value] - position to scroll to, defaults to 'top'
+   */
+  dom.scrollbar_scroll_top = function($element, value) {
+    var $nano = $element.closest('.nano');
+    if (!$nano.length) { return; }
+
+    value = value || 'top';
+    $nano.nanoScroller({ scrollTop: value });
   };
 
   return dom;
