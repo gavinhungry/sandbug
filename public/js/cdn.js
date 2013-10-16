@@ -261,7 +261,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
       var maxHeight = Math.min(this.$ol.outerHeight() + 2, config.cdn_height);
       this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
 
-      dom.scrollbar_scroll_top(this.$el);
+      this.first_active();
       dom.transition_with_scrollbar(this.$el, { 'opacity': 1 });
     },
 
@@ -276,6 +276,16 @@ function(config, utils, $, _, Backbone, bus, templates) {
       });
     },
 
+    // set the first result as the active result
+    first_active: function() {
+      var $children = this.$ol.children();
+      $children.filter('.active').removeClass('.active');
+      $children.first().addClass('active');
+
+      this.scroll_active();
+    },
+
+    // set the previous result as the active result
     prev_active: function() {
       var $children = this.$ol.children();
       var $active = $children.filter('.active');
@@ -289,6 +299,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
       this.scroll_active();
     },
 
+    // set the next result as the active result
     next_active: function() {
       var $children = this.$ol.children();
       var $active = $children.filter('.active');
@@ -304,7 +315,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
       this.scroll_active();
     },
 
-    // keep the active element visible
+    // keep the active result visible
     scroll_active: function() {
       var $active = this.$ol.children().filter('.active').first();
       if ($active.length && this.$ol.hasClass('overflow')) {
@@ -334,6 +345,7 @@ function(config, utils, $, _, Backbone, bus, templates) {
       }
     },
 
+    // insert the active result
     select_active: function() {
       var activeResultView = _.find(this._rvs, function(rv) {
         return rv.$el.hasClass('active');
