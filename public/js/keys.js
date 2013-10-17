@@ -35,18 +35,22 @@ function(config, utils, $, _) {
     utils.log('initializing keys module');
 
     $(document).on('keyup', function(e) {
+      // hey, I just met you ...
       var keyHandlers = _.filter(handlers, function(h) {
         return !h.paused && h.ctrl === e.ctrlKey && h.alt === e.altKey &&
           h.key === e.which;
       });
 
+      // and this is crazy ...
       if (keyHandlers.length) {
         e.preventDefault();
         e.stopPropagation();
       }
 
       _.each(keyHandlers, function(handler) {
+        // but here's my number ...
         var callback = handler ? handler.callback : null;
+        // so call me maybe.
         if (_.isFunction(callback)) {
           utils.log('executing callback for handler', handler.hid);
           callback(e);

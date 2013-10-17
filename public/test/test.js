@@ -7,7 +7,7 @@
   var CDNJS = '//cdnjs.cloudflare.com/ajax/libs';
 
   requirejs.config({
-    baseUrl: '/js',
+    baseUrl: '/../js',
     urlArgs: 'v=' + (new Date()).getTime(),
 
     paths: {
@@ -28,6 +28,10 @@
       codemirror_xml: CDNJS + '/codemirror/3.16.0/mode/xml/xml.min',
       codemirror_html: CDNJS + '/codemirror/3.16.0/mode/htmlmixed/htmlmixed.min',
       codemirror_search: CDNJS + '/codemirror/3.16.0/addon/search/searchcursor.min',
+
+      // testing
+      jasmine: CDNJS + '/jasmine/1.3.1/jasmine',
+      jasmine_html: CDNJS + '/jasmine/1.3.1/jasmine-html',
 
       // libraries with plugins
       jquery: 'lib/jquery',
@@ -53,15 +57,30 @@
       codemirror_css: { deps: ['codemirrorjs'] },
       codemirror_xml: { deps: ['codemirrorjs'] },
       codemirror_html: { deps: ['codemirrorjs'] },
-      codemirror_search: { deps: ['codemirrorjs'] }
+      codemirror_search: { deps: ['codemirrorjs'] },
+
+      // testing
+      jasmine: { exports: 'jasmine' },
+      jasmine_html: { deps: ['jasmine'], exports: 'jasmine' }
     }
   });
 
-  require(['jquery', 'app'],
-  function($, app) {
+  require(['jquery', 'jasmine_html', '../test/matchers'],
+  function($, jasmine, matchers) {
+
+    var env = jasmine.getEnv();
+    env.addReporter(new jasmine.HtmlReporter());
+
+    var specs = [];
+    var specDir = '../test/spec';
+    specs.push(specDir + '/utils_spec');
 
     $(function() {
-      new app.App();
+      matchers.addMatchers();
+
+      require(specs, function() {
+        env.execute();
+      });
     });
 
   });
