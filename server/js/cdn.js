@@ -14,6 +14,20 @@ function(module, path, Q, _, utils, fs) {
   var cache = null;
 
   /**
+   * Pick out only the desired properties from a set of CDN packages
+   *
+   * @param {Array} packages - set of CDN packages
+   * @return {Array} set of CDN packages with only the desired properties
+   */
+  cdn.pick_properties = function(packages) {
+    return _.map(packages, function(pkg) {
+      var pick = _.pick(pkg, 'name', 'description', 'filename', 'version');
+      pick.description = _.escape(pick.description);
+      return pick;
+    });
+  };
+
+  /**
    * Load CDNJS packages.json
    *
    * @return {Promise} promise to return CDN JSON
@@ -25,12 +39,7 @@ function(module, path, Q, _, utils, fs) {
     var str = fs.readFileSync('./server/cdnjs.json', 'utf8');
     var cdnjs = JSON.parse(str);
 
-    var picked = _.map((cdnjs ? cdnjs.packages : []), function(pkg) {
-      var pick = _.pick(pkg, 'name', 'description', 'filename', 'version');
-      pick.description = _.escape(pick.description);
-      return pick;
-    });
-
+    var picked = cdn.pick_properties(cdnjs ? cdnjs.packages : []);
     d.resolve(picked);
     return d.promise;
     // --- */
@@ -40,12 +49,7 @@ function(module, path, Q, _, utils, fs) {
       path: '/packages.json',
       port: 443
     }).then(function(result) {
-      var picked = _.map((result ? result.packages : []), function(pkg) {
-        var pick = _.pick(pkg, 'name', 'description', 'filename', 'version');
-        pick.description = _.escape(pick.description);
-        return pick;
-      });
-
+      var picked = cdn.pick_properties(result ? result.packages : []);
       d.resolve(picked);
     }, function(err) {
       d.reject(err);
