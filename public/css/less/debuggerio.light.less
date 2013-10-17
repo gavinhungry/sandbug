@@ -2,5 +2,65 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-@import 'config.light.less';
+@import 'codemirror-light.less';
+
+* { transition: background 0.2s, border-color 0.2s; }
+
+@bg_color: #FCFCFC;
+@output_bg_color: #EEE;
+
+// Header
+@header_height: 48px;
+@header_bg_color: #CFCFCF;
+@header_text_color: #999;
+@header_bottom_border_color: rgba(0,0,0, 0.15);
+
+// Panels
+@panel_padding: 4px;
+@panel_resizer_color: #CCC;
+@panel_resizer_hover_time: 0.1s;
+@panel_options_height: 42px; // sync with config.panel_min
+@panel_options_bg_color: #EEE;
+
+// CodeMirror
+@mirror_font_size: 11px;
+
+// Buttons
+@button_transition_time: 0.05s;
+@button_box_shadow_color: rgba(0,0,0, 0.15);
+@button_text_color: #FAFAFA;
+
+@button_border_color: rgba(0,0,0, 0.2);
+@button_bottom_border_color: rgba(0,0,0, 0.25);
+@button_small_border_color: @button_border_color;
+@button_small_bottom_border_color: @button_bottom_border_color;
+
+@button_default_base_color: #B5B5B5;
+@button_small_default_base_color: @button_default_base_color;
+
+@button_action_base_color: #8AC;
+@button_proceed_base_color: #9B6;
+@button_warning_base_color: #DB6;
+@button_danger_base_color: #D66;
+@button_purple_base_color: #A8A;
+@button_slate_base_color: #99A;
+
+// Inputs
+@input_border_color: #9A9A9A;
+@input_border_focus_color: #89C;
+@input_bg_color: #F8F8F8;
+@input_bg_focus_color: #F4F4FF;
+@input_text_color: #666;
+@input_bg_disabled_color: #EEE;
+@input_placeholder_color: #999;
+
+// CDN filter
+@filter_results_bg_color: #F5F5F5;
+@filter_results_border_color: #BBB;
+@filter_results_box_shadow_color: rgba(0,0,0, 0.15);
+@filter_result_text_color: #777;
+@filter_result_box_shadow_color: rgba(0,0,0, 0.05);
+@filter_result_active_bg_color: #D7DDE5;
+@filter_result_active_border_color: darken(@filter_result_active_bg_color, 10%);
+
 @import 'global.less';
