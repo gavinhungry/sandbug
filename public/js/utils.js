@@ -18,7 +18,7 @@ function(config, $, _) {
    */
   utils.log = function() {
     if (config.debug) {
-      var args = Array.prototype.slice.call(arguments);
+      var args = _.toArray(arguments);
       args.unshift('==>');
       console.log.apply(console, args);
     }

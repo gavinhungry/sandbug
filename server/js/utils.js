@@ -40,7 +40,7 @@ function(module, path, _, http, https, Q) {
    * @param {Mixed} - messages to log
    */
   utils.log = function() {
-    var args = Array.prototype.slice.call(arguments);
+    var args = _.toArray(arguments);
     args.unshift('==>');
     console.log.apply(console, args);
   };
