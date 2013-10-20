@@ -65,15 +65,17 @@
     }
   });
 
-  require(['jquery', 'jasmine_html', '../test/matchers'],
-  function($, jasmine, matchers) {
+  require(['jquery', 'jasmine_html', '../test/matchers', 'underscore'],
+  function($, jasmine, matchers, _) {
 
     var env = jasmine.getEnv();
     env.addReporter(new jasmine.HtmlReporter());
 
-    var specs = [];
-    var specDir = '../test/spec';
-    specs.push(specDir + '/utils_spec');
+    var specs = _.map([
+      'config', 'utils'
+    ], function(module) {
+      return _.sprintf('../test/spec/%s_spec', module);
+    });
 
     $(function() {
       matchers.addMatchers();

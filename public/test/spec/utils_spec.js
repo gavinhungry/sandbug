@@ -1,5 +1,5 @@
-define(['config', 'utils', 'jquery', 'underscore'],
-function(config, utils, $, _) {
+define(['utils', 'config', 'jquery', 'underscore'],
+function(utils, config, $, _) {
   'use strict';
 
   /*
