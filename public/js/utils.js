@@ -53,12 +53,17 @@ function(config, $, _) {
    *
    * @param {String} name - name of the module (only relevant to window)
    * @param {Object} [base] - base object to use
+   * @param {Boolean} [global] - if true, attach to global window object as well
    * @return {Object} empty module object
    */
-  utils.module = function(name, base) {
+  utils.module = function(name, base, global) {
     var module = base || {};
     module.priv = module.priv || {};
-    if (config.debug) { window[name] = module; }
+
+    if (global || (global === undefined && config.debug)) {
+      window[name] = module;
+    }
+
     return module;
   };
 
