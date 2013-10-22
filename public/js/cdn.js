@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'templates'
+  'backbone', 'bus', 'dom', 'keys', 'templates'
 ],
-function(config, utils, $, _, Backbone, bus, templates) {
+function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   'use strict';
 
   var cdn = utils.module('cdn');
