@@ -24,7 +24,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
   panels.init = function($panels) {
     $active_panels = $panels;
     panels.update_resize_handlers();
-    panels.init_input_mode_cycles();
+    panels.init_input_modes();
   };
 
   /**
@@ -234,59 +234,30 @@ function(config, utils, $, _, bus, dom, mirrors) {
     }
   };
 
-  var input_panel_modes = {
-    'markup': [
-      { label: 'HTML', mode: 'htmlmixed' },
-      { label: 'Markdown', mode: 'markdown' }
-    ],
-    'style': [
-      { label: 'CSS', mode: 'css' },
-      { label: 'LESS', mode: 'less' },
-      { label: 'SCSS', mode: 'scss', cm_mode: 'text/x-scss' }
-    ],
-    'script': [
-      { label: 'JavaScript', mode: 'javascript' },
-      { label: 'CoffeeScript', mode: 'coffeescript' },
-      {
-        label: 'TypeScript', mode: 'typescript',
-        cm_mode: 'application/typescript'
-      }, {
-        label: 'GorillaScript', mode: 'gorillascript',
-        cm_mode: 'javascript'
-      }
-    ]
-  };
-
   /**
    * Init mode cycles on input panels
    */
-  panels.init_input_mode_cycles = function() {
+  panels.init_input_modes = function() {
     var $inputs = panels.get_input_panels();
 
     _.each($inputs, function(inputPanelNode) {
       var $panel = $(inputPanelNode);
+      var panel = $panel.attr('id');
+
+      var $mode = $panel.children('.mode');
       var $cycle = $panel.find('.panel-options > .cycle');
-      var cycle = $cycle.attr('data-cycle');
-      var modes = utils.ensure_array(input_panel_modes[cycle]);
 
-      // the hidden input that informs the server what mode this panel is using
-      var hiddenSelector = _.sprintf('input[name="%s_mode"]', cycle);
-      var $hidden = $panel.children(hiddenSelector);
+      $cycle.on('click', function(e) { mirrors.cycle_mode(panel); });
 
-      var i = 0; // assume the first in input_panel_modes is the default
-
-      $cycle.on('click', function() {
-        var nextMode = modes[++i % modes.length];
-
+      bus.on(_.sprintf('mirrors:%s:mode', panel), function(mode, label) {
         // set a fixed width now, change the label and transition
         // to an "auto-esque" state
         var width = $cycle.outerWidth();
-        $cycle.css({ 'min-width': width, 'max-width': width })
+        $cycle.css({ 'min-width': width, 'max-width': width });
 
-        // update the cycle label, hidden input and CodeMirror mode
-        $cycle.text(nextMode.label);
-        $hidden.val(nextMode.mode);
-        mirrors.set_mode(cycle, nextMode.cm_mode || nextMode.mode);
+        // update the cycle label and hidden input
+        $mode.val(mode);
+        $cycle.text(label);
 
         // HACK: wait for a repaint
         _.delay(function() {

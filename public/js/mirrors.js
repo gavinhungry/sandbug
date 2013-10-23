@@ -35,7 +35,8 @@ function(config, utils, $, _, bus, CodeMirror) {
       var mirror = {
         panel: $panel.attr('id'),
         $textarea: $textarea,
-        cm: cm
+        cm: cm,
+        mode: mode
       };
 
       cm.on('focus', function() {
@@ -76,6 +77,35 @@ function(config, utils, $, _, bus, CodeMirror) {
     return m && m.cm instanceof CodeMirror ? m : mirrors.get_by_id(m);
   };
 
+  var mirror_mode_sets = {
+    'markup': [
+      { label: 'HTML', mode: 'htmlmixed' },
+      { label: 'Markdown', mode: 'markdown' }
+    ],
+    'style': [
+      { label: 'CSS', mode: 'css' },
+      { label: 'LESS', mode: 'less' },
+      { label: 'SCSS', mode: 'scss', cm_mode: 'text/x-scss' }
+    ],
+    'script': [
+      { label: 'JavaScript', mode: 'javascript' },
+      { label: 'CoffeeScript', mode: 'coffeescript' },
+      {
+        label: 'TypeScript', mode: 'typescript',
+        cm_mode: 'application/typescript'
+      }, {
+        label: 'GorillaScript', mode: 'gorillascript',
+        cm_mode: 'javascript'
+      }
+    ]
+  };
+
+  var get_mode_set = function(panel, mode) {
+    return _.find(mirror_mode_sets[panel], function(set) {
+      return set.mode === mode || set.cm_mode === mode;
+    });
+  };
+
   /**
    * Get the mode for a mirror
    *
@@ -86,7 +116,7 @@ function(config, utils, $, _, bus, CodeMirror) {
     var mirror = mirrors.get_instance(m);
     if (!mirror) { return null; }
 
-    return mirror.cm.getOption('mode');
+    return mirror.mode;
   };
 
   /**
@@ -99,7 +129,34 @@ function(config, utils, $, _, bus, CodeMirror) {
     var mirror = mirrors.get_instance(m);
     if (!mirror || !_.isString(mode)) { return; }
 
-    mirror.cm.setOption('mode', mode);
+    var set = get_mode_set(mirror.panel, mode);
+    if (!set) { return; }
+
+    mirror.cm.setOption('mode', set.cm_mode || set.mode);
+    mirror.mode = set.mode;
+
+    var eventName = _.sprintf('mirrors:%s:mode', mirror.panel);
+    bus.trigger(eventName, set.mode, set.label);
+  };
+
+  /**
+   * Rotate a mirror through available modes
+   *
+   * @param {String | Object} m - panel id or mirror
+   */
+  mirrors.cycle_mode = function(m) {
+    var mirror = mirrors.get_instance(m);
+    var panel = mirror.panel;
+
+    var modes = mirror_mode_sets[panel];
+    var mode = mirrors.get_mode(panel);
+    if (!modes) { return; }
+
+    var set = get_mode_set(panel, mode);
+    var i = _.indexOf(modes, set);
+
+    var newMode = modes[++i % modes.length];
+    mirrors.set_mode(panel, newMode.mode);
   };
 
   /**
