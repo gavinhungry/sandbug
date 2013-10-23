@@ -36,11 +36,22 @@
         nano: CDNJS + '/jquery.nanoscroller/0.7.4/jquery.nanoscroller.min',
         string: CDNJS + '/underscore.string/2.3.3/underscore.string.min',
         inflection: 'plugins/underscore.inflection.min',
-        codemirror_js: CDNJS + '/codemirror/3.16.0/mode/javascript/javascript.min',
-        codemirror_css: CDNJS + '/codemirror/3.16.0/mode/css/css.min',
+
+        codemirror_search: CDNJS + '/codemirror/3.16.0/addon/search/searchcursor.min',
+
+        // CodeMirror markup
         codemirror_xml: CDNJS + '/codemirror/3.16.0/mode/xml/xml.min',
         codemirror_html: CDNJS + '/codemirror/3.16.0/mode/htmlmixed/htmlmixed.min',
-        codemirror_search: CDNJS + '/codemirror/3.16.0/addon/search/searchcursor.min',
+        codemirror_markdown: CDNJS + '/codemirror/3.16.0/mode/markdown/markdown.min',
+
+        // CodeMirror style
+        codemirror_css: CDNJS + '/codemirror/3.16.0/mode/css/css.min',
+        codemirror_less: CDNJS + '/codemirror/3.16.0/mode/less/less.min',
+        codemirror_sass: CDNJS + '/codemirror/3.16.0/mode/sass/sass.min',
+
+        // CodeMirror script
+        codemirror_js: CDNJS + '/codemirror/3.16.0/mode/javascript/javascript.min',
+        codemirror_coffeescript: CDNJS + '/codemirror/3.16.0/mode/coffeescript/coffeescript.min',
 
         // testing
         jasminejs: CDNJS + '/jasmine/1.3.1/jasmine',
@@ -73,11 +84,17 @@
         nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
         string: { deps: ['underscorejs'], exports: '_.str' },
         inflection: { deps: ['underscorejs'] },
-        codemirror_js: { deps: ['codemirrorjs'] },
-        codemirror_css: { deps: ['codemirrorjs'] },
+
+
+        codemirror_search: { deps: ['codemirrorjs'] },
         codemirror_xml: { deps: ['codemirrorjs'] },
         codemirror_html: { deps: ['codemirrorjs'] },
-        codemirror_search: { deps: ['codemirrorjs'] }
+        codemirror_markdown: { deps: ['codemirrorjs'] },
+        codemirror_css: { deps: ['codemirrorjs'] },
+        codemirror_less: { deps: ['codemirrorjs'] },
+        codemirror_sass: { deps: ['codemirrorjs'] },
+        codemirror_js: { deps: ['codemirrorjs'] },
+        codemirror_coffeescript: { deps: ['codemirrorjs'] }
       }
     });
 

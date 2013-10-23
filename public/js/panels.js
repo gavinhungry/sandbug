@@ -6,8 +6,8 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'dom'],
-function(config, utils, $, _, bus, dom) {
+  'bus', 'dom', 'mirrors'],
+function(config, utils, $, _, bus, dom, mirrors) {
   'use strict';
 
   var panels = utils.module('panels');
@@ -15,6 +15,17 @@ function(config, utils, $, _, bus, dom) {
   var layouts = ['layout-a', 'layout-b', 'layout-c'];
   var layout_transitioning = false;
   var $active_panels;
+
+  /**
+   * Initialize a set of panels and panel resizers
+   *
+   * @param {jQuery} $panels - set of panels
+   */
+  panels.init = function($panels) {
+    $active_panels = $panels;
+    panels.update_resize_handlers();
+    panels.init_input_mode_cycles();
+  };
 
   /**
    * Remove resize handlers
@@ -223,14 +234,64 @@ function(config, utils, $, _, bus, dom) {
     }
   };
 
+  var input_panel_modes = {
+    'markup': [
+      { label: 'HTML', mode: 'htmlmixed' },
+      { label: 'Markdown', mode: 'markdown' }
+    ],
+    'style': [
+      { label: 'CSS', mode: 'css' },
+      { label: 'LESS', mode: 'less' },
+      { label: 'SCSS', mode: 'scss', cm_mode: 'text/x-scss' },
+      { label: 'SASS', mode: 'sass' }
+    ],
+    'script': [
+      { label: 'JavaScript', mode: 'javascript' },
+      { label: 'CoffeeScript', mode: 'coffeescript' },
+      {
+        label: 'TypeScript', mode: 'typescript',
+        cm_mode: 'application/typescript'
+      }
+    ]
+  };
+
   /**
-   * Initialize a set of panels and panel resizers
-   *
-   * @param {jQuery} $panels - set of panels
+   * Init mode cycles on input panels
    */
-  panels.init = function($panels) {
-    $active_panels = $panels;
-    panels.update_resize_handlers();
+  panels.init_input_mode_cycles = function() {
+    var $inputs = panels.get_input_panels();
+
+    _.each($inputs, function(inputPanelNode) {
+      var $panel = $(inputPanelNode);
+      var $cycle = $panel.find('.panel-options > .cycle');
+      var cycle = $cycle.attr('data-cycle');
+      var modes = utils.ensure_array(input_panel_modes[cycle]);
+
+      // the hidden input that informs the server what mode this panel is using
+      var hiddenSelector = _.sprintf('input[name="%s-mode"]', cycle);
+      var $hidden = $panel.children(hiddenSelector);
+
+      var i = 0; // assume the first in input_panel_modes is the default
+
+      $cycle.on('click', function() {
+        var nextMode = modes[++i % modes.length];
+
+        // set a fixed width now, change the label and transition
+        // to an "auto-esque" state
+        var width = $cycle.outerWidth();
+        $cycle.css({ 'min-width': width, 'max-width': width })
+
+        // update the cycle label, hidden input and CodeMirror mode
+        $cycle.text(nextMode.label);
+        $hidden.val(nextMode.mode);
+        mirrors.set_mode(cycle, nextMode.cm_mode || nextMode.mode);
+
+        // HACK: wait for a repaint
+        _.delay(function() {
+          $cycle.stop().transition({ 'min-width': 0, 'max-width': 300 });
+        }, 10);
+      });
+    });
   };
 
   /**

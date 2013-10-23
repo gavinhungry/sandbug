@@ -1,7 +1,9 @@
 define([
-  'codemirrorjs', 'codemirror_js', 'codemirror_css', 'codemirror_xml',
-  'codemirror_html', 'codemirror_search'
+  'codemirrorjs', 'codemirror_search',
+  'codemirror_xml', 'codemirror_html', 'codemirror_markdown',
+  'codemirror_css', 'codemirror_less', 'codemirror_sass',
+  'codemirror_js', 'codemirror_coffeescript'
 ],
-function(CodeMirror, js, css, xml, html, search) {
+function(CodeMirror, search, xml, html, markdown, css, less, sass, js, cs) {
   return CodeMirror;
 });
