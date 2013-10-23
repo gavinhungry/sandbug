@@ -48,6 +48,16 @@ function(config, $, _) {
   };
 
   /**
+   * Ensure that a value is a string
+   *
+   * @param {Mixed} value
+   * @return {String}
+   */
+  utils.ensure_string = function(value) {
+    return _.isString(value) ? value : (value ? value + '' : '');
+  };
+
+  /**
    * New module is just an empty object, but attach it to the global window
    * object if config.debug is set
    *

@@ -242,8 +242,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
     'style': [
       { label: 'CSS', mode: 'css' },
       { label: 'LESS', mode: 'less' },
-      { label: 'SCSS', mode: 'scss', cm_mode: 'text/x-scss' },
-      { label: 'SASS', mode: 'sass' }
+      { label: 'SCSS', mode: 'scss', cm_mode: 'text/x-scss' }
     ],
     'script': [
       { label: 'JavaScript', mode: 'javascript' },
@@ -251,6 +250,9 @@ function(config, utils, $, _, bus, dom, mirrors) {
       {
         label: 'TypeScript', mode: 'typescript',
         cm_mode: 'application/typescript'
+      }, {
+        label: 'GorillaScript', mode: 'gorillascript',
+        cm_mode: 'javascript'
       }
     ]
   };
@@ -268,7 +270,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
       var modes = utils.ensure_array(input_panel_modes[cycle]);
 
       // the hidden input that informs the server what mode this panel is using
-      var hiddenSelector = _.sprintf('input[name="%s-mode"]', cycle);
+      var hiddenSelector = _.sprintf('input[name="%s_mode"]', cycle);
       var $hidden = $panel.children(hiddenSelector);
 
       var i = 0; // assume the first in input_panel_modes is the default

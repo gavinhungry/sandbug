@@ -2,12 +2,26 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define(['module', 'path', 'underscore', 'http', 'https', 'q'],
-function(module, path, _, http, https, Q) {
+define([
+  'module', 'path', 'underscore', 'q',
+  'http', 'https'
+],
+function(module, path, _, Q, http, https) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
   var utils = {};
+
+  /**
+   * Log messages to console
+   *
+   * @param {Mixed} - messages to log
+   */
+  utils.log = function() {
+    var args = _.toArray(arguments);
+    args.unshift('==>');
+    console.log.apply(console, args);
+  };
 
   /**
    * Load remote JSON
@@ -35,14 +49,13 @@ function(module, path, _, http, https, Q) {
   };
 
   /**
-   * Log messages to console
+   * Ensure that a value is a string
    *
-   * @param {Mixed} - messages to log
+   * @param {Mixed} value
+   * @return {String}
    */
-  utils.log = function() {
-    var args = _.toArray(arguments);
-    args.unshift('==>');
-    console.log.apply(console, args);
+  utils.ensure_string = function(value) {
+    return _.isString(value) ? value : (value ? value + '' : '');
   };
 
   return utils;

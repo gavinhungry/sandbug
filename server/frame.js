@@ -2,8 +2,11 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define(['module', 'path', 'express', 'consolidate', 'underscore'],
-function(module, path, express, cons, _) {
+define([
+  'module', 'path', 'utils', 'underscore', 'q',
+  'express', 'compilers', 'consolidate'
+  ],
+function(module, path, utils, _, Q, express, compilers, cons) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
@@ -28,11 +31,18 @@ function(module, path, express, cons, _) {
 
   server.post('/', function(req, res) {
     res.setHeader('X-XSS-Protection', '0');
+    var data = req.body;
 
-    res.render('frame', {
-      markup: req.body.markup,
-      style: req.body.style,
-      script: req.body.script
+    Q.all([
+      compilers.compile(data.markup_mode, data.markup),
+      compilers.compile(data.style_mode,  data.style),
+      compilers.compile(data.script_mode, data.script)
+    ]).done(function(output) {
+      res.render('frame', {
+        markup: output[0],
+        style: output[1],
+        script: output[2]
+      });
     });
   });
 

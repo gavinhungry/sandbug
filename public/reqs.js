@@ -47,7 +47,6 @@
         // CodeMirror style
         codemirror_css: CDNJS + '/codemirror/3.16.0/mode/css/css.min',
         codemirror_less: CDNJS + '/codemirror/3.16.0/mode/less/less.min',
-        codemirror_sass: CDNJS + '/codemirror/3.16.0/mode/sass/sass.min',
 
         // CodeMirror script
         codemirror_js: CDNJS + '/codemirror/3.16.0/mode/javascript/javascript.min',
@@ -92,7 +91,6 @@
         codemirror_markdown: { deps: ['codemirrorjs'] },
         codemirror_css: { deps: ['codemirrorjs'] },
         codemirror_less: { deps: ['codemirrorjs'] },
-        codemirror_sass: { deps: ['codemirrorjs'] },
         codemirror_js: { deps: ['codemirrorjs'] },
         codemirror_coffeescript: { deps: ['codemirrorjs'] }
       }
