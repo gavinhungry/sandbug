@@ -54,5 +54,13 @@ function(config, utils, $, _) {
     return d.promise();
   };
 
+  /**
+   * Flush the entire template cache, forcing the next call to templates.load
+   * or templates.get to fetch a fresh version of the template
+   */
+  templates.flush = function() {
+    cache = {};
+  };
+
   return templates;
 });
