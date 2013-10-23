@@ -22,7 +22,9 @@ function(module, path, express, cons, _) {
   server.set('view engine', 'html');
   server.set('views', __dirname + '/templates');
 
-  server.use(express.bodyParser());
+  // server.use(express.bodyParser());
+  server.use(express.urlencoded());
+  server.use(express.json());
 
   server.post('/', function(req, res) {
     res.setHeader('X-XSS-Protection', '0');
