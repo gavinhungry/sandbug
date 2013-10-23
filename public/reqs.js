@@ -27,7 +27,7 @@
         // libraries
         jqueryjs: CDNJS + '/jquery/2.0.3/jquery.min',
         underscorejs: CDNJS + '/underscore.js/1.5.2/underscore-min',
-        backbonejs: CDNJS + '/backbone.js/1.0.0/backbone-min',
+        backbonejs: CDNJS + '/backbone.js/1.1.0/backbone-min',
         codemirrorjs: CDNJS + '/codemirror/3.16.0/codemirror.min',
 
         // plugins
