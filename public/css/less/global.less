@@ -36,6 +36,12 @@ html, body, #debuggerio {
 .noselect { user-select: none; }
 .nopointer { pointer-events: none; }
 
+.nano > .content + .pane {
+  margin: 2px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 @import 'buttons.less';
 @import 'cdn.less';
 @import 'entypo.less';

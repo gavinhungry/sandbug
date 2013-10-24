@@ -6,17 +6,17 @@
   display: none;
   opacity: 0;
 
-  z-index: 4;
+  z-index: 10;
   position: absolute;
-  max-height: 298px; // sync with config.cdn_height
+  max-height: 300px; // sync with config.cdn_height
 
-  width: calc(100% ~'-' @panel_padding * 2);
-  margin-top: @panel_padding * 2 + 4px;
-  left: @panel_padding;
-  right: @panel_padding;
+  width: calc(100% ~'-' 4px);
+  margin-top: @panel_padding * 2 + 2px;
+  left: 2px;
+  right: 2px;
 
   background: @filter_results_bg_color;
-  border: 1px solid @filter_results_border_color;
+  border: 2px solid @filter_results_border_color;
   box-shadow: 0 0 4px @filter_results_box_shadow_color;
 
   > .nomatch {
@@ -77,8 +77,7 @@
 
     &.overflow {
       color: red !important;
-      padding-right: 14px;
+      padding-right: 16px;
     }
-
   }
 }

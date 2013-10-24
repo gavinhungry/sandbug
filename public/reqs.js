@@ -28,7 +28,7 @@
         jqueryjs: CDNJS + '/jquery/2.0.3/jquery.min',
         underscorejs: CDNJS + '/underscore.js/1.5.2/underscore-min',
         backbonejs: CDNJS + '/backbone.js/1.1.0/backbone-min',
-        codemirrorjs: CDNJS + '/codemirror/3.16.0/codemirror.min',
+        codemirrorjs: CDNJS + '/codemirror/3.19.0/codemirror.min',
 
         // plugins
         ui: CDNJS + '/jqueryui/1.10.3/jquery-ui.min',
@@ -37,20 +37,20 @@
         string: CDNJS + '/underscore.string/2.3.3/underscore.string.min',
         inflection: 'plugins/underscore.inflection.min',
 
-        codemirror_search: CDNJS + '/codemirror/3.16.0/addon/search/searchcursor.min',
+        codemirror_search: CDNJS + '/codemirror/3.19.0/addon/search/searchcursor.min',
 
         // CodeMirror markup
-        codemirror_xml: CDNJS + '/codemirror/3.16.0/mode/xml/xml.min',
-        codemirror_html: CDNJS + '/codemirror/3.16.0/mode/htmlmixed/htmlmixed.min',
-        codemirror_markdown: CDNJS + '/codemirror/3.16.0/mode/markdown/markdown.min',
+        codemirror_xml: CDNJS + '/codemirror/3.19.0/mode/xml/xml.min',
+        codemirror_html: CDNJS + '/codemirror/3.19.0/mode/htmlmixed/htmlmixed.min',
+        codemirror_markdown: CDNJS + '/codemirror/3.19.0/mode/markdown/markdown.min',
 
         // CodeMirror style
-        codemirror_css: CDNJS + '/codemirror/3.16.0/mode/css/css.min',
-        codemirror_less: CDNJS + '/codemirror/3.16.0/mode/less/less.min',
+        codemirror_css: CDNJS + '/codemirror/3.19.0/mode/css/css.min',
+        codemirror_less: CDNJS + '/codemirror/3.19.0/mode/less/less.min',
 
         // CodeMirror script
-        codemirror_js: CDNJS + '/codemirror/3.16.0/mode/javascript/javascript.min',
-        codemirror_coffeescript: CDNJS + '/codemirror/3.16.0/mode/coffeescript/coffeescript.min',
+        codemirror_js: CDNJS + '/codemirror/3.19.0/mode/javascript/javascript.min',
+        codemirror_coffeescript: CDNJS + '/codemirror/3.19.0/mode/coffeescript/coffeescript.min',
 
         // testing
         jasminejs: CDNJS + '/jasmine/1.3.1/jasmine',

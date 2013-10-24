@@ -88,6 +88,8 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
       $(document).off('mousemove', do_resize);
       $(document).off('mouseup', unbind_resize);
+
+      bus.trigger('panels:resized');
     };
 
     var do_resize = function(e) {
@@ -142,6 +144,8 @@ function(config, utils, $, _, bus, dom, mirrors) {
           }
         break;
       };
+
+      bus.trigger('panels:resizing');
     };
 
     $panels.next('.panel-resizer').on('mousedown', function(e) {
@@ -185,52 +189,56 @@ function(config, utils, $, _, bus, dom, mirrors) {
       isInputResizer = _.contains(panels.get_input_resizers(), $resizer[0]);
       isHorizResizer = _.contains(panels.get_horiz_resizers(), $resizer[0]);
 
+      var callback = _.debounce(function() {
+        bus.trigger('panels:resized');
+      }, 10);
+
       if(isHorizResizer) {
         _.each(panels.get_horiz_panels(), function(panel) {
-          reset_horiz_panel(panel);
+          reset_horiz_panel(panel, false, callback);
         });
 
         if (layout === 'layout-b' && !isInputResizer) {
           _.each(panels.get_input_panels(), function(panel) {
-            reset_horiz_panel(panel, true);
+            reset_horiz_panel(panel, true, callback);
           });
         }
       } else {
         _.each(panels.get_vert_panels(), function(panel) {
-          reset_vert_panel(panel);
+          reset_vert_panel(panel, false, callback);
         });
 
         if (layout === 'layout-c' && !isInputResizer) {
           _.each(panels.get_input_panels(), function(panel) {
-            reset_vert_panel(panel, true);
+            reset_vert_panel(panel, true, callback);
           });
         }
       }
     });
   };
 
-  var reset_horiz_panel = function(panel, withResizer) {
+  var reset_horiz_panel = function(panel, withResizer, callback) {
     var $panel = utils.ensure_jquery(panel);
     var h = $panel.data('default-height');
     var dur = config.layout_time;
 
-    $panel.data('y-offset', 0).transition({ 'height': h }, dur);
+    $panel.data('y-offset', 0).transition({ 'height': h }, dur, callback);
 
     if (withResizer) {
-      $panel.prev('.panel-resizer').transition({ 'height': h }, dur);
+      $panel.prev('.panel-resizer').transition({ 'height': h }, dur, callback);
     }
   };
 
-  var reset_vert_panel = function(panel, withResizer) {
+  var reset_vert_panel = function(panel, withResizer, callback) {
     var $panel = utils.ensure_jquery(panel);
     var w = $panel.data('default-width');
     var dur = config.layout_time;
 
-    $panel.data('x-offset', 0).transition({ 'width': w }, dur);
+    $panel.data('x-offset', 0).transition({ 'width': w }, dur, callback);
 
     if (withResizer) {
-      $panel.prev('.panel-resizer').transition({ 'width': w }, dur);
-      panels.get_master_resizer().transition({ 'left': w }, dur);
+      $panel.prev('.panel-resizer').transition({ 'width': w }, dur, callback);
+      panels.get_master_resizer().transition({ 'left': w }, dur, callback);
     }
   };
 
@@ -440,6 +448,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
     var dur = now ? 0 : config.layout_time;
     var callback = _.once(function() {
       panels.update_resize_handlers();
+      bus.trigger('panels:resized');
       layout_transitioning = false;
     });
 

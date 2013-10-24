@@ -66,5 +66,9 @@ function(config, utils, $, _, Backbone) {
     return this;
   };
 
+  $(window).on('resize', function() {
+    bus.trigger('window:resize');
+  });
+
   return bus;
 });

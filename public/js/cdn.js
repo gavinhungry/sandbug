@@ -258,7 +258,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       var overflow = dom.is_overflowing_with_scrollbar(this.$ol);
       this.$ol.toggleClass('overflow', overflow);
 
-      var maxHeight = Math.min(this.$ol.outerHeight() + 2, config.cdn_height);
+      var maxHeight = Math.min(this.$ol.outerHeight() + 4, config.cdn_height);
       this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
 
       this.first_active();

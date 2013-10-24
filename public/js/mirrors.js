@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'codemirror'
+  'bus', 'codemirror', 'dom'
 ],
-function(config, utils, $, _, bus, CodeMirror) {
+function(config, utils, $, _, bus, CodeMirror, dom) {
   'use strict';
 
   var mirrors = utils.module('mirrors');
@@ -34,6 +34,7 @@ function(config, utils, $, _, bus, CodeMirror) {
 
       var mirror = {
         panel: $panel.attr('id'),
+        $panel: $panel,
         $textarea: $textarea,
         cm: cm,
         mode: mode
@@ -44,6 +45,7 @@ function(config, utils, $, _, bus, CodeMirror) {
         last_focused = mirror;
       });
 
+      mirrors.scrollable(mirror);
       instances.push(mirror);
     });
 
@@ -75,6 +77,52 @@ function(config, utils, $, _, bus, CodeMirror) {
    */
   mirrors.get_instance = function(m) {
     return m && m.cm instanceof CodeMirror ? m : mirrors.get_by_id(m);
+  };
+
+  /**
+   * Hack for letting a scrollbar at least be a visual scroll indicator
+   *
+   * @param {String | Object} m - panel id or mirror
+   */
+  mirrors.scrollable = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror) { return null; }
+
+    var $scroll = mirror.$panel.find('.CodeMirror-vscrollbar').first();
+    $scroll.addClass('nano').css({ 'overflow': 'visible', 'width': '10px' });
+    $scroll.children().first().addClass('content');
+
+    dom.init_scrollbar($scroll);
+    var $slider = $scroll.find('.pane > .slider');
+
+    var update_scrollbar = function() {
+      var info = mirror.cm.getScrollInfo();
+
+      var sliderHeight = $scroll.height() - $slider.height() - 4; // - margin
+      var multiplier = (info.top / (info.height - info.clientHeight)) || 0;
+
+      $slider.css({ 'top': sliderHeight * multiplier });
+      $scroll.css({
+        'display': info.height > info.clientHeight ? 'block' : 'none'
+      });
+    };
+
+    mirror.cm.on('change', function() {
+      $scroll[0].nanoscroller.reset();
+      update_scrollbar();
+    });
+
+    mirror.cm.on('scroll', function() {
+      update_scrollbar();
+    });
+
+    bus.on('panels:resizing', function() {
+      _.defer(function() { CodeMirror.signal(mirror.cm, 'change'); });
+    });
+
+    bus.on('window:resize panels:resized', function() {
+      _.defer(function() { mirrors.simulate_change(mirror); });
+    });
   };
 
   var mirror_mode_sets = {
@@ -293,6 +341,19 @@ function(config, utils, $, _, bus, CodeMirror) {
     var nlStr = !lastLineContent ? str : '\n' + str;
 
     return mirrors.add_content_at(m, nlStr, { line: lastLine });
+  };
+
+  /**
+   * Trigger a real change event by inserting and then removing a character
+   *
+   * @param {String | Object} m - panel id or mirror
+   */
+  mirrors.simulate_change = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror) { return; }
+
+    mirror.cm.replaceRange(' ', { line: 0, ch: 0 });
+    mirror.cm.replaceRange('',  { line: 0, ch: 0 }, { line: 0, ch: 1 });
   };
 
   /**
