@@ -28,6 +28,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
       var mode = $panel.children('.mode').val();
 
       var cm = CodeMirror.fromTextArea($textarea[0], {
+        lineNumbers: true,
         lineWrapping: true,
         mode: mode
       });
