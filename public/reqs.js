@@ -37,12 +37,14 @@
         string: CDNJS + '/underscore.string/2.3.3/underscore.string.min',
         inflection: 'plugins/underscore.inflection.min',
 
+        codemirror_overlay: CDNJS + '/codemirror/3.19.0/addon/mode/overlay.min',
         codemirror_search: CDNJS + '/codemirror/3.19.0/addon/search/searchcursor.min',
 
         // CodeMirror markup
         codemirror_xml: CDNJS + '/codemirror/3.19.0/mode/xml/xml.min',
         codemirror_html: CDNJS + '/codemirror/3.19.0/mode/htmlmixed/htmlmixed.min',
         codemirror_markdown: CDNJS + '/codemirror/3.19.0/mode/markdown/markdown.min',
+        codemirror_gfm: CDNJS + '/codemirror/3.19.0/mode/gfm/gfm.min',
 
         // CodeMirror style
         codemirror_css: CDNJS + '/codemirror/3.19.0/mode/css/css.min',
@@ -89,6 +91,7 @@
         codemirror_xml: { deps: ['codemirrorjs'] },
         codemirror_html: { deps: ['codemirrorjs'] },
         codemirror_markdown: { deps: ['codemirrorjs'] },
+        codemirror_gfm: { deps: ['codemirrorjs', 'codemirror_overlay', 'codemirror_markdown'] },
         codemirror_css: { deps: ['codemirrorjs'] },
         codemirror_less: { deps: ['codemirrorjs'] },
         codemirror_js: { deps: ['codemirrorjs'] },

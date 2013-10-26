@@ -18,10 +18,13 @@ function(module, path, utils, _, Q, marked, less, sass, cs, ts, gs) {
    * a compiled result, or the original input
    */
   var compilers_map = (function() {
+
+    marked.setOptions({ gfm: true });
+
     return {
 
       // MARKUP
-      'markdown': function(str) {
+      'gfm': function(str) {
         var d = Q.defer();
 
         try { var html = marked(str); d.resolve(html); }

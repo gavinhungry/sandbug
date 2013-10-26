@@ -128,7 +128,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   var mirror_mode_sets = {
     'markup': [
       { label: 'HTML', mode: 'htmlmixed' },
-      { label: 'Markdown', mode: 'markdown' }
+      { label: 'Markdown', mode: 'gfm' }
     ],
     'style': [
       { label: 'CSS', mode: 'css' },
