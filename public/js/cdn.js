@@ -206,6 +206,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     },
 
     select_lib: function() {
+      this.$el.removeClass('active');
       bus.trigger('cdn:result:select', this.get_uri());
     },
 
