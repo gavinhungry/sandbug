@@ -262,7 +262,10 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       var overflow = dom.is_overflowing_with_scrollbar(this.$ol);
       this.$ol.toggleClass('overflow', overflow);
 
-      var maxHeight = Math.min(this.$ol.outerHeight() + 4, config.cdn_height);
+      var maxHeight = this.$nomatch.is(':visible') ?
+        this.$nomatch.outerHeight(true) :
+        Math.min(this.$ol.outerHeight() + 4, config.cdn_height);
+
       this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
 
       this.first_active();
@@ -373,8 +376,8 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       }
 
       // show "no results" as appropriate
-      // var $nomatch = this.$el.children('.nomatch');
-      // $nomatch.toggleClass('hide', !!this.collection.models.length);
+      this.$nomatch = this.$el.children('.nomatch');
+      this.$nomatch.toggleClass('hide', !!this.collection.models.length);
 
       this._rvs = [];
       this.$ol = $('<ol>');
