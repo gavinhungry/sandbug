@@ -12,9 +12,17 @@ module.exports = function(grunt) {
           'public/css/less/debuggerio.dark.less'
         }
       }
+    },
+
+    cssmin: {
+      production: {
+        src: ['server/static/css/gfm.css'],
+        dest: 'server/static/css/gfm.min.css'
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.registerTask('default', ['less']);
+  grunt.loadNpmTasks('grunt-yui-compressor');
+  grunt.registerTask('default', ['less', 'cssmin']);
 };

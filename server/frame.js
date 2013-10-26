@@ -29,6 +29,8 @@ function(module, path, utils, _, Q, express, compilers, cons) {
   server.use(express.urlencoded());
   server.use(express.json());
 
+  server.use(express.static(__dirname + '/static'));
+
   server.post('/', function(req, res) {
     res.setHeader('X-XSS-Protection', '0');
     var data = req.body;
@@ -41,7 +43,12 @@ function(module, path, utils, _, Q, express, compilers, cons) {
       res.render('frame', {
         markup: output[0],
         style: output[1],
-        script: output[2]
+        script: output[2],
+        mode: {
+          markup: data.markup_mode,
+          style: data.style_mode,
+          script: data.script_mode
+        }
       });
     });
   });

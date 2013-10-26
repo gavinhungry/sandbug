@@ -8,7 +8,8 @@
 
   "devDependencies" : {
     "grunt": "0.4.x",
-    "grunt-contrib-less": "0.8.x"
+    "grunt-contrib-less": "0.8.x",
+    "grunt-yui-compressor": "0.3.x"
   },
 
   "dependencies": {

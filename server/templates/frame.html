@@ -5,6 +5,11 @@
       body { background-color: #FAFAFA; }
       <%= style %>
     </style>
+
+    <% if (mode.markup === 'gfm') { %>
+      <link rel='stylesheet' type='text/css' href='/css/gfm.min.css'>
+    <% } %>
+
     <script type='application/javascript'>
       document.addEventListener('DOMContentLoaded', function() {
         'use strict';
