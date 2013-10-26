@@ -272,11 +272,11 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       dom.transition_with_scrollbar(this.$el, { 'opacity': 1 });
     },
 
-    hide: function(callback, stopFn) {
+    hide: function(callback, stop_fn) {
       var that = this;
 
       this.$el.transition({ 'opacity': 0 }, 'fast', function() {
-        if (_.isFunction(stopFn) && stopFn() === true) { return; }
+        if (_.isFunction(stop_fn) && stop_fn() === true) { return; }
 
         this.css({ 'display': 'none' });
         _.isFunction(callback) && callback.call(that);
@@ -354,6 +354,8 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     // insert the active result
     select_active: function() {
+      this.hide();
+
       var activeResultView = _.find(this._rvs, function(rv) {
         return rv.$el.hasClass('active');
       });
