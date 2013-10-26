@@ -86,7 +86,7 @@
         string: { deps: ['underscorejs'], exports: '_.str' },
         inflection: { deps: ['underscorejs'] },
 
-
+        codemirror_overlay: { deps: ['codemirrorjs'] },
         codemirror_search: { deps: ['codemirrorjs'] },
         codemirror_xml: { deps: ['codemirrorjs'] },
         codemirror_html: { deps: ['codemirrorjs'] },
