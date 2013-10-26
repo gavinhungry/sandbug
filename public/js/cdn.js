@@ -104,10 +104,13 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     keypress: function(e) {
       if (e.which === keys.key_code_for('up')) {
         bus.trigger('cdn:results:prev-active');
+        e.preventDefault();
       } else if (e.which === keys.key_code_for('down')) {
         bus.trigger('cdn:results:next-active');
+        e.preventDefault();
       } else if (e.which === keys.key_code_for('enter')) {
         bus.trigger('cdn:results:select-active');
+        e.preventDefault();
       }
 
       this.model.set({ value: $(e.target).val() });
