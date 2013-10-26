@@ -96,17 +96,75 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
     dom.init_scrollbar($scroll);
     var $slider = $scroll.find('.pane > .slider');
 
-    var update_scrollbar = function() {
-      var info = mirror.cm.getScrollInfo();
+    var track_remainder = function() {
+      return $scroll.height() - $slider.height() - 4; // - margin
+    };
 
-      var sliderHeight = $scroll.height() - $slider.height() - 4; // - margin
+    // update the scrollbar to match the current mirror position
+    var update_scrollbar = function(info, remainder) {
+      info = info || mirror.cm.getScrollInfo();
+      remainder = remainder || track_remainder();
+
       var multiplier = (info.top / (info.height - info.clientHeight)) || 0;
 
-      $slider.css({ 'top': sliderHeight * multiplier });
+      $slider.css({ 'top': multiplier * remainder });
       $scroll.css({
         'display': info.height > info.clientHeight ? 'block' : 'none'
       });
     };
+
+    // update the mirror position to match the current scrollbar position
+    var update_mirror_scroll = function(info, remainder) {
+      info = info || mirror.cm.getScrollInfo();
+      remainder = remainder || track_remainder();
+
+      var top = parseInt($slider.css('top'), 10);
+      var multiplier = top / remainder;
+      mirror.cm.scrollTo(null, multiplier * (info.height - info.clientHeight));
+    };
+
+    (function() {
+      var mde; // mousedown event
+      var top = 0;
+      var info;
+      var remainder;
+
+      var bind_scroll = function(e) {
+        mde = e;
+        top = parseInt($slider.css('top'), 10);
+        info = mirror.cm.getScrollInfo();
+        remainder = track_remainder();
+
+        $(document).on('mousemove', do_scroll);
+        $(document).on('mouseup', unbind_scroll);
+      };
+
+      var unbind_scroll = function(e) {
+        $(document).off('mousemove', do_scroll);
+        $(document).off('mouseup', unbind_scroll);
+      };
+
+      var do_scroll = function(e) {
+        var distanceY = e.pageY - mde.pageY;
+        $slider.css('top', utils.clamp(top + distanceY, 0, remainder));
+
+        update_mirror_scroll(info, remainder);
+      };
+
+      // let the user drag the scrollbars
+      $slider.on('mousedown', bind_scroll);
+    })();
+
+    // or, click on the track to move the scrollbar
+    $scroll.on('click', function(e) {
+      if ($slider.is(e.target)) { return; }
+
+      var midPoint = e.offsetY - $slider.height() / 2;
+      var newTop = utils.clamp(midPoint, 0, track_remainder());
+      $slider.css('top', newTop);
+
+      update_mirror_scroll();
+    });
 
     mirror.cm.on('change', function() {
       $scroll[0].nanoscroller.reset();
