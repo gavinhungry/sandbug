@@ -23,7 +23,7 @@ Installation
     # npm -g install grunt-cli
     $ npm install
     $ grunt
-    
+
     $ node debuggerio.js
     > debugger.io running on port 8080
 
