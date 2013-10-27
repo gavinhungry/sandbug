@@ -37,7 +37,7 @@ Upcoming Plans
 There is still a lot of work to do, including:
 
   - User accounts, user settings
-  - Save to server
+  - Save to server (with history)
   - Save to Gist, Dropbox
   - Import from other services
   - Collaboration options
