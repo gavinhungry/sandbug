@@ -4,11 +4,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'templates', 'themes'
+  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'router', 'templates',
+  'themes'
 ],
 function(
   config, utils, $, _,
-  Backbone, cdn, dom, keys, mirrors, panels, templates, themes
+  Backbone, cdn, dom, keys, mirrors, panels, router, templates, themes
 ) {
   'use strict';
 
@@ -28,8 +29,9 @@ function(
         // init various components
         mirrors.init(this.$input_panels);
         panels.init(this.$panels);
-        cdn.init_filter();
+        cdn.init();
         themes.init();
+        router.init();
 
         this.register_keys();
         this.remove_splash();

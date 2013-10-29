@@ -4,9 +4,9 @@
 
 define([
   'module', 'path', 'express', 'underscore', 'q', 'utils',
-  './frame', 'cdn'
+  './frame', 'cdn', 'routes'
 ],
-function(module, path, express, _, Q, utils, frame, cdn) {
+function(module, path, express, _, Q, utils, frame, cdn, routes) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
@@ -27,6 +27,8 @@ function(module, path, express, _, Q, utils, frame, cdn) {
       res.send(packages);
     });
   });
+
+  server.get('/login', routes.index);
 
   server.use(express.static(__dirname + '/../public'));
 

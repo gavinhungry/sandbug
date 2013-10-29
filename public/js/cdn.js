@@ -68,7 +68,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   /**
    * Init the CDN filter input
    */
-  cdn.init_filter = function() {
+  cdn.init = function() {
     var filterModel = new cdn.FilterInput();
     var filterView = new cdn.FilterInputView({ model: filterModel });
   };
