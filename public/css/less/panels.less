@@ -51,7 +51,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       font-family: @monospace !important;
       font-size: @mirror_font_size !important;
 
-      .CodeMirror-vscrollbar.nano > .pane { display: block !important; }
+      .CodeMirror-vscrollbar.nano {
+        > .content { overflow-y: hidden !important; }
+        > .pane { display: block !important; }
+      }
     }
   }
 
