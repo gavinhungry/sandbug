@@ -28,9 +28,11 @@ function(config, utils, $, _) {
       var templateUri = _.sprintf('%s/%s.html', dir, id);
       if (config.debug) { templateUri += '?v=' + (new Date()).getTime(); }
 
-      $.get(templateUri).done(function(template) {
+      $.get(templateUri).done(function(data, status, xhr) {
         // resolve with compiled template function
-        template_deferred.resolve(_.template(template));
+        template_deferred.resolve(_.template(data));
+      }).fail(function(xhr, status, err) {
+        template_deferred.reject(err);
       });
     });
   };
@@ -47,8 +49,12 @@ function(config, utils, $, _) {
     templates.load(id);
     var d = $.Deferred();
 
+    context = context || null;
+
     cache[id].done(function(template_fn) {
-      d.resolveWith(context || null, [template_fn]);
+      d.resolveWith(context, [template_fn]);
+    }).fail(function(err) {
+      d.rejectWith(context, [err]);
     });
 
     return d.promise();
