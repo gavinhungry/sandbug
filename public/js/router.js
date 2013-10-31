@@ -6,8 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus'],
-function(config, utils, $, _, Backbone, bus) {
+  'backbone', 'bus', 'popups'
+],
+function(config, utils, $, _, Backbone, bus, popups) {
   'use strict';
 
   var Router = Backbone.Router.extend({
