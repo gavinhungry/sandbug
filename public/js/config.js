@@ -16,7 +16,7 @@ function($, _) {
     'default_theme': 'dark',
     'panel_min': 52, // debuggerio.[theme].less:@panel_options_height + 10px
     'cdn_results': 32, // number of filtered CDN results to display at once
-    'cdn_height': 300, // px, cdn.less:#cdn-results max-height
+    'cdn_height': 200, // px, cdn.less:#cdn-results max-height
     'layout_time': 300, // ms
     'github': 'https://github.com/gavinhungry/debugger.io',
     'root': 'http://localhost:8080/', // https://debugger.io/

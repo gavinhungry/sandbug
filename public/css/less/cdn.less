@@ -8,7 +8,7 @@
 
   z-index: 10;
   position: absolute;
-  max-height: 300px; // sync with config.cdn_height
+  max-height: 200px; // sync with config.cdn_height
 
   width: calc(100% ~'-' 4px);
   margin-top: @panel_padding * 2 + 2px;
@@ -35,14 +35,13 @@
 
     > li {
       color: @filter_result_text_color;
-      text-shadow: 1px 1px 0 darken(@filter_results_bg_color, 10%);
+      text-shadow: 1px 1px 0 @filter_result_text_shadow_color;
       overflow: hidden;
       user-select: none;
       cursor: default;
-      font-family: @monospace;
-      font-size: @font_size - 1px;
-      padding: 6px;
-      margin: 0 0 2px 0;
+      font-size: @font_size + 1px;
+      padding: 5px;
+      margin: 0 0 1px 0;
       white-space: nowrap;
       text-overflow: ellipsis;
 
@@ -70,8 +69,9 @@
         }
       }
 
-      > .desc {
-        font-family: @font;
+      > .pkgname { font-weight: bold; }
+      > .pkgdesc {
+        font-size: @font_size - 1px;
         opacity: 0.8;
       }
     }
