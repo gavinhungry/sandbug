@@ -47,6 +47,29 @@ function(utils, config, $, _) {
   });
 
   /*
+   * utils.ensure_string
+   */
+  describe('utils.ensure_string', function() {
+    var input;
+
+    it('should always return a string', function() {
+      expect(utils.ensure_string()).toEqual('');
+      expect(utils.ensure_string(null)).toEqual('');
+      expect(utils.ensure_string(-1)).toEqual('-1');
+      expect(utils.ensure_string('foo')).toEqual('foo');
+
+      input = [1,2,3];
+      expect(utils.ensure_string(input)).toEqual(Array.prototype.toString.call(input));
+
+      input = { foo: 'bar' };
+      expect(utils.ensure_string(input)).toEqual(Object.prototype.toString.call(input));
+
+      input = function foo() {};
+      expect(utils.ensure_string(input)).toEqual(Function.prototype.toString.call(input));
+    });
+  });
+
+  /*
    * utils.module
    */
   describe('utils.module', function() {
