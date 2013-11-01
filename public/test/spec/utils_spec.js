@@ -175,4 +175,39 @@ function(utils, config, $, _) {
     });
   });
 
+  /*
+   * utils.clamp
+   */
+  describe('utils.clamp', function() {
+
+    it('should return value, if no min or max provided', function() {
+      expect(utils.clamp(-3)).toEqual(-3);
+      expect(utils.clamp(0)).toEqual(0);
+      expect(utils.clamp(5)).toEqual(5);
+    });
+
+    it('should clamp value over min, if max is not provided', function() {
+      expect(utils.clamp(0, 0)).toEqual(0);
+      expect(utils.clamp(100, 200)).toEqual(200);
+      expect(utils.clamp(100, 50)).toEqual(100);
+      expect(utils.clamp(-100, -200)).toEqual(-100);
+      expect(utils.clamp(-100, -50)).toEqual(-50);
+    });
+
+    it('should clamp value under max, if min is not provided', function() {
+      expect(utils.clamp(0, null, 0)).toEqual(0);
+      expect(utils.clamp(100, null, 200)).toEqual(100);
+      expect(utils.clamp(100, null, 50)).toEqual(50);
+      expect(utils.clamp(-100, null, -200)).toEqual(-200);
+      expect(utils.clamp(-100, null, -50)).toEqual(-100);
+    });
+
+    it('should clamp value between min and max, if both provided', function() {
+      expect(utils.clamp(0, 0, 0)).toEqual(0);
+      expect(utils.clamp(100, -20, 200)).toEqual(100);
+      expect(utils.clamp(60, 40, 50)).toEqual(50);
+      expect(utils.clamp(20, 60, 90)).toEqual(60);
+    });
+  });
+
 });
