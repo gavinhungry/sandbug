@@ -179,9 +179,9 @@ function(utils, config, $, _) {
    * utils.promise_now
    */
   describe('utils.promise_now', function() {
-    var value;
-
     it('should return a promise to resolve to a value', function() {
+      var value;
+
       runs(function() {
         utils.promise_now('foobar').done(function(val) { value = val; });
       });
@@ -196,7 +196,6 @@ function(utils, config, $, _) {
    * utils.clamp
    */
   describe('utils.clamp', function() {
-
     it('should return value, if no min or max provided', function() {
       expect(utils.clamp(-3)).toEqual(-3);
       expect(utils.clamp(0)).toEqual(0);
