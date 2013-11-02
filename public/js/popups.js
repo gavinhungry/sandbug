@@ -14,60 +14,76 @@ function(config, utils, $, _, bus, templates) {
   var popups = utils.module('popups');
 
   /**
-   * Build HTML for a popup window
    *
-   * @param {String} name - name of the popup template
-   * @param {Object} [data] - contextual data to the templating function
-   * @return {Promise} promise to return the HTML for the popup
    */
-  popups.build = function(name, data) {
-    var d = $.Deferred();
-
-    var content = _.sprintf('popup-%s', name);
-    var template_fns = $.when(templates.get('popup'), templates.get(content));
-
-    template_fns.done(function(popup_fn, content_fn) {
-      var contentHtml = content_fn(data);
-      var popupHtml = popup_fn({ content: contentHtml });
-
-      d.resolve(popupHtml);
-    }).fail(function(err) {
-      // uh oh
-    });
-
-    return d.promise();
-  };
+  popups.Popup = Backbone.Model.extend({});
 
   /**
-   * Fade hide and remove all popups on the page
    *
-   * @return {Promise} promise to return the number of removed popups
    */
-  popups.remove_all = function() {
-    var d = $.Deferred();
+  popups.PopupView = Backbone.View.extend({
+    el: '#popup',
 
-    var $popups = $('body').children('.popup');
-    var len = $popups.length;
+    initialize: function(options) {
+      this.render();
+    },
 
-    var promises = [];
+    events: {},
 
-    _.each($popups, function(popupNode) {
-      var $popup = $(popupNode);
-      var popup_deferred = $.Deferred();
+    render: function() {
+      var popup_promise = templates.get('popup', this);
+      var content_promise = templates.get(this.template, this);
+      var template_fns = $.when(popup_promise, content_promise);
 
-      $popup.transition({ 'opacity': 0 }, 'fast', function() {
-        $popup.remove();
-        popup_deferred.resolve(true);
+      template_fns.done(function(popup_fn, content_fn) {
+        var that = _.first(utils.ensure_array(this));
+
+        var contentHtml = content_fn(data);
+        var popupHtml = popup_fn({ content: contentHtml });
+
+        // remove any existing popups first
+        that.$el.transition({ 'opacity': 0 }, 'fast', function() {
+          that.$el.html(popupHtml);
+        });
+      }).fail(function(err) {
+        var that = _.first(utils.ensure_array(this));
+        var msg = _.sprintf('Error rendering "%s" - %s', that.template, err);
+        console.error(msg);
       });
 
-      promises.push(popup_deferred.promise());
-    });
+      return this;
+    }
+  });
 
-    $.when.apply(null, promises).done(function() {
-      d.resolve(len);
-    });
+  /**
+   *
+   */
+  popups.LoginPopup = popups.Popup.extend({});
 
-    return d.promise();
+  /**
+   *
+   */
+  popups.LoginPopupView = popups.PopupView.extend({
+    template: 'login'
+  });
+
+  /**
+   *
+   */
+  popups.show = function(name) {
+    var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
+    var viewName = _.sprintf('%sView', modelName);
+
+    var modelConstructor = popups[modelName];
+    var viewConstructor = popups[viewName];
+
+    if (!modelConstructor || !viewConstructor) {
+      console.error('popups.%s / popups.%s do not exist', modelName, viewName);
+      return;
+    }
+
+    var model = new modelConstructor();
+    var view = new viewConstructor({ model: model });
   };
 
   return popups;
