@@ -176,6 +176,23 @@ function(utils, config, $, _) {
   });
 
   /*
+   * utils.promise_now
+   */
+  describe('utils.promise_now', function() {
+    var value;
+
+    it('should return a promise to resolve to a value', function() {
+      runs(function() {
+        utils.promise_now('foobar').done(function(val) { value = val; });
+      });
+
+      waitsFor(function() {
+        return value === 'foobar';
+      }, 'promise to resolve to an expected value', 1000);
+    });
+  });
+
+  /*
    * utils.clamp
    */
   describe('utils.clamp', function() {
