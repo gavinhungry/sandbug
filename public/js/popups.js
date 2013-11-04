@@ -12,6 +12,7 @@ function(config, utils, $, _, bus, templates) {
   'use strict';
 
   var popups = utils.module('popups');
+  var popupEl = '#popup';
 
   /**
    *
@@ -22,13 +23,29 @@ function(config, utils, $, _, bus, templates) {
    *
    */
   popups.PopupView = Backbone.View.extend({
-    el: '#popup',
+    el: popupEl,
 
     initialize: function(options) {
       this.render();
     },
 
-    events: {},
+    events: {
+      'click': function(e) {
+        // only destroy the popup if the background area is clicked
+        if ($(e.target).is(popupEl)) { this.destroy(); }
+      }
+    },
+
+    destroy: function() {
+      var that = this;
+
+      popups.hide().always(function() {
+        // View.remove would call $el.remove, we want to reuse it
+        that.$el.empty();
+        that.stopListening();
+        // FIXME: need to navigate away now?
+      });
+    },
 
     render: function() {
       var popup_promise = templates.get('popup', this);
@@ -38,13 +55,15 @@ function(config, utils, $, _, bus, templates) {
       template_fns.done(function(popup_fn, content_fn) {
         var that = _.first(utils.ensure_array(this));
 
-        var contentHtml = content_fn(data);
+        var contentHtml = content_fn({ data: that.model.toJSON() });
         var popupHtml = popup_fn({ content: contentHtml });
 
         // remove any existing popups first
-        that.$el.transition({ 'opacity': 0 }, 'fast', function() {
+        popups.hide().done(function() {
           that.$el.html(popupHtml);
+          popups.show();
         });
+
       }).fail(function(err) {
         var that = _.first(utils.ensure_array(this));
         var msg = _.sprintf('Error rendering "%s" - %s', that.template, err);
@@ -64,13 +83,15 @@ function(config, utils, $, _, bus, templates) {
    *
    */
   popups.LoginPopupView = popups.PopupView.extend({
-    template: 'login'
+    template: 'popup-login'
   });
 
   /**
+   * Build a popup and show it right away
    *
+   * @param {String} name - name of the popup template to use
    */
-  popups.show = function(name) {
+  popups.build = function(name) {
     var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
     var viewName = _.sprintf('%sView', modelName);
 
@@ -84,6 +105,45 @@ function(config, utils, $, _, bus, templates) {
 
     var model = new modelConstructor();
     var view = new viewConstructor({ model: model });
+  };
+
+  /**
+   * Show the currently assigned popup
+   *
+   * @return {Promise} resolves to true after showing, or rejects to false
+   */
+  popups.show = function() {
+    var d = $.Deferred();
+
+    var $popup = $(popupEl);
+    if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
+    else {
+      $popup.show().transition({ 'opacity': 1 }, function() {
+        d.resolve(true);
+      });
+    }
+
+    return d.promise();
+  };
+
+  /**
+   * Hide the currently visible popup
+   *
+   * @return {Promise} resolves to true after hiding, or rejects to false
+   */
+  popups.hide = function() {
+    var d = $.Deferred();
+
+    var $popup = $(popupEl);
+    if (!$popup.length) { d.reject(false); }
+    else {
+      $popup.transition({ 'opacity': 0 }, function() {
+        $popup.hide();
+        d.resolve(true);
+      });
+    }
+
+    return d.promise();
   };
 
   return popups;

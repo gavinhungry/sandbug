@@ -27,8 +27,7 @@ function(config, utils, $, _, Backbone, bus, popups) {
   };
 
   router.on('route:login', function() {
-    utils.log('login route');
-    popups.show('login');
+    popups.build('login');
   });
 
   return router;
