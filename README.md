@@ -42,7 +42,6 @@ There is still a lot of work to do, including:
   - Import from other services
   - Collaboration options
   - More languages
-  - More puppies
   - Fixing all of the things that are already broken
 
 Attributions
