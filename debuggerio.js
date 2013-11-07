@@ -5,6 +5,8 @@
  */
 
 (function() {
+  'use strict';
+
   var requirejs = require('requirejs');
   requirejs.config({ baseUrl: 'server/js' });
 
