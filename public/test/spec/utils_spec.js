@@ -75,8 +75,8 @@ function(utils, config, $, _) {
   describe('utils.module', function() {
     it('should initially return an empty object', function() {
       var module = utils.module('foo', null, false);
-      expect(module.priv).toBeDefined();
-      expect(_.size(module)).toEqual(1); // just priv
+      expect(module._priv).toBeDefined();
+      expect(_.size(module)).toEqual(1); // just _priv
     });
 
     it('should allow extending a base object', function() {
