@@ -204,5 +204,37 @@ function(config, $, _) {
     return Math.min(Math.max(value, min), max);
   };
 
+  /**
+   * An array of limited capacity
+   *
+   * @param {Number} cap - capacity of the buffer
+   */
+  utils.Buffer = function(cap) {
+    this._data = [];
+    this.set_cap(cap);
+  };
+
+  utils.Buffer.prototype = {
+
+    /**
+     * Buffer some value(s), then truncating to capacity
+     *
+     * @param {Mixed} - value(s) to buffer
+     * @return {this}
+     */
+    buf: function() {
+      _.each(arguments, function(arg) { this._data.push(arg); }, this);
+      if (this._data.length > this._cap) {
+        this._data.splice(0, this._data.length - this._cap);
+      }
+
+      return this;
+    },
+
+    set_cap: function(cap) { this._cap = utils.clamp(cap, 0); },
+    get: function() { return this._data.slice(0); },
+    flush: function() { this._data = []; }
+  };
+
   return utils;
 });
