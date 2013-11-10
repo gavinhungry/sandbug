@@ -197,8 +197,9 @@ function(config, $, _) {
    * @return {Number} clamped value
    */
   utils.clamp = function(value, min, max) {
-    min = _.isNumber(min) ? min : Number.NEGATIVE_INFINITY;
-    max = _.isNumber(max) ? max : Number.POSITIVE_INFINITY;
+    value = _.isFinite(value) ? value: 0;
+    min = _.isFinite(min) ? min : Number.NEGATIVE_INFINITY;
+    max = _.isFinite(max) ? max : Number.POSITIVE_INFINITY;
 
     return Math.min(Math.max(value, min), max);
   };
