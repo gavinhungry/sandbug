@@ -11,9 +11,21 @@ define([
 function(config, utils, $, _, Backbone, bus, popups) {
   'use strict';
 
+  var prev_routes = new utils.Buffer(4);
+
+  var buffer_route = function() {
+    prev_routes.buf(Backbone.history.fragment);
+  };
+
   var Router = Backbone.Router.extend({
+    initialize: function() {
+      this.on('route', buffer_route);
+    },
+
     routes: {
-      'login': 'login'
+      'login': function() {
+        popups.build('login');
+      }
     }
   });
 
@@ -24,11 +36,8 @@ function(config, utils, $, _, Backbone, bus, popups) {
    */
   router.init = function() {
     Backbone.history.start({ pushState: true });
+    buffer_route();
   };
-
-  router.on('route:login', function() {
-    popups.build('login');
-  });
 
   return router;
 });

@@ -217,7 +217,7 @@ function(config, $, _) {
   utils.Buffer.prototype = {
 
     /**
-     * Buffer some value(s), then truncating to capacity
+     * Buffer some value(s), then truncate to capacity
      *
      * @param {Mixed} - value(s) to buffer
      * @return {this}
