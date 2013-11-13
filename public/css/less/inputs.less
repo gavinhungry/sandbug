@@ -5,26 +5,28 @@
 textarea:focus, input:focus, button:focus { outline: none; }
 
 input[type='text'], input[type='search'] {
-  background: @input_bg_color;
-  color: @input_text_color;
-  padding: 2px 4px;
-  font-family: @font;
-  font-size: @font_size;
+  &:not(.plain) {
+    background: @input_bg_color;
+    color: @input_text_color;
+    padding: 2px 4px;
+    font-family: @font;
+    font-size: @font_size;
 
-  border: 1px solid fade(@input_border_color, 80%);
-  box-shadow: 0 0 2px fade(@input_border_color, 70%),
-    inset 0 0 4px fade(@input_border_color, 10%);
+    border: 1px solid fade(@input_border_color, 80%);
+    box-shadow: 0 0 2px fade(@input_border_color, 70%),
+      inset 0 0 4px fade(@input_border_color, 10%);
 
-  &:focus {
-    background: @input_bg_focus_color;
-    border-color: fade(@input_border_focus_color, 95%);
-    box-shadow: 0 0 2px fade(@input_border_focus_color, 60%),
-      inset 0 0 4px fade(@input_border_focus_color, 30%);
+    &:focus {
+      background: @input_bg_focus_color;
+      border-color: fade(@input_border_focus_color, 95%);
+      box-shadow: 0 0 2px fade(@input_border_focus_color, 60%),
+        inset 0 0 4px fade(@input_border_focus_color, 30%);
+    }
+
+    &:disabled { background: @input_bg_disabled_color; }
+
+    &::-webkit-input-placeholder { color: @input_placeholder_color; }
+    &::-moz-placeholder { color: @input_placeholder_color; }
+    &:-ms-input-placeholder { color: @input_placeholder_color; }
   }
-
-  &:disabled { background: @input_bg_disabled_color; }
-
-  &::-webkit-input-placeholder { color: @input_placeholder_color; }
-  &::-moz-placeholder { color: @input_placeholder_color; }
-  &:-ms-input-placeholder { color: @input_placeholder_color; }
 }
