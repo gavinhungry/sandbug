@@ -442,7 +442,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
     $resizers.removeAttr('style');
     $master.removeAttr('style');
 
-    _.each(layouts, $.fn.removeClass.bind($parent));
+    _.each(layouts, _.bind($.fn.removeClass, $parent));
     $parent.addClass(layout);
 
     var dur = now ? 0 : config.layout_time;
