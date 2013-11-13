@@ -77,7 +77,9 @@ function(config, utils, $, _, bus, templates) {
   /**
    *
    */
-  popups.LoginPopup = popups.Popup.extend({});
+  popups.LoginPopup = popups.Popup.extend({
+    'defaults': { username: '', password: '' }
+  });
 
   /**
    *
