@@ -191,17 +191,17 @@ function(config, $, _) {
   /**
    * Return a number clamped by a minimum and maximum
    *
-   * @param {Number} value - number to clamp
+   * @param {Number} val - number to clamp
    * @param {Number} [min] - minimum value, defaults to 0
-   * @param {Number} [max] - maximum value, defaults to `value`
+   * @param {Number} [max] - maximum value, defaults to `val`
    * @return {Number} clamped value
    */
-  utils.clamp = function(value, min, max) {
-    value = _.isFinite(value) ? value: 0;
+  utils.clamp = function(val, min, max) {
+    val = _.isFinite(val) ? val: 0;
     min = _.isFinite(min) ? min : Number.NEGATIVE_INFINITY;
     max = _.isFinite(max) ? max : Number.POSITIVE_INFINITY;
 
-    return Math.min(Math.max(value, min), max);
+    return Math.min(Math.max(val, min), max);
   };
 
   /**
