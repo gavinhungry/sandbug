@@ -28,9 +28,10 @@ function(module, path, express, _, Q, utils, frame, cdn, routes) {
     });
   });
 
-  server.get('/login', routes.index);
+  server.get('/', routes.index);
 
-  server.use(express.static(__dirname + '/../public'));
+  // development: serve all static content via Node
+  // server.use(express.static(__dirname + '/../public'));
 
   return app;
 });

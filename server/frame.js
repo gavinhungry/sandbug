@@ -29,7 +29,8 @@ function(module, path, utils, _, Q, express, compilers, cons) {
   server.use(express.urlencoded());
   server.use(express.json());
 
-  server.use(express.static(__dirname + '/static'));
+  // development: serve all static content via Node
+  // server.use(express.static(__dirname + '/static'));
 
   server.post('/', function(req, res) {
     res.setHeader('X-XSS-Protection', '0');
