@@ -19,8 +19,8 @@ function($, _) {
     'cdn_height': 219, // px, cdn.less:#cdn-results max-height
     'layout_time': 300, // ms
     'github': 'https://github.com/gavinhungry/debugger.io',
-    'root': 'http://localhost:8080/', // https://debugger.io/
-    'frame': 'http://localhost:8081/' // https://frame.debugger.io/
+    'root': '//debugger.io/',
+    'frame': '//frame.debugger.io/'
   };
 
   /**
