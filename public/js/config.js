@@ -10,6 +10,8 @@ function($, _) {
 
   var config = {};
 
+  var hostname = window.location.hostname;
+
   // default options
   var options = {
     'debug': true,
@@ -19,8 +21,8 @@ function($, _) {
     'cdn_height': 219, // px, cdn.less:#cdn-results max-height
     'layout_time': 300, // ms
     'github': 'https://github.com/gavinhungry/debugger.io',
-    'root': '//debugger.io/',
-    'frame': '//frame.debugger.io/'
+    'root': _.sprintf('//%s/', hostname), // debugger.io
+    'frame': _.sprintf('//frame.%s/', hostname) // frame.debugger.io
   };
 
   /**
