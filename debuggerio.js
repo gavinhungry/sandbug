@@ -8,7 +8,10 @@
   'use strict';
 
   var requirejs = require('requirejs');
-  requirejs.config({ baseUrl: 'server/js' });
+  requirejs.config({
+    baseUrl: 'server/js',
+    paths: { us: 'lib/underscore' }
+  });
 
   requirejs(['../app', 'utils'],
   function(app, utils) {

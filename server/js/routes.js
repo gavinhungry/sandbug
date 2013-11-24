@@ -3,9 +3,10 @@
  */
 
 define([
-  'module', 'path', 'utils', 'underscore'
+  'module', 'path', 'utils', 'us',
+  'db'
 ],
-function(module, path, utils, _) {
+function(module, path, utils, _, db) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);

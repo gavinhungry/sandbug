@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'express', 'underscore', 'q', 'utils',
+  'module', 'path', 'express', 'us', 'q', 'utils',
   './frame', 'cdn', 'routes'
 ],
 function(module, path, express, _, Q, utils, frame, cdn, routes) {
@@ -30,7 +30,7 @@ function(module, path, express, _, Q, utils, frame, cdn, routes) {
 
   server.get('/', routes.index);
 
-  // development: serve all static content via Node
+  // develop: serve all static content via Express
   // server.use(express.static(__dirname + '/../public'));
 
   return app;

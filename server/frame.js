@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'utils', 'underscore', 'q',
+  'module', 'path', 'utils', 'us', 'q',
   'express', 'compilers', 'consolidate'
   ],
 function(module, path, utils, _, Q, express, compilers, cons) {
