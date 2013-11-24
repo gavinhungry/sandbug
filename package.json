@@ -13,6 +13,7 @@
   },
 
   "dependencies": {
+    "cjson": "0.2.x",
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "mongojs": "0.9.x",

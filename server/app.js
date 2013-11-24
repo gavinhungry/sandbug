@@ -3,10 +3,10 @@
  */
 
 define([
-  'module', 'path', 'express', 'us', 'q', 'utils',
+  'module', 'path', 'config', 'express', 'us', 'q', 'utils',
   './frame', 'cdn', 'routes'
 ],
-function(module, path, express, _, Q, utils, frame, cdn, routes) {
+function(module, path, config, express, _, Q, utils, frame, cdn, routes) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
@@ -14,7 +14,7 @@ function(module, path, express, _, Q, utils, frame, cdn, routes) {
 
   // Express server
   var server = express();
-  app.port = 8080;
+  app.port = config.ports.server;
 
   app.start = function() {
     server.listen(app.port);
