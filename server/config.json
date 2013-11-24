@@ -2,5 +2,13 @@
   "ports": {
     "server": 8080,
     "frame": 8081
+  },
+
+  "db": {
+    "name": "debugger",
+    "user": "debugger",
+    "pass": "develop",
+    "host": "localhost",
+    "port": 27017
   }
 }
