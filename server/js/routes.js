@@ -16,5 +16,9 @@ function(module, path, utils, _, db) {
     res.sendfile('public/index.html');
   };
 
+  routes.login = function(req, res) {
+    res.send('logged in!');
+  };
+
   return routes;
 });
