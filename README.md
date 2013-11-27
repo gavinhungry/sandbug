@@ -36,7 +36,7 @@ Installation
       server_name debugger.example.tld;
 
       location / { proxy_pass http://127.0.0.1:8080; }
-      location ~* ^.+\.(html|js|css|woff|png|jpg|gif|ico)$ {
+      location ~* ^(/test/?|.+\.(html|js|css|woff|png|jpg|gif|ico))$ {
         root /srv/http/debugger.io/public;
       }
     }
