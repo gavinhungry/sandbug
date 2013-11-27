@@ -3,12 +3,12 @@
  */
 
 define([
-  'module', 'path', 'config', 'utils', 'us', 'q', 'express',
-  './frame', 'cdn', 'routes', 'passport', 'auth'
+  'module', 'path', 'config', 'utils', 'us', 'q',
+  'auth', 'cdn', 'express', './frame', 'routes'
 ],
 function(
-  module, path, config, utils, _, Q, express,
-  frame, cdn, routes, passport, auth
+  module, path, config, utils, _, Q,
+  auth, cdn, express, frame, routes
 ) {
   'use strict';
 
@@ -19,11 +19,7 @@ function(
   var server = express();
   app.port = config.ports.server;
 
-  app.start = function() {
-    auth.init();
-    server.listen(app.port);
-    frame.start();
-  };
+  auth.init(server);
 
   // get list of CDN packages
   server.get('/cdn', function(req, res) {
@@ -32,16 +28,13 @@ function(
     });
   });
 
-  server.use(express.cookieParser());
-  server.use(express.session({
-    secret: 'kitten', key: 'session'
-  }));
-
-  server.use(passport.initialize());
-  server.use(passport.session());
-
   server.get('/', routes.index);
-  server.get('/login', auth.authenticate(), routes.login);
+  server.get('/login', auth.auth(), routes.login);
+
+  app.init = function() {
+    server.listen(app.port);
+    frame.start();
+  };
 
   return app;
 });

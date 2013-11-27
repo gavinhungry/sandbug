@@ -3,10 +3,13 @@
  */
 
 define([
-  'module', 'path', 'utils', 'underscore', 'q',
+  'module', 'path', 'config', 'utils', 'us', 'q',
   'fs'
 ],
-function(module, path, utils, _, Q, fs) {
+function(
+  module, path, config, utils, _, Q,
+  fs
+) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
@@ -38,6 +41,7 @@ function(module, path, utils, _, Q, fs) {
 
     // /* --- debug: return local file
     var str = fs.readFileSync('./server/cdnjs.json', 'utf8');
+
     var cdnjs = JSON.parse(str);
 
     var picked = cdn.pick_properties(cdnjs ? cdnjs.packages : []);

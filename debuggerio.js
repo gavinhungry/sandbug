@@ -15,7 +15,7 @@
 
   requirejs(['../app', 'utils'],
   function(app, utils) {
-    app.start();
+    app.init();
     utils.log('debugger.io running on port ' + app.port);
   });
 

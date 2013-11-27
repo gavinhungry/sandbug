@@ -3,10 +3,13 @@
  */
 
 define([
-  'module', 'path', 'config', 'utils', 'us',
-  'mongojs', 'bcrypt-nodejs', 'q'
+  'module', 'path', 'config', 'utils', 'us', 'q',
+  'mongojs'
 ],
-function(module, path, config, utils, _, mongo, bcrypt, Q) {
+function(
+  module, path, config, utils, _, Q,
+  mongo
+) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
@@ -28,59 +31,19 @@ function(module, path, config, utils, _, mongo, bcrypt, Q) {
   }
 
   /**
-   * Generate a bcrypt salted hash from a plaintext string
+   * Get a user from a login
    *
-   * @param {String} plaintext - password to hash
-   * @return {Promise} to return salted hash
-   */
-  db.generate_hash = function(plaintext) {
-    var d = Q.defer();
-
-    if (!_.isString(plaintext) || !plaintext.length) { d.reject(); }
-    else {
-      bcrypt.genSalt(null, function(err, salt) {
-        if (err) { return d.reject(err); }
-
-        bcrypt.hash(plaintext, salt, null, function(err, hash) {
-          if (err) { return d.reject(err); }
-
-          d.resolve(hash);
-        });
-      });
-    }
-
-    return d.promise;
-  };
-
-  /**
-   * Verify a plaintext with a bcrypt hash
-   *
-   * @param {String} plaintext - password to check
-   * @param {String} hash - bcrypt hash to compare to `plaintext`
-   * @return {Promise} to return a boolean (true if hash matches)
-   */
-  db.verify_hash = function(plaintext, hash) {
-    var d = Q.defer();
-
-    bcrypt.compare(plaintext, hash, function(err, result) {
-      d.resolve(!err && !!result);
-    });
-
-    return d.promise;
-  };
-
-  /**
-   * Get a user from a login and plaintext password
+   * To get only enabled users with a password, see `auth.get_user_by_login`
    *
    * @param {String} login - username or password
-   * @param {String} plaintext - password to check
    * @return {Promise} to return a user or false if no matching user found
    */
-  db.get_user = function(login, plaintext) {
+  db.get_user_by_login = function(login) {
     var d = Q.defer();
+    login = utils.ensure_string(login);
 
     if (connErr) { d.reject(connErr); }
-    else if (!_.isString(login) || !login.length) { d.resolve(false); }
+    else if (!login) { d.resolve(false); }
     else {
       var query = _.include(login, '@') ?
         { email: login } : { username: login };
@@ -89,14 +52,7 @@ function(module, path, config, utils, _, mongo, bcrypt, Q) {
         if (err) { return d.reject(err); }
         if (users.length !== 1) { return d.resolve(false); }
 
-        var user = _.first(users);
-        if (user.disabled) { return d.resolve(false); }
-
-        // if there is a single matching user, compare hashes
-        db.verify_hash(plaintext, user.bcrypt).done(function(result) {
-          delete user.bcrypt;
-          result ? d.resolve(user) : d.resolve(false);
-        });
+        d.resolve(_.first(users));
       });
     }
 
@@ -104,20 +60,25 @@ function(module, path, config, utils, _, mongo, bcrypt, Q) {
   };
 
   /**
-   * Determine if login credentials are for a valid user
+   * Get a user from a MongoDB _id
    *
-   * @param {String} login - username or password
-   * @param {String} plaintext - password to check
-   * @return {Promise} to return a Boolean
+   * @param {String} id - MongoDB _id
+   * @return {Promise} to return a user or false if no matching user found
    */
-  db.is_valid_user = function(login, plaintext) {
+  db.get_user_by_id = function(id) {
     var d = Q.defer();
+    id = utils.ensure_string(id);
 
-    db.get_user(login, plaintext).then(function(user) {
-      d.resolve(!!user);
-    }, function(err) {
-      d.resolve(false);
-    });
+    if (connErr) { d.reject(connErr); }
+    else if (!id) { d.resolve(false); }
+    else {
+      users.find({ _id: id }, function(err, users) {
+        if (err) { return d.reject(err); }
+        if (users.length !== 1) { return d.resolve(false); }
+
+        d.resolve(_.first(users));
+      });
+    }
 
     return d.promise;
   };

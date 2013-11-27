@@ -3,11 +3,18 @@
  */
 
 define([
-  'module', 'path', 'cjson'
+  'module', 'path', 'us', 'q',
+  'cjson'
 ],
-function(module, path, cjson) {
+function(
+  module, path, _, Q,
+  cjson
+) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
-  return cjson.load(__dirname + '/../config.json');
+
+  // TODO: ensure defaults or bail
+  var appConfig = cjson.load(__dirname + '/../../config.json') || {};
+  return appConfig.server;
 });

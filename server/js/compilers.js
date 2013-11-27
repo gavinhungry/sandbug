@@ -3,11 +3,14 @@
  */
 
 define([
-  'module', 'path', 'utils', 'underscore', 'q',
+  'module', 'path', 'config', 'utils', 'us', 'q',
   'marked', 'less', 'node-sass',
   'coffee-script', 'node-typescript', 'gorillascript'
 ],
-function(module, path, utils, _, Q, marked, less, sass, cs, ts, gs) {
+function(
+  module, path, config, utils, _, Q,
+  marked, less, sass, cs, ts, gs
+) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
