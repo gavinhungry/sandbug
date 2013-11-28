@@ -18,7 +18,7 @@ function(
   };
 
   routes.login = function(req, res) {
-    res.send('logged in!');
+    res.redirect('/');
   };
 
   return routes;

@@ -36,9 +36,10 @@ function(
    * To get only enabled users with a password, see `auth.get_user_by_login`
    *
    * @param {String} login - username or password
+   * @param {Boolean} [hash] - if true, include the hash property
    * @return {Promise} to return a user or false if no matching user found
    */
-  db.get_user_by_login = function(login) {
+  db.get_user_by_login = function(login, hash) {
     var d = Q.defer();
     login = utils.ensure_string(login);
 
@@ -52,7 +53,10 @@ function(
         if (err) { return d.reject(err); }
         if (users.length !== 1) { return d.resolve(false); }
 
-        d.resolve(_.first(users));
+        var user = _.first(users);
+        if (!hash) { delete user.hash; }
+
+        d.resolve(user);
       });
     }
 
@@ -63,20 +67,24 @@ function(
    * Get a user from a MongoDB _id
    *
    * @param {String} id - MongoDB _id
+   * @param {Boolean} [hash] - if true, include the hash property
    * @return {Promise} to return a user or false if no matching user found
    */
-  db.get_user_by_id = function(id) {
+  db.get_user_by_id = function(id, hash) {
     var d = Q.defer();
     id = utils.ensure_string(id);
 
     if (connErr) { d.reject(connErr); }
     else if (!id) { d.resolve(false); }
     else {
-      users.find({ _id: id }, function(err, users) {
+      users.find({ _id: mongo.ObjectId(id) }, function(err, users) {
         if (err) { return d.reject(err); }
         if (users.length !== 1) { return d.resolve(false); }
 
-        d.resolve(_.first(users));
+        var user = _.first(users);
+        if (!hash) { delete user.hash; }
+
+        d.resolve(user);
       });
     }
 

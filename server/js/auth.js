@@ -20,16 +20,32 @@ function(
    */
   auth.init = function(server) {
     passport.serializeUser(function(user, done) {
-      var str = new Date().getTime() + '-' + user._id;
+      var timestamp = new Date().getTime();
+      var str = _.sprintf('%s-%s', timestamp, user._id);
+
       done(null, str);
     });
 
     passport.deserializeUser(function(id, done) {
-      // done(err, user);
+      var split = utils.ensure_string(id).split('-');
+      var timestamp = _.first(split);
+      var id = _.last(split);
+
+      if (auth.timestamp_is_expired(timestamp)) {
+        done(null, false, { msg: 'session expired' });
+      } else {
+
+        // find a current session
+        db.get_user_by_id(id, false).then(function(user) {
+          user ? done(null, user) : done(null, false, { msg: 'invalid user id' });
+        }, function(err) {
+          done(err, false, { msg: 'authentication error' });
+        });
+      }
     });
 
     passport.use(new local.Strategy(function(login, plaintext, done) {
-      auth.get_user(login, plaintext).then(function(user) {
+      auth.get_user_by_login(login, plaintext).then(function(user) {
         user ? done(null, user) : done(null, false, { msg: 'invalid login' });
       }, function(err) {
         done(err, false, { msg: 'authentication error' });
@@ -46,12 +62,7 @@ function(
     server.use(passport.session());
   };
 
-  /**
-   *
-   */
-  auth.auth = function() {
-    return passport.authenticate('local');
-  };
+  auth.authenticate = passport.authenticate('local');
 
   /**
    * Generate a bcrypt salted hash from a plaintext string
@@ -108,7 +119,7 @@ function(
   auth.get_user_by_login = function(login, plaintext) {
     var d = Q.defer();
 
-    db.get_user_by_login(login).then(function(user) {
+    db.get_user_by_login(login, true).then(function(user) {
       if (!user || user.disabled) { d.resolve(false); }
 
       auth.verify_hash(plaintext, user.hash).done(function(match) {
@@ -120,6 +131,19 @@ function(
     });
 
     return d.promise;
+  };
+
+  /**
+   * Determine if a session timestamp is expired
+   *
+   * @param {Number | String} timestamp - a Unix timestamp
+   * @return {Boolean} true if timestamp is expired, false otherwise
+   */
+  auth.timestamp_is_expired = function(timestamp) {
+    var max = config.auth.hours * 3600 * 1000;
+    var age = utils.timestamp_age(timestamp);
+
+    return age < 0 || age > max;
   };
 
   return auth;

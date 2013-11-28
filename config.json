@@ -19,7 +19,8 @@
 
     "auth": {
       "secret": "foobar",
-      "cookie": "session"
+      "cookie": "session",
+      "hours": 0.0125 // 45 seconds
     }
   },
 

@@ -29,7 +29,7 @@ function(
   });
 
   server.get('/', routes.index);
-  server.get('/login', auth.auth(), routes.login);
+  server.get('/login', auth.authenticate, routes.login);
 
   app.init = function() {
     server.listen(app.port);
