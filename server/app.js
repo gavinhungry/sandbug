@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'us', 'q',
-  'auth', 'cdn', 'express', './frame', 'routes'
+  'auth', 'cdn', 'express', './frame'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cdn, express, frame, routes
+  auth, cdn, express, frame
 ) {
   'use strict';
 
@@ -21,15 +21,17 @@ function(
 
   auth.init(server);
 
-  // get list of CDN packages
+  // GET /cdn - list of CDN packages
   server.get('/cdn', function(req, res) {
     cdn.get_cache().done(function(packages) {
       res.send(packages);
     });
   });
 
-  server.get('/', routes.index);
-  server.get('/login', auth.authenticate, routes.login);
+  // GET /login
+  server.get('/login', auth.authenticate, function(req, res) {
+    res.redirect('/');
+  });
 
   app.init = function() {
     server.listen(app.port);
