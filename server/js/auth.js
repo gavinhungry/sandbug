@@ -26,8 +26,8 @@ function(
       done(null, str);
     });
 
-    passport.deserializeUser(function(id, done) {
-      var split = utils.ensure_string(id).split('-');
+    passport.deserializeUser(function(str, done) {
+      var split = utils.ensure_string(str).split('-');
       var timestamp = _.first(split);
       var id = _.last(split);
 
@@ -35,7 +35,7 @@ function(
         done(null, false, { msg: 'session expired' });
       } else {
 
-        // find a current session
+        // find a user for this session
         db.get_user_by_id(id, false).then(function(user) {
           user ? done(null, user) : done(null, false, { msg: 'invalid user id' });
         }, function(err) {
@@ -53,7 +53,7 @@ function(
     }));
 
     server.use(express.cookieParser());
-    server.use(express.session({
+    server.use(express.cookieSession({
       secret: config.auth.secret,
       key: config.auth.cookie
     }));

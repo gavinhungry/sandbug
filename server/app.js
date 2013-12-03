@@ -21,6 +21,11 @@ function(
 
   auth.init(server);
 
+  app.init = function() {
+    server.listen(app.port);
+    frame.start();
+  };
+
   // GET /cdn - list of CDN packages
   server.get('/cdn', function(req, res) {
     cdn.get_cache().done(function(packages) {
@@ -32,11 +37,6 @@ function(
   server.get('/login', auth.authenticate, function(req, res) {
     res.redirect('/');
   });
-
-  app.init = function() {
-    server.listen(app.port);
-    frame.start();
-  };
 
   return app;
 });
