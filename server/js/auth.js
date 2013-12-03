@@ -52,6 +52,7 @@ function(
       });
     }));
 
+    server.use(express.bodyParser());
     server.use(express.cookieParser());
     server.use(express.cookieSession({
       secret: config.auth.secret,

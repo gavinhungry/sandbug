@@ -33,8 +33,8 @@ function(
     });
   });
 
-  // GET /login
-  server.get('/login', auth.authenticate, function(req, res) {
+  // POST /login
+  server.post('/login', auth.authenticate, function(req, res) {
     res.redirect('/');
   });
 
