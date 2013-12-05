@@ -3,28 +3,22 @@
  */
 
 {
-  "server": {
-    "ports": {
-      "server": 8080,
-      "frame": 8081
-    },
-
-    "db": {
-      "name": "debugger",
-      "user": "debugger",
-      "pass": "develop",
-      "host": "localhost",
-      "port": 27017
-    },
-
-    "auth": {
-      "secret": "foobar",
-      "cookie": "session",
-      "hours": 0.0125 // 45 seconds
-    }
+  "ports": {
+    "server": 8080,
+    "frame": 8081
   },
 
-  "client": {
+  "db": {
+    "name": "debugger",
+    "user": "debugger",
+    "pass": "develop",
+    "host": "localhost",
+    "port": 27017
+  },
 
+  "auth": {
+    "secret": "foobar",
+    "cookie": "session",
+    "hours": 0.1 // 6 minutes
   }
 }

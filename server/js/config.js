@@ -15,6 +15,5 @@ function(
   var __dirname = path.dirname(module.uri);
 
   // TODO: ensure defaults or bail
-  var appConfig = cjson.load(__dirname + '/../../config.json') || {};
-  return appConfig.server;
+  return cjson.load(__dirname + '/../../config.json') || {};
 });

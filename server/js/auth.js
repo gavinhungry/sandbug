@@ -37,7 +37,7 @@ function(
 
         // find a user for this session
         db.get_user_by_id(id, false).then(function(user) {
-          user ? done(null, user) : done(null, false, { msg: 'invalid user id' });
+          user ? done(null, user) : done(null, false, { msg: 'invalid login' });
         }, function(err) {
           done(err, false, { msg: 'authentication error' });
         });
@@ -52,7 +52,8 @@ function(
       });
     }));
 
-    server.use(express.bodyParser());
+    server.use(express.json());
+    server.use(express.urlencoded());
     server.use(express.cookieParser());
     server.use(express.cookieSession({
       secret: config.auth.secret,
@@ -145,6 +146,17 @@ function(
     var age = utils.timestamp_age(timestamp);
 
     return age < 0 || age > max;
+  };
+
+  /**
+   * Clean up a potential username string
+   *
+   * @param {String} username - a string to treat as username input
+   * @return {String} username with only alphanumeric characters and underscores
+   */
+  auth.sanitize_username = function(username) {
+    username = utils.ensure_string(username).toLowerCase();
+    return username.replace(/[^a-z0-9_]/ig, '');
   };
 
   return auth;

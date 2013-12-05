@@ -4,9 +4,12 @@
 
 define([
   'module', 'path', 'config', 'utils', 'us', 'q',
-  'express', 'compilers', 'consolidate'
+  'compilers', 'consolidate', 'express'
   ],
-function(module, path, config, utils, _, Q, express, compilers, cons) {
+function(
+  module, path, config, utils, _, Q,
+  compilers, cons, express
+) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);

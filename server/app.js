@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'us', 'q',
-  'auth', 'cdn', 'express', './frame'
+  'auth', 'cdn', 'consolidate', 'express', './frame'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cdn, express, frame
+  auth, cdn, cons, express, frame
 ) {
   'use strict';
 
@@ -26,10 +26,22 @@ function(
     frame.start();
   };
 
+  // use Underscore templates
+  server.engine('html', cons.underscore);
+  server.set('view engine', 'html');
+  server.set('views', __dirname + '/templates');
+
+  server.get('/', function(req, res) {
+    var user = req.user || {};
+    res.render('index');
+
+    // { username: auth.sanitize_username(user.username) }
+  });
+
   // GET /cdn - list of CDN packages
   server.get('/cdn', function(req, res) {
     cdn.get_cache().done(function(packages) {
-      res.send(packages);
+      res.json(packages);
     });
   });
 
