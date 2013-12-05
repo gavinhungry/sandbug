@@ -15,7 +15,7 @@
   display: none;
   opacity: 0;
 
-  > .floater {
+  .floater {
     position: absolute;
     width: @popup_width;
     height: @popup_height;
@@ -25,5 +25,18 @@
     background-color: #EEE;
     border-radius: 2px;
     padding: 1em;
+  }
+
+  .popup-head {
+    font-family: @title_font;
+    font-size:  1.5em;
+    font-weight: bold;
+    color: @popup_head_color;
+    text-shadow:  2px 2px 0 @popup_head_text_shadow_color;
+    padding: 0 0 10px;
+    border-bottom:  2px solid @popup_head_border_color;
+    margin-bottom:  10px;
+    user-select: none;
+    cursor: default;
   }
 }

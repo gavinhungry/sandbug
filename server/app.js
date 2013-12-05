@@ -47,7 +47,9 @@ function(
 
   // POST /login
   server.post('/login', auth.authenticate, function(req, res) {
-    res.redirect('/');
+    var user = req.user || {};
+    var username = auth.sanitize_username(user.username);
+    res.json(username);
   });
 
   return app;

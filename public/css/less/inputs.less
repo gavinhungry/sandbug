@@ -4,7 +4,7 @@
 
 textarea:focus, input:focus, button:focus { outline: none; }
 
-input[type='text'], input[type='search'] {
+input[type='text'], input[type='password'], input[type='search'] {
   &:not(.plain) {
     background: @input_bg_color;
     color: @input_text_color;
@@ -28,5 +28,19 @@ input[type='text'], input[type='search'] {
     &::-webkit-input-placeholder { color: @input_placeholder_color; }
     &::-moz-placeholder { color: @input_placeholder_color; }
     &:-ms-input-placeholder { color: @input_placeholder_color; }
+  }
+
+  &.plain {
+    background: @input_plain_bg_color;
+    border: 2px solid @input_plain_border_color;
+    box-shadow: 2px 2px 0 @input_plain_border_color;
+    padding: 4px;
+    font-size: @font_size;
+
+    &:focus {
+      background: @input_plain_bg_focus_color;
+      border-color: @input_plain_border_focus_color;
+      box-shadow: 2px 2px 0 @input_plain_border_focus_color;
+    }
   }
 }

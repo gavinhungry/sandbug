@@ -17,7 +17,9 @@ function(config, utils, $, _, bus, templates) {
   /**
    *
    */
-  popups.Popup = Backbone.Model.extend({});
+  popups.Popup = Backbone.Model.extend({
+    defaults: { title: 'Popup' }
+  });
 
   /**
    *
@@ -43,20 +45,26 @@ function(config, utils, $, _, bus, templates) {
         // View.remove would call $el.remove, we want to reuse it
         that.$el.empty();
         that.stopListening();
+        that.undelegateEvents();
         // FIXME: need to navigate away now?
       });
     },
 
     render: function() {
-      var popup_promise = templates.get('popup', this);
-      var content_promise = templates.get(this.template, this);
-      var template_fns = $.when(popup_promise, content_promise);
+      var popup_p = templates.get('popup', this);
+      var content_p = templates.get(this.template, this);
+      var template_fns = $.when(popup_p, content_p);
 
       template_fns.done(function(popup_fn, content_fn) {
         var that = _.first(utils.ensure_array(this));
 
-        var contentHtml = content_fn({ data: that.model.toJSON() });
-        var popupHtml = popup_fn({ content: contentHtml });
+        var data = that.model.toJSON();
+
+        var contentHtml = content_fn({ data: data });
+        var popupHtml = popup_fn({
+          title: data.title,
+          content: contentHtml
+        });
 
         // remove any existing popups first
         popups.hide().done(function() {
@@ -78,14 +86,43 @@ function(config, utils, $, _, bus, templates) {
    *
    */
   popups.LoginPopup = popups.Popup.extend({
-    'defaults': { username: '', password: '' }
+    defaults: { title: 'Login' }
   });
 
   /**
    *
    */
   popups.LoginPopupView = popups.PopupView.extend({
-    template: 'popup-login'
+    template: 'popup-login',
+
+    initialize: function(options) {
+      this.events = _.extend({}, this.events, this._events);
+      this.constructor.__super__.initialize.apply(this, arguments);
+    },
+
+    _events: {
+      'submit #login_form': function(e) {
+        var that = this;
+        e.preventDefault();
+
+        var $form = $(e.target);
+        var uri = _.sprintf('%s?%s', $form.attr('action'), $form.serialize());
+        var method = $form.attr('method') === 'post' ? 'post' : 'get';
+
+        $[method](uri).done(function(username) {
+
+          // welcome! do something.
+
+          that.destroy();
+        }).fail(function() {
+          that.show_invalid_login();
+        });
+      }
+    },
+
+    show_invalid_login: function() {
+
+    }
   });
 
   /**
