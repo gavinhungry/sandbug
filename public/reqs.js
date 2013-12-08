@@ -30,7 +30,7 @@
       paths: {
         // libraries
         jqueryjs: CDNJS + '/jquery/2.0.3/jquery.min',
-        underscorejs: CDNJS + '/underscore.js/1.5.2/underscore-min',
+        underscorejs: CDNJS + '/lodash.js/2.4.1/lodash.min',
         backbonejs: CDNJS + '/backbone.js/1.1.0/backbone-min',
         codemirrorjs: CDNJS + '/codemirror/3.20.0/codemirror.min',
 
