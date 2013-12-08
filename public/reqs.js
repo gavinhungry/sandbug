@@ -13,9 +13,13 @@
    *
    * @param {String} [basePrefix] - prefix of base scripts directory ('/js')
    * @param {Boolean} [bustCache] - if true, append current time to GET request
+   * @param {Function} [callback] - ready callback function
    */
-  window._debugger_io_require = function(basePrefix, bustCache) {
-    if (configured) { return false; }
+  window._debugger_io_require = function(basePrefix, bustCache, callback) {
+    if (configured) {
+      if (callback) { callback(); }
+      return;
+    }
 
     var baseUrl = '/' + (basePrefix || '') + 'js';
 
@@ -92,8 +96,9 @@
       }
     });
 
-    require(['libs']);
-
-    return configured = true;
+    require(['libs'], function() {
+      configured = true;
+      if (callback) { callback(); }
+    });
   };
 })();
