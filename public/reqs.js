@@ -9,7 +9,7 @@
   var configured = false;
 
   /**
-   * Configure require.js for use with debugger.io
+   * Configure RequireJS for use with debugger.io
    *
    * @param {String} [basePrefix] - prefix of base scripts directory ('/js')
    * @param {Boolean} [bustCache] - if true, append current time to GET request
@@ -57,14 +57,7 @@
         // testing
         jasminejs: CDNJS + '/jasmine/1.3.1/jasmine',
         jasmine_html: CDNJS + '/jasmine/1.3.1/jasmine-html',
-        jasmine_jquery: 'plugins/jasmine-jquery.min',
-
-        // libraries with plugins
-        jquery: 'lib/jquery',
-        underscore: 'lib/underscore',
-        backbone: 'lib/backbone',
-        codemirror: 'lib/codemirror',
-        jasmine: 'lib/jasmine'
+        jasmine_jquery: 'plugins/jasmine-jquery.min'
       },
 
       shim: {
@@ -98,6 +91,8 @@
         codemirror_coffeescript: { deps: ['codemirrorjs'] }
       }
     });
+
+    require(['libs']);
 
     return configured = true;
   };
