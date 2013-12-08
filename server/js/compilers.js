@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'config', 'utils', 'us', 'q',
+  'module', 'path', 'config', 'utils', 'underscore', 'q',
   'marked', 'less', 'node-sass',
   'coffee-script', 'node-typescript', 'gorillascript'
 ],

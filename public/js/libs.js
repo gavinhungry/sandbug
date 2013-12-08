@@ -16,9 +16,9 @@ function($, ui, transit, nano) {
 });
 
 /**
- * Underscore.js
+ * Underscore.js (Lo-Dash)
  *
- * Includs: Underscore.string, underscore.inflection
+ * Includes: Underscore.string, underscore.inflection
  */
 define('underscore', ['underscorejs', 'string', 'inflection'],
 function(_, str, inflection) {

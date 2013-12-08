@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'us', 'q',
+  'module', 'path', 'underscore', 'q',
   'cjson'
 ],
 function(

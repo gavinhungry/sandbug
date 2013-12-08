@@ -9,14 +9,15 @@
 
   var requirejs = require('requirejs');
   requirejs.config({
-    baseUrl: 'server/js',
-    paths: { us: 'lib/underscore' }
+    baseUrl: 'server/js'
   });
 
-  requirejs(['../app', 'utils'],
-  function(app, utils) {
-    app.init();
-    utils.log('debugger.io running on port ' + app.port);
+  requirejs(['libs'], function() {
+    requirejs(['../app', 'utils'],
+    function(app, utils) {
+      app.init();
+      utils.log('debugger.io running on port ' + app.port);
+    });
   });
 
 })();

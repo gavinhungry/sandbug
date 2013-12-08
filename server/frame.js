@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'config', 'utils', 'us', 'q',
+  'module', 'path', 'config', 'utils', 'underscore', 'q',
   'compilers', 'consolidate', 'express'
   ],
 function(
@@ -24,7 +24,7 @@ function(
   };
 
   // use Underscore templates
-  server.engine('html', cons.underscore);
+  server.engine('html', cons.lodash);
   server.set('view engine', 'html');
   server.set('views', __dirname + '/templates');
 

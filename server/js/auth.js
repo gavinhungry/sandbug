@@ -3,7 +3,7 @@
  */
 
 define([
-  'module', 'path', 'config', 'utils', 'us', 'q',
+  'module', 'path', 'config', 'utils', 'underscore', 'q',
   'bcrypt-nodejs', 'db', 'express', 'passport', 'passport-local'
 ],
 function(
