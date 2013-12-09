@@ -2,6 +2,28 @@ define(['utils', 'config', 'jquery', 'underscore'],
 function(utils, config, $, _) {
   'use strict';
 
+  /**
+   * utils.log
+   */
+  describe('utils.log', function() {
+    var debug = config.debug;
+
+    beforeEach(function() { spyOn(console, 'log'); });
+    afterEach(function() { config.debug = debug; });
+
+    it('should call console.log when config.debug is true', function() {
+      config.debug = true;
+      utils.log('a', 'b');
+      expect(console.log).toHaveBeenCalledWith(jasmine.any(String), 'a', 'b');
+    });
+
+    it('should not call console.log when config.debug is false', function() {
+      config.debug = false;
+      utils.log('a', 'b');
+      expect(console.log).not.toHaveBeenCalled();
+    });
+  });
+
   /*
    * utils.ensure_jquery
    */
