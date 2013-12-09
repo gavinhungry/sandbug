@@ -263,4 +263,43 @@ function(utils, config, $, _) {
     });
   });
 
+  /*
+   * utils.Buffer
+   */
+  describe('utils.Buffer', function() {
+    it('should have a length of 0 if not specified', function() {
+      var b = new utils.Buffer();
+      b.buf('foo');
+      expect(b.get()).toEqual([]);
+    });
+
+    it('should drop values that exceed capacity', function() {
+      var b = new utils.Buffer(2);
+      b.buf('foo', 'bar', 'razzle', 'dazzle');
+      expect(b.get()).toEqual(['razzle', 'dazzle']);
+    });
+
+    it('should allow multiple values to be buffered', function() {
+      var b = new utils.Buffer(8);
+      b.buf('foo', 'bar', 'razzle', 'dazzle');
+      expect(b.get()).toEqual(['foo', 'bar', 'razzle', 'dazzle']);
+    });
+
+    it('should allow capacity to be changed', function() {
+      var b = new utils.Buffer(2);
+      b.buf('foo', 'bar');
+      b.set_cap(4);
+      b.buf('razzle', 'dazzle');
+      expect(b.get()).toEqual(['foo', 'bar', 'razzle', 'dazzle']);
+    });
+
+    it('should allow contents to be flushed', function() {
+      var b = new utils.Buffer(4);
+      b.buf('foo', 'bar');
+      b.flush();
+      b.buf('razzle', 'dazzle');
+      expect(b.get()).toEqual(['razzle', 'dazzle']);
+    });
+  });
+
 });
