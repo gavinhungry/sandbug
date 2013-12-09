@@ -198,6 +198,21 @@ function(utils, config, $, _) {
   });
 
   /*
+   * utils.resource_element_string
+   */
+  describe('utils.resource_element_string', function() {
+    it('should return script element for .js extension', function() {
+      expect(utils.resource_element_string('foo.js'))
+        .toEqual(utils.script_element_string('foo.js'));
+    });
+
+    it('should return style element for .css extension', function() {
+      expect(utils.resource_element_string('foo.css'))
+        .toEqual(utils.style_element_string('foo.css'));
+    });
+  });
+
+  /*
    * utils.promise_now
    */
   describe('utils.promise_now', function() {
