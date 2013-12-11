@@ -4,8 +4,8 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          baseUrl: './public/js',
-          mainConfigFile: './public/js/require.config.js',
+          baseUrl: './public/src/js',
+          mainConfigFile: './public/src/js/require.config.js',
           include: ['require.config.js'],
           name: 'main',
 
@@ -36,11 +36,7 @@ module.exports = function(grunt) {
             codemirror_less: 'empty:',
 
             codemirror_js: 'empty:',
-            codemirror_coffeescript: 'empty:',
-
-            jasminejs: 'empty:',
-            jasmine_html: 'empty:',
-            jasmine_jquery: 'empty:'
+            codemirror_coffeescript: 'empty:'
           }
         }
       }
@@ -51,10 +47,10 @@ module.exports = function(grunt) {
         options: { cleancss: true },
         files: {
           'public/css/debuggerio.light.min.css':
-          'public/css/less/debuggerio.light.less',
+          'public/src/less/debuggerio.light.less',
 
           'public/css/debuggerio.dark.min.css':
-          'public/css/less/debuggerio.dark.less'
+          'public/src/less/debuggerio.dark.less'
         }
       }
     },
