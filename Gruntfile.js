@@ -5,11 +5,11 @@ module.exports = function(grunt) {
       compile: {
         options: {
           baseUrl: './public/js',
-          mainConfigFile: './public/require.config.js',
-          include: ['../require.config.js'],
-          name: '../main',
+          mainConfigFile: './public/js/require.config.js',
+          include: ['require.config.js'],
+          name: 'main',
 
-          out: './public/debuggerio.min.js',
+          out: './public/js/debuggerio.min.js',
           preserveLicenseComments: true,
 
           paths: {

@@ -5,7 +5,7 @@
 (function() {
   'use strict';
 
-  require(['../require.config'], function() {
+  require(['../js/require.config'], function() {
     requirejs.config({
       baseUrl: '../js',
       urlArgs: ('v=' + (new Date()).getTime())
