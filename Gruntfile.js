@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     requirejs: {
-      compile: {
+      production: {
         options: {
           baseUrl: './public/src/js',
           mainConfigFile: './public/src/js/require.config.js',
