@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 
     less: {
       production: {
-        options: { yuicompress: true },
+        options: { cleancss: true },
         files: {
           'public/css/debuggerio.light.min.css':
           'public/css/less/debuggerio.light.less',
