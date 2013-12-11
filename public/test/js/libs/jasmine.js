@@ -1,7 +1,3 @@
-/*
- * debugger.io: An interactive web scripting sandbox
- */
-
 /**
  * Jasmine
  *
