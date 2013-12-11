@@ -60,11 +60,21 @@ module.exports = function(grunt) {
         src: ['server/static/css/gfm.css'],
         dest: 'server/static/css/gfm.min.css'
       }
+    },
+
+    clean: {
+      js: ['public/js'],
+      css: [
+        'public/css',
+        'server/static/css/gfm.min.css'
+      ]
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-yui-compressor');
-  grunt.registerTask('default', ['requirejs', 'less', 'cssmin']);
+  grunt.loadNpmTasks('grunt-contrib-clean');
+
+  grunt.registerTask('default', ['clean', 'requirejs', 'less', 'cssmin']);
 };
