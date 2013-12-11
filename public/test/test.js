@@ -5,7 +5,12 @@
 (function() {
   'use strict';
 
-  window._debugger_io_require('../', true, function() {
+  require(['../require.config'], function() {
+    requirejs.config({
+      baseUrl: '../js',
+      urlArgs: ('v=' + (new Date()).getTime())
+    });
+
     require(['jquery', 'underscore', 'jasmine', '../test/matchers'],
     function($, _, jasmine, matchers) {
       var env = jasmine.getEnv();

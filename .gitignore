@@ -14,5 +14,6 @@ results
 npm-debug.log
 node_modules
 
+public/*.min.js
 public/css/*.min.css
 server/static/css/*.min.css
