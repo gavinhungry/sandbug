@@ -37,7 +37,9 @@ module.exports = function(grunt) {
 
             codemirror_js: 'empty:',
             codemirror_coffeescript: 'empty:'
-          }
+          },
+
+          exclude: ['promise']
         }
       }
     },
