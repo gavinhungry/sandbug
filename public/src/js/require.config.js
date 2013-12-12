@@ -6,6 +6,8 @@
   'use strict';
 
   requirejs.config({
+    baseUrl: '/src/js',
+
     paths: {
       // libraries
       jqueryjs: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min',
@@ -18,7 +20,7 @@
       transit: '//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min',
       nano: '//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.7.4/jquery.nanoscroller.min',
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
-      inflection: '/src/js/plugins/underscore.inflection.min',
+      inflection: 'plugins/underscore.inflection.min',
 
       codemirror_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
       codemirror_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
@@ -69,4 +71,5 @@
       codemirror_coffeescript: { deps: ['codemirrorjs'] }
     }
   });
+
 })();

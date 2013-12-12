@@ -10,8 +10,10 @@
 (function() {
   'use strict';
 
-  require(['jquery', 'app'], function($, app) {
-    $(function() { new app.App(); });
+  require(['require.config'], function() {
+    require(['jquery', 'app'], function($, app) {
+      $(function() { new app.App(); });
+    });
   });
 
 })();

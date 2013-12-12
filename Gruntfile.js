@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         options: {
           baseUrl: './public/src/js',
           mainConfigFile: './public/src/js/require.config.js',
-          include: ['require.config.js'],
+          findNestedDependencies: true,
           name: 'main',
 
           out: './public/js/debuggerio.min.js',
