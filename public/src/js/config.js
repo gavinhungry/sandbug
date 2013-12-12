@@ -4,12 +4,12 @@
  * config.js: simple configuration manager
  */
 
-define(['promise!p_config'], function(config) {
+define(['promise!config_p'], function(config) {
   if (!config.prod) { window.config = config; }
   return config;
 });
 
-define('p_config', ['jquery', 'underscore'],
+define('config_p', ['jquery', 'underscore'],
 function($, _) {
   'use strict';
 
