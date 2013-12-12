@@ -26,7 +26,7 @@ function(config, utils, $, _) {
       cache[id] = template_deferred.promise();
 
       var templateUri = _.sprintf('%s/%s.html', dir, id);
-      if (config.debug) { templateUri += '?v=' + (new Date()).getTime(); }
+      if (!config.prod) { templateUri += '?v=' + (new Date()).getTime(); }
 
       $.get(templateUri).done(function(data, status, xhr) {
         // resolve with compiled template function

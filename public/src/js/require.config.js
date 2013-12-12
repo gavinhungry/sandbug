@@ -9,6 +9,8 @@
     baseUrl: '/src/js',
 
     paths: {
+      promise: 'plugins/requirejs-promise.min',
+
       // libraries
       jqueryjs: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min',
       underscorejs: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min',

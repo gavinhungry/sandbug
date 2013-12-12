@@ -4,7 +4,12 @@
  * config.js: simple configuration manager
  */
 
-define(['jquery', 'underscore'],
+define(['promise!p_config'], function(config) {
+  if (!config.prod) { window.config = config; }
+  return config;
+});
+
+define('p_config', ['jquery', 'underscore'],
 function($, _) {
   'use strict';
 
@@ -14,8 +19,6 @@ function($, _) {
 
   // default options
   var options = {
-    'debug': true,
-    'default_theme': 'dark',
     'panel_min': 52, // debuggerio.[theme].less:@panel_options_height + 10px
     'cdn_results': 32, // number of filtered CDN results to display at once
     'cdn_height': 219, // px, cdn.less:#cdn-results max-height
@@ -54,8 +57,25 @@ function($, _) {
     config[option] = value;
   };
 
-  _.each(options, function(value, option) { config.option(option, value); });
+  /**
+   * Create multiple new config options
+   *
+   * @param {Object} opts - key/value pairs
+   */
+  config.options = function(opts) {
+    _.each(opts, function(value, option) { config.option(option, value); });
+  };
 
-  if (config.debug) { window.config = config; }
-  return config;
+  config.options(options);
+
+  // get additional client-side config options from the server
+  var d = $.Deferred();
+  $.get('/config').done(function(data) {
+    config.options(data);
+    d.resolve(config);
+  }).fail(function() {
+    d.resolve(config);
+  });
+
+  return d.promise();
 });

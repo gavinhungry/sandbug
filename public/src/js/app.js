@@ -72,13 +72,10 @@ function(
 
     remove_splash: function() {
       var that = this;
-      _.delay(function() {
-        $('#loading').transition({ 'opacity': '0' }, 500, function() {
-          $(this).remove();
-
-          that.$title.transition({ 'opacity': 1 }, 'slow');
-        });
-      }, config.debug ? 0 : 1000);
+      $('#loading').transition({ 'opacity': '0' }, 500, function() {
+        $(this).remove();
+        that.$title.transition({ 'opacity': 1 }, 'slow');
+      });
     },
 
     render: function(callback) {

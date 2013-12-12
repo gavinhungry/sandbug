@@ -33,9 +33,7 @@ function(
 
   server.get('/', function(req, res) {
     var user = req.user || {};
-    res.render('index');
-
-    // { username: auth.sanitize_username(user.username) }
+    res.render('index', { prod: config.prod });
   });
 
   // GET /cdn - list of CDN packages
@@ -43,6 +41,11 @@ function(
     cdn.get_cache().done(function(packages) {
       res.json(packages);
     });
+  });
+
+  // GET /config - additional client-side config options
+  server.get('/config', function(req, res) {
+    res.json(config.client);
   });
 
   // POST /login

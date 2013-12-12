@@ -20,5 +20,10 @@
     "secret": "foobar",
     "cookie": "session",
     "hours": 0.1 // 6 minutes
+  },
+
+  "client": {
+    "default_theme": "dark", // dark or light
+    "default_layout": 0 // not yet implemented
   }
 }

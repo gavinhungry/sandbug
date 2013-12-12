@@ -9,15 +9,15 @@ function(config, $, _) {
   'use strict';
 
   var utils = {};
-  if (config.debug) { window.utils = utils; }
+  if (!config.prod) { window.utils = utils; }
 
   /**
-   * Log messages to console only in debug
+   * Log messages to console only in non-production
    *
    * @param {Mixed} - messages to log
    */
   utils.log = function() {
-    if (config.debug) {
+    if (!config.prod) {
       var args = _.toArray(arguments);
       args.unshift('==>');
       console.log.apply(console, args);
@@ -59,7 +59,7 @@ function(config, $, _) {
 
   /**
    * New module is just an empty object, but attach it to the global window
-   * object if config.debug is set
+   * object if config.prod is false
    *
    * @param {String} name - name of the module (only relevant to window)
    * @param {Object} [base] - base object to use
@@ -70,7 +70,7 @@ function(config, $, _) {
     var module = base || {};
     module._priv = module._priv || {};
 
-    if (global || (global === undefined && config.debug)) {
+    if (global || (global === undefined && !config.prod)) {
       window[name] = module;
     }
 

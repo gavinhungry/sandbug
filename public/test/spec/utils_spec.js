@@ -6,19 +6,19 @@ function(utils, config, $, _) {
    * utils.log
    */
   describe('utils.log', function() {
-    var debug = config.debug;
+    var prod = config.prod;
 
     beforeEach(function() { spyOn(console, 'log'); });
-    afterEach(function() { config.debug = debug; });
+    afterEach(function() { config.prod = prod; });
 
-    it('should call console.log when config.debug is true', function() {
-      config.debug = true;
+    it('should call console.log when config.prod is false', function() {
+      config.prod = false;
       utils.log('a', 'b');
       expect(console.log).toHaveBeenCalledWith(jasmine.any(String), 'a', 'b');
     });
 
-    it('should not call console.log when config.debug is false', function() {
-      config.debug = false;
+    it('should not call console.log when config.prod is true', function() {
+      config.prod = true;
       utils.log('a', 'b');
       expect(console.log).not.toHaveBeenCalled();
     });
