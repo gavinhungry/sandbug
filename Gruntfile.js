@@ -22,7 +22,6 @@ module.exports = function(grunt) {
             transit: 'empty:',
             nano: 'empty:',
             string: 'empty:',
-            inflection: 'empty:',
 
             codemirror_overlay: 'empty:',
             codemirror_search: 'empty:',
@@ -39,7 +38,7 @@ module.exports = function(grunt) {
             codemirror_coffeescript: 'empty:'
           },
 
-          exclude: ['promise']
+          exclude: ['promise', 'inflection']
         }
       }
     },
