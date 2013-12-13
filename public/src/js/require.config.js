@@ -12,6 +12,10 @@
   requirejs.config({
     baseUrl: '/src/js',
 
+    //>> excludeStart('bustCache', pragmas.bustCache);
+    urlArgs: 'cache=' + (new Date().getTime()),
+    //>> excludeEnd('bustCache');
+
     paths: {
       promise: 'plugins/requirejs-promise.min',
 
