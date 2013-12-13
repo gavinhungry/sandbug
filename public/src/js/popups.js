@@ -157,8 +157,10 @@ function(config, utils, $, _, bus, templates) {
     var $popup = $(popupEl);
     if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
     else {
-      $popup.show().transition({ 'opacity': 1 }, function() {
-        d.resolve(true);
+      $popup.show(function() {
+        $popup.transition({ 'opacity': 1 }, function() {
+          d.resolve(true);
+        });
       });
     }
 
