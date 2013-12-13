@@ -4,12 +4,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'router', 'templates',
-  'themes'
+  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'popups', 'router',
+  'templates', 'themes'
 ],
 function(
   config, utils, $, _,
-  Backbone, cdn, dom, keys, mirrors, panels, router, templates, themes
+  Backbone, cdn, dom, keys, mirrors, panels, popups, router, templates, themes
 ) {
   'use strict';
 
@@ -41,7 +41,7 @@ function(
     events: {
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
-      'click #github': function(e) { window.open(config.github); },
+      'click #login': function(e) { popups.build('login'); },
       'click #run': 'run'
     },
 
