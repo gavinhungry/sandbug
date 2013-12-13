@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 
           out: './public/js/debuggerio.min.js',
           preserveLicenseComments: true,
+          useStrict: true,
 
           paths: {
             jqueryjs: 'empty:',
