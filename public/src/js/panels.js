@@ -95,18 +95,13 @@ function(config, utils, $, _, bus, dom, mirrors) {
     var do_resize = function(e) {
       if (!$resizer) { return; }
 
-      var minDistanceX = -1 * (minEdge.left - leftEdge.left - config.panel_min);
-      var maxDistanceX = rightEdge.left - minEdge.left - config.panel_min;
-      var minDistanceY = -1 * (minEdge.top - leftEdge.top - config.panel_min);
-      var maxDistanceY = rightEdge.top - minEdge.top - config.panel_min;
+      var minDistX = -1 * (minEdge.left - leftEdge.left - config.panel_min);
+      var maxDistX = rightEdge.left - minEdge.left - config.panel_min;
+      var minDistY = -1 * (minEdge.top - leftEdge.top - config.panel_min);
+      var maxDistY = rightEdge.top - minEdge.top - config.panel_min;
 
-      var distanceX = e.pageX - mde.pageX;
-      var distanceY = e.pageY - mde.pageY;
-
-      if (distanceX < minDistanceX) { distanceX = minDistanceX; }
-      if (distanceX > maxDistanceX) { distanceX = maxDistanceX; }
-      if (distanceY < minDistanceY) { distanceY = minDistanceY; }
-      if (distanceY > maxDistanceY) { distanceY = maxDistanceY; }
+      var distanceX = utils.clamp(e.pageX - mde.pageX, minDistX, maxDistX);
+      var distanceY = utils.clamp(e.pageY - mde.pageY, minDistY, maxDistY);
 
       var prevOffsetX = _prevOffsetX + distanceX;
       var prevOffsetY = _prevOffsetY + distanceY;
