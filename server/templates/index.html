@@ -20,7 +20,7 @@
     <link rel='stylesheet' type='text/css' href='/css/debuggerio.light.min.css'>
     <script type='application/javascript'
       src='//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js'></script>
-    <script type='application/javascript' data-main='<%= prod ? 'js/debuggerio.min' : 'src/js/main' %>'
+    <script type='application/javascript' data-main='<%= prod ? 'js/debuggerio.min' + (commit ? '.js?v=' + commit : '') : 'src/js/main' %>'
       src='//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js'></script>
   </head>
 

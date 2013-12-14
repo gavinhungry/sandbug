@@ -33,7 +33,10 @@ function(
 
   server.get('/', function(req, res) {
     var user = req.user || {};
-    res.render('index', { prod: config.prod });
+    res.render('index', {
+      prod: config.prod,
+      commit: config.commit
+    });
   });
 
   // GET /cdn - list of CDN packages
