@@ -13,7 +13,7 @@
     baseUrl: '/src/js',
 
     //>> excludeStart('bustCache', pragmas.bustCache);
-    urlArgs: 'cache=' + (new Date().getTime()),
+    urlArgs: 'v=' + (new Date().getTime()),
     //>> excludeEnd('bustCache');
 
     paths: {
