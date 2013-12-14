@@ -11,7 +11,8 @@
     "grunt-contrib-requirejs": "0.4.x",
     "grunt-contrib-less": "0.8.x",
     "grunt-yui-compressor": "0.3.x",
-    "grunt-contrib-clean": "0.5.x"
+    "grunt-contrib-clean": "0.5.x",
+    "grunt-git-describe": "2.3.x"
   },
 
   "dependencies": {

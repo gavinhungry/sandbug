@@ -35,7 +35,7 @@ function(
     var user = req.user || {};
     res.render('index', {
       prod: config.prod,
-      commit: config.commit
+      rev: config.build.rev
     });
   });
 

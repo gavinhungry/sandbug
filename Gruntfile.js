@@ -1,7 +1,15 @@
 module.exports = function(grunt) {
 
+  grunt.file.defaultEncoding = 'utf8';
+
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-yui-compressor');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-git-describe');
+
   grunt.initConfig({
-    requirejs: {
+    'requirejs': {
       production: {
         options: {
           baseUrl: './public/src/js',
@@ -46,7 +54,7 @@ module.exports = function(grunt) {
       }
     },
 
-    less: {
+    'less': {
       production: {
         options: { cleancss: true },
         files: {
@@ -59,26 +67,43 @@ module.exports = function(grunt) {
       }
     },
 
-    cssmin: {
+    'cssmin': {
       production: {
         src: ['server/static/css/gfm.css'],
         dest: 'server/static/css/gfm.min.css'
       }
     },
 
-    clean: {
+    'clean': {
+      build: ['build.json'],
       js: ['public/js'],
       css: [
         'public/css',
         'server/static/css/gfm.min.css'
       ]
+    },
+
+    'git-describe': {
+      production: {
+        options: {
+          template: '{%=object%}',
+        }
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-yui-compressor');
-  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.task.registerTask('rev', function() {
+    grunt.event.once('git-describe', function (rev) {
+      grunt.file.write('./build.json', JSON.stringify({
+        timestamp: (new Date().getTime()),
+        rev: rev.toString()
+      }));
+    });
 
-  grunt.registerTask('default', ['clean', 'requirejs', 'less', 'cssmin']);
+    grunt.task.run('git-describe');
+  });
+
+  grunt.registerTask('default', [
+    'clean', 'requirejs', 'less', 'cssmin', 'rev'
+  ]);
 };

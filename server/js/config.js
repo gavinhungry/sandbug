@@ -4,30 +4,40 @@
 
 define([
   'module', 'path', 'underscore', 'q',
-  'cjson', 'fs'
+  'cjson'
 ],
 function(
   module, path, _, Q,
-  cjson, fs
+  cjson
 ) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
   var appRoot = __dirname + '/../../';
 
-  // TODO: ensure defaults or bail
-  var config = cjson.load(appRoot + 'config.json') || { client: {} };
-  config.prod = config.client.prod = (process.env.NODE_ENV === 'production');
+  var config = { client: {} };
 
-  // save the build commit hash to bust cache in production mode
-  var commit = null;
-  try {
-    commit = fs.readFileSync(appRoot + 'build.commit', 'utf8');
-    commit = commit.replace(/[^a-z0-9]/ig, '');
-  } catch(e) {
-    // null
-  }
-  config.commit = commit;
+  /**
+   * Extend the config object with data from a JSON file, if available
+   *
+   * @param {String} prop - property to create (if needed) and extend
+   * @param {String} filename - JSON filename, relative to `appRoot`
+   */
+  var extend_config_with_json = function(prop, filename) {
+    var obj = prop ? (config[prop] || {}) : config;
+    if (prop) { config[prop] = obj; }
+
+    try {
+      _.extend(obj, cjson.load(appRoot + filename));
+    } catch(err) {
+      // nothing to do
+    }
+  };
+
+  extend_config_with_json(null, 'config.json');
+  extend_config_with_json('build', 'build.json');
+
+  config.prod = config.client.prod = (process.env.NODE_ENV === 'production');
 
   return config;
 });
