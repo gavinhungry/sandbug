@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-
   grunt.file.defaultEncoding = 'utf8';
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
