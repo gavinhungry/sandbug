@@ -95,7 +95,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask('rev', function() {
     grunt.event.once('git-describe', function (rev) {
       grunt.file.write('./build.json', JSON.stringify({
-        timestamp: (new Date().getTime()),
+        date: grunt.template.date(new Date(), 'isoUtcDateTime'),
         rev: rev.toString()
       }));
     });
