@@ -5,7 +5,16 @@
 .button (@base: @button_default_base_color) {
   background: @base;
 
-  &:hover { background: lighten(@base, 4%); }
+  @_text_shadow_color: desaturate(darken(@base, 10%), 20%);
+  text-shadow: 2px 2px 1px @_text_shadow_color;
+  &.btn-small { text-shadow: 2px 2px 1px darken(@_text_shadow_color, 5%); }
+
+  &:hover {
+    background: lighten(@base, 4%);
+    text-shadow: 2px 2px 1px lighten(@_text_shadow_color, 5%);
+    &.btn-small { text-shadow: 2px 2px 1px @_text_shadow_color; }
+  }
+
   &:active {
     background: darken(@base, 4%);
     padding-top: 2px;
@@ -30,7 +39,6 @@ button {
   margin-right: 6px;
   color: @button_text_color;
   text-align: right;
-  text-shadow: 2px 2px 0 rgba(0,0,0, 0.05);
   transition: background @button_transition_time;
   overflow: hidden;
 
@@ -46,6 +54,7 @@ button {
   .button(@button_default_base_color);
   &.btn-small {
     .button(@button_small_default_base_color);
+    height: 30px;
     text-indent: 8px;
     padding-left: 0px;
     padding-right: 8px;
@@ -54,7 +63,6 @@ button {
     text-align: center;
     margin-right: 4px;
     color: @button_text_color;
-    text-shadow: 1px 1px 0 rgba(0,0,0, 0.2);
     border-color: @button_small_border_color;
     border-bottom-color: @button_small_bottom_border_color;
   }
