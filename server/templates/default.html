@@ -5,10 +5,50 @@
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <style type='text/css'>
-
+      html {
+        background: #FF5757;
+        box-shadow: inset 0 0 30px #8A2727;
+        height: 100%;
+      }
+      #center {
+        width: 800px;
+        margin: 100px auto;
+      }
+      #zoidberg {
+        display: block;
+        width: 512px;
+        margin: 0 auto;
+        opacity: 0.95;
+      }
+      h1 { font-size: 48px; }
+      h2 { font-size: 24px; }
+      h1, h2 {
+        font-family: monospace;
+        text-align: center;
+        color: #FBB;
+        font-weight: normal;
+        text-shadow: 1px 1px 8px #9A3737;
+        padding: 0;
+        margin: 8px;
+      }
+      footer {
+        text-align: center;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 9px;
+        color: #FBB;
+      }
     </style>
   </head>
 
   <body>
+    <div id='center'>
+      <img id='zoidberg' src='/images/zoidberg.png'>
+      <h1>Need an error page?</h1>
+      <h2>Why not Zoidberg?</h2>
+    </div>
+    <footer>
+      debugger.io rev <%= build.rev %>
+    </footer>
   </body>
 </html>

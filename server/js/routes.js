@@ -45,7 +45,9 @@ function(
 
   // default
   routes.default = function(req, res) {
-    res.render('default', config.build);
+    res.status(404).render('default', {
+      build: config.build
+    });
   };
 
   return routes;
