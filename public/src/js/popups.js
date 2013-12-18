@@ -33,9 +33,10 @@ function(config, utils, $, _, bus, keys, templates) {
 
       this.render();
 
-      popupKeyHander = keys.register_handler({ key: 'esc' }, function(e) {
-        that.destroy();
-      });
+      // remove popup on popups:destroy or Escape key
+      bus.on('popups:destroy', function() { that.destroy(); }, this);
+      popupKeyHander =
+        keys.register_handler({ key: 'esc' }, function(e) { that.destroy(); });
     },
 
     events: {
@@ -54,6 +55,7 @@ function(config, utils, $, _, bus, keys, templates) {
         that.$el.empty();
         that.stopListening();
         that.undelegateEvents();
+        bus.off_for(that);
         // FIXME: need to navigate away now?
       });
     },
@@ -208,6 +210,13 @@ function(config, utils, $, _, bus, keys, templates) {
     }
 
     return d.promise();
+  };
+
+  /**
+   * Destroy the currently visible popup(s)
+   */
+  popups.destroy = function() {
+    bus.trigger('popups:destroy');
   };
 
   return popups;
