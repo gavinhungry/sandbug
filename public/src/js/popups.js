@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'keys', 'templates'
+  'bus', 'flash', 'keys', 'templates'
 ],
-function(config, utils, $, _, bus, keys, templates) {
+function(config, utils, $, _, bus, flash, keys, templates) {
   'use strict';
 
   var popups = utils.module('popups');
@@ -127,9 +127,7 @@ function(config, utils, $, _, bus, keys, templates) {
 
         var method = $form.attr('method') === 'post' ? 'post' : 'get';
         $[method](uri, data).done(function(username) {
-
-          // welcome! do something.
-
+          bus.trigger('user:login', username);
           that.destroy();
         }).fail(function() {
           that.show_invalid_login();
@@ -142,8 +140,8 @@ function(config, utils, $, _, bus, keys, templates) {
     },
 
     show_invalid_login: function() {
-      // FIXME
-      console.error('INVALID LOGIN');
+      this.$el.find('input').val('');
+      this.post_render();
     }
   });
 

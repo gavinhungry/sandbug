@@ -4,12 +4,13 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'popups', 'router',
-  'templates', 'themes'
+  'backbone', 'bus', 'cdn', 'dom', 'keys', 'mirrors', 'panels', 'popups',
+  'router', 'templates', 'themes'
 ],
 function(
   config, utils, $, _,
-  Backbone, cdn, dom, keys, mirrors, panels, popups, router, templates, themes
+  Backbone, bus, cdn, dom, keys, mirrors, panels, popups,
+  router, templates, themes
 ) {
   'use strict';
 
@@ -32,6 +33,8 @@ function(
         cdn.init();
         themes.init();
         router.init();
+
+        bus.trigger('init');
 
         this.register_keys();
         this.remove_splash();
