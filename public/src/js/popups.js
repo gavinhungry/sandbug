@@ -6,13 +6,14 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'templates'
+  'bus', 'keys', 'templates'
 ],
-function(config, utils, $, _, bus, templates) {
+function(config, utils, $, _, bus, keys, templates) {
   'use strict';
 
   var popups = utils.module('popups');
   var popupEl = '#popup';
+  var popupKeyHander;
 
   /**
    *
@@ -28,7 +29,13 @@ function(config, utils, $, _, bus, templates) {
     el: popupEl,
 
     initialize: function(options) {
+      var that = this;
+
       this.render();
+
+      popupKeyHander = keys.register_handler({ key: 'esc' }, function(e) {
+        that.destroy();
+      });
     },
 
     events: {
@@ -40,6 +47,7 @@ function(config, utils, $, _, bus, templates) {
 
     destroy: function() {
       var that = this;
+      keys.unregister_handler(popupKeyHander);
 
       popups.hide().always(function() {
         // View.remove would call $el.remove, we want to reuse it

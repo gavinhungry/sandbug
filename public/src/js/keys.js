@@ -16,6 +16,7 @@ function(config, utils, $, _) {
 
   var key_map = {
     'enter': 13,
+    'esc':   27,
     'left':  37,
     'up':    38,
     'right': 39,
