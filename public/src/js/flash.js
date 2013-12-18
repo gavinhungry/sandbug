@@ -18,6 +18,8 @@ function(config, utils, $, _, bus, templates) {
   var lastBody;
   var timeout;
 
+  var priorities = ['bad', 'good'];
+
   bus.once('init', function(av) {
     $(flashEl).on('click', function(e) { flash.dismiss(); });
   });
@@ -29,8 +31,9 @@ function(config, utils, $, _, bus, templates) {
    *
    * @param {String} heading - heading of message (first line)
    * @param {String} [body] - body of message (second line)
+   * @param {String} [priority] - string from `priorities` (default is neutral)
    */
-  flash.message = function(heading, body) {
+  flash.message = function(heading, body, priority) {
     var $flash = $(flashEl);
 
     // don't do anything if this is the same message as last time
@@ -50,12 +53,25 @@ function(config, utils, $, _, bus, templates) {
       lastHeading = heading;
       lastBody = body;
 
+      $flash.removeClass(priorities.join(' '));
+      if (_.contains(priorities, priority)) {
+        $flash.addClass(priority);
+      }
+
       $flash.css({ 'top': $flash.height() * - 1 }).html(html).show();
       $flash.transition({ 'top': '48px', 'opacity': 0.85 }, function() {
         // wait until the flash message is visible before starting dismiss timer
         start_dismiss_timeout();
       });
     });
+  };
+
+  flash.message_bad = function(heading, body) {
+    return flash.message(heading, body, 'bad');
+  };
+
+  flash.message_good = function(heading, body) {
+    return flash.message(heading, body, 'good');
   };
 
   /**

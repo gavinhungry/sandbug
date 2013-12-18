@@ -56,7 +56,6 @@ function(config, utils, $, _, bus, flash, keys, templates) {
         that.stopListening();
         that.undelegateEvents();
         bus.off_for(that);
-        // FIXME: need to navigate away now?
       });
     },
 
@@ -127,9 +126,16 @@ function(config, utils, $, _, bus, flash, keys, templates) {
 
         var method = $form.attr('method') === 'post' ? 'post' : 'get';
         $[method](uri, data).done(function(username) {
+
+          // logged in
           bus.trigger('user:login', username);
+          flash.message_good('Successfully logged in',
+            _.sprintf('Welcome back, %s!', username));
+
           that.destroy();
         }).fail(function() {
+
+          // invalid credentials
           that.show_invalid_login();
         });
       }
@@ -142,6 +148,8 @@ function(config, utils, $, _, bus, flash, keys, templates) {
     show_invalid_login: function() {
       this.$el.find('input').val('');
       this.post_render();
+
+      flash.message_bad('Invalid login credentials');
     }
   });
 
