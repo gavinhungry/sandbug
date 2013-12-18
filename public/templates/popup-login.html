@@ -1,5 +1,8 @@
 <form id='login_form' action='/login' method='post'>
-  <input name='username' placeholder='Username or Email' class='plain' type='text'>
+  <input name='username' placeholder='Username or Email' autocomplete='off' class='plain' type='text'>
   <input name='password' placeholder='Password' class='plain' type='password'>
-  <button type='submit'>Submit</button>
+  <div class='button-row'>
+    <button type='submit' class='btn-small proceed'>Submit</button>
+    <button class='btn-small'>Forgot Password?</button>
+  </div>
 </form>
