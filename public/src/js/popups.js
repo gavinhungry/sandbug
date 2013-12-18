@@ -146,9 +146,7 @@ function(config, utils, $, _, bus, flash, keys, templates) {
     },
 
     show_invalid_login: function() {
-      this.$el.find('input').val('');
-      this.post_render();
-
+      this.$el.find('input[name="password"]').select();
       flash.message_bad('Invalid login credentials');
     }
   });
