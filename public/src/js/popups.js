@@ -122,10 +122,11 @@ function(config, utils, $, _, bus, keys, templates) {
         e.preventDefault();
 
         var $form = $(e.target);
-        var uri = _.sprintf('%s?%s', $form.attr('action'), $form.serialize());
-        var method = $form.attr('method') === 'post' ? 'post' : 'get';
+        var uri = $form.attr('action');
+        var data = $form.serialize();
 
-        $[method](uri).done(function(username) {
+        var method = $form.attr('method') === 'post' ? 'post' : 'get';
+        $[method](uri, data).done(function(username) {
 
           // welcome! do something.
 
