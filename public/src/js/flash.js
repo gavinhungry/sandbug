@@ -66,13 +66,12 @@ function(config, utils, $, _, bus, templates) {
     });
   };
 
-  flash.message_bad = function(heading, body) {
-    return flash.message(heading, body, 'bad');
-  };
-
-  flash.message_good = function(heading, body) {
-    return flash.message(heading, body, 'good');
-  };
+  // eg. flash.message_bad
+  _.each(priorities, function(priority) {
+    flash['message_' + priority] = function(heading, body) {
+      return flash.message(heading, body, priority);
+    };
+  });
 
   /**
    * Dismiss the flash message
