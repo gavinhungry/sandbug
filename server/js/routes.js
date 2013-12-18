@@ -43,6 +43,12 @@ function(
     res.json(username);
   };
 
+  // POST /logout
+  routes.post.logout = function(req, res) {
+    req.logout();
+    res.redirect('/');
+  };
+
   // default
   routes.default = function(req, res) {
     res.status(404).render('default', {

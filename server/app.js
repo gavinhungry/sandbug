@@ -36,6 +36,7 @@ function(
   server.get('/cdn', routes.get.cdn);
   server.get('/config', routes.get.config);
   server.post('/login', auth.authenticate, routes.post.login);
+  server.post('/logout', routes.post.logout);
 
   if (config.prod) {
     server.use(routes.default);
