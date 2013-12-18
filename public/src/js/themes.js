@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'mirrors'
+  'bus', 'mirrors'
 ],
-function(config, utils, $, _, mirrors) {
+function(config, utils, $, _, bus, mirrors) {
   'use strict';
 
   var themes = utils.module('themes');
