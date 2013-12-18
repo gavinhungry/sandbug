@@ -15,17 +15,26 @@
   display: none;
   opacity: 0;
 
-  .floater {
+  .popup {
     position: absolute;
+    background-color: @popup_bg_color;
+    box-shadow: 0 0 10px @popup_box_shadow_color;
+    border-radius: 2px;
+    padding: 1em;
+
     width: @popup_width;
     height: @popup_height;
     left: calc(50% ~'-' (@popup_width / 2));
     top: calc(45% ~'-' (@popup_height / 2));
 
-    background-color: @popup_bg_color;
-    box-shadow: 0 0 10px @popup_box_shadow_color;
-    border-radius: 2px;
-    padding: 1em;
+    &.popup-small {
+      @_small_width: round(@popup_width / 1.5);
+      @_small_height: round(@popup_height / 1.5);
+      width:  @_small_width;
+      height: @_small_height;
+      left: calc(50% ~'-' round(@_small_width / 2));
+      top: calc(45% ~'-' round(@_small_height / 2));
+    }
   }
 
   .popup-head {

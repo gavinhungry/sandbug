@@ -18,7 +18,7 @@ function(config, utils, $, _, bus, templates) {
    *
    */
   popups.Popup = Backbone.Model.extend({
-    defaults: { title: 'Popup' }
+    defaults: { small: false, title: 'Popup' }
   });
 
   /**
@@ -62,6 +62,7 @@ function(config, utils, $, _, bus, templates) {
 
         var contentHtml = content_fn({ data: data });
         var popupHtml = popup_fn({
+          small: !!data.small,
           title: data.title,
           content: contentHtml
         });
@@ -86,7 +87,7 @@ function(config, utils, $, _, bus, templates) {
    *
    */
   popups.LoginPopup = popups.Popup.extend({
-    defaults: { title: 'Login' }
+    defaults: { small: true, title: 'Login to debugger.io' }
   });
 
   /**
