@@ -73,7 +73,9 @@ function(config, utils, $, _, bus, templates) {
         // remove any existing popups first
         popups.hide().done(function() {
           that.$el.html(popupHtml);
-          popups.show();
+          popups.show().done(function() {
+            if (_.isFunction(that.post_render)) { that.post_render(); }
+          });
         });
 
       }).fail(function(err) {
@@ -124,8 +126,13 @@ function(config, utils, $, _, bus, templates) {
       }
     },
 
-    show_invalid_login: function() {
+    post_render: function() {
+      this.$el.find('input[name="username"]').focus();
+    },
 
+    show_invalid_login: function() {
+      // FIXME
+      console.error('INVALID LOGIN');
     }
   });
 
