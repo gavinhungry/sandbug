@@ -37,5 +37,7 @@ function(
   server.get('/config', routes.get.config);
   server.post('/login', auth.authenticate, routes.post.login);
 
+  server.use(routes.default);
+
   return app;
 });

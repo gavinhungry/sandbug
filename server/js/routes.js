@@ -43,5 +43,10 @@ function(
     res.json(username);
   };
 
+  // default
+  routes.default = function(req, res) {
+    res.render('default', config.build);
+  };
+
   return routes;
 });

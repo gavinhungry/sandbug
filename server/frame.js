@@ -23,7 +23,7 @@ function(
     server.listen(frame.port);
   };
 
-  // use Underscore templates
+  // use Underscore/Lodash templates
   server.engine('html', cons.lodash);
   server.set('view engine', 'html');
   server.set('views', __dirname + '/templates');
