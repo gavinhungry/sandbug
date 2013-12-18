@@ -5,6 +5,7 @@
  */
 
 define(['promise!config_p'], function(config) {
+  delete window._debugger_io;
   if (!config.prod) { window.config = config; }
   return config;
 });
@@ -25,7 +26,8 @@ function($, _) {
     'layout_time': 300, // ms
     'github': 'https://github.com/gavinhungry/debugger.io',
     'root': _.sprintf('//%s/', hostname), // debugger.io
-    'frame': _.sprintf('//frame.%s/', hostname) // frame.debugger.io
+    'frame': _.sprintf('//frame.%s/', hostname), // frame.debugger.io
+    'username': window._debugger_io.username
   };
 
   /**

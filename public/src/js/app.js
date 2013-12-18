@@ -26,6 +26,10 @@ function(
       // fetch the CDN package cache right away
       cdn.update_cache();
 
+      bus.on('user:login', function(username) {
+        config.username = username;
+      });
+
       this.render(function() {
         bus.trigger('init', this);
 
