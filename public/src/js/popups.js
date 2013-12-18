@@ -197,10 +197,14 @@ function(config, utils, $, _, bus, keys, templates) {
     var $popup = $(popupEl);
     if (!$popup.length) { d.reject(false); }
     else {
-      $popup.transition({ 'opacity': 0 }, function() {
-        $popup.hide();
-        d.resolve(true);
-      });
+      // popup is already hidden, don't wait to resolve
+      if ($popup.css('opacity') === '0') { d.resolve(true); }
+      else {
+        $popup.transition({ 'opacity': 0 }, function() {
+          $popup.hide();
+          d.resolve(true);
+        });
+      }
     }
 
     return d.promise();
