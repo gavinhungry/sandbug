@@ -51,6 +51,8 @@ function(config, utils, $, _, bus, templates) {
     },
 
     render: function() {
+      var that = this;
+
       var popup_p = templates.get('popup', this);
       var content_p = templates.get(this.template, this);
       var template_fns = $.when(popup_p, content_p);
@@ -64,7 +66,8 @@ function(config, utils, $, _, bus, templates) {
         var popupHtml = popup_fn({
           small: !!data.small,
           title: data.title,
-          content: contentHtml
+          content: contentHtml,
+          name: _.sprintf('%s-outer', that.template)
         });
 
         // remove any existing popups first

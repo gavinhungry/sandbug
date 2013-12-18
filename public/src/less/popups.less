@@ -31,7 +31,7 @@
       @_small_width: round(@popup_width / 1.5);
       @_small_height: round(@popup_height / 1.5);
       width:  @_small_width;
-      height: @_small_height;
+      height: auto;
       left: calc(50% ~'-' round(@_small_width / 2));
       top: calc(45% ~'-' round(@_small_height / 2));
     }
@@ -48,5 +48,15 @@
     margin-bottom:  10px;
     user-select: none;
     cursor: default;
+  }
+
+  .popup-login-outer {
+    input[name='username'], input[name='password'] {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    .button-row { margin-top: 8px; }
   }
 }
