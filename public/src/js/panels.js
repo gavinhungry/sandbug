@@ -16,16 +16,11 @@ function(config, utils, $, _, bus, dom, mirrors) {
   var layout_transitioning = false;
   var $active_panels;
 
-  /**
-   * Initialize a set of panels and panel resizers
-   *
-   * @param {jQuery} $panels - set of panels
-   */
-  panels.init = function($panels) {
-    $active_panels = $panels;
+  bus.once('init', function(av) {
+    $active_panels = av.$panels;
     panels.update_resize_handlers();
     panels.init_input_modes();
-  };
+  });
 
   /**
    * Remove resize handlers

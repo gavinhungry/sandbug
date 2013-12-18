@@ -16,13 +16,8 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   var instances = [];
   var last_focused;
 
-  /**
-   * Initialize a set of panels to contain CodeMirror instances
-   *
-   * @param {jQuery} $panels - set of panels
-   */
-  mirrors.init = function($panels) {
-    _.each($panels, function(panel) {
+  bus.once('init', function(av) {
+    _.each(av.$input_panels, function(panel) {
       var $panel = $(panel);
       var $textarea = $panel.children('textarea');
       var mode = $panel.children('.mode').val();
@@ -54,7 +49,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
       mirrors.add_lib_to_markup(uri);
       mirrors.refocus();
     });
-  };
+  });
 
   /**
    * Get a mirror by its panel id

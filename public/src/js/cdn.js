@@ -16,6 +16,11 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   var cdnjs = '%s://cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
   var cache = null;
 
+  bus.once('init', function(av) {
+    var filterModel = new cdn.FilterInput();
+    var filterView = new cdn.FilterInputView({ model: filterModel });
+  });
+
   /**
    * Check if client-side CDN package cache exists
    *
@@ -63,14 +68,6 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     });
 
     return d.promise();
-  };
-
-  /**
-   * Init the CDN filter input
-   */
-  cdn.init = function() {
-    var filterModel = new cdn.FilterInput();
-    var filterView = new cdn.FilterInputView({ model: filterModel });
   };
 
   /**

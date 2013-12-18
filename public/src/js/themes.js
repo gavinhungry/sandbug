@@ -15,10 +15,7 @@ function(config, utils, $, _, mirrors) {
 
   var theme_map = [];
 
-  /**
-   * Cache theme stylesheets and set default theme
-   */
-  themes.init = function() {
+  bus.once('init', function(av) {
     var themeRegex = /\/debuggerio\.(\w+)\.min\.css$/;
 
     _.each(document.styleSheets, function(stylesheet) {
@@ -32,7 +29,7 @@ function(config, utils, $, _, mirrors) {
     });
 
     themes.set_theme(config.default_theme);
-  };
+  });
 
   /**
    * Get the current theme id

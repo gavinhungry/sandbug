@@ -31,13 +31,10 @@ function(config, utils, $, _, Backbone, bus, popups) {
 
   var router = utils.module('router', new Router());
 
-  /**
-   * Initialize the Backbone router
-   */
-  router.init = function() {
+  bus.once('init', function(av) {
     Backbone.history.start({ pushState: true });
     buffer_route();
-  };
+  });
 
   return router;
 });

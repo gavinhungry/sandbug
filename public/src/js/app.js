@@ -27,14 +27,7 @@ function(
       cdn.update_cache();
 
       this.render(function() {
-        // init various components
-        mirrors.init(this.$input_panels);
-        panels.init(this.$panels);
-        cdn.init();
-        themes.init();
-        router.init();
-
-        bus.trigger('init');
+        bus.trigger('init', this);
 
         this.register_keys();
         this.remove_splash();

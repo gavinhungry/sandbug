@@ -18,7 +18,7 @@ function(config, utils, $, _, bus, templates) {
   var lastBody;
   var timeout;
 
-  bus.once('init', function() {
+  bus.once('init', function(av) {
     $(flashEl).on('click', function(e) { flash.dismiss(); });
   });
 
