@@ -12,7 +12,6 @@ function(config, utils, $, _) {
 
   var handlers = {};
   var last_hid = 0;
-  var initialized = false;
 
   var key_map = {
     'enter': 13,
@@ -24,15 +23,7 @@ function(config, utils, $, _) {
     '/':     191
   };
 
-  /**
-   * Start listening for key events and execute registered handlers
-   */
-  keys.init = function() {
-    if (initialized) {
-      utils.log('keys module already initialized');
-      return;
-    }
-
+  bus.once('init', function(av) {
     utils.log('initializing keys module');
 
     $(document).on('keyup', function(e) {
@@ -58,9 +49,7 @@ function(config, utils, $, _) {
         }
       });
     });
-
-    initialized = true;
-  };
+  });
 
   /**
    * Get a char code from a single-char

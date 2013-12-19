@@ -66,8 +66,6 @@ function(
       this.$panel_options.find('> button').on('click', function(e) {
         e.preventDefault();
       });
-
-      keys.init();
     },
 
     remove_splash: function() {
