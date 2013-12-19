@@ -47,12 +47,17 @@ function(config, utils, $, _, bus, flash, keys, templates) {
     },
 
     destroy: function() {
+      var d = $.Deferred();
+
       var that = this;
       keys.unregister_handler(popupKeyHander);
 
       popups.hide().always(function() {
         dom.destroy_view(that);
+        d.resolve(true);
       });
+
+      return d.promise();
     },
 
     render: function() {
