@@ -4,8 +4,11 @@
  * keys.js: key-command handlers
  */
 
-define(['config', 'utils', 'jquery', 'underscore'],
-function(config, utils, $, _) {
+define([
+  'config', 'utils', 'jquery', 'underscore',
+  'bus'
+],
+function(config, utils, $, _, bus) {
   'use strict';
 
   var keys = utils.module('keys');
