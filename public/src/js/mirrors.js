@@ -17,6 +17,8 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   var last_focused;
 
   bus.once('init', function(av) {
+    utils.log('init mirrors module');
+
     _.each(av.$input_panels, function(panel) {
       var $panel = $(panel);
       var $textarea = $panel.children('textarea');

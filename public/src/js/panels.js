@@ -17,6 +17,8 @@ function(config, utils, $, _, bus, dom, mirrors) {
   var $active_panels;
 
   bus.once('init', function(av) {
+    utils.log('init panels module');
+
     $active_panels = av.$panels;
     panels.update_resize_handlers();
     panels.init_input_modes();

@@ -17,6 +17,8 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   var cache = null;
 
   bus.once('init', function(av) {
+    utils.log('init cdn module');
+
     var filterModel = new cdn.FilterInput();
     var filterView = new cdn.FilterInputView({ model: filterModel });
   });

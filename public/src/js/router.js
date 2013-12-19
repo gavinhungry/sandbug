@@ -32,6 +32,8 @@ function(config, utils, $, _, Backbone, bus, popups) {
   var router = utils.module('router', new Router());
 
   bus.once('init', function(av) {
+    utils.log('init router module');
+
     Backbone.history.start({ pushState: true });
     buffer_route();
   });

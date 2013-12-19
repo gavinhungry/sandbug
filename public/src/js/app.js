@@ -21,6 +21,8 @@ function(
     el: '#debuggerio',
 
     initialize: function() {
+      utils.log('init app module');
+
       var that = this;
 
       // fetch the CDN package cache right away

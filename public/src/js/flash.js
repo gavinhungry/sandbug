@@ -21,6 +21,8 @@ function(config, utils, $, _, bus, templates) {
   var priorities = ['bad', 'good'];
 
   bus.once('init', function(av) {
+    utils.log('init flash module');
+
     $(flashEl).on('click', function(e) { flash.dismiss(); });
   });
 

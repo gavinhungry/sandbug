@@ -24,7 +24,7 @@ function(config, utils, $, _) {
   };
 
   bus.once('init', function(av) {
-    utils.log('initializing keys module');
+    utils.log('init keys module');
 
     $(document).on('keyup', function(e) {
       // hey, I just met you ...
