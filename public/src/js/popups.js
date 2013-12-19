@@ -127,12 +127,7 @@ function(config, utils, $, _, bus, flash, keys, templates) {
 
         var method = $form.attr('method') === 'post' ? 'post' : 'get';
         $[method](uri, data).done(function(username) {
-
-          // logged in
           bus.trigger('user:login', username);
-          flash.message_good('Successfully logged in',
-            _.sprintf('Welcome back, %s!', username));
-
           that.destroy();
         }).fail(function() {
 

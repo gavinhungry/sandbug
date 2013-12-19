@@ -28,8 +28,18 @@ function(
       // fetch the CDN package cache right away
       cdn.update_cache();
 
-      bus.on('user:login', function(username) { config.username = username; });
-      bus.on('user:logout', function() { config.username = null; });
+      bus.on('user:login', function(username) {
+        config.username = username;
+
+        flash.message_good('You are now logged in',
+          _.sprintf('Welcome back, %s!', username));
+      });
+
+      bus.on('user:logout', function() {
+        config.username = null;
+
+        flash.message('You are now logged out', '... and will be missed.');
+      });
 
       this.render(function() {
         bus.trigger('init', this);
