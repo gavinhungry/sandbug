@@ -51,11 +51,7 @@ function(config, utils, $, _, bus, flash, keys, templates) {
       keys.unregister_handler(popupKeyHander);
 
       popups.hide().always(function() {
-        // View.remove would call $el.remove, we want to reuse it
-        that.$el.empty();
-        that.stopListening();
-        that.undelegateEvents();
-        bus.off_for(that);
+        dom.destroy_view(that);
       });
     },
 
