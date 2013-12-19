@@ -59,7 +59,10 @@ function(config, utils, $, _, bus, templates) {
       }
 
       $flash.css({ 'top': $flash.height() * - 1 }).html(html).show();
-      $flash.transition({ 'top': '40px', 'opacity': 0.9 }, function() {
+      $flash.transition({
+        'top': config.flash_top,
+        'opacity': config.flash_opacity
+      }, function() {
         // wait until the flash message is visible before starting dismiss timer
         start_dismiss_timeout();
       });
@@ -101,7 +104,7 @@ function(config, utils, $, _, bus, templates) {
    */
   var start_dismiss_timeout = function() {
     clearTimeout(timeout);
-    timeout = setTimeout(flash.dismiss, 4000);
+    timeout = setTimeout(flash.dismiss, config.flash_duration);
   };
 
   return flash;
