@@ -20,7 +20,15 @@ function(
     toolbarView = new toolbar.ToolbarView();
 
     bus.on('user:login', function(username) {
-      toolbarView = new toolbar.ToolbarView({ username: username });
+      toolbarView.destroy().done(function() {
+        toolbarView = new toolbar.ToolbarView({ username: username });
+      });
+    });
+
+    bus.on('user:logout', function() {
+      toolbarView.destroy().done(function() {
+        toolbarView = new toolbar.ToolbarView({ username: null });
+      });
     });
   });
 
@@ -41,7 +49,10 @@ function(
     events: {
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
-      'click #login': function(e) { popups.build('login'); }
+      'click #login': function(e) { popups.build('login'); },
+      'click #logout': function(e) {
+        $.post('/logout').done(function(data) { bus.trigger('user:logout'); });
+      }
     },
 
     destroy: function() {

@@ -28,9 +28,8 @@ function(
       // fetch the CDN package cache right away
       cdn.update_cache();
 
-      bus.on('user:login', function(username) {
-        config.username = username;
-      });
+      bus.on('user:login', function(username) { config.username = username; });
+      bus.on('user:logout', function() { config.username = null; });
 
       this.render(function() {
         bus.trigger('init', this);
