@@ -4,8 +4,11 @@
  * dom.js: DOM helpers
  */
 
-define(['config', 'utils', 'jquery', 'underscore'],
-function(config, utils, $, _) {
+define([
+  'config', 'utils', 'jquery', 'underscore',
+  'backbone', 'bus'
+],
+function(config, utils, $, _, Backbone, bus) {
   'use strict';
 
   var dom = utils.module('dom');
@@ -32,6 +35,22 @@ function(config, utils, $, _) {
     }, context));
 
     return context;
+  };
+
+  /**
+   * Stop listening to events on a Backbone View, but empty it instead of
+   * removing it, as View.remove would do
+   *
+   * @param {Backbone.View} view - view to destroy
+   */
+  dom.destroy_view = function(view) {
+    if (!(view instanceof Backbone.View)) { return; }
+    utils.log('destroying view:', view.template);
+
+    view.$el.empty();
+    view.stopListening();
+    view.undelegateEvents();
+    bus.off_for(view);
   };
 
   /**
