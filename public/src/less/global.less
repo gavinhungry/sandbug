@@ -8,6 +8,7 @@
 @import url('//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.7.4/nanoscroller.min.css');
 @import url('//fonts.googleapis.com/css?family=Droid+Sans+Mono');
 @import url('//fonts.googleapis.com/css?family=Coda');
+@import url('//fonts.googleapis.com/css?family=Belgrano');
 
 * { transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; }
 
@@ -17,8 +18,10 @@
 // Fonts
 @font: 'Ubuntu', sans-serif;
 @font_size: 12px;
-@monospace: 'Droid Sans Mono', 'Menlo', monospace;
+@monospace_hard: 'Droid Sans Mono', 'Menlo';
+@monospace: @monospace_hard, monospace;
 @title_font: 'Coda', sans-serif;
+@serif_font: 'Belgrano', serif;
 
 // frontenddevreactions.tumblr.com/post/50110341554
 *, *:before, *:after { box-sizing: border-box; }

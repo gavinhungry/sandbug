@@ -13,35 +13,38 @@
   user-select: none;
   text-align: center;
   padding: 15px 20px;
-  border-radius: 2px;
-  text-shadow: 2px 2px 0 rgba(128, 128, 128, 0.3);
+  border-radius: 4px;
+  font-family: @serif_font;
 
   h1 {
-    font-family: @monospace;
-    font-size: @font_size + 6px;
+    font-size: @font_size + 8px;
     font-weight: bold;
     text-transform: uppercase;
   }
 
   h2 {
-    font-size: @font_size + 1px;
+    font-size: @font_size + 4px;
     margin-top: 0.5em;
+    padding-top: 0.5em;
+    border-top: 1px dotted #9AB;
   }
 
   // neutral
   background: #BCD;
-  border: 4px solid #359;
+  border: 6px solid #359;
   color: #359;
 
   &.bad {
     background: #ECC;
     border-color: #B44;
     color: #B44;
+    h2 { border-top-color: #CAA; }
   }
 
   &.good {
     background: #DED;
     border-color: #363;
     color: #363;
+    h2 { border-top-color: #BCB; }
   }
 }
