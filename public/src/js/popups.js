@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'flash', 'keys', 'templates'
+  'bus', 'dom', 'flash', 'keys', 'templates'
 ],
-function(config, utils, $, _, bus, flash, keys, templates) {
+function(config, utils, $, _, bus, dom, flash, keys, templates) {
   'use strict';
 
   var popups = utils.module('popups');
