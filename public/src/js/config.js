@@ -20,10 +20,6 @@ function($, _) {
 
   // default options
   var options = {
-    'panel_min': 52, // debuggerio.[theme].less:@panel_options_height + 10px
-    'cdn_results': 32, // number of filtered CDN results to display at once
-    'cdn_height': 219, // px, cdn.less:#cdn-results max-height
-    'layout_time': 300, // ms
     'github': 'https://github.com/gavinhungry/debugger.io',
     'root': _.sprintf('//%s/', hostname), // debugger.io
     'frame': _.sprintf('//frame.%s/', hostname), // frame.debugger.io
