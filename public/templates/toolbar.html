@@ -1,0 +1,10 @@
+<button id='theme'><i class='icon icon-only eye'></i></button>
+<button id='layout'><i class='icon icon-only layout'></i></button>
+
+<% if (username) { %>
+  <button id='settings' class='slate'>Settings</button>
+  <button id='logout' class='action'>Logout</button>
+<% } else { %>
+  <button id='signup' class='slate'>Sign Up</button>
+  <button id='login' class='action'>Login</button>
+<% } %>
