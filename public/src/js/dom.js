@@ -13,6 +13,17 @@ function(config, utils, $, _, Backbone, bus) {
 
   var dom = utils.module('dom');
 
+  bus.once('init', function(av) {
+    utils.log('init dom module');
+
+    var $blank = $('#blank');
+    var $button = $('<button></button>');
+    $blank.empty().append($button);
+
+    $('body').toggleClass('alt', !!$button.width());
+    $blank.empty();
+  });
+
   /**
    * Cache DOM elements by id and class name onto another object
    *

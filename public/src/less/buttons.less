@@ -32,9 +32,9 @@ button {
   box-shadow: 0 0 4px @button_box_shadow_color;
   font-family: @title_font;
   font-weight: bold;
-  font-size: 14px;
+  font-size: @font_size + 2px;
   line-height: 0;
-  padding: 0 10px;
+  padding: 0 8px;
   margin-left: 0;
   margin-right: 6px;
   color: @button_text_color;
@@ -42,13 +42,15 @@ button {
   transition: background @button_transition_time;
   overflow: hidden;
 
+  &::-moz-focus-inner { border: none; }
+
   > i.icon, > i.icon-social {
     width: 22px;
     display: block;
     text-align: center;
-    margin: 0 40px 0 -8px;
+    margin: 0 54px 0 -4px;
 
-    &.icon-only { margin: 0 -6px; }
+    &.icon-only { margin: 0 -2px 0 -3px; }
   }
 
   .button(@button_default_base_color);
@@ -83,4 +85,11 @@ button {
 
 .button-row {
   display: flex;
+}
+
+body.alt {
+  button:not(.btn-small) {
+    letter-spacing: -1px;
+    padding: 0 6px;
+  }
 }
