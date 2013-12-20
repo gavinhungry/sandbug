@@ -84,8 +84,10 @@ function(config, utils, $, _, bus, dom, flash, keys, templates) {
         popups.hide().done(function() {
           that.$el.html(popupHtml);
           popups.show().done(function() {
-            if (_.isFunction(that.post_render)) { that.post_render(); }
+            if (_.isFunction(that.post_transition)) { that.post_transition(); }
           });
+
+          if (_.isFunction(that.post_render)) { that.post_render(); }
         });
 
       }).fail(function(err) {
