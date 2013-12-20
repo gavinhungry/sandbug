@@ -12,7 +12,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
   var panels = utils.module('panels');
 
-  var layouts = ['layout-a', 'layout-b', 'layout-c'];
+  var layouts = ['layout-cols', 'layout-top', 'layout-left'];
   var layout_transitioning = false;
   var $active_panels;
 
@@ -22,6 +22,8 @@ function(config, utils, $, _, bus, dom, mirrors) {
     $active_panels = av.$panels;
     panels.update_resize_handlers();
     panels.init_input_modes();
+
+    panels.set_layout(config.default_layout, true);
   });
 
   /**
@@ -114,10 +116,10 @@ function(config, utils, $, _, bus, dom, mirrors) {
       lastY = e.pageY;
 
       switch(layout) {
-        case 'layout-a':
+        case 'layout-cols':
           $prev.width(newPrevWidth).data('x-offset', prevOffsetX);
           $next.width(newNextWidth).data('x-offset', nextOffsetX);
-        break; case 'layout-b':
+        break; case 'layout-top':
           if (isInputResizer) {
             $prev.width(newPrevWidth).data('x-offset', prevOffsetX);
             $next.width(newNextWidth).data('x-offset', nextOffsetX);
@@ -125,7 +127,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
             $inputsAll.height(newPrevHeight).data('y-offset', prevOffsetY);
             $next.height(newNextHeight).data('y-offset', nextOffsetY);
           }
-        break; case 'layout-c':
+        break; case 'layout-left':
           if (isInputResizer) {
             $prev.height(newPrevHeight).data('y-offset', prevOffsetY);
             $next.height(newNextHeight).data('y-offset', nextOffsetY);
@@ -190,7 +192,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
           reset_horiz_panel(panel, false, callback);
         });
 
-        if (layout === 'layout-b' && !isInputResizer) {
+        if (layout === 'layout-top' && !isInputResizer) {
           _.each(panels.get_input_panels(), function(panel) {
             reset_horiz_panel(panel, true, callback);
           });
@@ -200,7 +202,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
           reset_vert_panel(panel, false, callback);
         });
 
-        if (layout === 'layout-c' && !isInputResizer) {
+        if (layout === 'layout-left' && !isInputResizer) {
           _.each(panels.get_input_panels(), function(panel) {
             reset_vert_panel(panel, true, callback);
           });
@@ -445,12 +447,12 @@ function(config, utils, $, _, bus, dom, mirrors) {
     });
 
     // additional transition effects
-    if (layout === 'layout-a') {
+    if (layout === 'layout-cols') {
       $inputs.css({ 'width':  '33.3%' });
       $panels.transition({ 'width': '25%' }, dur, callback);
     }
 
-    else if (layout === 'layout-b') {
+    else if (layout === 'layout-top') {
       // restore the original width temporarily
       _.each(widths, function(width, i) { $inputs.eq(i).width(width); });
 
@@ -462,7 +464,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
       }, dur, callback);
     }
 
-    else if (layout === 'layout-c') {
+    else if (layout === 'layout-left') {
       $master.transition({ 'left' : '40%' }, dur);
       $inputs.transition({ 'width': '40%' }, dur);
       $output.transition({ 'right': 0 }, dur, callback);
@@ -473,18 +475,9 @@ function(config, utils, $, _, bus, dom, mirrors) {
    * Rotate panels parent through available layouts
    */
   panels.cycle_layout = function() {
-    var $parent = panels.get_parent();
-
-    var hasLayout = _.some(layouts, function(layout, i) {
-      if ($parent.hasClass(layout)) {
-        var nextLayout = layouts[(i + 1) % layouts.length];
-        panels.set_layout(nextLayout);
-
-        return true;
-      }
-    });
-
-    if (!hasLayout) { panels.set_layout(_.first(layouts)); }
+    var index = _.indexOf(layouts, panels.get_layout());
+    var nextLayout = layouts[(index + 1) % layouts.length];
+    panels.set_layout(nextLayout);
   };
 
   return panels;

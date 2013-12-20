@@ -23,14 +23,14 @@
   },
 
   "client": {
-    "default_theme": "dark", // dark or light
-    "default_layout": 0,     // not yet implemented
-    "panel_min": 52,         // px, [theme].less:@panel_options_height + 10px
-    "cdn_results": 32,       // number of filtered CDN results to display
-    "cdn_height": 219,       // px, cdn.less:#cdn-results max-height
-    "layout_time": 300,      // ms
-    "flash_duration": 4000,  // ms
-    "flash_top": 40,         // px
+    "default_layout": "layout-left", // layout-cols, layout-top, layout-left
+    "default_theme": "dark", // dark, light
+    "panel_min": 52, // px, [theme].less:@panel_options_height + 10px
+    "cdn_results": 32, // number of filtered CDN results to display
+    "cdn_height": 219, // px, cdn.less:#cdn-results max-height
+    "layout_time": 300, // ms
+    "flash_duration": 4000, // ms
+    "flash_top": 40, // px
     "flash_opacity": 0.9
   }
 }

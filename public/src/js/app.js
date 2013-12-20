@@ -96,7 +96,6 @@ function(
         });
 
         this.$iframe = this.$output.children('iframe');
-
         _.isFunction(callback) && callback.call(this);
       });
 
