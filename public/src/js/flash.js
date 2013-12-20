@@ -60,7 +60,7 @@ function(config, utils, $, _, bus, templates) {
         $flash.addClass(priority);
       }
 
-      $flash.css({ 'top': $flash.height() * - 1 }).html(html).show();
+      $flash.css({ 'top': $flash.height() * -1 }).html(html).show();
       $flash.transition({
         'top': config.flash_top,
         'opacity': config.flash_opacity
@@ -88,7 +88,7 @@ function(config, utils, $, _, bus, templates) {
     var $flash = $(flashEl);
 
     $flash.transition({
-      'top':  $(window).height() + $flash.height(),
+      'top':  $flash.height() * -1,
       'opacity': 0
     }, 'fast', function() {
       $flash.hide();
