@@ -58,8 +58,9 @@ function(
     destroy: function() {
       var d = $.Deferred();
 
+      var that = this;
       this.$el.transition({ opacity: 0 }, function() {
-        dom.destroy_view(this);
+        dom.destroy_view(that);
         d.resolve(true);
       });
 
