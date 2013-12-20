@@ -62,6 +62,7 @@ function(
 
     server.use(passport.initialize());
     server.use(passport.session());
+    server.use(express.csrf());
   };
 
   auth.authenticate = passport.authenticate('local');

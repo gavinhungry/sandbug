@@ -18,12 +18,12 @@ function(
   // GET /
   routes.get.index = function(req, res) {
     var user = req.user || {};
-    var username = auth.sanitize_username(user.username);
 
     res.render('index', {
       prod: config.prod,
       rev: config.build.rev,
-      username: username
+      username: auth.sanitize_username(user.username),
+      csrf: req.csrfToken()
     });
   };
 

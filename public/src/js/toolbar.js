@@ -4,11 +4,11 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'dom', 'panels', 'popups', 'templates', 'themes'
+  'backbone', 'bus', 'dom', 'flash', 'panels', 'popups', 'templates', 'themes'
 ],
 function(
   config, utils, $, _, Backbone,
-  bus, dom, panels, popups, templates, themes
+  bus, dom, flash, panels, popups, templates, themes
 ) {
   'use strict';
 
@@ -51,7 +51,11 @@ function(
       'click #layout': function(e) { panels.cycle_layout(); },
       'click #login': function(e) { popups.build('login'); },
       'click #logout': function(e) {
-        $.post('/logout').done(function(data) { bus.trigger('user:logout'); });
+        $.post('/logout', { _csrf: config.csrf }).done(function(data) {
+          bus.trigger('user:logout');
+        }).fail(function() {
+          flash.message_bad('Error logging out');
+        });
       }
     },
 

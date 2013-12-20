@@ -19,7 +19,10 @@
     <link rel='stylesheet' type='text/css' href='/css/debuggerio.dark.min.css'>
     <link rel='stylesheet' type='text/css' href='/css/debuggerio.light.min.css'>
     <script type='application/javascript'>
-      window._debugger_io = { username: <%= username ? "'" + username + "'" : 'null' %> };
+      window._debugger_io = {
+        csrf: '<%= csrf %>',
+        username: <%= username ? "'" + username + "'" : 'null' %>
+      };
     </script>
     <script type='application/javascript'
       src='//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js'></script>

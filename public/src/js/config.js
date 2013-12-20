@@ -20,10 +20,11 @@ function($, _) {
 
   // default options
   var options = {
-    'github': 'https://github.com/gavinhungry/debugger.io',
-    'root': _.sprintf('//%s/', hostname), // debugger.io
-    'frame': _.sprintf('//frame.%s/', hostname), // frame.debugger.io
-    'username': window._debugger_io.username
+    github: 'https://github.com/gavinhungry/debugger.io',
+    root: _.sprintf('//%s/', hostname), // debugger.io
+    frame: _.sprintf('//frame.%s/', hostname), // frame.debugger.io
+    username: window._debugger_io.username,
+    csrf: window._debugger_io.csrf
   };
 
   /**
