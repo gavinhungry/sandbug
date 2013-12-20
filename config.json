@@ -23,7 +23,7 @@
   },
 
   "client": {
-    "default_layout": "layout-left", // layout-cols, layout-top, layout-left
+    "default_layout": "layout-col", // layout-cols, layout-top, layout-left
     "default_theme": "dark", // dark, light
     "panel_min": 52, // px, [theme].less:@panel_options_height + 10px
     "cdn_results": 32, // number of filtered CDN results to display
