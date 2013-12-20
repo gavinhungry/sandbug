@@ -13,6 +13,11 @@ function(config, utils, $, _) {
   var dir = '/templates';
   var cache = {}; // promise cache
 
+  // variables available to all templates
+  var locals = {
+    csrf: config.csrf
+  };
+
   /**
    * Load compiled template function(s) into cache
    *
@@ -22,17 +27,22 @@ function(config, utils, $, _) {
     _.each(utils.ensure_array(ids), function(id) {
       if (cache[id]) { return; }
 
-      var template_deferred = $.Deferred();
-      cache[id] = template_deferred.promise();
+      var d = $.Deferred();
+      cache[id] = d.promise();
 
       var templateUri = _.sprintf('%s/%s.html', dir, id);
       if (!config.prod) { templateUri += '?v=' + (new Date()).getTime(); }
 
-      $.get(templateUri).done(function(data, status, xhr) {
+      $.get(templateUri).done(function(template, status, xhr) {
         // resolve with compiled template function
-        template_deferred.resolve(_.template(data));
+        var template_fn = _.template(template);
+
+        d.resolve(function(data) {
+          // extend data passed to template with locals
+          return template_fn(_.extend(data, locals));
+        });
       }).fail(function(xhr, status, err) {
-        template_deferred.reject(err);
+        d.reject(err);
       });
     });
   };

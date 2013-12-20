@@ -1,5 +1,5 @@
 <form id='login_form' action='/login' method='post'>
-  <input type='hidden' name='_csrf' value='<%= config.csrf %>'>
+  <input type='hidden' name='_csrf' value='<%= csrf %>'>
   <input name='username' placeholder='Username or Email' autocomplete='off'
     spellcheck='false' class='plain' type='text'>
   <input name='password' placeholder='Password' class='plain' type='password'>
