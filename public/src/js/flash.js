@@ -31,42 +31,45 @@ function(config, utils, $, _, bus, templates) {
    *
    * Message are dismissed after `config.flash_duration` (ms) or by clicking
    *
-   * @param {String} heading - heading of message (first line)
-   * @param {String} [body] - body of message (second line)
+   * @param {String | Promise} heading_m - heading of message (first line)
+   * @param {String | Promise} [body_m] - body of message (second line)
    * @param {String} [priority] - string from `priorities` (default is neutral)
    */
-  flash.message = function(heading, body, priority) {
+  flash.message = function(heading_m, body_m, priority) {
     var $flash = $(flashEl);
 
-    // don't do anything if this is the same message as last time
-    if (heading === lastHeading && body === lastBody) {
-      return start_dismiss_timeout();
-    }
-
     var template_p = templates.get('flash');
-    var dismiss_p = flash.dismiss();
 
-    $.when(template_p, dismiss_p).done(function(template_fn) {
-      var html = template_fn({
-        heading: heading,
-        body: body
-      });
-
-      lastHeading = heading;
-      lastBody = body;
-
-      $flash.removeClass(priorities.join(' '));
-      if (_.contains(priorities, priority)) {
-        $flash.addClass(priority);
+    $.when(heading_m, body_m, template_p)
+      .done(function(heading, body, template_fn)
+    {
+      // don't do anything if this is the same message as last time
+      if (heading === lastHeading && body === lastBody) {
+        return start_dismiss_timeout();
       }
 
-      $flash.css({ 'top': $flash.height() * -1 }).html(html).show();
-      $flash.transition({
-        'top': config.flash_top,
-        'opacity': config.flash_opacity
-      }, function() {
-        // wait until the flash message is visible before starting dismiss timer
-        start_dismiss_timeout();
+      flash.dismiss().done(function() {
+        var html = template_fn({
+          heading: heading,
+          body: body
+        });
+
+        lastHeading = heading;
+        lastBody = body;
+
+        $flash.removeClass(priorities.join(' '));
+        if (_.contains(priorities, priority)) {
+          $flash.addClass(priority);
+        }
+
+        $flash.css({ 'top': $flash.height() * -1 }).html(html).show();
+        $flash.transition({
+          'top': config.flash_top,
+          'opacity': config.flash_opacity
+        }, function() {
+          // wait until the flash message is visible before dismissing
+          start_dismiss_timeout();
+        });
       });
     });
   };
