@@ -22,7 +22,7 @@ function(
     utils.log('init locales module');
 
     // fetch the locale right away
-    locales.load(config.locale || config.base_locale);
+    locales.load(config.locale);
   });
 
 
@@ -104,7 +104,7 @@ function(
     var d = $.Deferred();
     var args = _.rest(arguments);
 
-    locales.get(config.locale || config.base_locale).done(function(locale) {
+    locales.get(config.locale).done(function(locale) {
       var str = locale[strId];
       if (!str) { return d.resolve(null); }
 
@@ -127,6 +127,37 @@ function(
 
     return d.promise();
   }, utils.memoize_hasher);
+
+  /**
+   * Localize DOM nodes with `data-localize` attribute
+   *
+   * @return {Promise} to resolve upon completion
+   */
+  locales.localize_dom_nodes = function() {
+    var d = $.Deferred();
+
+    locales.get(config.locale).done(function(locale) {
+      $('[data-localize]').each(function() {
+        // get the locale string ID
+        var localize = $(this).attr('data-localize');
+
+        // replace the first text node with the localized string, if present
+        $(this).contents().filter(function() { return this.nodeType === 3; })
+          .first().each(function() {
+            var that = this;
+            locales.string(localize).done(function(localizedValue) {
+              if (localizedValue) { that.nodeValue = localizedValue; }
+            });
+          });
+      });
+
+      d.resolve(true);
+    }).fail(function(err) {
+      d.reject(err);
+    })
+
+    return d.promise();
+  };
 
   return locales;
 });

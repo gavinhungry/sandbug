@@ -2,9 +2,9 @@
 <button id='layout'><i class='icon icon-only layout'></i></button>
 
 <% if (username) { %>
-  <button id='settings'>Settings</button>
-  <button id='logout' class='action'>Logout</button>
+  <button id='settings' data-localize='settings'>Settings</button>
+  <button id='logout' class='action' data-localize='logout'>Logout</button>
 <% } else { %>
-  <button id='signup'>Sign Up</button>
-  <button id='login' class='action'>Login</button>
+  <button id='signup' data-localize='signup'>Sign Up</button>
+  <button id='login' class='action' data-localize='login'>Login</button>
 <% } %>
