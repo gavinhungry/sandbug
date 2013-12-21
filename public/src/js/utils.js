@@ -215,6 +215,15 @@ function(config, $, _) {
   };
 
   /**
+   * Hash function for _.memoize
+   *
+   * @return {String} joined arguments with hopefully unique separator
+   */
+  utils.memoize_hasher = function() {
+    return _.toArray(arguments).join('<<<!>>>');
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
