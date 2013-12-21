@@ -1,5 +1,7 @@
 /*
  * debugger.io: An interactive web scripting sandbox
+ *
+ * toolbar.js: user toolbar
  */
 
 define([

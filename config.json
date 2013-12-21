@@ -31,6 +31,9 @@
     "layout_time": 300, // ms
     "flash_duration": 4000, // ms
     "flash_top": 40, // px
-    "flash_opacity": 0.9
+    "flash_opacity": 0.9,
+
+    "base_locale": "en_US",
+    "locale": "en_US"
   }
 }
