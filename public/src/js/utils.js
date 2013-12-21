@@ -205,6 +205,16 @@ function(config, $, _) {
   };
 
   /**
+   * Deep clone an object parsable as JSON
+   *
+   * @param {Object} val
+   * @return {Object} deep copy of `val`
+   */
+  utils.clone = function(val) {
+    return JSON.parse(JSON.stringify(val));
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
