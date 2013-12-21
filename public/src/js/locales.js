@@ -40,7 +40,6 @@ function(
         try {
           var locale = JSON.parse(localeStr);
         } catch(err) {
-          console.error('X');
           d.reject(err);
           return;
         }
@@ -92,19 +91,36 @@ function(
    * Returned a localized string from a string ID
    *
    * @param {String} strId - a string ID
+   * @param {String} [...] - strings to pass to _.sprintf, if applicable
    * @return {Promise} to return localed string matching `strId`
    */
   locales.string = _.memoize(function(strId) {
     var d = $.Deferred();
+    var args = _.rest(arguments);
 
     locales.get(config.locale || config.base_locale).done(function(locale) {
-      d.resolve(locale[strId] || null);
+      var str = locale[strId];
+      if (!str) { return d.resolve(null); }
+
+      // count the number of sprintf placeholders are present
+      var sprintfMatches = str.match(/\%s/g);
+      var sprintfCount = sprintfMatches ? sprintfMatches.length : 0;
+
+      // an array of the same length, with missing values set to an empty string
+      var sprintfArgs = _.map((new Array(sprintfCount)), function(val, i) {
+        var arg = args[i];
+        return (arg || (arg === 0)) ? arg : '';
+      });
+
+      sprintfArgs.unshift(str);
+      var formattedStr = _.sprintf.apply(null, sprintfArgs);
+      d.resolve(formattedStr);
     }).fail(function(err) {
       d.reject(null);
     });
 
     return d.promise();
-  });
+  }, utils.memoize_hasher);
 
   return locales;
 });
