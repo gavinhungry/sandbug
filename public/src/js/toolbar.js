@@ -56,7 +56,7 @@ function(
         $.post('/logout', { _csrf: config.csrf }).done(function(data) {
           bus.trigger('user:logout');
         }).fail(function() {
-          flash.message_bad('Error logging out');
+          flash.message_bad(locales.string('logout_error'));
         });
       }
     },

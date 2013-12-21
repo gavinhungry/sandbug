@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'dom', 'flash', 'keys', 'templates'
+  'bus', 'dom', 'flash', 'keys', 'locales', 'templates'
 ],
-function(config, utils, $, _, bus, dom, flash, keys, templates) {
+function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   'use strict';
 
   var popups = utils.module('popups');
@@ -145,7 +145,7 @@ function(config, utils, $, _, bus, dom, flash, keys, templates) {
 
     show_invalid_login: function() {
       this.$el.find('input[name="password"]').select();
-      flash.message_bad('Invalid login credentials');
+      flash.message_bad(locales.string('invalid_creds'));
     }
   });
 

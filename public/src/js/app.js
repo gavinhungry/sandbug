@@ -4,13 +4,13 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'cdn', 'dom', 'flash', 'keys', 'mirrors', 'panels',
-  'router', 'templates', 'themes', 'toolbar'
+  'backbone', 'bus', 'cdn', 'dom', 'flash', 'keys', 'locales', 'mirrors',
+  'panels', 'router', 'templates', 'themes', 'toolbar'
 ],
 function(
   config, utils, $, _,
-  Backbone, bus, cdn, dom, flash, keys, mirrors, panels, router, templates,
-  themes, toolbar
+  Backbone, bus, cdn, dom, flash, keys, locales, mirrors, panels, router,
+  templates, themes, toolbar
 ) {
   'use strict';
 
@@ -31,14 +31,15 @@ function(
       bus.on('user:login', function(username) {
         config.username = username;
 
-        flash.message_good('You are now logged in',
-          _.sprintf('Welcome back, %s!', username));
+        flash.message_good(locales.string('logged_in_1', username),
+          locales.string('logged_in_2'));
       });
 
       bus.on('user:logout', function() {
         config.username = null;
 
-        flash.message('You are now logged out', '... and will be missed.');
+        flash.message(locales.string('logged_out_1'),
+          locales.string('logged_out_2'));
       });
 
       this.render(function() {

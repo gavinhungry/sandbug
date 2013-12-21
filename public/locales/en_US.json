@@ -1,7 +1,10 @@
 {
-  "logged_in_1": "Logged in as %s",
-  "logged_in_2": "Welcome to the party, pal.",
+  "logged_in_1":   "Logged in as %s",
+  "logged_in_2":   "Welcome to the party, pal.",
 
-  "logged_out_1": "Logged out",
-  "logged_out_2": "God damn it! I hate this hacker crap!"
+  "logged_out_1":  "Logged out",
+  "logged_out_2":  "God damn it! I hate this hacker crap!",
+
+  "invalid_creds": "Invalid login credentials",
+  "logout_error":  "Error logging out"
 }

@@ -1,3 +1,9 @@
+/*
+ * debugger.io: An interactive web scripting sandbox
+ *
+ * locales.js: localized strings
+ */
+
 define([
   'config', 'utils', 'jquery', 'underscore',
   'bus'
