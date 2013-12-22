@@ -5,12 +5,12 @@
 define([
   'config', 'utils', 'jquery', 'underscore',
   'backbone', 'bus', 'cdn', 'dom', 'flash', 'keys', 'locales', 'mirrors',
-  'panels', 'router', 'templates', 'themes', 'toolbar'
+  'observers', 'panels', 'router', 'templates', 'themes', 'toolbar'
 ],
 function(
   config, utils, $, _,
-  Backbone, bus, cdn, dom, flash, keys, locales, mirrors, panels, router,
-  templates, themes, toolbar
+  Backbone, bus, cdn, dom, flash, keys, locales, mirrors, observers, panels,
+  router, templates, themes, toolbar
 ) {
   'use strict';
 
