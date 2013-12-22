@@ -182,9 +182,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
     else {
       $popup.show(function() {
-        $popup.transition({ 'opacity': 1 }, function() {
-          d.resolve(true);
-        });
+        $popup.transition({ 'opacity': 1 }, function() { d.resolve(true); });
+        $popup.children('.popup').transition({ 'margin-top': '1em' });
       });
     }
 
@@ -209,6 +208,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
           $popup.hide();
           d.resolve(true);
         });
+
+        $popup.children('.popup').transition({ 'margin-top': 0 });
       }
     }
 
