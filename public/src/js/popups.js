@@ -154,7 +154,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    *
    * @param {String} name - name of the popup template to use
    */
-  popups.build = function(name) {
+  popups.popup = function(name) {
     var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
     var viewName = _.sprintf('%sView', modelName);
 

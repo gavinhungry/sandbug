@@ -24,7 +24,7 @@ function(config, utils, $, _, Backbone, bus, popups) {
 
     routes: {
       'login': function() {
-        popups.build('login');
+        popups.popup('login');
       }
     }
   });
