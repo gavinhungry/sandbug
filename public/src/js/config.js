@@ -16,6 +16,7 @@ function($, _) {
 
   var config = {};
 
+  window._debugger_io = window._debugger_io || {};
   var hostname = window.location.hostname;
 
   // default options
