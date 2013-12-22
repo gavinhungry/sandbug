@@ -13,6 +13,13 @@ function(config, utils, $, _, Backbone) {
 
   var bus = utils.module('bus', _.clone(Backbone.Events));
 
+  bus.once('init', function(av) {
+    // proxy config updates to event bus
+    $(document).on('_debugger_io-config', function(e, opt) {
+      bus.trigger('config:' + opt.option, opt.value);
+    });
+  });
+
   /**
    * Turn off all events in a colon-delimited namespace (eg. namespace:event)
    *

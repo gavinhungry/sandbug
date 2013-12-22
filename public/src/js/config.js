@@ -50,6 +50,12 @@ function($, _) {
       set: function(val) {
         var isFn = _.isFunction(val);
         options[option] = (isBool && !isFn) ? !!val : val;
+
+        // proxy config updates to event bus
+        $(document).trigger('_debugger_io-config', {
+          option: option,
+          value: config[option]
+        });
       }
     });
 
