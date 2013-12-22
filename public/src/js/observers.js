@@ -22,6 +22,8 @@ function(
     window.MutationObserver || window.WebKitMutationObserver;
 
   bus.once('init', function(av) {
+    utils.log('init observers module');
+
     var observer = new MutationObserver(function(mutations) {
       // pass each mutation
       _.each(mutations, function(mutation) {
