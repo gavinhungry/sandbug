@@ -1,4 +1,10 @@
 {
+  "login":         "Login",
+  "signup":        "Sign Up",
+
+  "logout":        "Logout",
+  "settings":      "Setings",
+
   "logged_in_1":   "Logged in as %s",
   "logged_in_2":   "Welcome to the party, pal.",
 
