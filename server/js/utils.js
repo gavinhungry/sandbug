@@ -58,6 +58,7 @@ function(
    * @return {String}
    */
   utils.ensure_string = function(value) {
+    if (_.isObject(value)) { return ''; }
     return _.isString(value) ? value : (value ? value + '' : '');
   };
 
