@@ -35,8 +35,9 @@ function($, _) {
    *
    * @param {String} option - option name
    * @param {Mixed} value - initial value
+   * @param {Boolean} [silent] - if true, do not proxy update to event bus
    */
-  config.option = function(option, value) {
+  config.option = function(option, value, silent) {
     if (config.hasOwnProperty(option)) { return; }
 
     var isBool = _.isBoolean(value);
@@ -51,11 +52,13 @@ function($, _) {
         var isFn = _.isFunction(val);
         options[option] = (isBool && !isFn) ? !!val : val;
 
-        // proxy config updates to event bus
-        $(document).trigger('_debugger_io-config', {
-          option: option,
-          value: config[option]
-        });
+        // optionally proxy config updates to event bus
+        if (!silent) {
+          $(document).trigger('_debugger_io-config', {
+            option: option,
+            value: config[option]
+          });
+        }
       }
     });
 
@@ -66,12 +69,15 @@ function($, _) {
    * Create multiple new config options
    *
    * @param {Object} opts - key/value pairs
+   * @param {Boolean} [silent] - if true, do not proxy update to event bus
    */
-  config.options = function(opts) {
-    _.each(opts, function(value, option) { config.option(option, value); });
+  config.options = function(opts, silent) {
+    _.each(opts, function(value, option) {
+      config.option(option, value, silent);
+    });
   };
 
-  config.options(options);
+  config.options(options, true);
 
   // get additional client-side config options from the server
   var d = $.Deferred();
