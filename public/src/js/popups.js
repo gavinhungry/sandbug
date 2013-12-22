@@ -181,10 +181,10 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     var $popup = $(popupEl);
     if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
     else {
-      $popup.show(function() {
-        $popup.transition({ 'opacity': 1 }, function() { d.resolve(true); });
-        $popup.children('.popup').transition({ 'margin-top': '1em' });
-      });
+      $popup.css({ 'display': 'block' }).transition({
+        'opacity': 1,
+        'margin-top': '1em'
+      }, function() { d.resolve(true); });
     }
 
     return d.promise();
@@ -204,12 +204,10 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       // popup is already hidden, don't wait to resolve
       if ($popup.css('opacity') === '0') { d.resolve(true); }
       else {
-        $popup.transition({ 'opacity': 0 }, function() {
-          $popup.hide();
+        $popup.transition({ 'opacity': 0, 'margin-top': 0 }, function() {
+          $popup.css({ 'display': 'none' });
           d.resolve(true);
         });
-
-        $popup.children('.popup').transition({ 'margin-top': 0 });
       }
     }
 

@@ -79,7 +79,7 @@ function(
 
     remove_splash: function() {
       var that = this;
-      $('#loading').transition({ 'opacity': '0' }, 500, function() {
+      $('#loading').transition({ 'opacity': '0' }, function() {
         $(this).remove();
         that.$title.transition({ 'opacity': 1 }, 'slow');
       });

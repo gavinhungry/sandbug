@@ -62,14 +62,13 @@ function(config, utils, $, _, bus, templates) {
           $flash.addClass(priority);
         }
 
-        $flash.css({ 'top': $flash.height() * -1 }).html(html).show();
-        $flash.transition({
-          'top': config.flash_top,
-          'opacity': config.flash_opacity
-        }, function() {
-          // wait until the flash message is visible before dismissing
-          start_dismiss_timeout();
-        });
+        $flash.css({ 'top': $flash.height() * -1 })
+          .html(html)
+          .css({ 'display': 'block' })
+          .transition({
+            'top': config.flash_top,
+            'opacity': config.flash_opacity
+          }, start_dismiss_timeout);
       });
     });
   };
@@ -94,7 +93,7 @@ function(config, utils, $, _, bus, templates) {
       'top':  $flash.height() * -1,
       'opacity': 0
     }, 'fast', function() {
-      $flash.hide();
+      $flash.css({ 'display': 'none' });
       lastHeading = null;
       lastBody = null;
 
