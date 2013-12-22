@@ -6,10 +6,10 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus'
+  'bus', 'observers'
 ],
 function(
-  config, utils, $, _, bus
+  config, utils, $, _, bus, observers
 ) {
   'use strict';
 
@@ -21,10 +21,12 @@ function(
   bus.once('init', function(av) {
     utils.log('init locales module');
 
-    // fetch the locale right away
-    locales.load(config.locale);
+    // localize nodes with `data-localize` attribute as added
+    observers.register_listener(function(mutation) {
+      var $localize = $(mutation.addedNodes).filter('[data-localize]');
+      locales.localize_dom_nodes($localize);
+    });
   });
-
 
   /**
    * Load locales, extending the base locale, into cache
@@ -100,12 +102,12 @@ function(
    * @param {String} [...] - strings to pass to _.sprintf, if applicable
    * @return {Promise} to return localed string matching `strId`
    */
-  locales.string = _.memoize(function(strId) {
+  locales.string = function(strId) {
     var d = $.Deferred();
     var args = _.rest(arguments);
 
     locales.get(config.locale).done(function(locale) {
-      var str = locale[strId];
+      var str = strId ? locale[strId] : null;
       if (!str) { return d.resolve(null); }
 
       // count the number of sprintf placeholders are present
@@ -126,18 +128,20 @@ function(
     });
 
     return d.promise();
-  }, utils.memoize_hasher);
+  };
 
   /**
    * Localize DOM nodes with `data-localize` attribute
    *
+   * @param {jQuery} [$localize] - set of nodes to localize
    * @return {Promise} to resolve upon completion
    */
-  locales.localize_dom_nodes = function() {
+  locales.localize_dom_nodes = function($localize) {
     var d = $.Deferred();
+    $localize = $localize || $('[data-localize]');
 
     locales.get(config.locale).done(function(locale) {
-      $('[data-localize]').each(function() {
+      $localize.each(function() {
         // get the locale string ID
         var localize = $(this).attr('data-localize');
 
