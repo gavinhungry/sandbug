@@ -26,6 +26,10 @@ function(
       var $localize = $(mutation.addedNodes).filter('[data-localize]');
       locales.localize_dom_nodes($localize);
     });
+
+    bus.on('config:locale', function(localeStr) {
+      locales.localize_dom_nodes();
+    });
   });
 
   /**
