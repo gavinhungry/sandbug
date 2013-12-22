@@ -224,6 +224,17 @@ function(config, $, _) {
   };
 
   /**
+   * Clean up a potential resource ID
+   *
+   * @param {String} id - a string to treat as a resource ID
+   * @return {String} `id` with only alphanumeric chars, underscores and hyphens
+   */
+  utils.sanitize_resource_id = function(id) {
+    id = utils.ensure_string(id);
+    return id.replace(/[^a-z0-9_-]/ig, '');
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer

@@ -25,7 +25,8 @@ function(config, utils, $, _) {
    */
   templates.load = function(ids) {
     _.each(utils.ensure_array(ids), function(id) {
-      if (cache[id]) { return; }
+      id = utils.sanitize_resource_id(id);
+      if (!id || cache[id]) { return; }
 
       var d = $.Deferred();
       cache[id] = d.promise();
@@ -56,6 +57,7 @@ function(config, utils, $, _) {
    * @return {Promise} promise to return the compiled template function
    */
   templates.get = function(id, context) {
+    id = utils.sanitize_resource_id(id);
     templates.load(id);
     var d = $.Deferred();
 

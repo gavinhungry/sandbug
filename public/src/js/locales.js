@@ -39,7 +39,8 @@ function(
    */
   locales.load = function(ids) {
     _.each(utils.ensure_array(ids), function(id) {
-      if (cache[id]) { return; }
+      id = utils.sanitize_resource_id(id);
+      if (!id || cache[id]) { return; }
 
       var d = $.Deferred();
       cache[id] = d.promise();
@@ -79,6 +80,7 @@ function(
    * @return {Promise} promise to return the extended locale
    */
   locales.get = function(id) {
+    id = utils.sanitize_resource_id(id);
     locales.load(id);
     var d = $.Deferred();
 
