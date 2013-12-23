@@ -18,6 +18,8 @@ function(config, utils, $, _, Backbone) {
     $(document).on('_debugger_io-config', function(e, opt) {
       bus.trigger('config:' + opt.option, opt.value);
     });
+
+    $(window).on('resize', function() { bus.trigger('window:resize'); });
   });
 
   /**
@@ -72,10 +74,6 @@ function(config, utils, $, _, Backbone) {
 
     return this;
   };
-
-  $(window).on('resize', function() {
-    bus.trigger('window:resize');
-  });
 
   return bus;
 });

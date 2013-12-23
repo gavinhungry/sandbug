@@ -25,7 +25,8 @@ function($, _) {
     root: _.sprintf('//%s/', hostname), // debugger.io
     frame: _.sprintf('//frame.%s/', hostname), // frame.debugger.io
     username: window._debugger_io.username,
-    csrf: window._debugger_io.csrf
+    csrf: window._debugger_io.csrf,
+    mobile: false
   };
 
   /**
@@ -84,6 +85,13 @@ function($, _) {
   var d = $.Deferred();
   $.get('/config').done(function(data) {
     config.options(data);
+
+    // override default layout on mobile
+    if ($(window).width() <= config.mobile_width) {
+      config.default_layout = 'layout-top';
+      config.mobile = true;
+    }
+
     d.resolve(config);
   }).fail(function() {
     d.resolve(config);

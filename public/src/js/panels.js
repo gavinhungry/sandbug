@@ -23,6 +23,10 @@ function(config, utils, $, _, bus, dom, mirrors) {
     panels.update_resize_handlers();
     panels.init_input_modes();
 
+    bus.on('window:resize', function() {
+      config.mobile = ($(window).width() <= config.mobile_width);
+    });
+
     panels.set_layout(config.default_layout, true);
   });
 

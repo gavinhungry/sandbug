@@ -32,6 +32,7 @@
     "flash_duration": 4000, // ms
     "flash_top": 40, // px
     "flash_opacity": 0.9,
+    "mobile_width": 768, // px
 
     "base_locale": "en_US",
     "locale": "en_US"
