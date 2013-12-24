@@ -13,13 +13,24 @@ function(config, utils, $, _, Backbone) {
 
   var bus = utils.module('bus', _.clone(Backbone.Events));
 
-  bus.once('init', function(av) {
-    // proxy config updates to event bus
-    $(document).on('_debugger_io-config', function(e, opt) {
-      bus.trigger('config:' + opt.option, opt.value);
-    });
+  var immediate_events = ['locale', 'mode'];
 
-    $(window).on('resize', function() { bus.trigger('window:resize'); });
+  bus.once('init', function(av) {
+    _.defer(function() {
+      utils.log('init bus module');
+
+      // proxy config updates to event bus
+      $(document).on('_debugger_io-config', function(e, opt) {
+        bus.trigger('config:' + opt.option, opt.value);
+      });
+
+      // immediate event proxy for init options
+      _.each(immediate_events, function(option) {
+        bus.trigger('config:' + option, config[option]);
+      });
+
+      $(window).on('resize', function() { bus.trigger('window:resize'); });
+    });
   });
 
   /**

@@ -6,7 +6,8 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'dom', 'mirrors'],
+  'bus', 'dom', 'mirrors'
+],
 function(config, utils, $, _, bus, dom, mirrors) {
   'use strict';
 
@@ -23,11 +24,13 @@ function(config, utils, $, _, bus, dom, mirrors) {
     panels.update_resize_handlers();
     panels.init_input_modes();
 
-    bus.on('window:resize', function() {
-      config.mobile = ($(window).width() <= config.mobile_width);
+    bus.on('config:mode', function(mode) {
+      // immediately update the layout in phone mode
+      if (mode === 'phone') {
+        config.default_layout = 'layout-top';
+        panels.set_layout(config.default_layout, true);
+      }
     });
-
-    panels.set_layout(config.default_layout, true);
   });
 
   /**
