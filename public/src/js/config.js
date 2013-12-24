@@ -16,17 +16,18 @@ function($, _) {
 
   var config = {};
 
-  window._debugger_io = window._debugger_io || {};
+  var locals = window._debugger_io || {};
   var hostname = window.location.hostname;
 
   // default options
   var options = {
     github: 'https://github.com/gavinhungry/debugger.io',
-    root: _.sprintf('//%s/', hostname), // debugger.io
-    frame: _.sprintf('//frame.%s/', hostname), // frame.debugger.io
-    username: window._debugger_io.username,
-    csrf: window._debugger_io.csrf,
-    mobile: false
+    root: _.sprintf('//%s/', hostname), // //debugger.io/
+    frame: _.sprintf('//frame.%s/', hostname), // //frame.debugger.io/
+    username: locals.user,
+    csrf: locals.csrf,
+    tablet: locals.mode === 'tablet',
+    mobile: locals.mode === 'mobile' || locals.mode === 'phone'
   };
 
   /**

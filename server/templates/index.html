@@ -22,7 +22,8 @@
     <script type='application/javascript'>
       window._debugger_io = {
         csrf: '<%= csrf %>',
-        username: <%= username ? "'" + username + "'" : 'null' %>
+        user: <%= username ? "'" + username + "'" : 'null' %>,
+        mode: <%= mode ? "'" + mode + "'" : 'null' %>
       };
     </script>
     <script type='application/javascript'

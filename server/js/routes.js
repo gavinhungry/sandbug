@@ -4,26 +4,31 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'cdn'
+  'auth', 'cdn', 'mobile-detect'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cdn
+  auth, cdn, MobileDetect
 ) {
   'use strict';
 
   var __dirname = path.dirname(module.uri);
   var routes = { get: {}, post: {} };
 
+  var mobile_types = ['tablet', 'phone', 'mobile'];
+
   // GET /
   routes.get.index = function(req, res) {
     var user = req.user || {};
+    var md = new MobileDetect(req.headers['user-agent']);
+    var mode = md.tablet() ? 'tablet' : md.mobile() ? 'mobile' : null;
 
     res.render('index', {
       prod: config.prod,
       rev: config.build.rev,
       username: auth.sanitize_username(user.username),
-      csrf: req.csrfToken()
+      csrf: req.csrfToken(),
+      mode: _.find(mobile_types, function(type) { return md.is(type); })
     });
   };
 
