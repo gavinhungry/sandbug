@@ -14,7 +14,7 @@ define('config_p', ['jquery', 'underscore'],
 function($, _) {
   'use strict';
 
-  var config = {};
+  var config = { _priv: {} };
 
   var locals = window._debugger_io || {};
   var hostname = window.location.hostname;
@@ -40,7 +40,7 @@ function($, _) {
    * @param {Mixed} value - initial value
    * @param {Boolean} [silent] - if true, do not proxy update to event bus
    */
-  config.option = function(option, value, silent) {
+  config._priv.option = function(option, value, silent) {
     if (config.hasOwnProperty(option)) { return; }
 
     var isBool = _.isBoolean(value);
@@ -74,18 +74,18 @@ function($, _) {
    * @param {Object} opts - key/value pairs
    * @param {Boolean} [silent] - if true, do not proxy update to event bus
    */
-  config.options = function(opts, silent) {
+  config._priv.options = function(opts, silent) {
     _.each(opts, function(value, option) {
-      config.option(option, value, silent);
+      config._priv.option(option, value, silent);
     });
   };
 
-  config.options(options, true);
+  config._priv.options(options, true);
 
   // get additional client-side config options from the server
   var d = $.Deferred();
   $.get('/config').done(function(data) {
-    config.options(data);
+    config._priv.options(data);
 
     // override default layout on mobile
     if ($(window).width() <= config.mobile_width) {
