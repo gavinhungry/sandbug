@@ -26,8 +26,7 @@ function($, _) {
     frame: _.sprintf('//frame.%s/', hostname), // //frame.debugger.io/
     username: locals.user,
     csrf: locals.csrf,
-    tablet: locals.mode === 'tablet',
-    mobile: locals.mode === 'mobile' || locals.mode === 'phone'
+    mode: locals.mode
   };
 
   /**
@@ -38,9 +37,8 @@ function($, _) {
    *
    * @param {String} option - option name
    * @param {Mixed} value - initial value
-   * @param {Boolean} [silent] - if true, do not proxy update to event bus
    */
-  config._priv.option = function(option, value, silent) {
+  config._priv.option = function(option, value) {
     if (config.hasOwnProperty(option)) { return; }
 
     var isBool = _.isBoolean(value);
@@ -52,11 +50,13 @@ function($, _) {
         return isFn ? (isBool ? !!val() : val()) : val;
       },
       set: function(val) {
+        var wasUndefined = (options[option] === undefined);
+
         var isFn = _.isFunction(val);
         options[option] = (isBool && !isFn) ? !!val : val;
 
-        // optionally proxy config updates to event bus
-        if (!silent) {
+        // proxy config updates to event bus
+        if (!wasUndefined) {
           $(document).trigger('_debugger_io-config', {
             option: option,
             value: config[option]
@@ -72,27 +72,19 @@ function($, _) {
    * Create multiple new config options
    *
    * @param {Object} opts - key/value pairs
-   * @param {Boolean} [silent] - if true, do not proxy update to event bus
    */
-  config._priv.options = function(opts, silent) {
+  config._priv.options = function(opts) {
     _.each(opts, function(value, option) {
-      config._priv.option(option, value, silent);
+      config._priv.option(option, value);
     });
   };
 
-  config._priv.options(options, true);
+  config._priv.options(options);
 
   // get additional client-side config options from the server
   var d = $.Deferred();
   $.get('/config').done(function(data) {
     config._priv.options(data);
-
-    // override default layout on mobile
-    if ($(window).width() <= config.mobile_width) {
-      config.default_layout = 'layout-top';
-      config.mobile = true;
-    }
-
     d.resolve(config);
   }).fail(function() {
     d.resolve(config);

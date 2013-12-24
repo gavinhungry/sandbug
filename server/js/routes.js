@@ -15,7 +15,7 @@ function(
   var __dirname = path.dirname(module.uri);
   var routes = { get: {}, post: {} };
 
-  var mobile_types = ['tablet', 'phone', 'mobile'];
+  var mobile_types = ['tablet', 'phone'];
 
   // GET /
   routes.get.index = function(req, res) {
