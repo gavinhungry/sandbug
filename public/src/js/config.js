@@ -24,7 +24,7 @@ function($, _) {
     github: 'https://github.com/gavinhungry/debugger.io',
     root: _.sprintf('//%s/', hostname), // //debugger.io/
     frame: _.sprintf('//frame.%s/', hostname), // //frame.debugger.io/
-    username: locals.user,
+    username: locals.username,
     csrf: locals.csrf,
     mode: locals.mode
   };
