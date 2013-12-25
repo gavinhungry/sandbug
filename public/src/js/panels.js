@@ -31,6 +31,8 @@ function(config, utils, $, _, bus, dom, mirrors) {
         panels.set_layout(config.default_layout, true);
       }
     });
+
+    panels.set_layout(config.default_layout, true);
   });
 
   /**
