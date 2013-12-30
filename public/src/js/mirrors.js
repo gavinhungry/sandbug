@@ -16,7 +16,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   var instances = [];
   var last_focused;
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init mirrors module');
 
     _.each(av.$input_panels, function(panel) {

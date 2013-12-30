@@ -21,7 +21,7 @@ function(
   var MutationObserver =
     window.MutationObserver || window.WebKitMutationObserver;
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init observers module');
 
     var observer = new MutationObserver(function(mutations) {

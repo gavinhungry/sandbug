@@ -18,7 +18,7 @@ function(
 
   var toolbarView;
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     toolbarView = new toolbar.ToolbarView();
 
     bus.on('user:login', function(username) {

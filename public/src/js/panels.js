@@ -17,7 +17,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
   var layout_transitioning = false;
   var $active_panels;
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init panels module');
 
     $active_panels = av.$panels;

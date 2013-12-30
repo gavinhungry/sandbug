@@ -26,7 +26,7 @@ function(config, utils, $, _, bus) {
     '/':     191
   };
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init keys module');
 
     $(document).on('keyup', function(e) {

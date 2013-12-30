@@ -15,7 +15,33 @@ function(config, utils, $, _, Backbone) {
 
   var immediate_events = ['locale', 'mode'];
 
-  bus.once('init', function(av) {
+  var init_args;
+  var initialized = false;
+
+  /**
+   * Register a callback to the init event
+   *
+   * @param {Function} callback
+   * @return {Boolean} true if app init event has already been fired
+   */
+  bus.init = function(callback) {
+    // if already initialized, fire the callback with the cached arguments now
+    if (initialized) {
+      callback.apply(null, init_args);
+      return true;
+    }
+
+    // otherwise, wait for the init event
+    bus.once('init', function() {
+      if (!init_args) { init_args = arguments; }
+      callback.apply(null, init_args);
+      initialized = true;
+    });
+
+    return false;
+  };
+
+  bus.init(function(av) {
     _.defer(function() {
       utils.log('init bus module');
 

@@ -13,7 +13,7 @@ function(config, utils, $, _, Backbone, bus) {
 
   var dom = utils.module('dom');
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init dom module');
 
     var $blank = $('#blank');

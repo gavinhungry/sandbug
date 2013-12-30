@@ -16,7 +16,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   var cdnjs = '%s://cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
   var cache = null;
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init cdn module');
 
     var filterModel = new cdn.FilterInput();

@@ -18,7 +18,7 @@ function(
   var dir = '/locales';
   var cache = {};
 
-  bus.once('init', function(av) {
+  bus.init(function(av) {
     utils.log('init locales module');
 
     // localize nodes with `data-localize` attribute as added
