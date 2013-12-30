@@ -21,7 +21,6 @@ function(
   routes.get.index = function(req, res) {
     var user = req.user || {};
     var md = new MobileDetect(req.headers['user-agent']);
-    var mode = md.tablet() ? 'tablet' : md.mobile() ? 'mobile' : null;
 
     res.render('index', {
       prod: config.prod,
