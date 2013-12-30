@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'cdn', 'mobile-detect'
+  'auth', 'cdn'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cdn, MobileDetect
+  auth, cdn
 ) {
   'use strict';
 
@@ -20,14 +20,13 @@ function(
   // GET /
   routes.get.index = function(req, res) {
     var user = req.user || {};
-    var md = new MobileDetect(req.headers['user-agent']);
 
     res.render('index', {
       prod: config.prod,
       rev: config.build.rev,
       username: auth.sanitize_username(user.username),
       csrf: req.csrfToken(),
-      mode: _.find(modes, function(type) { return md.is(type); })
+      mode: _.find(modes, function(mode) { return !!req[mode]; })
     });
   };
 

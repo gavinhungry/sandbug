@@ -4,11 +4,12 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'consolidate', 'express', './frame', 'routes'
+  'auth', 'consolidate', 'express', './frame', 'routes',
+  'connect-mobile-detection'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cons, express, frame, routes
+  auth, cons, express, frame, routes, mobile
 ) {
   'use strict';
 
@@ -25,6 +26,9 @@ function(
     server.listen(app.port);
     frame.start();
   };
+
+  // connect-mobile-detection
+  server.use(mobile());
 
   // use Underscore/Lodash templates
   server.engine('html', cons.lodash);
