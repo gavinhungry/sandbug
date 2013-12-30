@@ -36,7 +36,7 @@ Installation
       server_name debugger.example.tld;
 
       location / { proxy_pass http://127.0.0.1:8080; }
-      location ~* ^(/$|/test/?|.+\.(html|js|css|woff|png|jpg|gif|ico))$ {
+      location ~* ^(/test/?|.+\.(html|js|css|woff|png|jpg|gif|ico|txt|json))$ {
         root /srv/http/debugger.io/public;
       }
     }
@@ -46,7 +46,7 @@ Installation
       server_name frame.debugger.example.tld;
 
       location / { proxy_pass http://127.0.0.1:8081; }
-      location ~* ^.+\.(html|js|css|woff|png|jpg|gif|ico)$ {
+      location ~* ^.+\.(html|js|css|woff|png|jpg|gif|ico|txt|json)$ {
         root /srv/http/debugger.io/server/static;
       }
     }
@@ -62,11 +62,12 @@ Upcoming Plans
 There is still a lot of work to do, including:
 
   - User accounts, user settings
-  - Save to server (with history)
-  - Save to Gist, Dropbox
+  - Save to server (with history?)
+  - Save to Gist, Dropbox, Drive
   - Import from other services
   - Collaboration options
-  - More languages
+  - More languages (locale support is in place)
+  - Better mobile support
   - Fixing all of the things that are already broken
 
 
