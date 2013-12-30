@@ -16,6 +16,8 @@ function(
 
   var app = utils.module('app');
 
+  var modes = ['tablet', 'phone'];
+
   app.App = Backbone.View.extend({
     template: 'app',
     el: '#debuggerio',
@@ -40,6 +42,12 @@ function(
 
         flash.message(locales.string('logged_out_1'),
           locales.string('logged_out_2'));
+      });
+
+      bus.on('config:mode', function(mode) {
+        var $body = $('body');
+        $body.removeClass(modes.join(' '));
+        if (_.contains(modes, mode)) { $body.addClass(mode); }
       });
 
       this.render(function() {

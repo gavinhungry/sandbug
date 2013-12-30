@@ -15,7 +15,7 @@ function(
   var __dirname = path.dirname(module.uri);
   var routes = { get: {}, post: {} };
 
-  var mobile_types = ['tablet', 'phone'];
+  var modes = ['tablet', 'phone'];
 
   // GET /
   routes.get.index = function(req, res) {
@@ -28,7 +28,7 @@ function(
       rev: config.build.rev,
       username: auth.sanitize_username(user.username),
       csrf: req.csrfToken(),
-      mode: _.find(mobile_types, function(type) { return md.is(type); })
+      mode: _.find(modes, function(type) { return md.is(type); })
     });
   };
 

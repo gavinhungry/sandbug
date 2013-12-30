@@ -75,8 +75,24 @@ function(
 
     render: function() {
       templates.get(this.template, this).done(function(template_fn) {
+        var that = this;
+
         var html = template_fn({ username: this._username });
-        this.$el.css({ opacity: 0 }).html(html).transition({ opacity: 1 });
+
+        this.$el.css({ opacity: 0 }).html(html);
+
+        // cache elements to the Backbone View
+        dom.cache(this, this.$el, {
+          'by_id': ['theme', 'layout', 'settings', 'logout', 'signup', 'login']
+        });
+
+        // hide some controls in phone mode
+        this.$layout.toggleClass('hide', config.mode === 'phone');
+        bus.on('config:mode', function(mode) {
+          that.$layout.toggleClass('hide', mode === 'phone');
+        }, this);
+
+        this.$el.transition({ opacity: 1 });
       });
 
       return this;
