@@ -23,18 +23,27 @@
   },
 
   "client": {
-    "default_layout": "layout-col", // layout-cols, layout-top, layout-left
-    "default_theme": "dark", // dark, light
-    "panel_min": 52, // px, [theme].less:@panel_options_height + 10px
-    "cdn_results": 32, // number of filtered CDN results to display
-    "cdn_height": 219, // px, cdn.less:#cdn-results max-height
-    "layout_time": 300, // ms
-    "flash_duration": 4000, // ms
-    "flash_top": 40, // px
-    "flash_opacity": 0.9,
-    "mobile_width": 768, // px
+    // Default panel layout
+    // One of: [layout-cols, layout-top, layout-left]
+    "default_layout": "layout-col",
 
+    // Default theme stylesheet
+    // One of: [dark, light]
+    "default_theme": "dark",
+
+    // Number of filtered CDN results to display at once
+    "cdn_results": 32,
+
+    // CSS transition time for layout changes, in ms
+    "layout_time": 300,
+
+    // Duration for flash messages before auto-dismissed, in ms
+    "flash_duration": 4000,
+
+    // Fallback locale to use if localized strings are missing from `locale`
     "base_locale": "en_US",
+
+    // Default locale to use
     "locale": "en_US"
   }
 }
