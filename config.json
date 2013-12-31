@@ -34,9 +34,6 @@
     // Number of filtered CDN results to display at once
     "cdn_results": 32,
 
-    // CSS transition time for layout changes, in ms
-    "layout_time": 300,
-
     // Duration for flash messages before auto-dismissed, in ms
     "flash_duration": 4000,
 

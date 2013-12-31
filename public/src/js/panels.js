@@ -15,8 +15,9 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
   var layouts = ['layout-cols', 'layout-top', 'layout-left'];
   var layout_transitioning = false;
-  var min_size;
   var $active_panels;
+  var min_size;
+  var duration;
 
   bus.init(function(av) {
     utils.log('init panels module');
@@ -27,6 +28,10 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
     var optionsHeight = dom.css('#input > .panel .panel-options')['height'];
     min_size = (parseInt(optionsHeight, 10) || 0) + 10;
+
+    var css = dom.css('#input._transition');
+    var transition = css['transition-duration'] || css['transition'];
+    duration = parseInt(transition, 10) || 0;
 
     bus.on('config:mode', function(mode) {
       // immediately update the layout in phone mode
@@ -227,7 +232,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
   var reset_horiz_panel = function(panel, withResizer, callback) {
     var $panel = utils.ensure_jquery(panel);
     var h = $panel.data('default-height');
-    var dur = config.layout_time;
+    var dur = duration;
 
     $panel.data('y-offset', 0).transition({ 'height': h }, dur, callback);
 
@@ -239,7 +244,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
   var reset_vert_panel = function(panel, withResizer, callback) {
     var $panel = utils.ensure_jquery(panel);
     var w = $panel.data('default-width');
-    var dur = config.layout_time;
+    var dur = duration;
 
     $panel.data('x-offset', 0).transition({ 'width': w }, dur, callback);
 
@@ -427,6 +432,8 @@ function(config, utils, $, _, bus, dom, mirrors) {
   panels.set_layout = function(layout, now) {
     if (layout_transitioning) { return; }
 
+    var dur = now ? 0 : duration;
+
     // do nothing if an invalid layout or the current layout is requested
     if (!_.contains(layouts, layout) || layout === panels.get_layout()) {
       layout_transitioning = false;
@@ -452,7 +459,6 @@ function(config, utils, $, _, bus, dom, mirrors) {
     _.each(layouts, _.bind($.fn.removeClass, $parent));
     $parent.addClass(layout);
 
-    var dur = now ? 0 : config.layout_time;
     var callback = _.once(function() {
       panels.update_resize_handlers();
       bus.trigger('panels:resized');
