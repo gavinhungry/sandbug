@@ -73,6 +73,10 @@ function(
       return d.promise();
     },
 
+    set_phone_mode: function(phone) {
+      this.$layout.toggleClass('hide', phone);
+    },
+
     render: function() {
       templates.get(this.template, this).done(function(template_fn) {
         var that = this;
@@ -87,9 +91,9 @@ function(
         });
 
         // hide some controls in phone mode
-        this.$layout.toggleClass('hide', config.mode === 'phone');
+        this.set_phone_mode(config.mode.phone);
         bus.on('config:mode', function(mode) {
-          that.$layout.toggleClass('hide', mode.phone);
+          that.set_phone_mode(mode.phone);
         }, this);
 
         this.$el.transition({ opacity: 1 });
