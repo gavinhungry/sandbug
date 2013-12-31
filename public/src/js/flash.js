@@ -19,10 +19,12 @@ function(config, utils, $, _, bus, templates) {
   var timeout;
 
   var priorities = ['bad', 'good'];
+  var transition;
 
   bus.init(function(av) {
     utils.log('init flash module');
 
+    transition = dom.get_css_properties(_.sprintf('%s._transition', flashEl));
     $(flashEl).on('click', function(e) { flash.dismiss(); });
   });
 
@@ -65,10 +67,7 @@ function(config, utils, $, _, bus, templates) {
         $flash.css({ 'top': $flash.height() * -1 })
           .html(html)
           .css({ 'display': 'block' })
-          .transition({
-            'top': config.flash_top,
-            'opacity': config.flash_opacity
-          }, start_dismiss_timeout);
+          .transition(transition, start_dismiss_timeout);
       });
     });
   };
