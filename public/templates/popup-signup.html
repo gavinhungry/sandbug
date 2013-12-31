@@ -1,0 +1,13 @@
+<form id='signup_form' action='/signup' method='post'>
+  <input type='hidden' name='_csrf' value='<%= csrf %>'>
+  <input name='username' placeholder='Username' autocomplete='off' spellcheck='false' class='plain full' type='text'>
+  <input name='email' placeholder='Email Address' autocomplete='off' spellcheck='false' class='plain full' type='email'>
+
+  <input name='password' placeholder='Password' class='plain full' type='password'>
+  <input name='confirm' placeholder='Confirm Password' class='plain full' type='password'>
+
+  <div class='btn-group right'>
+    <button class='btn-small popup-cancel'>Cancel</button>
+    <button type='submit' class='btn-small action'>Sign Up</button>
+  </div>
+</form>

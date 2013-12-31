@@ -4,11 +4,10 @@
 
 #popup {
   position: absolute;
-  left: -50%;
   top: -50%;
   z-index: 20;
 
-  width: 200%;
+  width: 100%;
   height: 200%;
   background: rgba(0,0,0, 0.75);
 
@@ -25,15 +24,13 @@
     width: @popup_width;
     height: @popup_height;
     left: calc(50% ~'-' (@popup_width / 2));
-    top: calc(45% ~'-' (@popup_height / 2));
+    top: calc(25% ~'+' 48px);
 
     &.popup-small {
       @_small_width: round(@popup_width / 1.5);
-      @_small_height: round(@popup_height / 1.5);
       width:  @_small_width;
       height: auto;
       left: calc(50% ~'-' round(@_small_width / 2));
-      top: calc(45% ~'-' round(@_small_height / 2));
     }
   }
 
@@ -49,14 +46,7 @@
     cursor: default;
   }
 
-  .popup-login-outer {
-    input[name='username'], input[name='password'] {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      color: #777;
-    }
-
-    .button-row { margin-top: 8px; }
+  .btn-group {
+    margin-top: 8px;
   }
 }

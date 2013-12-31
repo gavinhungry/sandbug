@@ -43,7 +43,10 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       'click': function(e) {
         // only destroy the popup if the background area is clicked
         if ($(e.target).is(popupEl)) { this.destroy(); }
-      }
+      },
+
+      // destroy a popup when the cancel button is pressed
+      'click .popup-cancel': function(e) { e.preventDefault(); this.destroy(); }
     },
 
     destroy: function() {
@@ -146,6 +149,49 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     show_invalid_login: function() {
       this.$el.find('input[name="password"]').select();
       flash.message_bad(locales.string('invalid_creds'));
+    }
+  });
+
+  /**
+   *
+   */
+  popups.SignupPopup = popups.Popup.extend({
+    defaults: { small: true, title: 'Sign Up for debugger.io' }
+  });
+
+  /**
+   *
+   */
+  popups.SignupPopupView = popups.PopupView.extend({
+    template: 'popup-signup',
+
+    initialize: function(options) {
+      this.events = _.extend({}, this.events, this._events);
+      this.constructor.__super__.initialize.apply(this, arguments);
+    },
+
+    _events: {
+      'submit #signup_form': function(e) {
+        var that = this;
+        e.preventDefault();
+
+        var $form = $(e.target);
+        var uri = $form.attr('action');
+        var data = $form.serialize();
+
+        var method = $form.attr('method') === 'post' ? 'post' : 'get';
+        $[method](uri, data).done(function(username) {
+
+
+        }).fail(function() {
+
+
+        });
+      }
+    },
+
+    post_render: function() {
+      this.$el.find('input[name="username"]').focus();
     }
   });
 

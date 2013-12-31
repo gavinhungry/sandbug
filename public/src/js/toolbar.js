@@ -51,6 +51,7 @@ function(
     events: {
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
+      'click #signup': function(e) { popups.popup('signup'); },
       'click #login': function(e) { popups.popup('login'); },
       'click #logout': function(e) {
         $.post('/logout', { _csrf: config.csrf }).done(function(data) {

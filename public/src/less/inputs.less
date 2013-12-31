@@ -4,7 +4,8 @@
 
 textarea:focus, input:focus, button:focus { outline: none; }
 
-input[type='text'], input[type='password'], input[type='search'] {
+input[type='text'], input[type='password'],
+input[type='search'], input[type='email'] {
   &:not(.plain) {
     background: @input_bg_color;
     color: @input_text_color;
@@ -41,6 +42,13 @@ input[type='text'], input[type='password'], input[type='search'] {
       background: @input_plain_bg_focus_color;
       border-color: @input_plain_border_focus_color;
       box-shadow: 2px 2px 0 @input_plain_border_focus_color;
+    }
+
+    &.full {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      color: #777;
     }
   }
 }
