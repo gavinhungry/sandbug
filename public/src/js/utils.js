@@ -247,6 +247,23 @@ function(config, $, _) {
   };
 
   /**
+   * Submit a form with jQuery and return its promise
+   *
+   * @param {jQuery} $form - form element
+   * @return {Promise} to submit form
+   */
+  utils.submit_form = function($form) {
+    $form = utils.ensure_jquery($form);
+
+    var uri = $form.attr('action');
+    var data = $form.serialize();
+
+    var methodAttr = utils.ensure_string($form.attr('method'));
+    var method = methodAttr.toLowerCase() === 'post' ? 'post' : 'get';
+    return $[method](uri, data);
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
