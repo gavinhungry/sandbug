@@ -238,6 +238,9 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     initialize: function(options) {
       this.collection.on('reset', this.render, this);
 
+      var max_height = dom.get_css_properties(this.$el.selector)['max-height'];
+      this.max_height = parseInt(max_height, 10) || 0;
+
       bus.off_ns('cdn:results');
       bus.on('cdn:results:prev-active', this.prev_active, this);
       bus.on('cdn:results:next-active', this.next_active, this);
@@ -263,7 +266,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
       var maxHeight = this.$nomatch.is(':visible') ?
         this.$nomatch.outerHeight(true) :
-        Math.min(this.$ol.outerHeight() + 4, config.cdn_height);
+        Math.min(this.$ol.outerHeight() + 4, this.max_height);
 
       this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
 
