@@ -236,6 +236,17 @@ function(config, $, _) {
   };
 
   /**
+   * Minifies a CSS selector string
+   *
+   * @param {String} selector - original selector
+   * @return {String} minified selector
+   */
+  utils.minify_css_selector = function(selector) {
+    selector = utils.ensure_string(selector);
+    return _.clean(selector.replace(/\s*([>+~])\s*/g, '$1'));
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer

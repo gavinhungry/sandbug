@@ -163,6 +163,42 @@ function(config, utils, $, _, Backbone, bus) {
   };
 
   /**
+   * Get a CSS property from an enabled stylesheet
+   *
+   * @param {String} selector - CSS selector, must match exactly
+   * @param {String} property - CSS property to look for
+   * @return {String | null} CSS property matching selector, null if not found
+   */
+  dom.get_css_property = function(selector, property) {
+    var match;
+
+    selector = utils.minify_css_selector(selector);
+
+    // start with the last stylesheet
+    var stylesheets = _.toArray(document.styleSheets).reverse();
+
+    _.every(stylesheets, function(stylesheet) {
+      // ignore disabled stylesheets
+      if (stylesheet.disabled) { return true; } // continue
+
+      var rules = stylesheet.cssRules || stylesheet.rules || [];
+      var rule = _.find(rules, function(rule) {
+        // find matching minified selector
+        return utils.minify_css_selector(rule.selectorText) === selector;
+      });
+
+      if (rule && rule.style[property]) {
+        match = rule.style[property];
+        return false; // break
+      }
+
+      return true; // continue
+    });
+
+    return match || null;
+  };
+
+  /**
    * Scroll a nanoScrollerJS container to a specified scrollTop
    *
    * @param {jQuery} $element - some element within a nanoScrollerJS scrollbar
