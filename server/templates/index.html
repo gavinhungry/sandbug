@@ -22,7 +22,7 @@
     <script type='application/javascript'>
       window._debugger_io = {
         csrf: '<%= csrf %>',
-        mode: <%= JSON.stringify(mode, null, ' ').replace(/\n/g, ' ').replace(/\s+/g, ' ').replace(/"/g, '') %>,
+        mode: <%= JSON.stringify(mode) %>,
         username: <%= username ? "'" + username + "'" : 'null' %>
       };
     </script>
