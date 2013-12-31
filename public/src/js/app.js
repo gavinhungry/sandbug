@@ -46,8 +46,10 @@ function(
 
       bus.on('config:mode', function(mode) {
         var $body = $('body');
-        $body.removeClass(modes.join(' '));
-        if (_.contains(modes, mode)) { $body.addClass(mode); }
+        $body.removeClass(modes.join(' ')).removeClass('mobile');
+        if (_.contains(modes, mode)) {
+          $body.addClass(mode).addClass('mobile');
+        }
       });
 
       this.render(function() {
