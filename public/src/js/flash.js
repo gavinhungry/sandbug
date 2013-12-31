@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'templates'
+  'bus', 'dom', 'templates'
 ],
-function(config, utils, $, _, bus, templates) {
+function(config, utils, $, _, bus, dom, templates) {
   'use strict';
 
   var flash = utils.module('flash');
