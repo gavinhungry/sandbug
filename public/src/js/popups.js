@@ -126,18 +126,11 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
         var that = this;
         e.preventDefault();
 
-        var $form = $(e.target);
-        var uri = $form.attr('action');
-        var data = $form.serialize();
-
-        var method = $form.attr('method') === 'post' ? 'post' : 'get';
-        $[method](uri, data).done(function(username) {
+        utils.submit_form($(e.target)).done(function(username) {
           bus.trigger('user:login', username);
           that.destroy();
         }).fail(function() {
-
-          // invalid credentials
-          that.show_invalid_login();
+          that.show_invalid_login(); // invalid credentials
         });
       }
     },
@@ -175,16 +168,9 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
         var that = this;
         e.preventDefault();
 
-        var $form = $(e.target);
-        var uri = $form.attr('action');
-        var data = $form.serialize();
-
-        var method = $form.attr('method') === 'post' ? 'post' : 'get';
-        $[method](uri, data).done(function(username) {
-
+        utils.submit_form($(e.target)).done(function(username) {
 
         }).fail(function() {
-
 
         });
       }
