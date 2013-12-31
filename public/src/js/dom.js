@@ -168,7 +168,7 @@ function(config, utils, $, _, Backbone, bus) {
    * @param {String} selector - CSS selector
    * @return {Object} CSS property map matching selector
    */
-  dom.get_css_properties = function(selector) {
+  dom.css = function(selector) {
     var match;
     selector = utils.minify_css_selector(selector);
 

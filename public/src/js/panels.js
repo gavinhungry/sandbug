@@ -15,6 +15,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
   var layouts = ['layout-cols', 'layout-top', 'layout-left'];
   var layout_transitioning = false;
+  var min_size;
   var $active_panels;
 
   bus.init(function(av) {
@@ -23,6 +24,9 @@ function(config, utils, $, _, bus, dom, mirrors) {
     $active_panels = av.$panels;
     panels.update_resize_handlers();
     panels.init_input_modes();
+
+    var optionsHeight = dom.css('#input > .panel .panel-options')['height'];
+    min_size = (parseInt(optionsHeight, 10) || 0) + 10;
 
     bus.on('config:mode', function(mode) {
       // immediately update the layout in phone mode
@@ -103,10 +107,10 @@ function(config, utils, $, _, bus, dom, mirrors) {
     var do_resize = function(e) {
       if (!$resizer) { return; }
 
-      var minDistX = -1 * (minEdge.left - leftEdge.left - config.panel_min);
-      var maxDistX = rightEdge.left - minEdge.left - config.panel_min;
-      var minDistY = -1 * (minEdge.top - leftEdge.top - config.panel_min);
-      var maxDistY = rightEdge.top - minEdge.top - config.panel_min;
+      var minDistX = -1 * (minEdge.left - leftEdge.left - min_size);
+      var maxDistX = rightEdge.left - minEdge.left - min_size;
+      var minDistY = -1 * (minEdge.top - leftEdge.top - min_size);
+      var maxDistY = rightEdge.top - minEdge.top - min_size;
 
       var distanceX = utils.clamp(e.pageX - mde.pageX, minDistX, maxDistX);
       var distanceY = utils.clamp(e.pageY - mde.pageY, minDistY, maxDistY);

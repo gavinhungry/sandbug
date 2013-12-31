@@ -238,7 +238,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     initialize: function(options) {
       this.collection.on('reset', this.render, this);
 
-      var max_height = dom.get_css_properties(this.$el.selector)['max-height'];
+      var max_height = dom.css(this.$el.selector)['max-height'];
       this.max_height = parseInt(max_height, 10) || 0;
 
       bus.off_ns('cdn:results');
