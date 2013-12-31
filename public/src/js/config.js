@@ -18,6 +18,7 @@ function($, _) {
 
   var locals = window._debugger_io || {};
   var hostname = window.location.hostname;
+  var proxyable_sub_options = ['mode'];
 
   // default options
   var options = {
@@ -30,6 +31,18 @@ function($, _) {
   };
 
   /**
+   * Proxy config values from an update to the event bus
+   *
+   * @param {String} option - option name
+   */
+  config._priv.proxy = function(option) {
+    $(document).trigger('_debugger_io-config', {
+      option: option,
+      value: config[option]
+    });
+  };
+
+  /**
    * Create a new config option
    *
    * Values may always be functions, but any value originally declared as a
@@ -37,13 +50,15 @@ function($, _) {
    *
    * @param {String} option - option name
    * @param {Mixed} value - initial value
+   * @param {Boolean} [parent] - parent option
    */
-  config._priv.option = function(option, value) {
+  config._priv.set_option = function(option, value, parent) {
     if (config.hasOwnProperty(option)) { return; }
+    var dest = parent ? config[parent] : config;
 
     var isBool = _.isBoolean(value);
 
-    Object.defineProperty(config, option, {
+    Object.defineProperty(dest, option, {
       get: function() {
         var val = options[option];
         var isFn = _.isFunction(val);
@@ -55,36 +70,36 @@ function($, _) {
         var isFn = _.isFunction(val);
         options[option] = (isBool && !isFn) ? !!val : val;
 
-        // proxy config updates to event bus
-        if (!wasUndefined) {
-          $(document).trigger('_debugger_io-config', {
-            option: option,
-            value: config[option]
-          });
+        if (!wasUndefined) { config._priv.proxy(parent || option); }
+
+        // define proxyable sub-options
+        if (_.contains(proxyable_sub_options, option) && !parent) {
+          config._priv.set_options(val, option);
         }
       }
     });
 
-    config[option] = value;
+    dest[option] = value;
   };
 
   /**
    * Create multiple new config options
    *
    * @param {Object} opts - key/value pairs
+   * @param {Boolean} [parent] - parent option
    */
-  config._priv.options = function(opts) {
+  config._priv.set_options = function(opts, parent) {
     _.each(opts, function(value, option) {
-      config._priv.option(option, value);
+      config._priv.set_option(option, value, parent);
     });
   };
 
-  config._priv.options(options);
+  config._priv.set_options(options);
 
   // get additional client-side config options from the server
   var d = $.Deferred();
   $.get('/config').done(function(data) {
-    config._priv.options(data);
+    config._priv.set_options(data);
     d.resolve(config);
   }).fail(function() {
     d.resolve(config);

@@ -26,7 +26,7 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
     bus.on('config:mode', function(mode) {
       // immediately update the layout in phone mode
-      if (mode === 'phone') {
+      if (mode.phone) {
         config.default_layout = 'layout-top';
         panels.set_layout(config.default_layout, true);
       }

@@ -16,8 +16,6 @@ function(
 
   var app = utils.module('app');
 
-  var modes = ['tablet', 'phone'];
-
   app.App = Backbone.View.extend({
     template: 'app',
     el: '#debuggerio',
@@ -46,10 +44,11 @@ function(
 
       bus.on('config:mode', function(mode) {
         var $body = $('body');
-        $body.removeClass(modes.join(' ')).removeClass('mobile');
-        if (_.contains(modes, mode)) {
-          $body.addClass(mode).addClass('mobile');
-        }
+        var modes = _.keys(mode);
+
+        _.each(modes, function(modeClass) {
+          $body.toggleClass(modeClass, mode[modeClass]);
+        });
       });
 
       this.render(function() {

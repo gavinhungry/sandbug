@@ -89,7 +89,7 @@ function(
         // hide some controls in phone mode
         this.$layout.toggleClass('hide', config.mode === 'phone');
         bus.on('config:mode', function(mode) {
-          that.$layout.toggleClass('hide', mode === 'phone');
+          that.$layout.toggleClass('hide', mode.phone);
         }, this);
 
         this.$el.transition({ opacity: 1 });
