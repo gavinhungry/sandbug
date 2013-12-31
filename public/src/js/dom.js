@@ -165,13 +165,11 @@ function(config, utils, $, _, Backbone, bus) {
   /**
    * Get a CSS property from an enabled stylesheet
    *
-   * @param {String} selector - CSS selector, must match exactly
-   * @param {String} property - CSS property to look for
-   * @return {String | null} CSS property matching selector, null if not found
+   * @param {String} selector - CSS selector
+   * @return {Object} CSS property map matching selector
    */
-  dom.get_css_property = function(selector, property) {
+  dom.get_css_properties = function(selector) {
     var match;
-
     selector = utils.minify_css_selector(selector);
 
     // start with the last stylesheet
@@ -182,20 +180,25 @@ function(config, utils, $, _, Backbone, bus) {
       if (stylesheet.disabled) { return true; } // continue
 
       var rules = stylesheet.cssRules || stylesheet.rules || [];
-      var rule = _.find(rules, function(rule) {
+      match = _.find(rules, function(rule) {
         // find matching minified selector
         return utils.minify_css_selector(rule.selectorText) === selector;
       });
 
-      if (rule && rule.style[property]) {
-        match = rule.style[property];
-        return false; // break
-      }
-
-      return true; // continue
+      return !match;
     });
 
-    return match || null;
+    // always return an object
+    if (!match) { return {}; }
+
+    // remove selector and braces, leaving only the CSS properties
+    var rule = match.cssText.replace(/^.*{\s*/, '').replace(/\s*}\s*$/, '');
+
+    // convert the property string to an object
+    return _.object(_.map(rule.split(';'), function(property) {
+      var map = _.map(property.split(':'), _.clean);
+      return map.length === 2 ? map : null;
+    }));
   };
 
   /**
