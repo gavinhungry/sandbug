@@ -115,7 +115,7 @@ function(
   /**
    * Get a user from a login and plaintext password
    *
-   * @param {String} login - username or password
+   * @param {String} login - username or email
    * @param {String} plaintext - password to check
    * @return {Promise} to return a user or false if no matching user found
    */
@@ -137,6 +137,46 @@ function(
   };
 
   /**
+   * Create a new user with a plaintext password
+   *
+   * @param {String} username - requested username
+   * @param {String} email - requested email address
+   * @param {String} plaintext - plaintext password
+   * @param {String} confirm - plaintext password confirmation
+   * @return {Promise} resolves to new user record on success
+   */
+  auth.create_user = function(username, email, plaintext, confirm) {
+    var d = Q.defer();
+
+    // if the password does not match the confirmation or is invalid, we're done
+    if (plaintext !== confirm) {
+      return utils.reject_now(new utils.ClientMsg('password_mismatch'));
+    }
+
+    if (!utils.is_valid_password(plaintext)) {
+      return utils.reject_now(new utils.ClientMsg('invalid_password'));
+    }
+
+    // check that the login is available first
+    db.login_available(username, email).then(function(login) {
+      var username = login.username;
+      var email = login.email;
+
+      // actually create the user
+      auth.generate_hash(plaintext).then(function(hash) {
+        db.create_user(username, email, hash).then(function(user) {
+
+          // success, resolve to this new user record
+          d.resolve(user);
+
+        }, function(err) { d.reject(err); });
+      }, function(err) { d.reject(err); });
+    }, function(err) { d.reject(err); });
+
+    return d.promise;
+  };
+
+  /**
    * Determine if a session timestamp is expired
    *
    * @param {Number | String} timestamp - a Unix timestamp
@@ -147,17 +187,6 @@ function(
     var age = utils.timestamp_age(timestamp);
 
     return age < 0 || age > max;
-  };
-
-  /**
-   * Clean up a potential username string
-   *
-   * @param {String} username - a string to treat as username input
-   * @return {String} username with only alphanumeric characters and underscores
-   */
-  auth.sanitize_username = function(username) {
-    username = utils.ensure_string(username).toLowerCase();
-    return username.replace(/[^a-z0-9_]/ig, '');
   };
 
   return auth;

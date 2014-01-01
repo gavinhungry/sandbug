@@ -1,14 +1,18 @@
 <form id='login_form' action='/login' method='post'>
   <input type='hidden' name='_csrf' value='<%= csrf %>'>
+
   <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' type='text'>
   <input name='password' placeholder='Password' class='plain full' type='password'>
 
-  <div class='btn-group left'>
-    <button class='btn-small'>Forgot Password?</button>
+  <div class='btn-group right'>
+    <button type='submit' class='btn-small action'>Login</button>
   </div>
 
   <div class='btn-group right'>
     <button class='btn-small popup-cancel'>Cancel</button>
-    <button type='submit' class='btn-small action'>Login</button>
+  </div>
+
+  <div class='btn-group left'>
+    <button class='btn-small'>Forgot Password?</button>
   </div>
 </form>

@@ -190,6 +190,16 @@ function(config, $, _) {
   };
 
   /**
+   * Create a promise that rejects to a value now
+   *
+   * @param {Mixed} value - value that the promise will reject to
+   * @return {Promise} promise to return value
+   */
+  utils.reject_now = function(value) {
+    return $.Deferred().reject(value).promise();
+  };
+
+  /**
    * Return a number clamped by a minimum and maximum
    *
    * @param {Number} val - number to clamp

@@ -169,10 +169,11 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
         e.preventDefault();
 
         utils.submit_form($(e.target)).done(function(username) {
-
-        }).fail(function() {
-
-        });
+          bus.trigger('user:login', username);
+          that.destroy();
+        }).fail(function(xhr) {
+          flash.message_bad(locales.string(xhr.responseJSON));
+       });
       }
     },
 

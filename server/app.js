@@ -39,6 +39,7 @@ function(
   server.get('/', routes.get.index);
   server.get('/cdn', routes.get.cdn);
   server.get('/config', routes.get.config);
+  server.post('/signup', routes.post.signup);
   server.post('/login', auth.authenticate, routes.post.login);
   server.post('/logout', routes.post.logout);
 

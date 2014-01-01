@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'cdn'
+  'auth', 'cdn', 'db'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cdn
+  auth, cdn, db
 ) {
   'use strict';
 
@@ -22,7 +22,7 @@ function(
     res.render('index', {
       prod: config.prod,
       rev: config.build.rev,
-      username: auth.sanitize_username(user.username),
+      username: utils.sanitize_username(user.username),
       csrf: req.csrfToken(),
       mode: { mobile: !!req.mobile, phone: !!req.phone, tablet: !!req.tablet }
     });
@@ -40,17 +40,32 @@ function(
     res.json(config.client);
   };
 
+  // POST /signup
+  routes.post.signup = function(req, res) {
+    var username = req.body.username;
+    var email    = req.body.email;
+    var password = req.body.password;
+    var confirm  = req.body.confirm;
+
+    auth.create_user(username, email, password, confirm).then(function(user) {
+      res.json(user.username);
+    }, function(msg) {
+      if (msg instanceof utils.ClientMsg) { res.status(409).json(msg); }
+      else { res.status(500).json(new utils.ClientMsg('server_error')); }
+    });
+  };
+
   // POST /login
   routes.post.login = function(req, res) {
     var user = req.user || {};
-    var username = auth.sanitize_username(user.username);
+    var username = utils.sanitize_username(user.username);
     res.json(username);
   };
 
   // POST /logout
   routes.post.logout = function(req, res) {
     req.logout();
-    res.send(true);
+    res.json(true);
   };
 
   // default
