@@ -44,9 +44,7 @@ function(
         var result = JSON.parse(datas.join(''));
         d.resolve(result);
       });
-    }).on('error', function(err) {
-      d.reject(err);
-    });
+    }).on('error', d.reject);
 
     return d.promise;
   };

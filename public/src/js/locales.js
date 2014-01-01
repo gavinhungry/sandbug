@@ -60,9 +60,7 @@ function(
         if (id !== config.base_locale) {
           locales.get(config.base_locale).done(function(baseLocale) {
             d.resolve(_.extend(baseLocale, locale));
-          }).fail(function(err) {
-            d.reject(err);
-          });
+          }).fail(d.reject);
         } else {
           d.resolve(locale);
         }
@@ -86,9 +84,7 @@ function(
 
     cache[id].done(function(locale) {
       d.resolve(utils.clone(locale));
-    }).fail(function(err) {
-      d.reject(err);
-    });
+    }).fail(d.reject);
 
     return d.promise();
   };
@@ -137,7 +133,7 @@ function(
       var formattedStr = _.sprintf.apply(null, sprintfArgs);
       d.resolve(formattedStr);
     }).fail(function(err) {
-      d.reject(null);
+      d.reject(strId);
     });
 
     return d.promise();
@@ -169,9 +165,7 @@ function(
       });
 
       d.resolve(true);
-    }).fail(function(err) {
-      d.reject(err);
-    })
+    }).fail(d.reject)
 
     return d.promise();
   };

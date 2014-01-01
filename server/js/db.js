@@ -64,12 +64,11 @@ function(
   };
 
   /**
-   * Determine if a new user may be created with the provided login
-   * and email address
+   * Determine if a username or email already exists
    *
    * @param {String} username - requested username
    * @param {String} email - requested email address
-   * @return {Promise}
+   * @return {Promise} resolves to true if username or email exists
    */
   db.login_exists = function(username, email) {
     var d = Q.defer();
@@ -79,9 +78,7 @@ function(
 
     Q.all([username_p, email_p]).then(function(results) {
       d.resolve(!!_.find(results));
-    }, function(err) {
-      d.reject(err);
-    });
+    }, d.reject);
 
     return d.promise;
   };

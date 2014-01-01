@@ -56,9 +56,7 @@ function(
     }).then(function(result) {
       var picked = cdn.pick_properties(result ? result.packages : []);
       d.resolve(picked);
-    }, function(err) {
-      d.reject(err);
-    });
+    }, d.reject);
 
     return d.promise;
   };
@@ -106,9 +104,7 @@ function(
     cdn.get_JSON().then(function(packages) {
       cache = packages;
       d.resolve(packages);
-    }, function(err) {
-      d.reject(err);
-    });
+    }, d.reject);
 
     return d.promise;
   };

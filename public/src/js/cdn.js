@@ -65,9 +65,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     $.get(utils.uri('cdn')).done(function(packages) {
       cache = packages;
       d.resolve(packages);
-    }).fail(function(err) {
-      d.reject(err);
-    });
+    }).fail(d.reject);
 
     return d.promise();
   };

@@ -129,9 +129,7 @@ function(
         delete user.hash;
         match ? d.resolve(user) : d.resolve(false);
       });
-    }, function(err) {
-      d.reject(err);
-    });
+    }, d.reject);
 
     return d.promise;
   };
@@ -179,9 +177,9 @@ function(
           // success! resolve to this new user record
           d.resolve(user);
 
-        }, function(err) { d.reject(err); });
-      }, function(err) { d.reject(err); });
-    }, function(err) { d.reject(err); });
+        }, d.reject);
+      }, d.reject);
+    }, d.reject);
 
     return d.promise;
   };
