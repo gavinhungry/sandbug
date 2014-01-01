@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'bcrypt-nodejs', 'db', 'express', 'passport', 'passport-local'
+  'bcrypt-nodejs', 'db', 'express', 'passport', 'passport-local', 'validator'
 ],
 function(
   module, path, config, utils, _, Q,
-  bcrypt, db, express, passport, local
+  bcrypt, db, express, passport, local, validator
 ) {
   'use strict';
 
@@ -148,25 +148,35 @@ function(
   auth.create_user = function(username, email, plaintext, confirm) {
     var d = Q.defer();
 
-    // if the password does not match the confirmation or is invalid, we're done
-    if (plaintext !== confirm) {
-      return utils.reject_now(new utils.ClientMsg('password_mismatch'));
+    username = _.clean(username);
+    email = _.clean(email);
+
+    if (!auth.is_valid_username(username)) {
+      return utils.reject_now(new utils.LocaleMsg('invalid_username'));
     }
 
-    if (!utils.is_valid_password(plaintext)) {
-      return utils.reject_now(new utils.ClientMsg('invalid_password'));
+    if (!auth.is_valid_email(email)) {
+      return utils.reject_now(new utils.LocaleMsg('invalid_email'));
+    }
+
+    if (plaintext !== confirm) {
+      return utils.reject_now(new utils.LocaleMsg('password_mismatch'));
+    }
+
+    if (!auth.is_valid_password(plaintext)) {
+      return utils.reject_now(new utils.LocaleMsg('invalid_password'));
     }
 
     // check that the login is available first
-    db.login_available(username, email).then(function(login) {
-      var username = login.username;
-      var email = login.email;
+    db.login_exists(username, email).then(function(exists) {
+      if (exists) { return d.reject(new utils.LocaleMsg('user_exists')); }
 
-      // actually create the user
+      // get a hash for the plaintext password
       auth.generate_hash(plaintext).then(function(hash) {
+        // actually create the user
         db.create_user(username, email, hash).then(function(user) {
 
-          // success, resolve to this new user record
+          // success! resolve to this new user record
           d.resolve(user);
 
         }, function(err) { d.reject(err); });
@@ -187,6 +197,55 @@ function(
     var age = utils.timestamp_age(timestamp);
 
     return age < 0 || age > max;
+  };
+
+  /**
+   * Clean up a potential username string
+   *
+   * @param {String} username - a string to treat as username input
+   * @return {String} username with only alphanumeric characters and underscores
+   */
+  auth.sanitize_username = function(username) {
+    username = utils.ensure_string(username).toLowerCase();
+    return username.replace(/[^a-z0-9_]/ig, '');
+  };
+
+  /**
+   * Test for a valid username
+   *
+   * @param {String} username - a string to treat as username input
+   * @return {Boolean} true if username is valid, false otherwise
+   */
+  auth.is_valid_username = function(username) {
+    return auth.sanitize_username(username) ===
+      username && username.length >= 3;
+  };
+
+  /**
+   * Test for a valid email address
+   *
+   * @param {String} email - a string to treat as email address input
+   * @return {Boolean} true if email is valid, false otherwise
+   */
+  auth.is_valid_email = function(email) {
+    try { validator.check(email).isEmail(); }
+    catch(e) { return false; }
+
+    return true;
+  };
+
+  /**
+   * Test for a valid password
+   *
+   * The only requirements for a valid password are that it must contain at
+   * least one non-whitespace character, be at least 4 characters and at most
+   * 500 characters.  Users are free to shoot themselves in the foot.
+   *
+   * @param {String} plaintext - a string to treat as password input
+   * @return {Boolean} true if password is valid, false otherwise
+   */
+  auth.is_valid_password = function(plaintext) {
+    return _.isString(plaintext) && /^(?=.*\S).{4,500}$/.test(plaintext);
   };
 
   return auth;

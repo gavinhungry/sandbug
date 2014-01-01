@@ -104,7 +104,7 @@ function(
   /**
    * Returned a localized string from a string ID
    *
-   * @param {String} msg - a string ID or ClientMsg
+   * @param {String} msg - a string ID or LocaleMsg
    * @param {String} [...] - strings to pass to _.sprintf, if applicable
    * @return {Promise} to return localed string matching `strId`
    */

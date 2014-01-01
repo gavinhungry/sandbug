@@ -69,31 +69,19 @@ function(
    *
    * @param {String} username - requested username
    * @param {String} email - requested email address
-   * @return {Promise} rejecting to a locale string ID if user can't be created
+   * @return {Promise}
    */
-  db.login_available = function(username, email) {
+  db.login_exists = function(username, email) {
     var d = Q.defer();
-
-    username = _.clean(username);
-    email = _.clean(email);
-
-    // if the email address or username is invalid, we're done
-    if (!utils.is_valid_email(email)) {
-      return utils.reject_now(new utils.ClientMsg('invalid_email'));
-    }
-
-    if (!utils.is_valid_username(username)) {
-      return utils.reject_now(new utils.ClientMsg('invalid_username'));
-    }
 
     var username_p = db.get_user_by_login(username);
     var email_p = db.get_user_by_login(email);
 
     Q.all([username_p, email_p]).then(function(results) {
-      if (_.find(results)) { d.reject(new utils.ClientMsg('user_exists')); }
-      else { d.resolve({ username: username, email: email }); }
-
-    }, function(err) { d.reject(err); });
+      d.resolve(!!_.find(results));
+    }, function(err) {
+      d.reject(err);
+    });
 
     return d.promise;
   };

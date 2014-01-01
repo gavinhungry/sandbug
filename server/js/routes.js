@@ -22,7 +22,7 @@ function(
     res.render('index', {
       prod: config.prod,
       rev: config.build.rev,
-      username: utils.sanitize_username(user.username),
+      username: auth.sanitize_username(user.username),
       csrf: req.csrfToken(),
       mode: { mobile: !!req.mobile, phone: !!req.phone, tablet: !!req.tablet }
     });
@@ -50,15 +50,19 @@ function(
     auth.create_user(username, email, password, confirm).then(function(user) {
       res.json(user.username);
     }, function(msg) {
-      if (msg instanceof utils.ClientMsg) { res.status(409).json(msg); }
-      else { res.status(500).json(new utils.ClientMsg('server_error')); }
+
+      // the user already exists or inputs were invalid
+      if (msg instanceof utils.LocaleMsg) { res.status(409).json(msg); }
+
+      // internal server error
+      else { res.status(500).json(new utils.LocaleMsg('server_error')); }
     });
   };
 
   // POST /login
   routes.post.login = function(req, res) {
     var user = req.user || {};
-    var username = utils.sanitize_username(user.username);
+    var username = auth.sanitize_username(user.username);
     res.json(username);
   };
 
