@@ -45,6 +45,11 @@ function(config, utils, $, _, Backbone, bus) {
       this['$' + _.pluralize(_.underscored(c))] = $source.find('.' + c);
     }, context));
 
+    // '[name="username"]' cached to this.$username
+    _.each(utils.ensure_array(elements.by_name), _.bind(function(n) {
+      this['$' + _.underscored(n)] = $source.find(_.sprintf('[name="%s"]', n));
+    }, context));
+
     return context;
   };
 
