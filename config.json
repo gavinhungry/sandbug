@@ -36,7 +36,7 @@
     "cdn_results": 32,
 
     // Duration for flash messages before auto-dismissed, in ms
-    "flash_duration": 4000,
+    "flash_duration": 8000,
 
     // Fallback locale to use if localized strings are missing from `locale`
     "base_locale": "en_US",

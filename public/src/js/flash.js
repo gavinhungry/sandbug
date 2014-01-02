@@ -72,13 +72,6 @@ function(config, utils, $, _, bus, dom, locales, templates) {
     });
   };
 
-  // eg. flash.message_bad
-  _.each(priorities, function(priority) {
-    flash['message_' + priority] = function(heading, body) {
-      return flash.message(heading, body, priority);
-    };
-  });
-
   /**
    * Flash a LocaleMsg from the server
    *
@@ -86,19 +79,15 @@ function(config, utils, $, _, bus, dom, locales, templates) {
    * @param {String} [priority] - override the priority of the LocaleMsg
    */
   flash.locale_message = function(msg, priority) {
-    var heading_p = $.Deferred();
-
-    if (typeof msg === 'string') { flash.message(msg); }
-    else if (msg.localize) {
-
-      var headingStrId = utils.ensure_string(msg.localize);
-      var bodyStrId = _.sprintf('%s_msg', headingStrId);
+    if ((typeof msg !== 'string') && msg.localize) {
+      var heading = utils.ensure_string(msg.localize);
+      var body = _.sprintf('%s_msg', heading);
 
       var head_args = utils.ensure_array(msg.args.head);
-      head_args.unshift(headingStrId);
+      head_args.unshift(heading);
 
       var msg_args = utils.ensure_array(msg.args.msg);
-      msg_args.unshift(bodyStrId);
+      msg_args.unshift(body);
 
       var heading_p = locales.string(head_args);
       var body_p = locales.string(msg_args);
@@ -106,6 +95,18 @@ function(config, utils, $, _, bus, dom, locales, templates) {
       flash.message(heading_p, body_p, msg.priority || priority);
     }
   };
+
+  // eg. flash.message_bad
+  _.each(priorities, function(priority) {
+    _.each(['message', 'locale_message'], function(method) {
+      flash[method + '_' + priority] = function() {
+        var args = _.toArray(arguments);
+        args.length = flash[method].length - 1;
+        args.push(priority);
+        return flash[method].apply(null, args);
+      };
+    });
+  });
 
   /**
    * Dismiss the flash message

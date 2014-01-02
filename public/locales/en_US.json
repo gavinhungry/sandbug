@@ -4,6 +4,7 @@
   "invalid_password":     "Invalid password",
   "invalid_password_msg": "Passwords must be at least 4 and no more than 500 characters",
   "invalid_username":     "Invalid username",
+  "invalid_username_msg": "Usernames must be at least 3 characters and may only contain lowercase letters, numbers and underscores",
   "logged_in":            "Logged in as %s",
   "logged_in_msg":        "Welcome to the party, pal.",
   "logged_out":           "Logged out",

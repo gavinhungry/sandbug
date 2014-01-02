@@ -166,11 +166,29 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
         var that = this;
         e.preventDefault();
 
+        if (this.$username.val().length < 3) {
+          return flash.message_bad(locales.string('invalid_username'),
+            locales.string('invalid_username_msg'));
+        }
+
+        if (this.$email.is(':invalid') || !this.$email.val()) {
+          return flash.message_bad(locales.string('invalid_email'));
+        }
+
+        if (this.$password.val() !== this.$confirm.val()) {
+          return flash.message_bad(locales.string('password_mismatch'));
+        }
+
+        if (this.$password.val().length < 4) {
+          return flash.message_bad(locales.string('invalid_password'),
+            locales.string('invalid_password_msg'));
+        }
+
         utils.submit_form($(e.target)).done(function(username) {
           bus.trigger('user:login', username);
           that.destroy();
         }).fail(function(xhr) {
-          flash.locale_message(xhr.responseJSON, 'bad');
+          flash.locale_message_bad(xhr.responseJSON);
        });
       }
     },
@@ -216,6 +234,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     var $popup = $(popupEl);
     if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
     else {
+      $popup.removeClass('nopointer');
       $popup.css({ 'display': 'block' }).transition({
         'opacity': 1,
         'margin-top': '1em'
@@ -239,6 +258,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       // popup is already hidden, don't wait to resolve
       if ($popup.css('opacity') === '0') { d.resolve(true); }
       else {
+        $popup.addClass('nopointer');
         $popup.transition({ 'opacity': 0, 'margin-top': 0 }, function() {
           $popup.css({ 'display': 'none' });
           d.resolve(true);
