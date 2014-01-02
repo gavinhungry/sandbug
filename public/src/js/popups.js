@@ -136,7 +136,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     },
 
     post_render: function() {
-      this.$el.find('input[name="username"]').focus();
+      dom.cache(this, this.$el, { 'by_name': ['username', 'password'] });
+      this.$username.focus();
     },
 
     show_invalid_login: function() {
@@ -175,7 +176,11 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     },
 
     post_render: function() {
-      this.$el.find('input[name="username"]').focus();
+      dom.cache(this, this.$el, {
+        'by_name': ['username', 'email', 'password', 'confirm']
+      });
+
+      this.$username.focus();
     }
   });
 
