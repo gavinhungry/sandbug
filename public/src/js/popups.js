@@ -22,7 +22,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * @param {String} title - Popup heading
    */
   popups.Popup = Backbone.Model.extend({
-    defaults: { small: false, title: 'Popup' }
+    defaults: { small: false, title: null }
   });
 
   /**
@@ -68,20 +68,20 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     render: function() {
       var that = this;
+      var data = this.model.toJSON();
 
       var popup_p = templates.get('popup', this);
       var content_p = templates.get(this.template, this);
-      var template_fns = $.when(popup_p, content_p);
+      var title_p = locales.string(data.title);
 
-      template_fns.done(function(popup_fn, content_fn) {
+      $.when(popup_p, content_p, title_p)
+      .done(function(popup_fn, content_fn, title) {
         var that = _.first(utils.ensure_array(this));
-
-        var data = that.model.toJSON();
 
         var contentHtml = content_fn({ data: data });
         var popupHtml = popup_fn({
           small: !!data.small,
-          title: data.title,
+          title: title,
           content: contentHtml,
           name: _.sprintf('%s-outer', that.template)
         });
@@ -110,7 +110,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Login popup
    */
   popups.LoginPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'Login to debugger.io' }
+    defaults: { small: true, title: 'login' }
   });
 
   popups.LoginPopupView = popups.PopupView.extend({
@@ -151,7 +151,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Sign Up popup
    */
   popups.SignupPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'Sign Up for debugger.io' }
+    defaults: { small: true, title: 'signup' }
   });
 
   popups.SignupPopupView = popups.PopupView.extend({
