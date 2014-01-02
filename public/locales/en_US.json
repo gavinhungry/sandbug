@@ -1,16 +1,19 @@
 {
-  "login":         "Login",
-  "signup":        "Sign Up",
-
-  "logout":        "Logout",
-  "settings":      "Setings",
-
-  "logged_in_1":   "Logged in as %s",
-  "logged_in_2":   "Welcome to the party, pal.",
-
-  "logged_out_1":  "Logged out",
-  "logged_out_2":  "God damn it! I hate this hacker crap!",
-
-  "invalid_creds": "Invalid login credentials",
-  "logout_error":  "Error logging out"
+  "invalid_creds":        "Invalid login credentials",
+  "invalid_email":        "Invalid email address",
+  "invalid_password":     "Invalid password",
+  "invalid_password_msg": "Passwords must be at least 4 and no more than 500 characters",
+  "invalid_username":     "Invalid username",
+  "logged_in":            "Logged in as %s",
+  "logged_in_msg":        "Welcome to the party, pal.",
+  "logged_out":           "Logged out",
+  "logged_out_msg":       "God damn it! I hate this hacker crap!",
+  "login":                "Login",
+  "logout_error":         "Error logging out",
+  "logout":               "Logout",
+  "password_mismatch":    "Passwords do not match",
+  "settings":             "Setings",
+  "signup":               "Sign Up",
+  "user_exists":          "Username or email in use",
+  "user_exists_msg":      "An account with this username or email already exists"
 }

@@ -102,14 +102,26 @@ function(
    * @param {String} id - localizable template string ID
    * @param {Array} [data] - data to fill template string on client
    */
-  utils.LocaleMsg = function(id, data) {
+  utils.LocaleMsg = function(id, head_args, msg_args) {
     this.set_id(id);
-    this.set_data(data);
+    this.args = {};
+
+    this.set_head_args(head_args);
+    this.set_msg_args(msg_args);
   };
 
   utils.LocaleMsg.prototype = {
     set_id: function(id) { this.localize = id; },
-    set_data: function(data) { this.data = utils.ensure_array(data); }
+    set_head_args: function(args) {
+      if (args && args.length) {
+        this.args.head = utils.ensure_array(data);
+      } else { delete this.args.head; }
+    },
+    set_msg_args: function(args) {
+      if (args && args.length) {
+        this.args.msg = utils.ensure_array(data);
+      } else { delete this.args.msg; }
+    }
   };
 
   /**

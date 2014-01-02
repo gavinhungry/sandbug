@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'dom', 'templates'
+  'bus', 'dom', 'locales', 'templates'
 ],
-function(config, utils, $, _, bus, dom, templates) {
+function(config, utils, $, _, bus, dom, locales, templates) {
   'use strict';
 
   var flash = utils.module('flash');
@@ -78,6 +78,34 @@ function(config, utils, $, _, bus, dom, templates) {
       return flash.message(heading, body, priority);
     };
   });
+
+  /**
+   * Flash a LocaleMsg from the server
+   *
+   * @param {Object} msg - LocaleMsg
+   * @param {String} [priority] - override the priority of the LocaleMsg
+   */
+  flash.locale_message = function(msg, priority) {
+    var heading_p = $.Deferred();
+
+    if (typeof msg === 'string') { flash.message(msg); }
+    else if (msg.localize) {
+
+      var headingStrId = utils.ensure_string(msg.localize);
+      var bodyStrId = _.sprintf('%s_msg', headingStrId);
+
+      var head_args = utils.ensure_array(msg.args.head);
+      head_args.unshift(headingStrId);
+
+      var msg_args = utils.ensure_array(msg.args.msg);
+      msg_args.unshift(bodyStrId);
+
+      var heading_p = locales.string(head_args);
+      var body_p = locales.string(msg_args);
+
+      flash.message(heading_p, body_p, msg.priority || priority);
+    }
+  };
 
   /**
    * Dismiss the flash message

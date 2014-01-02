@@ -100,7 +100,7 @@ function(
   /**
    * Returned a localized string from a string ID
    *
-   * @param {String} msg - a string ID or LocaleMsg
+   * @param {String} msg - a string ID
    * @param {String} [...] - strings to pass to _.sprintf, if applicable
    * @return {Promise} to return localed string matching `strId`
    */
@@ -110,14 +110,9 @@ function(
     var strId = msg;
     var args = _.rest(arguments);
 
-    if ((typeof msg !== 'string') && msg.localize) {
-      strId = utils.ensure_string(msg.localize);
-      args = utils.ensure_array(msg.data);
-    }
-
     locales.get(config.locale).done(function(locale) {
       var str = strId ? locale[strId] : null;
-      if (!str) { return d.resolve(strId); }
+      if (!str) { return d.resolve(null); }
 
       // count the number of sprintf placeholders are present
       var sprintfMatches = str.match(/\%s/g);
@@ -133,7 +128,7 @@ function(
       var formattedStr = _.sprintf.apply(null, sprintfArgs);
       d.resolve(formattedStr);
     }).fail(function(err) {
-      d.reject(strId);
+      d.reject(null);
     });
 
     return d.promise();

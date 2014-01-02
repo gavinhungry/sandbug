@@ -169,7 +169,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
           bus.trigger('user:login', username);
           that.destroy();
         }).fail(function(xhr) {
-          flash.message_bad(locales.string(xhr.responseJSON));
+          flash.locale_message(xhr.responseJSON, 'bad');
        });
       }
     },

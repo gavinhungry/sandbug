@@ -31,15 +31,15 @@ function(
       bus.on('user:login', function(username) {
         config.username = username;
 
-        flash.message_good(locales.string('logged_in_1', username),
-          locales.string('logged_in_2'));
+        flash.message_good(locales.string('logged_in', username),
+          locales.string('logged_in_msg'));
       });
 
       bus.on('user:logout', function() {
         config.username = null;
 
-        flash.message(locales.string('logged_out_1'),
-          locales.string('logged_out_2'));
+        flash.message(locales.string('logged_out'),
+          locales.string('logged_out_msg'));
       });
 
       bus.on('config:mode', function(mode) {
