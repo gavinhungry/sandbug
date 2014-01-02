@@ -142,7 +142,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     show_invalid_login: function() {
       this.$el.find('input[name="password"]').select();
-      flash.message_bad(locales.string('invalid_creds'));
+      flash.message_bad(locales.string('invalid_creds'),
+        locales.string('invalid_creds_msg'));
     }
   });
 

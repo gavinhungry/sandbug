@@ -1,5 +1,6 @@
 {
   "invalid_creds":        "Invalid login credentials",
+  "invalid_creds_msg":    "Check your username and password",
   "invalid_email":        "Invalid email address",
   "invalid_password":     "Invalid password",
   "invalid_password_msg": "Passwords must be at least 4 and no more than 500 characters",
