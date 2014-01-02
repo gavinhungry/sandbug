@@ -48,7 +48,12 @@ function(
     var confirm  = req.body.confirm;
 
     auth.create_user(username, email, password, confirm).then(function(user) {
-      res.json(user.username);
+
+      auth.authenticate(req, res, function(err) {
+        if (err) { res.status(500).json(new utils.LocaleMsg('server_error')); }
+        else { res.json(user.username); }
+      });
+
     }, function(msg) {
 
       // the user already exists or inputs were invalid
