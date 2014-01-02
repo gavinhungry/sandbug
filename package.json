@@ -29,7 +29,7 @@
     "express": "3.4.x",
     "consolidate": "0.10.x",
     "validator": "2.0.x",
-    "marked": "0.2.x",
+    "marked": "0.3.x",
     "less": "1.5.x",
     "node-sass": "0.7.x",
     "coffee-script": "1.6.x",
