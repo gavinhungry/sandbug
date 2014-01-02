@@ -180,7 +180,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
           return flash.message_bad(locales.string('password_mismatch'));
         }
 
-        if (this.$password.val().length < 4) {
+        if (this.$password.val().length < 8) {
           return flash.message_bad(locales.string('invalid_password'),
             locales.string('invalid_password_msg'));
         }

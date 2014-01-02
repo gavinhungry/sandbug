@@ -216,7 +216,7 @@ function(
    */
   auth.is_valid_username = function(username) {
     return auth.sanitize_username(username) ===
-      username && username.length >= 3;
+      username && username.length >= 3 && username.length <= 64;
   };
 
   /**
@@ -236,14 +236,14 @@ function(
    * Test for a valid password
    *
    * The only requirements for a valid password are that it must contain at
-   * least one non-whitespace character, be at least 4 characters and at most
-   * 500 characters.  Users are free to shoot themselves in the foot.
+   * least one non-whitespace character, be at least 8 characters and at most
+   * 1024 characters.  Users are free to shoot themselves in the foot.
    *
    * @param {String} plaintext - a string to treat as password input
    * @return {Boolean} true if password is valid, false otherwise
    */
   auth.is_valid_password = function(plaintext) {
-    return _.isString(plaintext) && /^(?=.*\S).{4,500}$/.test(plaintext);
+    return _.isString(plaintext) && /^(?=.*\S).{8,1024}$/.test(plaintext);
   };
 
   return auth;

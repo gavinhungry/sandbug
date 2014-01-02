@@ -1,10 +1,10 @@
 <form id='signup_form' action='/signup' method='post'>
   <input type='hidden' name='_csrf' value='<%= csrf %>'>
 
-  <input name='username' placeholder='Username' autocomplete='off' spellcheck='false' class='plain full' type='text'>
-  <input name='email' placeholder='Email Address' autocomplete='off' spellcheck='false' class='plain full' type='email'>
-  <input name='password' placeholder='Password' class='plain full' maxlength='500' type='password'>
-  <input name='confirm' placeholder='Confirm Password' class='plain full' maxlength='500' type='password'>
+  <input name='username' placeholder='Username' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
+  <input name='email' placeholder='Email Address' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='email'>
+  <input name='password' placeholder='Password' class='plain full' maxlength='1024' type='password'>
+  <input name='confirm' placeholder='Confirm Password' class='plain full' maxlength='1024' type='password'>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>

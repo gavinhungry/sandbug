@@ -1,8 +1,8 @@
 <form id='login_form' action='/login' method='post'>
   <input type='hidden' name='_csrf' value='<%= csrf %>'>
 
-  <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' type='text'>
-  <input name='password' placeholder='Password' class='plain full' type='password'>
+  <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
+  <input name='password' placeholder='Password' class='plain full' maxlength='1024' type='password'>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>
