@@ -33,28 +33,30 @@ input[type='search'], input[type='email'] {
 
   &.plain {
     background: @input_plain_bg_color;
+    color: @input_plain_text_color;
     border: 2px solid @input_plain_border_color;
-    box-shadow: 2px 2px 0 @input_plain_border_color;
+    box-shadow: 0 0 6px @input_plain_box_shadow_color;
     padding: 4px;
     font-size: @font_size;
 
     &:focus {
       background: @input_plain_bg_focus_color;
       border-color: @input_plain_border_focus_color;
-      box-shadow: 2px 2px 0 @input_plain_border_focus_color;
     }
 
     &.full {
       width: 100%;
       margin-bottom: 10px;
       padding: 10px;
-      color: #777;
     }
 
     &:invalid {
       background: @input_plain_bg_invalid_color;
       border-color: @input_plain_border_invalid_color;
-      box-shadow: 2px 2px 0 @input_plain_border_invalid_color;
     };
+
+    &::-webkit-input-placeholder { color: @input_plain_placeholder_color; }
+    &::-moz-placeholder { color: @input_plain_placeholder_color; }
+    &:-ms-input-placeholder { color: @input_plain_placeholder_color; }
   }
 }
