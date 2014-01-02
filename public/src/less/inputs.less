@@ -26,9 +26,15 @@ input[type='search'], input[type='email'] {
 
     &:disabled { background: @input_bg_disabled_color; }
 
-    &::-webkit-input-placeholder { color: @input_placeholder_color; }
-    &::-moz-placeholder { color: @input_placeholder_color; }
-    &:-ms-input-placeholder { color: @input_placeholder_color; }
+    &::-webkit-input-placeholder {
+      opacity: 0.4; color: @input_placeholder_color;
+    }
+    &::-moz-placeholder {
+      opacity: 0.4; color: @input_placeholder_color;
+    }
+    &:-ms-input-placeholder {
+      opacity: 0.4; color: @input_placeholder_color;
+    }
   }
 
   &.plain {
@@ -55,8 +61,14 @@ input[type='search'], input[type='email'] {
       border-color: @input_plain_border_invalid_color;
     };
 
-    &::-webkit-input-placeholder { color: @input_plain_placeholder_color; }
-    &::-moz-placeholder { color: @input_plain_placeholder_color; }
-    &:-ms-input-placeholder { color: @input_plain_placeholder_color; }
+    &::-webkit-input-placeholder {
+      opacity: 0.4; color: @input_plain_placeholder_color;
+    }
+    &::-moz-placeholder {
+      opacity: 0.4; color: @input_plain_placeholder_color;
+    }
+    &:-ms-input-placeholder {
+      opacity: 0.4; color: @input_plain_placeholder_color;
+    }
   }
 }
