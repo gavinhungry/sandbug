@@ -16,14 +16,17 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   var popupKeyHander;
 
   /**
+   * Base popup Model
    *
+   * @param {Boolean} small - mini style popup if true, full-sized if false
+   * @param {String} title - Popup heading
    */
   popups.Popup = Backbone.Model.extend({
     defaults: { small: false, title: 'Popup' }
   });
 
   /**
-   *
+   * Base popup View
    */
   popups.PopupView = Backbone.View.extend({
     el: popupEl,
@@ -104,15 +107,12 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   });
 
   /**
-   *
+   * Login popup
    */
   popups.LoginPopup = popups.Popup.extend({
     defaults: { small: true, title: 'Login to debugger.io' }
   });
 
-  /**
-   *
-   */
   popups.LoginPopupView = popups.PopupView.extend({
     template: 'popup-login',
 
@@ -146,15 +146,12 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   });
 
   /**
-   *
+   * Sign Up popup
    */
   popups.SignupPopup = popups.Popup.extend({
     defaults: { small: true, title: 'Sign Up for debugger.io' }
   });
 
-  /**
-   *
-   */
   popups.SignupPopupView = popups.PopupView.extend({
     template: 'popup-signup',
 
