@@ -227,7 +227,7 @@ function(
    */
   auth.is_valid_email = function(email) {
     try { validator.check(email).isEmail(); }
-    catch(e) { return false; }
+    catch(err) { return false; }
 
     return true;
   };

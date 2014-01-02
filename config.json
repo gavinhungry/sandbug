@@ -29,7 +29,7 @@
     "default_layout": "layout-col",
 
     // Default theme stylesheet
-    // One of: [dark, light]
+    // One of: [light, dark]
     "default_theme": "dark",
 
     // Number of filtered CDN results to display at once

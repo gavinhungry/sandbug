@@ -58,7 +58,7 @@ function(config, utils, $, _, bus, mirrors) {
 
     if (!themeExists) { return; }
 
-    mirrors.set_theme_all(id === 'dark' ? 'dark' : 'light');
+    mirrors.set_theme_all(id);
     _.each(theme_map, function(theme, i) {
       theme.stylesheet.disabled = (theme.id !== id);
     });

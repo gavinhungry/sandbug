@@ -24,7 +24,8 @@ function(
       rev: config.build.rev,
       username: auth.sanitize_username(user.username),
       csrf: req.csrfToken(),
-      mode: { mobile: !!req.mobile, phone: !!req.phone, tablet: !!req.tablet }
+      mode: { mobile: !!req.mobile, phone: !!req.phone, tablet: !!req.tablet },
+      themes: config.themes
     });
   };
 
