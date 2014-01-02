@@ -260,7 +260,7 @@ function(config, $, _) {
    * Submit a form with jQuery and return its promise
    *
    * @param {jQuery} $form - form element
-   * @return {Promise} to submit form
+   * @return {Promise} from $.ajax
    */
   utils.submit_form = function($form) {
     $form = utils.ensure_jquery($form);
@@ -284,7 +284,6 @@ function(config, $, _) {
   };
 
   utils.Buffer.prototype = {
-
     /**
      * Buffer some value(s), then truncate to capacity
      *

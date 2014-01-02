@@ -50,5 +50,11 @@ input[type='search'], input[type='email'] {
       padding: 10px;
       color: #777;
     }
+
+    &:invalid {
+      background: @input_plain_bg_invalid_color;
+      border-color: @input_plain_border_invalid_color;
+      box-shadow: 2px 2px 0 @input_plain_border_invalid_color;
+    };
   }
 }
