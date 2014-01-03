@@ -74,8 +74,8 @@ There is still a lot of work to do, including:
 Attributions
 ------------
 The icons used throughout the interface are from the
-[Entypo](http://entypo.com) pictogram suite by Daniel Bruce
-([CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)).
+[Font Awesome](http://fontawesome.io) set by Dave Gandy
+([SIL OFL 1.1](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)).
 
 
 License

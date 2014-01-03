@@ -26,6 +26,7 @@ button {
   user-select: none;
   cursor: pointer;
   height: 33px;
+  line-height: 28px;
   border: 1px solid @button_border_color;
   border-bottom: 3px solid @button_bottom_border_color;
   border-radius: 1px 1px 2px 2px;
@@ -33,7 +34,6 @@ button {
   font-family: @title_font;
   font-weight: bold;
   font-size: @font_size + 2px;
-  line-height: 0;
   padding: 0 8px;
   margin-left: 0;
   margin-right: 6px;
@@ -44,22 +44,25 @@ button {
 
   &::-moz-focus-inner { border: none; }
 
-  > i.icon, > i.icon-social {
+  > i.fa {
     width: 22px;
-    display: block;
+    display: inline-block;
     text-align: center;
-    margin: 0 54px 0 -4px;
+    margin: 0 4px 0 -3px;
+    padding-top: 4px;
 
-    &.icon-only { margin: 0 -2px 0 -3px; }
+    &.icon-only { margin-right: -3px; }
+    &.fa-eye.fa-lg { vertical-align: -1px; }
   }
 
   .button(@button_default_base_color);
   &.btn-small {
     .button(@button_small_default_base_color);
     height: 30px;
-    text-indent: 8px;
+    line-height: 0;
+    text-indent: 0.75em;
     padding-left: 0px;
-    padding-right: 8px;
+    padding-right: 0.75em;
     font-weight: normal;
     font-size: 11px;
     text-align: center;
