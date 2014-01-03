@@ -86,13 +86,9 @@ function(config, utils, $, _, bus, dom, mirrors) {
    * Init swiping of input panels on phones
    */
   var init_mobile_swipes = function() {
-    panels.get_input_panels().hammer().on('swipeleft', function(e) {
-      panels.next_active_mobile();
-    });
-
-    panels.get_input_panels().hammer().on('swiperight', function(e) {
-      panels.prev_active_mobile();
-    });
+    panels.get_input_panels().hammer({ swipe_velocity: 0.15 })
+      .on('swipeleft', function(e) { panels.next_active_mobile(); })
+      .on('swiperight', function(e) { panels.prev_active_mobile(); });
   };
 
   /**
