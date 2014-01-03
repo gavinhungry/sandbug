@@ -23,8 +23,6 @@ function(config, utils, $, _, bus, dom, mirrors) {
     utils.log('init panels module');
 
     $active_panels = av.$panels;
-    panels.update_resize_handlers();
-    panels.init_input_modes();
 
     var optionsHeight = dom.css('#input > .panel .panel-options')['height'];
     min_size = (parseInt(optionsHeight, 10) || 0) + 10;
@@ -35,14 +33,128 @@ function(config, utils, $, _, bus, dom, mirrors) {
 
     bus.on('config:mode', function(mode) {
       // immediately update the layout in phone mode
+
+      var $inputs = panels.get_input_panels().removeClass('active-mobile');
+
       if (mode.phone) {
         config.default_layout = 'layout-top';
         panels.set_layout(config.default_layout, true);
+        $inputs.first().addClass('active-mobile');
       }
     });
 
     panels.set_layout(config.default_layout, true);
+    panels.update_resize_handlers();
+    init_input_modes();
+    init_mobile_swipes();
   });
+
+  /**
+   * Init mode cycles on input panels
+   */
+  var init_input_modes = function() {
+    var $inputs = panels.get_input_panels();
+
+    _.each($inputs, function(inputPanelNode) {
+      var $panel = $(inputPanelNode);
+      var panel = $panel.attr('id');
+
+      var $mode = $panel.children('.mode');
+      var $cycle = $panel.find('.panel-options > .cycle');
+
+      $cycle.on('click', function(e) { mirrors.cycle_mode(panel); });
+
+      bus.on(_.sprintf('mirrors:%s:mode', panel), function(mode, label) {
+        // set a fixed width now, change the label and transition
+        // to an "auto-esque" state
+        var width = $cycle.outerWidth();
+        $cycle.css({ 'min-width': width, 'max-width': width });
+
+        // update the cycle label and hidden input
+        $mode.val(mode);
+        $cycle.text(label);
+
+        // HACK: wait for a repaint
+        _.delay(function() {
+          $cycle.stop().transition({ 'min-width': 0, 'max-width': 300 });
+        }, 10);
+      });
+    });
+  };
+
+  /**
+   * Init swiping of input panels on phones
+   */
+  var init_mobile_swipes = function() {
+    panels.get_input_panels().hammer().on('swipeleft', function(e) {
+      panels.next_active_mobile();
+    });
+
+    panels.get_input_panels().hammer().on('swiperight', function(e) {
+      panels.prev_active_mobile();
+    });
+  };
+
+  /**
+   * Set the active mobile input panel
+   *
+   * @param {jQuery} $panel - an input panel
+   */
+  panels.set_active_mobile = function($panel) {
+    if (!config.mode.phone) { return; }
+
+    var $inputs = panels.get_input_panels();
+
+    // do nothing if the passed panel is not an input panel
+    if (!_.contains($inputs, $panel[0])) { return; }
+
+    $inputs.removeClass('active-mobile');
+    $panel.addClass('active-mobile');
+  };
+
+  /**
+   * Set the active mobile input panel by id
+   *
+   * @param {String} id - panel id
+   */
+  panels.set_active_mobile_by_id = function(id) {
+    var $panel = panels.get_input_panels().filter('#' + id);
+    panels.set_active_mobile($panel);
+  };
+
+  /**
+   * Get the currently active mobile input panel
+   *
+   * @return {jQuery} active mobile input panel
+   */
+  panels.get_active_mobile = function() {
+    var $mobile = panels.get_input_panels().filter('.active-mobile').last();
+    return utils.ensure_jquery($mobile);
+  };
+
+  /**
+   * Set the previous input panel as the active mobile input panel
+   */
+  panels.prev_active_mobile = function() {
+    var $mobile = panels.get_active_mobile();
+    var $prevAll = $mobile.prevAll('.input-panel');
+    var $nextAll = $mobile.nextAll('.input-panel');
+    var $prev = $prevAll.length ? $prevAll.first() : $nextAll.last();
+
+    panels.set_active_mobile($prev);
+  };
+
+  /**
+   * Set the next input panel as the active mobile input panel
+   */
+  panels.next_active_mobile = function() {
+    var $mobile = panels.get_active_mobile();
+    var $prevAll = $mobile.prevAll('.input-panel');
+    var $nextAll = $mobile.nextAll('.input-panel');
+    var $next = $nextAll.length ? $nextAll.first() : $prevAll.last();
+
+    panels.set_active_mobile($next);
+  };
 
   /**
    * Remove resize handlers
@@ -252,39 +364,6 @@ function(config, utils, $, _, bus, dom, mirrors) {
       $panel.prev('.panel-resizer').transition({ 'width': w }, dur, callback);
       panels.get_master_resizer().transition({ 'left': w }, dur, callback);
     }
-  };
-
-  /**
-   * Init mode cycles on input panels
-   */
-  panels.init_input_modes = function() {
-    var $inputs = panels.get_input_panels();
-
-    _.each($inputs, function(inputPanelNode) {
-      var $panel = $(inputPanelNode);
-      var panel = $panel.attr('id');
-
-      var $mode = $panel.children('.mode');
-      var $cycle = $panel.find('.panel-options > .cycle');
-
-      $cycle.on('click', function(e) { mirrors.cycle_mode(panel); });
-
-      bus.on(_.sprintf('mirrors:%s:mode', panel), function(mode, label) {
-        // set a fixed width now, change the label and transition
-        // to an "auto-esque" state
-        var width = $cycle.outerWidth();
-        $cycle.css({ 'min-width': width, 'max-width': width });
-
-        // update the cycle label and hidden input
-        $mode.val(mode);
-        $cycle.text(label);
-
-        // HACK: wait for a repaint
-        _.delay(function() {
-          $cycle.stop().transition({ 'min-width': 0, 'max-width': 300 });
-        }, 10);
-      });
-    });
   };
 
   /**

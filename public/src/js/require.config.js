@@ -29,6 +29,7 @@
       ui: '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min',
       transit: '//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min',
       nano: '//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.7.4/jquery.nanoscroller.min',
+      hammer: '//cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.5/jquery.hammer.min',
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
       inflection: 'plugins/underscore.inflection.min',
 
@@ -66,6 +67,7 @@
       ui: { deps: ['jqueryjs'], exports: '$.ui' },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
       nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
+      hammer: { deps: ['jqueryjs'] },
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
 
