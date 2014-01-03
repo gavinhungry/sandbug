@@ -18,7 +18,7 @@ function(config, utils, $, _, bus, mirrors) {
   bus.init(function(av) {
     utils.log('init themes module');
 
-    var themeRegex = /\/debuggerio\.(\w+)\.min\.css$/;
+    var themeRegex = /\/debuggerio\.(\w+)\.min\.css(\?v=.*)?$/;
 
     _.each(document.styleSheets, function(stylesheet) {
       var href = $(stylesheet.ownerNode).attr('data-href');
