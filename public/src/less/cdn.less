@@ -8,7 +8,7 @@
 
   z-index: 10;
   position: absolute;
-  max-height: 219px;
+  max-height: 331px;
 
   width: calc(100% ~'-' 4px);
   margin-top: @panel_padding * 2 + 2px;
@@ -18,6 +18,8 @@
   background: @filter_results_bg_color;
   border: 2px solid @filter_results_border_color;
   box-shadow: 0 0 4px @filter_results_box_shadow_color;
+
+  font-family: @font;
 
   > .nomatch {
     font-size: 13px;
@@ -40,7 +42,7 @@
       user-select: none;
       cursor: default;
       font-size: @font_size;
-      padding: 5px;
+      padding: 8px 5px;
       margin: 0 0 1px 0;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -69,7 +71,6 @@
         }
       }
 
-      > .pkgname { font-weight: bold; }
       > .pkgdesc {
         font-size: @font_size - 1px;
         opacity: 0.8;

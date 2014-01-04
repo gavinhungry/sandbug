@@ -16,6 +16,7 @@
   "password_mismatch":    "Passwords do not match",
   "settings":             "Setings",
   "signup":               "Sign Up",
+  "create_account":       "Create a new account",
   "user_exists":          "Username or email in use",
   "user_exists_msg":      "An account with this username or email already exists"
 }

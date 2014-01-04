@@ -14,13 +14,14 @@ header {
     user-select: none;
     cursor: default;
     height: 100%;
-    margin-top: @header_height / 3;
+    margin-top: (@header_height / 3) - 3px;
     margin-left: 4px;
-    font-family: @title_font;
-    font-size: @header_height - 20px;
+    font-family: @logo_font;
+    font-size: @header_height - 16px;
+    letter-spacing: 1px;
     line-height: 2px;
     color: @header_text_color;
-    text-shadow: 4px 4px 0 rgba(0,0,0, 0.04);
+    text-shadow: 1px 1px 1px rgba(0,0,0, 0.2);
     opacity: 0;
   }
 }

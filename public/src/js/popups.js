@@ -151,7 +151,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Sign Up popup
    */
   popups.SignupPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'signup' }
+    defaults: { small: true, title: 'create_account' }
   });
 
   popups.SignupPopupView = popups.PopupView.extend({

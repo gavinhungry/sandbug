@@ -6,11 +6,12 @@ textarea:focus, input:focus, button:focus { outline: none; }
 
 input[type='text'], input[type='password'],
 input[type='search'], input[type='email'] {
+
   &:not(.plain) {
     background: @input_bg_color;
     color: @input_text_color;
     padding: 2px 4px;
-    font-family: @font;
+    font-family: @system_font;  
     font-size: @font_size;
 
     border: 1px solid fade(@input_border_color, 80%);
@@ -43,7 +44,7 @@ input[type='search'], input[type='email'] {
     border: 2px solid @input_plain_border_color;
     box-shadow: 0 0 6px @input_plain_box_shadow_color;
     padding: 6px 8px;
-    font-family: @title_font;
+    font-family: @font;
     font-size: @font_size + 2px;
 
     &:focus {
