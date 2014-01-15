@@ -205,19 +205,36 @@ function(utils, config, $, _) {
   });
 
   /*
-   * utils.promise_now
+   * utils.resolve_now
    */
-  describe('utils.promise_now', function() {
+  describe('utils.resolve_now', function() {
     it('should return a promise to resolve to a value', function() {
       var value;
 
       runs(function() {
-        utils.promise_now('foobar').done(function(val) { value = val; });
+        utils.resolve_now('foobar').done(function(val) { value = val; });
       });
 
       waitsFor(function() {
         return value === 'foobar';
       }, 'promise to resolve to an expected value', 1000);
+    });
+  });
+
+  /*
+   * utils.reject_now
+   */
+  describe('utils.reject_now', function() {
+    it('should return a promise to reject to a value', function() {
+      var value;
+
+      runs(function() {
+        utils.reject_now('foobar').fail(function(val) { value = val; });
+      });
+
+      waitsFor(function() {
+        return value === 'foobar';
+      }, 'promise to reject to an expected value', 1000);
     });
   });
 

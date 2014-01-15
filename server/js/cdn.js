@@ -37,28 +37,21 @@ function(
    * @return {Promise} promise to return CDN JSON
    */
   cdn.get_JSON = function() {
-    var d = Q.defer();
-
     // /* --- debug: return local file
     var str = fs.readFileSync('./server/cdnjs.json', 'utf8');
 
     var cdnjs = JSON.parse(str);
-
     var picked = cdn.pick_properties(cdnjs ? cdnjs.packages : []);
-    d.resolve(picked);
-    return d.promise;
+    return utils.resolve_now(picked);
     // --- */
 
-    utils.get_JSON({
+    return utils.get_JSON({
       host: 'cdnjs.com',
       path: '/packages.json',
       port: 443
     }).then(function(result) {
-      var picked = cdn.pick_properties(result ? result.packages : []);
-      d.resolve(picked);
-    }, d.reject);
-
-    return d.promise;
+      return cdn.pick_properties(result ? result.packages : []);
+    });
   };
 
   /**
@@ -67,7 +60,7 @@ function(
    * @return {Boolean} true if cache exists, false otherwise
    */
   cdn.cache_exists = function() {
-    return _.isArray(cache) && cache.length > 0;
+    return _.isArray(cache);
   };
 
   /**
@@ -86,7 +79,7 @@ function(
         d.resolve(packages);
       }, function(err) {
         d.resolve(cdn.cache_exists() ? cache : []);
-      });
+      }).done();
     }
 
     return d.promise;
@@ -98,15 +91,14 @@ function(
    * @return {Promise}
    */
   cdn.update_cache = function() {
-    var d = Q.defer();
     utils.log('Updating CDN cache');
 
-    cdn.get_JSON().then(function(packages) {
+    return cdn.get_JSON().then(function(packages) {
       cache = packages;
-      d.resolve(packages);
-    }, d.reject);
-
-    return d.promise;
+      return packages;
+    }, function(err) {
+      cache = [];
+    });
   };
 
   return cdn;

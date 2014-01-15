@@ -41,8 +41,10 @@ function(
       var datas = [];
       res.on('data', function (data) { datas.push(data); });
       res.on('end', function() {
-        var result = JSON.parse(datas.join(''));
-        d.resolve(result);
+        try {
+          var result = JSON.parse(datas.join(''));
+          d.resolve(result);
+        } catch(err) { d.reject(err); }
       });
     }).on('error', d.reject);
 
@@ -77,7 +79,7 @@ function(
    * @param {Mixed} value - value that the promise will resolve to
    * @return {Promise} promise to return value
    */
-  utils.promise_now = function(value) {
+  utils.resolve_now = function(value) {
     var d = Q.defer();
     d.resolve(value);
     return d.promise;
@@ -93,6 +95,26 @@ function(
     var d = Q.defer();
     d.reject(value);
     return d.promise;
+  };
+
+  /**
+   * Send a server error to a client
+   *
+   * @param {express.response} res - Express HTTP response
+   */
+  utils.server_error = function(res) {
+    if (!res || !res.status) { return; } // !(res instanceof express.response)
+    res.status(500).json(new utils.LocaleMsg('server_error'));
+  };
+
+  /**
+   * Return a handler to send a server error to a client
+   *
+   * @param {express.response} res - Express HTTP response
+   * @return {Function}
+   */
+  utils.server_error_handler = function(res) {
+    return function() { utils.server_error_now(res); };
   };
 
   /**

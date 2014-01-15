@@ -31,9 +31,9 @@ function(
 
   // GET /cdn - list of CDN packages
   routes.get.cdn = function(req, res) {
-    cdn.get_cache().done(function(packages) {
+    cdn.get_cache().then(function(packages) {
       res.json(packages);
-    });
+    }, utils.server_error_handler(res)).done();
   };
 
   // GET /config - additional client-side config options
@@ -49,20 +49,14 @@ function(
     var confirm  = req.body.confirm;
 
     auth.create_user(username, email, password, confirm).then(function(user) {
-
       auth.authenticate(req, res, function(err) {
-        if (err) { res.status(500).json(new utils.LocaleMsg('server_error')); }
+        if (err) { utils.server_error(res); }
         else { res.json(user.username); }
       });
-
     }, function(msg) {
-
-      // the user already exists or inputs were invalid
       if (msg instanceof utils.LocaleMsg) { res.status(409).json(msg); }
-
-      // internal server error
-      else { res.status(500).json(new utils.LocaleMsg('server_error')); }
-    });
+      else { utils.server_error(res); }
+    }).done();
   };
 
   // POST /login

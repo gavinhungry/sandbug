@@ -185,7 +185,7 @@ function(config, $, _) {
    * @param {Mixed} value - value that the promise will resolve to
    * @return {Promise} promise to return value
    */
-  utils.promise_now = function(value) {
+  utils.resolve_now = function(value) {
     return $.Deferred().resolve(value).promise();
   };
 
