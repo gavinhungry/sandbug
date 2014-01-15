@@ -5,7 +5,7 @@
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
   'marked', 'less', 'node-sass',
-  'coffee-script', 'node-typescript', 'gorillascript'
+  'coffee-script', 'typestring', 'gorillascript'
 ],
 function(
   module, path, config, utils, _, Q,
@@ -80,7 +80,7 @@ function(
         var d = Q.defer();
 
         try {
-          var js = ts.compile('', str);
+          var js = ts.compile(str);
           d.resolve(js);
         } catch(err) {
           d.resolve(str);
