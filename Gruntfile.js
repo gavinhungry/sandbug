@@ -31,6 +31,7 @@ module.exports = function(grunt) {
             ui: 'empty:',
             transit: 'empty:',
             nano: 'empty:',
+            hammer: 'empty:',
             string: 'empty:',
 
             codemirror_overlay: 'empty:',
