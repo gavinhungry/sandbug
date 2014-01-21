@@ -30,8 +30,12 @@ function(
       'jade': function(str) {
         var d = Q.defer();
 
-        try { var html = jade.render(str); d.resolve(html); }
-        catch(err) { console.log(err); d.resolve(str); }
+        try {
+          var html = jade.render(str, { compileDebug: false };
+          d.resolve(html);
+        } catch(err) {
+          d.resolve(str);
+        }
 
         return d.promise;
       },
