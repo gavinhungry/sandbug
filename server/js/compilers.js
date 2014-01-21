@@ -31,7 +31,7 @@ function(
         var d = Q.defer();
 
         try {
-          var html = jade.render(str, { compileDebug: false };
+          var html = jade.render(str, { compileDebug: false });
           d.resolve(html);
         } catch(err) {
           d.resolve(str);
