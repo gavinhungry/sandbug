@@ -184,6 +184,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   var mirror_mode_sets = {
     'markup': [
       { label: 'HTML', mode: 'htmlmixed' },
+      { label: 'Jade', mode: 'jade' },
       { label: 'Markdown', mode: 'gfm' }
     ],
     'style': [

@@ -4,12 +4,12 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'marked', 'less', 'node-sass',
+  'marked', 'jade', 'less', 'node-sass',
   'coffee-script', 'typestring', 'gorillascript'
 ],
 function(
   module, path, config, utils, _, Q,
-  marked, less, sass, cs, ts, gs
+  marked, jade, less, sass, cs, ts, gs
 ) {
   'use strict';
 
@@ -27,6 +27,15 @@ function(
     return {
 
       // MARKUP
+      'jade': function(str) {
+        var d = Q.defer();
+
+        try { var html = jade.render(str); d.resolve(html); }
+        catch(err) { console.log(err); d.resolve(str); }
+
+        return d.promise;
+      },
+
       'gfm': function(str) {
         var d = Q.defer();
 

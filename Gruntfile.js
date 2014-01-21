@@ -40,6 +40,7 @@ module.exports = function(grunt) {
             codemirror_xml: 'empty:',
             codemirror_html: 'empty:',
             codemirror_markdown: 'empty:',
+            codemirror_jade: 'empty:',
             codemirror_gfm: 'empty:',
 
             codemirror_css: 'empty:',
