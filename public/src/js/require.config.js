@@ -40,7 +40,6 @@
       codemirror_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min',
       codemirror_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/htmlmixed/htmlmixed.min',
       codemirror_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/markdown/markdown.min',
-      codemirror_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/jade/jade.min',
       codemirror_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/gfm/gfm.min',
 
       // CodeMirror style
