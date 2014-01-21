@@ -4,12 +4,12 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'jade', 'marked', 'less', 'node-sass',
+  'marked', 'jade', 'less', 'node-sass',
   'coffee-script', 'typestring', 'gorillascript'
 ],
 function(
   module, path, config, utils, _, Q,
-  jade, marked, less, sass, cs, ts, gs
+  marked, jade, less, sass, cs, ts, gs
 ) {
   'use strict';
 

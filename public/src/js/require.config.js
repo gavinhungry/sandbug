@@ -39,8 +39,8 @@
       // CodeMirror markup
       codemirror_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min',
       codemirror_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/htmlmixed/htmlmixed.min',
-      codemirror_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/jade/jade.min',
       codemirror_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/markdown/markdown.min',
+      codemirror_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/jade/jade.min',
       codemirror_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/gfm/gfm.min',
 
       // CodeMirror style
@@ -76,7 +76,6 @@
       codemirror_search: { deps: ['codemirrorjs'] },
       codemirror_xml: { deps: ['codemirrorjs'] },
       codemirror_html: { deps: ['codemirrorjs'] },
-      codemirror_jade: { deps: ['codemirrorjs'] },
       codemirror_markdown: { deps: ['codemirrorjs'] },
       codemirror_gfm: { deps: ['codemirrorjs', 'codemirror_overlay', 'codemirror_markdown'] },
       codemirror_css: { deps: ['codemirrorjs'] },

@@ -10,12 +10,12 @@
  */
 define([
   'codemirrorjs', 'codemirror_overlay', 'codemirror_search',
-  'codemirror_xml', 'codemirror_html', 'codemirror_jade', 'codemirror_markdown',
+  'codemirror_xml', 'codemirror_html', 'codemirror_markdown', 'codemirror_jade',
   'codemirror_gfm', 'codemirror_css', 'codemirror_less', 'codemirror_js',
   'codemirror_coffeescript'
 ],
 function(
-  CodeMirror, overlay, search, xml, html, jade, md, gfm, css, less, js, cs
+  CodeMirror, overlay, search, xml, html, md, jade, gfm, css, less, js, cs
 ) {
   return CodeMirror;
 });
