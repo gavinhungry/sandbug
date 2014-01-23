@@ -61,6 +61,13 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   mirrors.get_all = function() { return instances; };
 
   /**
+   * Save all CodeMirror content to underlying textareas
+   */
+  mirrors.save_all = function() {
+    _.each(mirrors.get_all(), function(mirror) { mirror.cm.save(); });
+  };
+
+  /**
    * Get a mirror by its panel id
    *
    * @param {String} id - panel id
