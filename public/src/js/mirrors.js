@@ -76,6 +76,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
     return _.map(mirrors.get_all(), function(mirror) {
       return {
         panel: mirror.panel,
+        mode: mirror.mode,
         content: mirror.cm.getValue()
       };
     })
