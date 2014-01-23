@@ -44,11 +44,7 @@ Installation
     server {
       listen 80;
       server_name frame.debugger.example.tld;
-
-      location / { proxy_pass http://127.0.0.1:8081; }
-      location ~* ^.+\.(html|js|css|woff|png|jpg|gif|ico|txt|json)$ {
-        root /srv/http/debugger.io/server/static;
-      }
+      root /srv/http/debugger.io/server/static;
     }
 
 
