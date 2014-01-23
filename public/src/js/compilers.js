@@ -6,15 +6,15 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'templates', 'marked', 'less', 'sass'
+  'templates', 'marked', 'less', 'sass', 'coffeescript', 'typestring',
+  'gorillascript'
 ],
-function(config, utils, $, _, templates, marked, less, sass) {
+function(config, utils, $, _, templates, marked, less, sass, cs, ts, gs) {
   'use strict';
 
   var compilers = utils.module('compilers');
 
   var compilers_map = (function() {
-
     marked.setOptions({ gfm: true });
     var lessc = new less.Parser();
 
@@ -41,9 +41,30 @@ function(config, utils, $, _, templates, marked, less, sass) {
         var result = sass.compile(str);
         var style = _.isString(result) ? result : str;
         return utils.resolve_now(style);
-      }
+      },
 
       // SCRIPT
+      'coffeescript': function(str) {
+        var script = cs.compile(str);
+        return utils.resolve_now(script);
+      },
+
+      'typescript': function(str) {
+        var script = ts.compile(str);
+        return utils.resolve_now(script);
+      },
+
+      'gorillascript': function(str) {
+        var d = $.Deferred();
+
+        gs.compile(str).then(function(result) {
+          d.resolve(result.code);
+        }, function(err) {
+          d.resolve(str);
+        });
+
+        return d.promise();
+      }
     };
   })();
 
