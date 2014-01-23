@@ -18,13 +18,14 @@ function($, _) {
 
   var locals = window._debugger_io || {};
   var hostname = window.location.hostname;
+  var protocol = window.location.protocol;
   var proxyable_sub_options = ['mode'];
 
   // default options
   var options = {
     github: 'https://github.com/gavinhungry/debugger.io',
-    root: _.sprintf('//%s/', hostname), // //debugger.io/
-    frame: _.sprintf('//frame.%s/', hostname), // //frame.debugger.io/
+    root: _.sprintf('%s//%s/', protocol, hostname),
+    frame: _.sprintf('%s//frame.%s', protocol, hostname),
     username: locals.username,
     csrf: locals.csrf,
     mode: locals.mode

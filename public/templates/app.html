@@ -1,14 +1,13 @@
 <header>
   <div id='title'>
-    <span class='bold'>debugger</span>.io
+    <!--span class='bold'>debugger</span>.io-->
   </div>
 
   <div id='toolbar' class='right flex noselect'></div>
 </header>
 
 <main>
-  <form id='input' action='<%= frame %>' method='POST' target='output'
-    autocomplete='off'>
+  <form id='input' autocomplete='off'>
 
     <!-- MARKUP -->
     <div id='markup' class='panel input-panel'>
@@ -49,7 +48,8 @@
         <div class='panel-controls noselect'></div>
         <button id='run' class='btn-small right purple'>Run</button>
       </div>
-      <iframe name='output' allowTransparency='true'></iframe>
+      <iframe name='output' allowTransparency='true'
+        src='<%= frame %>/frame.html'></iframe>
     </div>
 
   </form>

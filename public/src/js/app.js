@@ -4,12 +4,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'cdn', 'dom', 'flash', 'keys', 'locales', 'mirrors',
-  'panels', 'router', 'templates', 'themes', 'toolbar'
+  'backbone', 'bus', 'cdn', 'dom', 'flash', 'frame', 'keys', 'locales',
+  'mirrors', 'panels', 'router', 'templates', 'themes', 'toolbar'
 ],
 function(
   config, utils, $, _,
-  Backbone, bus, cdn, dom, flash, keys, locales, mirrors, panels,
+  Backbone, bus, cdn, dom, flash, frame, keys, locales, mirrors, panels,
   router, templates, themes, toolbar
 ) {
   'use strict';
@@ -65,8 +65,7 @@ function(
 
     // submit bug to the frame server
     run: function() {
-      this.$iframe.css({ 'opacity': '1' });
-      this.$input.submit();
+      frame.render();
     },
 
     register_keys: function() {

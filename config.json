@@ -4,8 +4,7 @@
 
 {
   "ports": {
-    "server": 8080,
-    "frame": 8081
+    "server": 8080
   },
 
   "db": {

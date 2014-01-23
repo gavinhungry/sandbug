@@ -4,12 +4,12 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'consolidate', 'express', './frame', 'routes',
+  'auth', 'consolidate', 'express', 'routes',
   'connect-mobile-detection'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cons, express, frame, routes, mobile
+  auth, cons, express, routes, mobile
 ) {
   'use strict';
 
@@ -24,7 +24,6 @@ function(
 
   app.init = function() {
     server.listen(app.port);
-    frame.start();
   };
 
   // connect-mobile-detection
