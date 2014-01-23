@@ -68,6 +68,20 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   };
 
   /**
+   * Get a JSON-able map of all mirrors and their content
+   *
+   * @return {Object}
+   */
+  mirrors.get_map = function() {
+    return _.map(mirrors.get_all(), function(mirror) {
+      return {
+        panel: mirror.panel,
+        content: mirror.cm.getValue()
+      };
+    })
+  };
+
+  /**
    * Get a mirror by its panel id
    *
    * @param {String} id - panel id
