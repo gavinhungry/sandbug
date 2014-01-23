@@ -14,27 +14,21 @@
       }
     </style>
 
-    <script type='application/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
     <script type='application/javascript'>
-      $(function() {
-        var $iframe = $('iframe');
-        var $welcome = $('#welcome');
+      document.addEventListener('DOMContentLoaded', function() {
+        'use strict';
 
-        $(window).on('message', function(e) {
-          var oe = e.originalEvent;
-          if (!oe.origin) { return; }
+        var iframe = document.getElementById('frame');
 
-          $welcome.remove();
-          $iframe.attr('srcdoc', oe.data);
+        window.addEventListener('message', function(e) {
+          if (!e.origin) { return; }
+          iframe.setAttribute('srcdoc', e.data);
         });
-      });
+      }, false);
     </script>
   </head>
 
   <body>
-    <div id='welcome'>
-      Welcome!
-    </div>
-    <iframe sandbox='allow-scripts'></iframe>
+    <iframe id='frame' sandbox='allow-scripts'></iframe>
   </body>
 </html>
