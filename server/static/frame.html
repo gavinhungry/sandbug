@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type='text/css'>
+      html, body, iframe {
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+
+    <script type='application/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+    <script type='application/javascript'>
+      $(function() {
+        var $iframe = $('iframe');
+        var $welcome = $('#welcome');
+
+        $(window).on('message', function(e) {
+          var oe = e.originalEvent;
+          if (!oe.origin) { return; }
+
+          $welcome.remove();
+          $iframe.attr('srcdoc', oe.data);
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id='welcome'>
+      Welcome!
+    </div>
+    <iframe sandbox='allow-scripts'></iframe>
+  </body>
+</html>
