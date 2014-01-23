@@ -64,22 +64,20 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
    * Save all CodeMirror content to underlying textareas
    */
   mirrors.save_all = function() {
-    _.each(mirrors.get_all(), function(mirror) { mirror.cm.save(); });
+    _.each(instances, function(mirror) { mirror.cm.save(); });
   };
 
   /**
    * Get a JSON-able map of all mirrors and their content
    *
-   * @return {Object}
+   * @return {Array}
    */
   mirrors.get_map = function() {
-    return _.map(mirrors.get_all(), function(mirror) {
-      return {
-        panel: mirror.panel,
-        mode: mirror.mode,
-        content: mirror.cm.getValue()
-      };
-    })
+    return _.map(instances, function(mirror) {
+      var map = _.pick(mirror, 'panel', 'mode');
+      map.content = mirror.cm.getValue();
+      return map;
+    });
   };
 
   /**

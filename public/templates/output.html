@@ -3,8 +3,12 @@
   <head>
     <style type='text/css'>
       body { background-color: #FAFAFA; }
-      <%= style %>
+      <%= style.output %>
     </style>
+
+    <% if (markup.mode === 'gfm') { %>
+      <link rel='stylesheet' type='text/css' href='/css/gfm.min.css'>
+    <% } %>
 
     <script type='application/javascript'>
       document.addEventListener('DOMContentLoaded', function() {
@@ -12,9 +16,7 @@
 
         try {
           (function() {
-            // begin user script
-            <%= script %>
-            // end user script
+            <%= script.output %>
           }).call(window);
         } catch(err) {
           // log and output error message
@@ -24,6 +26,6 @@
   </head>
 
   <body>
-    <%= markup %>
+    <%= markup.output %>
   </body>
 </html>

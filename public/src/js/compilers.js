@@ -13,7 +13,6 @@ function(config, utils, $, _, templates) {
 
   var compilers = utils.module('compilers');
 
-
   var compilers_map = (function() {
 
     return {
@@ -21,15 +20,19 @@ function(config, utils, $, _, templates) {
 
 
     };
-
   })();
 
-
+  /**
+   * Build a document string out of compiled inputs
+   *
+   * @param {Array} compiled - array of compiled inputs
+   * @return {Promise} to return a document string
+   */
   compilers.build_document = function(compiled) {
     var d = $.Deferred();
 
     var locals = _.reduce(compiled, function(memo, value) {
-      memo[value.panel] = value.output;
+      memo[value.panel] = _.pick(value, 'mode', 'output');
       return memo;
     }, {});
 
@@ -41,8 +44,8 @@ function(config, utils, $, _, templates) {
     return d.promise();
   };
 
-
   /**
+   * Compile an input
    *
    * @return {Promise}
    */
@@ -53,14 +56,11 @@ function(config, utils, $, _, templates) {
       input.content;
 
     return $.when(output).then(function(compiled) {
-      return {
-        panel: input.panel,
-        output: compiled
-      }
+      var out = utils.clone(input);
+      out.output = compiled;
+      return out;
     });
   };
-
-
 
   return compilers;
 });

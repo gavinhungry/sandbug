@@ -21,7 +21,7 @@ function(config, utils, $, _, bus, compilers, mirrors) {
   });
 
   /**
-   *
+   * Compile all input, build a document and send it to an iframe
    */
   frame.render = function() {
     var compiling = _.map(mirrors.get_map(), function(input) {
