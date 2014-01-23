@@ -54,6 +54,13 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   });
 
   /**
+   * Get all active mirrors
+   *
+   * @return {Array} of CodeMirror instances
+   */
+  mirrors.get_all = function() { return instances; };
+
+  /**
    * Get a mirror by its panel id
    *
    * @param {String} id - panel id
