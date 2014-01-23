@@ -34,6 +34,9 @@ module.exports = function(grunt) {
             hammer: 'empty:',
             string: 'empty:',
 
+            marked: 'empty:',
+            less: 'empty:',
+
             codemirror_overlay: 'empty:',
             codemirror_search: 'empty:',
 
@@ -49,7 +52,7 @@ module.exports = function(grunt) {
             codemirror_coffeescript: 'empty:'
           },
 
-          exclude: ['promise', 'inflection']
+          exclude: ['promise', 'inflection', 'sass']
         }
       }
     },

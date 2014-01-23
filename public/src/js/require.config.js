@@ -33,6 +33,10 @@
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
       inflection: 'plugins/underscore.inflection.min',
 
+      marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
+      less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
+      sass: 'libs/sass.min',
+
       codemirror_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
       codemirror_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
 

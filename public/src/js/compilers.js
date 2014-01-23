@@ -6,19 +6,44 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'templates'
+  'templates', 'marked', 'less', 'sass'
 ],
-function(config, utils, $, _, templates) {
+function(config, utils, $, _, templates, marked, less, sass) {
   'use strict';
 
   var compilers = utils.module('compilers');
 
   var compilers_map = (function() {
 
+    marked.setOptions({ gfm: true });
+    var lessc = new less.Parser();
+
     return {
+      // MARKUP
+      'gfm': function(str) {
+        var markup = marked(str);
+        return utils.resolve_now(markup);
+      },
 
+      // STYLE
+      'less': function(str) {
+        var d = $.Deferred();
 
+        lessc.parse(str, function (err, tree) {
+          var style = err ? str : tree.toCSS();
+          d.resolve(style);
+        });
 
+        return d.promise();
+      },
+
+      'scss': function(str) {
+        var result = sass.compile(str);
+        var style = _.isString(result) ? result : str;
+        return utils.resolve_now(style);
+      }
+
+      // SCRIPT
     };
   })();
 
@@ -50,10 +75,14 @@ function(config, utils, $, _, templates) {
    * @return {Promise}
    */
   compilers.compile = function(input) {
-    var compiler = compilers_map[input.mode];
+    var fn = compilers_map[input.mode];
+    var output;
 
-    var output = _.isFunction(compiler) ? compiler(input.mode, input.content) :
-      input.content;
+    try {
+      output = _.isFunction(fn) ? fn(input.content) : input.content;
+    } catch(err) {
+      output = input.content;
+    }
 
     return $.when(output).then(function(compiled) {
       var out = utils.clone(input);
