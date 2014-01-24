@@ -14,7 +14,7 @@
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
 
       marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
-      jade: '/js/lib/compilers/jade',
+      jade: '/js/lib/compilers/jade.min',
       haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.1/haml.min',
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
       sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.2.0/sass.min',
