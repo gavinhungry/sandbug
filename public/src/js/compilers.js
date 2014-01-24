@@ -6,11 +6,11 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'templates', 'marked', 'less', 'sass', 'coffeescript', 'typestring',
-  'gorillascript', 'traceur_api'
+  'templates', 'marked', 'less', 'sass', 'traceur_api', 'coffeescript',
+  'typestring', 'gorillascript'
 ],
 function(
-  config, utils, $, _, templates, marked, less, sass, cs, ts, gs, traceur
+  config, utils, $, _, templates, marked, less, sass, traceur, cs, ts, gs
 ) {
   'use strict';
 
@@ -46,6 +46,12 @@ function(
       },
 
       // SCRIPT
+      traceur: function(str) {
+        var result = traceur.compile(str);
+        var script = result.errors.length ? str : result.js;
+        return utils.resolve_now(script);
+      },
+
       coffeescript: function(str) {
         var script = cs.compile(str);
         return utils.resolve_now(script);
@@ -66,12 +72,6 @@ function(
         });
 
         return d.promise();
-      },
-
-      traceur: function(str) {
-        var result = traceur.compile(str);
-        var script = result.errors.length ? str : result.js;
-        return utils.resolve_now(script);
       }
     };
   })();

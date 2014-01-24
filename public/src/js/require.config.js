@@ -36,12 +36,12 @@
       marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
       sass: 'compilers/sass.min',
+      traceur: 'compilers/traceur.min',
+      traceur_api: 'compilers/traceur-api',
       coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min',
       typescript: 'compilers/typescript.min',
       typestring: 'compilers/typestring',
       gorillascript: 'compilers/gorillascript.min',
-      traceur: 'compilers/traceur.min',
-      traceur_api: 'compilers/traceur-api',
 
       codemirror_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
       codemirror_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
@@ -81,8 +81,8 @@
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
 
-      typescript: { exports: 'TypeScript' },
       traceur: { exports: 'traceur' },
+      typescript: { exports: 'TypeScript' },
 
       codemirror_overlay: { deps: ['codemirrorjs'] },
       codemirror_search: { deps: ['codemirrorjs'] },

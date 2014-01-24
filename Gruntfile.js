@@ -37,10 +37,10 @@ module.exports = function(grunt) {
             marked: 'empty:',
             less: 'empty:',
             sass: 'empty:',
+            traceur: 'empty:',
             coffeescript: 'empty:',
             typescript: 'empty:',
             gorillascript: 'empty:',
-            traceur: 'empty:',
 
             codemirror_overlay: 'empty:',
             codemirror_search: 'empty:',
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
             codemirror_coffeescript: 'empty:'
           },
 
-          exclude: ['promise', 'inflection', 'typestring', 'traceur_api']
+          exclude: ['promise', 'inflection', 'traceur_api', 'typestring']
         }
       }
     },

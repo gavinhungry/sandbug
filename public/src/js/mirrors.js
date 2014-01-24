@@ -220,13 +220,13 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
     ],
     'script': [
       { label: 'JavaScript', mode: 'javascript' },
+      { label: 'Traceur', mode: 'traceur', cm_mode: 'javascript' },
       { label: 'CoffeeScript', mode: 'coffeescript' },
       {
         label: 'TypeScript', mode: 'typescript',
         cm_mode: 'application/typescript'
       },
-      { label: 'GorillaScript', mode: 'gorillascript', cm_mode: 'javascript' },
-      { label: 'Traceur', mode: 'traceur', cm_mode: 'javascript' }
+      { label: 'GorillaScript', mode: 'gorillascript', cm_mode: 'javascript' }
     ]
   };
 
