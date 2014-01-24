@@ -17,4 +17,4 @@ node_modules
 build.json
 public/js/*.min.js
 public/css/*.min.css
-server/static/css/*.min.css
+frame/css/*.min.css
