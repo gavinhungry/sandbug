@@ -8,11 +8,9 @@
  * Includes: Overlay, Search, XML, HTML, MD, GFM, CSS, LESS, JS, CoffeeScript
  */
 define([
-  'codemirrorjs', 'codemirror_overlay', 'codemirror_search',
-  'codemirror_xml', 'codemirror_html', 'codemirror_markdown', 'codemirror_gfm',
-  'codemirror_css', 'codemirror_less',
-  'codemirror_js', 'codemirror_coffeescript'
+  'codemirrorjs', 'cm_overlay', 'cm_search', 'cm_xml', 'cm_html', 'cm_markdown',
+  'cm_gfm', 'cm_haml', 'cm_css', 'cm_less', 'cm_js', 'cm_coffeescript'
 ],
-function(CodeMirror, overlay, search, xml, html, md, gfm, css, less, js, cs) {
+function(CodeMirror) {
   return CodeMirror;
 });

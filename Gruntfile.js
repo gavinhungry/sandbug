@@ -35,6 +35,7 @@ module.exports = function(grunt) {
             string: 'empty:',
 
             marked: 'empty:',
+            haml: 'empty:',
             less: 'empty:',
             sass: 'empty:',
             traceur: 'empty:',
@@ -42,19 +43,21 @@ module.exports = function(grunt) {
             'typescript-api': 'empty:',
             gorillascript: 'empty:',
 
-            codemirror_overlay: 'empty:',
-            codemirror_search: 'empty:',
+            cm_overlay: 'empty:',
+            cm_search: 'empty:',
 
-            codemirror_xml: 'empty:',
-            codemirror_html: 'empty:',
-            codemirror_markdown: 'empty:',
-            codemirror_gfm: 'empty:',
+            cm_xml: 'empty:',
+            cm_html: 'empty:',
+            cm_markdown: 'empty:',
+            cm_gfm: 'empty:',
+            cm_ruby: 'empty:',
+            cm_haml: 'empty:',
 
-            codemirror_css: 'empty:',
-            codemirror_less: 'empty:',
+            cm_css: 'empty:',
+            cm_less: 'empty:',
 
-            codemirror_js: 'empty:',
-            codemirror_coffeescript: 'empty:'
+            cm_js: 'empty:',
+            cm_coffeescript: 'empty:'
           },
 
           exclude: ['promise', 'inflection', 'traceur_api', 'typestring']

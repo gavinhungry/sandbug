@@ -34,6 +34,7 @@
       inflection: '../../js/plugins/underscore.inflection.min',
 
       marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
+      haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.1/haml.min',
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
       sass: '../../js/compilers/sass.min',
       traceur: '../../js/compilers/traceur.min',
@@ -43,22 +44,24 @@
       typestring: '../../js/compilers/typestring',
       gorillascript: '../../js/compilers/gorillascript.min',
 
-      codemirror_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
-      codemirror_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
+      cm_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
+      cm_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
 
       // CodeMirror markup
-      codemirror_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min',
-      codemirror_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/htmlmixed/htmlmixed.min',
-      codemirror_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/markdown/markdown.min',
-      codemirror_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/gfm/gfm.min',
+      cm_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min',
+      cm_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/htmlmixed/htmlmixed.min',
+      cm_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/markdown/markdown.min',
+      cm_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/gfm/gfm.min',
+      cm_ruby: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/ruby/ruby.min',
+      cm_haml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/haml/haml.min',
 
       // CodeMirror style
-      codemirror_css: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/css/css.min',
-      codemirror_less: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/less/less.min',
+      cm_css: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/css/css.min',
+      cm_less: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/less/less.min',
 
       // CodeMirror script
-      codemirror_js: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/javascript/javascript.min',
-      codemirror_coffeescript: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/coffeescript/coffeescript.min',
+      cm_js: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/javascript/javascript.min',
+      cm_coffeescript: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/coffeescript/coffeescript.min',
 
       jquery: 'libs/jquery',
       underscore: 'libs/underscore',
@@ -81,19 +84,22 @@
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
 
+      haml: { exports: 'haml' },
       traceur: { exports: 'traceur' },
       'typescript-api': { exports: 'TypeScript' },
 
-      codemirror_overlay: { deps: ['codemirrorjs'] },
-      codemirror_search: { deps: ['codemirrorjs'] },
-      codemirror_xml: { deps: ['codemirrorjs'] },
-      codemirror_html: { deps: ['codemirrorjs'] },
-      codemirror_markdown: { deps: ['codemirrorjs'] },
-      codemirror_gfm: { deps: ['codemirrorjs', 'codemirror_overlay', 'codemirror_markdown'] },
-      codemirror_css: { deps: ['codemirrorjs'] },
-      codemirror_less: { deps: ['codemirrorjs'] },
-      codemirror_js: { deps: ['codemirrorjs'] },
-      codemirror_coffeescript: { deps: ['codemirrorjs'] }
+      cm_overlay: { deps: ['codemirrorjs'] },
+      cm_search: { deps: ['codemirrorjs'] },
+      cm_xml: { deps: ['codemirrorjs'] },
+      cm_html: { deps: ['codemirrorjs'] },
+      cm_markdown: { deps: ['codemirrorjs'] },
+      cm_gfm: { deps: ['codemirrorjs', 'cm_overlay', 'cm_markdown'] },
+      cm_ruby: { deps: ['codemirrorjs'] },
+      cm_haml: { deps: ['codemirrorjs', 'cm_ruby'] },
+      cm_css: { deps: ['codemirrorjs'] },
+      cm_less: { deps: ['codemirrorjs'] },
+      cm_js: { deps: ['codemirrorjs'] },
+      cm_coffeescript: { deps: ['codemirrorjs'] }
     }
   });
 

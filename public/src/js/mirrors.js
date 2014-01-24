@@ -211,7 +211,8 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   var mirror_mode_sets = {
     'markup': [
       { label: 'HTML', mode: 'htmlmixed' },
-      { label: 'Markdown', mode: 'gfm' }
+      { label: 'Markdown', mode: 'gfm' },
+      { label: 'Haml', mode: 'haml' }
     ],
     'style': [
       { label: 'CSS', mode: 'css' },

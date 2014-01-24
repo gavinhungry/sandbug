@@ -6,11 +6,11 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'templates', 'marked', 'less', 'sass', 'traceur_api', 'coffeescript',
+  'templates', 'marked', 'haml', 'less', 'sass', 'traceur_api', 'coffeescript',
   'typestring', 'gorillascript'
 ],
 function(
-  config, utils, $, _, templates, marked, less, sass, traceur, cs, ts, gs
+  config, utils, $, _, templates, marked, haml, less, sass, traceur, cs, ts, gs
 ) {
   'use strict';
 
@@ -23,8 +23,11 @@ function(
     return {
       // MARKUP
       gfm: function(str) {
-        var markup = marked(str);
-        return utils.resolve_now(markup);
+        return marked(str);
+      },
+
+      haml: function(str) {
+        return haml.compileHaml({ source: str })();
       },
 
       // STYLE
@@ -41,25 +44,21 @@ function(
 
       scss: function(str) {
         var result = sass.compile(str);
-        var style = _.isString(result) ? result : str;
-        return utils.resolve_now(style);
+        return _.isString(result) ? result : str;
       },
 
       // SCRIPT
       traceur: function(str) {
         var result = traceur.compile(str);
-        var script = result.errors.length ? str : result.js;
-        return utils.resolve_now(script);
+        return result.errors.length ? str : result.js;
       },
 
       coffeescript: function(str) {
-        var script = cs.compile(str);
-        return utils.resolve_now(script);
+        return cs.compile(str);
       },
 
       typescript: function(str) {
-        var script = ts.compile(str);
-        return utils.resolve_now(script);
+        return ts.compile(str);
       },
 
       gorillascript: function(str) {
