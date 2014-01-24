@@ -39,7 +39,7 @@ module.exports = function(grunt) {
             sass: 'empty:',
             traceur: 'empty:',
             coffeescript: 'empty:',
-            typescript: 'empty:',
+            'typescript-api': 'empty:',
             gorillascript: 'empty:',
 
             codemirror_overlay: 'empty:',

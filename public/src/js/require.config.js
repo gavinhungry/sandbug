@@ -39,7 +39,7 @@
       traceur: '../../js/compilers/traceur.min',
       traceur_api: '../../js/compilers/traceur-api',
       coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min',
-      typescript: '../../js/compilers/typescript.min',
+      'typescript-api': '../../js/compilers/typescript.min',
       typestring: '../../js/compilers/typestring',
       gorillascript: '../../js/compilers/gorillascript.min',
 
@@ -82,7 +82,7 @@
       inflection: { deps: ['underscorejs'] },
 
       traceur: { exports: 'traceur' },
-      typescript: { exports: 'TypeScript' },
+      'typescript-api': { exports: 'TypeScript' },
 
       codemirror_overlay: { deps: ['codemirrorjs'] },
       codemirror_search: { deps: ['codemirrorjs'] },

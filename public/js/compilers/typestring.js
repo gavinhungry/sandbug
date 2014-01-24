@@ -1,4 +1,15 @@
-define(['typescript'], function(TypeScript) {
+/**
+ * typestring - In-memory TypeScript compiler
+ * https://github.com/gavinhungry/typestring
+ */
+
+// http://www.2ality.com/2011/11/module-gap.html
+({
+  define: typeof define === 'function' ? define :
+  function(reqs, fn) { module.exports = fn.apply(null, reqs.map(require)); }
+}).
+
+define(['typescript-api'], function (TypeScript) {
   'use strict';
 
   var filename = 'typestring.ts';
