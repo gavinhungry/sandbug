@@ -71,8 +71,8 @@ module.exports = function(grunt) {
 
     'cssmin': {
       production: {
-        src: ['server/static/css/gfm.css'],
-        dest: 'server/static/css/gfm.min.css'
+        src: ['frame/css/gfm.css'],
+        dest: 'frame/css/gfm.min.css'
       }
     },
 
@@ -81,7 +81,7 @@ module.exports = function(grunt) {
       js: ['public/js/debuggerio.min.js'],
       css: [
         'public/css',
-        'server/static/css/gfm.min.css'
+        'frame/css/gfm.min.css'
       ]
     },
 
