@@ -10,13 +10,13 @@
       marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
       haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.1/haml.min',
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
-      sass: '/js/lib/compilers/sass.min',
+      sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.2.0/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api',
       coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min',
-      'typescript-api': '/js/lib/compilers/typescript.min',
+      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/0.9.5/typescript.min',
       typestring: '/js/lib/compilers/typestring',
-      gorillascript: '/js/lib/compilers/gorillascript.min'
+      gorillascript: '//cdnjs.cloudflare.com/ajax/libs/gorillascript/0.9.10/gorillascript.min'
     },
 
     shim: {
