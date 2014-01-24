@@ -41,6 +41,7 @@ module.exports = function(grunt) {
             cm_html: 'empty:',
             cm_markdown: 'empty:',
             cm_gfm: 'empty:',
+            cm_jade: 'empty:',
             cm_ruby: 'empty:',
             cm_haml: 'empty:',
 
