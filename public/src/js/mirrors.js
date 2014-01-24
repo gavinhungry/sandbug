@@ -27,7 +27,8 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
       var cm = CodeMirror.fromTextArea($textarea[0], {
         lineNumbers: true,
         lineWrapping: true,
-        mode: mode
+        mode: mode,
+        tabSize: 2
       });
 
       var mirror = {
