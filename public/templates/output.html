@@ -10,6 +10,10 @@
       <link rel='stylesheet' type='text/css' href='/css/gfm.min.css'>
     <% } %>
 
+    <% if (script.mode === 'traceur') { %>
+      <script type='application/javascript' src='/js/lib/traceur-runtime.min.js'></script>
+    <% } %>
+
     <script type='application/javascript'>
       document.addEventListener('DOMContentLoaded', function() {
         'use strict';

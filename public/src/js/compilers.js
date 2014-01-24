@@ -7,9 +7,11 @@
 define([
   'config', 'utils', 'jquery', 'underscore',
   'templates', 'marked', 'less', 'sass', 'coffeescript', 'typestring',
-  'gorillascript'
+  'gorillascript', 'traceur_api'
 ],
-function(config, utils, $, _, templates, marked, less, sass, cs, ts, gs) {
+function(
+  config, utils, $, _, templates, marked, less, sass, cs, ts, gs, traceur
+) {
   'use strict';
 
   var compilers = utils.module('compilers');
@@ -20,13 +22,13 @@ function(config, utils, $, _, templates, marked, less, sass, cs, ts, gs) {
 
     return {
       // MARKUP
-      'gfm': function(str) {
+      gfm: function(str) {
         var markup = marked(str);
         return utils.resolve_now(markup);
       },
 
       // STYLE
-      'less': function(str) {
+      less: function(str) {
         var d = $.Deferred();
 
         lessc.parse(str, function (err, tree) {
@@ -37,24 +39,24 @@ function(config, utils, $, _, templates, marked, less, sass, cs, ts, gs) {
         return d.promise();
       },
 
-      'scss': function(str) {
+      scss: function(str) {
         var result = sass.compile(str);
         var style = _.isString(result) ? result : str;
         return utils.resolve_now(style);
       },
 
       // SCRIPT
-      'coffeescript': function(str) {
+      coffeescript: function(str) {
         var script = cs.compile(str);
         return utils.resolve_now(script);
       },
 
-      'typescript': function(str) {
+      typescript: function(str) {
         var script = ts.compile(str);
         return utils.resolve_now(script);
       },
 
-      'gorillascript': function(str) {
+      gorillascript: function(str) {
         var d = $.Deferred();
 
         gs.compile(str).then(function(result) {
@@ -64,6 +66,12 @@ function(config, utils, $, _, templates, marked, less, sass, cs, ts, gs) {
         });
 
         return d.promise();
+      },
+
+      traceur: function(str) {
+        var result = traceur.compile(str);
+        var script = result.errors.length ? str : result.js;
+        return utils.resolve_now(script);
       }
     };
   })();

@@ -40,6 +40,8 @@
       typescript: 'compilers/typescript.min',
       typestring: 'compilers/typestring',
       gorillascript: 'compilers/gorillascript.min',
+      traceur: 'compilers/traceur.min',
+      traceur_api: 'compilers/traceur-api',
 
       codemirror_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
       codemirror_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
@@ -80,6 +82,7 @@
       inflection: { deps: ['underscorejs'] },
 
       typescript: { exports: 'TypeScript' },
+      traceur: { exports: 'traceur' },
 
       codemirror_overlay: { deps: ['codemirrorjs'] },
       codemirror_search: { deps: ['codemirrorjs'] },

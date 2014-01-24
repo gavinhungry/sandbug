@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 
           exclude: [
             'promise', 'inflection', 'sass', 'typescript', 'typestring',
-            'gorillascript'
+            'gorillascript', 'traceur', 'traceur-api'
           ]
         }
       }
