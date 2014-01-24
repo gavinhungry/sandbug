@@ -44,7 +44,7 @@ Installation
     server {
       listen 80;
       server_name frame.debugger.example.tld;
-      root /srv/http/debugger.io/server/static;
+      root /srv/http/debugger.io/frame;
     }
 
 

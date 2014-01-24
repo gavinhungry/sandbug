@@ -1,6 +1,12 @@
 (function() {
   'use strict';
 
+  // nothing to see here
+  if (parent === self) {
+    window.location = '//' + location.hostname.replace(/^frame\./, '');
+    return;
+  }
+
   requirejs.config({
     paths: {
       jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min',
@@ -21,7 +27,7 @@
 
     shim: {
       string: { deps: ['underscore'], exports: '_.str' },
-      
+
       haml: { exports: 'haml' },
       traceur: { exports: 'traceur' },
       'typescript-api': { exports: 'TypeScript' },
