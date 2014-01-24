@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'bus', 'compilers', 'mirrors'
+  'bus', 'mirrors'
 ],
-function(config, utils, $, _, bus, compilers, mirrors) {
+function(config, utils, $, _, bus, mirrors) {
   'use strict';
 
   var frame = utils.module('frame');
@@ -21,20 +21,10 @@ function(config, utils, $, _, bus, compilers, mirrors) {
   });
 
   /**
-   * Compile all input, build a document and send it to an iframe
+   * Send all input to the iframe for compilation
    */
-  frame.render = function() {
-    var compiling = _.map(mirrors.get_map(), function(input) {
-      return compilers.compile(input);
-    });
-
-    $.when.apply(null, compiling).done(function() {
-      var compiled = _.toArray(arguments);
-
-      compilers.build_document(compiled).done(function(doc) {
-        frameWindow.postMessage(doc, config.frame);
-      });
-    });
+  frame.update = function() {
+    frameWindow.postMessage(mirrors.get_map(), config.frame);
   };
 
   return frame;

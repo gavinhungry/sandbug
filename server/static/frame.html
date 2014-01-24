@@ -14,18 +14,8 @@
       }
     </style>
 
-    <script type='application/javascript'>
-      document.addEventListener('DOMContentLoaded', function() {
-        'use strict';
-
-        var iframe = document.getElementById('frame');
-
-        window.addEventListener('message', function(e) {
-          if (!e.origin) { return; }
-          iframe.setAttribute('srcdoc', e.data);
-        }, false);
-      }, false);
-    </script>
+    <script type='application/javascript' data-main='js/frame'
+      src='//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js'></script>
   </head>
 
   <body>

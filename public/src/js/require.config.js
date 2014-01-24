@@ -33,17 +33,6 @@
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
       inflection: '../../js/plugins/underscore.inflection.min',
 
-      marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
-      haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.1/haml.min',
-      less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
-      sass: '../../js/compilers/sass.min',
-      traceur: '../../js/compilers/traceur.min',
-      traceur_api: '../../js/compilers/traceur-api',
-      coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min',
-      'typescript-api': '../../js/compilers/typescript.min',
-      typestring: '../../js/compilers/typestring',
-      gorillascript: '../../js/compilers/gorillascript.min',
-
       cm_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/mode/overlay.min',
       cm_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/addon/search/searchcursor.min',
 
@@ -83,10 +72,6 @@
       hammer: { deps: ['jqueryjs'] },
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
-
-      haml: { exports: 'haml' },
-      traceur: { exports: 'traceur' },
-      'typescript-api': { exports: 'TypeScript' },
 
       cm_overlay: { deps: ['codemirrorjs'] },
       cm_search: { deps: ['codemirrorjs'] },

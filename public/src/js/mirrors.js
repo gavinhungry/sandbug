@@ -70,14 +70,19 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   /**
    * Get a JSON-able map of all mirrors and their content
    *
-   * @return {Array}
+   * @return {Object}
    */
   mirrors.get_map = function() {
-    return _.map(instances, function(mirror) {
+    var arr =  _.map(instances, function(mirror) {
       var map = _.pick(mirror, 'panel', 'mode');
       map.content = mirror.cm.getValue();
       return map;
     });
+
+    return _.reduce(arr, function(memo, value) {
+      memo[value.panel] = value;
+      return memo;
+    }, {});
   };
 
   /**

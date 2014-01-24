@@ -65,7 +65,7 @@ function(
 
     // submit bug to the frame server
     run: function() {
-      frame.render();
+      frame.update();
     },
 
     register_keys: function() {

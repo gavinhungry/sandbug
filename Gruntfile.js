@@ -34,15 +34,6 @@ module.exports = function(grunt) {
             hammer: 'empty:',
             string: 'empty:',
 
-            marked: 'empty:',
-            haml: 'empty:',
-            less: 'empty:',
-            sass: 'empty:',
-            traceur: 'empty:',
-            coffeescript: 'empty:',
-            'typescript-api': 'empty:',
-            gorillascript: 'empty:',
-
             cm_overlay: 'empty:',
             cm_search: 'empty:',
 
@@ -60,7 +51,7 @@ module.exports = function(grunt) {
             cm_coffeescript: 'empty:'
           },
 
-          exclude: ['promise', 'inflection', 'traceur_api', 'typestring']
+          exclude: ['promise', 'inflection']
         }
       }
     },
