@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 
     'clean': {
       build: ['build.json'],
-      js: ['public/js'],
+      js: ['public/js/debuggerio.min.js'],
       css: [
         'public/css',
         'server/static/css/gfm.min.css'
