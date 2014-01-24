@@ -50,6 +50,12 @@
         });
       },
 
+      jade: function(str) {
+        return require_p(['jade'], function(jade) {
+          return jade.render(str);
+        });
+      },
+
       haml: function(str) {
         return require_p(['haml'], function(haml) {
           return haml.compileHaml({ source: str })();

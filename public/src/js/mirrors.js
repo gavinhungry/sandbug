@@ -218,6 +218,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
     'markup': [
       { label: 'HTML', mode: 'htmlmixed' },
       { label: 'Markdown', mode: 'gfm' },
+      { label: 'Jade', mode: 'jade' },
       { label: 'Haml', mode: 'haml' }
     ],
     'style': [

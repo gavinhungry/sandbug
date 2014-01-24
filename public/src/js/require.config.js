@@ -41,6 +41,7 @@
       cm_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/htmlmixed/htmlmixed.min',
       cm_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/markdown/markdown.min',
       cm_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/gfm/gfm.min',
+      cm_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/jade/jade.min',
       cm_ruby: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/ruby/ruby.min',
       cm_haml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/haml/haml.min',
 
@@ -79,6 +80,7 @@
       cm_html: { deps: ['codemirrorjs'] },
       cm_markdown: { deps: ['codemirrorjs'] },
       cm_gfm: { deps: ['codemirrorjs', 'cm_overlay', 'cm_markdown'] },
+      cm_jade: { deps: ['codemirrorjs'] },
       cm_ruby: { deps: ['codemirrorjs'] },
       cm_haml: { deps: ['codemirrorjs', 'cm_ruby'] },
       cm_css: { deps: ['codemirrorjs'] },
