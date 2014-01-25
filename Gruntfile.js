@@ -28,7 +28,6 @@ module.exports = function(grunt) {
             backbonejs: 'empty:',
             codemirrorjs: 'empty:',
 
-            ui: 'empty:',
             transit: 'empty:',
             nano: 'empty:',
             hammer: 'empty:',
