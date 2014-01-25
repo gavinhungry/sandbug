@@ -95,12 +95,5 @@ function(
 
   };
 
-  // default
-  routes.default = function(req, res) {
-    res.status(404).render('default', {
-      build: config.build
-    });
-  };
-
   return routes;
 });

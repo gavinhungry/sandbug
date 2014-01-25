@@ -48,9 +48,7 @@ function(
   server.get('/api/users/:username/bugs/:bugslug', routes.get.bug);
   server.post('/api/users/:username/bugs/:bugslug', routes.post.bug);
 
-  if (config.prod) {
-    server.use(routes.default);
-  }
+  server.use(routes.get.index);
 
   return app;
 });

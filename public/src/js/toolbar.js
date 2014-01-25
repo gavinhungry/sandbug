@@ -6,11 +6,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'dom', 'flash', 'panels', 'popups', 'templates', 'themes'
+  'backbone', 'bus', 'dom', 'flash', 'panels', 'popups', 'templates', 'themes',
+  'user'
 ],
 function(
   config, utils, $, _, Backbone,
-  bus, dom, flash, panels, popups, templates, themes
+  bus, dom, flash, panels, popups, templates, themes, user
 ) {
   'use strict';
 
@@ -53,13 +54,7 @@ function(
       'click #layout': function(e) { panels.cycle_layout(); },
       'click #signup': function(e) { popups.popup('signup'); },
       'click #login': function(e) { popups.popup('login'); },
-      'click #logout': function(e) {
-        $.post('/api/logout', { _csrf: config.csrf }).done(function(data) {
-          bus.trigger('user:logout');
-        }).fail(function() {
-          flash.message_bad(locales.string('logout_error'));
-        });
-      }
+      'click #logout': function(e) { user.logout(); }
     },
 
     destroy: function() {
