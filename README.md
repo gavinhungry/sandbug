@@ -11,12 +11,21 @@ Modes
 -----
 Currently supported language modes are:
 
-  - **Markup**: HTML and [Markdown (GFM)](https://help.github.com/articles/github-flavored-markdown)
-  - **Style**: CSS, [LESS](http://lesscss.org/) and [SCSS](http://sass-lang.com/)
-  - **Script**: JavaScript,
-    [CoffeeScript](http://coffeescript.org/),
-    [TypeScript](http://www.typescriptlang.org/) and
-    [GorillaScript](http://ckknight.github.io/gorillascript/)
+  - **Markup**:
+    HTML,
+    [Markdown (GFM)](https://help.github.com/articles/github-flavored-markdown),
+    [Jade](http://jade-lang.com) and
+    [Haml](http://haml.info).
+  - **Style**:
+    CSS,
+    [LESS](http://lesscss.org) and
+    [SCSS](http://sass-lang.com)
+  - **Script**:
+    JavaScript,
+    [Traceur](https://github.com/google/traceur-compiler),
+    [CoffeeScript](http://coffeescript.org),
+    [TypeScript](http://www.typescriptlang.org) and
+    [GorillaScript](http://ckknight.github.io/gorillascript)
 
 
 Installation
