@@ -71,19 +71,24 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   /**
    * Get a JSON-able map of all mirrors and their content
    *
+   * @param {Boolean} [strip] - if true, remove panel property
    * @return {Object}
    */
-  mirrors.get_map = function() {
+  mirrors.get_map = function(strip) {
     var arr =  _.map(instances, function(mirror) {
       var map = _.pick(mirror, 'panel', 'mode');
       map.content = mirror.cm.getValue();
       return map;
     });
 
-    return _.reduce(arr, function(memo, value) {
+    var map = _.reduce(arr, function(memo, value) {
       memo[value.panel] = value;
       return memo;
     }, {});
+
+    return strip ? _.each(map, function(value) {
+      delete value['panel'];
+    }) : map;
   };
 
   /**
