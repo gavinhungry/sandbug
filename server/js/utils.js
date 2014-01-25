@@ -133,16 +133,18 @@ function(
   };
 
   utils.LocaleMsg.prototype = {
-    set_id: function(id) { this.localize = id; },
+    set_id: function(id) { this.localize = id; return this; },
     set_head_args: function(args) {
       if (args && args.length) {
         this.args.head = utils.ensure_array(data);
       } else { delete this.args.head; }
+      return this;
     },
     set_msg_args: function(args) {
       if (args && args.length) {
         this.args.msg = utils.ensure_array(data);
       } else { delete this.args.msg; }
+      return this;
     }
   };
 
