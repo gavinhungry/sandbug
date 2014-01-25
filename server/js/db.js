@@ -98,10 +98,8 @@ function(
       username: username,
       email: email,
       hash: hash
-    }, function(err, users) {
-      var user = _.first(users);
+    }, function(err, user) {
       if (user) { delete user.hash; }
-
       err ? d.reject(err) : d.resolve(user);
     });
 
