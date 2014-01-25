@@ -15,7 +15,7 @@ Currently supported language modes are:
     HTML,
     [Markdown (GFM)](https://help.github.com/articles/github-flavored-markdown),
     [Jade](http://jade-lang.com) and
-    [Haml](http://haml.info).
+    [Haml](http://haml.info)
   - **Style**:
     CSS,
     [LESS](http://lesscss.org) and
