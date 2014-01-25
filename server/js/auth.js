@@ -226,10 +226,7 @@ function(
    * @return {Boolean} true if email is valid, false otherwise
    */
   auth.is_valid_email = function(email) {
-    try { validator.check(email).isEmail(); }
-    catch(err) { return false; }
-
-    return true;
+    return validator.isEmail(email);
   };
 
   /**
