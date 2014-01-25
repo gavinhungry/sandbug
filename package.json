@@ -13,7 +13,7 @@
     "grunt-yui-compressor": "0.3.x",
     "grunt-contrib-clean": "0.5.x",
     "grunt-git-describe": "2.3.x",
-    "less": "1.5.x"
+    "less": "1.6.x"
   },
 
   "dependencies": {
