@@ -64,7 +64,7 @@ function(config, utils, $, _, bus, dom, locales, templates) {
           $flash.addClass(priority);
         }
 
-        $flash.css({ 'top': $flash.height() * -1 })
+        $flash.css({ 'margin-top': $flash.height() * -1 })
           .html(html)
           .css({ 'display': 'block' })
           .transition(transition_props, start_dismiss_timeout);
@@ -118,7 +118,7 @@ function(config, utils, $, _, bus, dom, locales, templates) {
     var $flash = $(flashEl);
 
     $flash.transition({
-      'top':  $flash.height() * -1,
+      'margin-top':  $flash.height() * -1,
       'opacity': 0
     }, 'fast', function() {
       $flash.css({ 'display': 'none' });
