@@ -1,10 +1,6 @@
 debugger.io
 ===========
-An interactive web scripting sandbox (eventually).
-
-`debugger.io` has three input panels: **Markup**, **Style** and **Script**.
-Each supports a few different language modes which will be compiled down to
-HTML, CSS and JavaScript, respectively, and served back to the browser.
+An interactive web scripting sandbox.
 
 
 Modes
