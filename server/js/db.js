@@ -111,25 +111,51 @@ function(
    *
    * @param {String} id - MongoDB _id
    * @param {Boolean} [hash] - if true, include the hash property
-   * @return {Promise} to return a user or false if no matching user found
+   * @return {Promise} to return a user, or false if no matching result found
    */
   db.get_user_by_id = function(id, hash) {
     var d = Q.defer();
     id = utils.ensure_string(id);
 
+    var projection = { _id: false, hash: !!hash };
+
     if (connErr) { d.reject(connErr); }
     else if (!id) { d.resolve(false); }
     else {
-      users.find({ _id: mongo.ObjectId(id) }, function(err, users) {
+      users.find({ _id: mongo.ObjectId(id) }, projection, function(err, users) {
         if (err) { return d.reject(err); }
         if (users.length !== 1) { return d.resolve(false); }
 
         var user = _.first(users);
-        if (!hash) { delete user.hash; }
-
         d.resolve(user);
       });
     }
+
+    return d.promise;
+  };
+
+  /**
+   * Get a bug from a username and slug
+   *
+   * A falsy username refers to an anonymous bug, one that is not associated
+   * with a user account
+   *
+   * @param {String} username - username for a bug
+   * @param {String} bugslug - slug id for a bug
+   * @return {Promise} to return a bug, or false if no matching result found
+   */
+  db.get_bug_by_slug = function(username, bugslug) {
+    var d = Q.defer();
+
+    bugs.find({
+      username: username || '', slug: bugslug
+    }, { _id: false }, function(err, bugs) {
+      if (err) { return d.reject(err); }
+      if (bugs.length !== 1) { return d.resolve(false); }
+
+      var bug = _.first(bugs);
+      d.resolve(bug);
+    });
 
     return d.promise;
   };

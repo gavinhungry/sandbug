@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'cdn', 'db'
+  'auth','bugs', 'cdn'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, cdn, db
+  auth, bugs, cdn
 ) {
   'use strict';
 
@@ -70,6 +70,29 @@ function(
   routes.post.logout = function(req, res) {
     req.logout();
     res.json(true);
+  };
+
+  // GET /bugs/:bugslug, /users/:username/bugs/:bugslug
+  routes.get.bug = function(req, res) {
+    var user = req.user || {};
+
+    bugs.get_bug_by_slug(req.params.username, req.params.bugslug)
+    .done(function(bug) {
+      var err = new utils.LocaleMsg();
+
+      if (!bug) { return res.status(404).json(err.set_id('bug_not_found')); }
+      if (bug.secret && bug.username !== user.username &&
+        !_.contains(bug.secret, user.username)) {
+        return res.status(403).json(err.set_id('bug_is_private'));
+      }
+
+      res.json(bug);
+    }, utils.server_error_handler(res));
+  };
+
+  // POST /bugs/:bugslug
+  routes.post.bug = function(req, res) {
+
   };
 
   // default

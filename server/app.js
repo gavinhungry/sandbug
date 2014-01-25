@@ -42,6 +42,12 @@ function(
   server.post('/login', auth.authenticate, routes.post.login);
   server.post('/logout', routes.post.logout);
 
+  server.get('/bugs/:bugslug', routes.get.bug);
+  server.post('/bugs/:bugslug', routes.post.bug);
+
+  server.get('/users/:username/bugs/:bugslug', routes.get.bug);
+  server.post('/users/:username/bugs/:bugslug', routes.post.bug);
+
   if (config.prod) {
     server.use(routes.default);
   }
