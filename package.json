@@ -17,7 +17,7 @@
   },
 
   "dependencies": {
-    "cjson": "0.2.x",
+    "cjson": "0.3.x",
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "connect-mobile-detection": "0.0.x",
