@@ -63,6 +63,7 @@ Upcoming Plans
 There is still a lot of work to do, including:
 
   - User accounts, user settings
+  - User export of data
   - Save to server (with history?)
   - Save to Gist, Dropbox, Drive
   - Import from other services
