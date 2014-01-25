@@ -62,7 +62,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   cdn.update_cache = function() {
     var d = $.Deferred();
 
-    $.get(utils.uri('cdn')).done(function(packages) {
+    $.get('/api/cdn').done(function(packages) {
       cache = packages;
       d.resolve(packages);
     }).fail(d.reject);

@@ -99,7 +99,7 @@ function($, _) {
 
   // get additional client-side config options from the server
   var d = $.Deferred();
-  $.get('/config').done(function(data) {
+  $.get('/api/config').done(function(data) {
     config._priv.set_options(data);
     d.resolve(config);
   }).fail(function() {

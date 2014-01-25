@@ -54,7 +54,7 @@ function(
       'click #signup': function(e) { popups.popup('signup'); },
       'click #login': function(e) { popups.popup('login'); },
       'click #logout': function(e) {
-        $.post('/logout', { _csrf: config.csrf }).done(function(data) {
+        $.post('/api/logout', { _csrf: config.csrf }).done(function(data) {
           bus.trigger('user:logout');
         }).fail(function() {
           flash.message_bad(locales.string('logout_error'));
