@@ -24,11 +24,11 @@
       underscorejs: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min',
       backbonejs: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min',
       codemirrorjs: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.21.0/codemirror.min',
+      hammer: '//cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.6/hammer.min',
 
       // plugins
       transit: '//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min',
       nano: '//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.7.4/jquery.nanoscroller.min',
-      hammer: '//cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.5/jquery.hammer.min',
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
       inflection: '../../js/plugins/underscore.inflection.min',
 

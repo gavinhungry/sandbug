@@ -5,10 +5,10 @@
 /**
  * jQuery
  *
- * Includes: jQuery UI, Transit, nanoScroller.js
+ * Includes: Transit, nanoScroller.js
  */
-define(['jqueryjs', 'transit', 'nano', 'hammer'],
-function($, transit, nano, Hammer) {
+define(['jqueryjs', 'transit', 'nano'],
+function($, transit, nano) {
   // jQuery.transit fallback to $.fn.animate
   if (!$.support.transition) { $.fn.transition = $.fn.animate; }
 

@@ -5,10 +5,10 @@
  */
 
 define([
-  'config', 'utils', 'jquery', 'underscore',
+  'config', 'utils', 'jquery', 'underscore', 'hammer',
   'bus', 'dom', 'mirrors'
 ],
-function(config, utils, $, _, bus, dom, mirrors) {
+function(config, utils, $, _, Hammer, bus, dom, mirrors) {
   'use strict';
 
   var panels = utils.module('panels');
@@ -86,9 +86,11 @@ function(config, utils, $, _, bus, dom, mirrors) {
    * Init swiping of input panels on phones
    */
   var init_mobile_swipes = function() {
-    panels.get_input_panels().hammer({ swipe_velocity: 0.15 })
-      .on('swipeleft', function(e) { panels.next_active_mobile(); })
-      .on('swiperight', function(e) { panels.prev_active_mobile(); });
+    panels.get_input_panels().each(function() {
+      Hammer(this, { swipe_velocity: 0.15 })
+        .on('swipeleft', function(e) { panels.next_active_mobile(); })
+        .on('swiperight', function(e) { panels.prev_active_mobile(); });
+    });
   };
 
   /**
