@@ -6,12 +6,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'dom', 'panels', 'popups', 'templates', 'themes',
+  'backbone', 'bus', 'dom', 'panels', 'templates', 'themes',
   'user'
 ],
 function(
   config, utils, $, _, Backbone,
-  bus, dom, panels, popups, templates, themes, user
+  bus, dom, panels, templates, themes, user
 ) {
   'use strict';
 
@@ -52,8 +52,8 @@ function(
     events: {
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
-      'click #signup': function(e) { popups.popup('signup'); },
-      'click #login': function(e) { popups.popup('login'); },
+      'click #signup': function(e) { bus.trigger('navigate', 'signup', true); },
+      'click #login': function(e) { bus.trigger('navigate', 'login', true); },
       'click #logout': function(e) { user.logout(); }
     },
 

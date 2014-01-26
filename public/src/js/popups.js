@@ -58,6 +58,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       var that = this;
       keys.unregister_handler(popupKeyHander);
 
+      bus.trigger('navigate', 'back');
       popups.hide().always(function() {
         dom.destroy_view(that);
         d.resolve(true);
