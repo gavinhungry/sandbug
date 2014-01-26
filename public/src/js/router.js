@@ -6,9 +6,9 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'popups'
+  'backbone', 'bugs', 'bus', 'popups', 'user'
 ],
-function(config, utils, $, _, Backbone, bus, popups) {
+function(config, utils, $, _, Backbone, bugs, bus, popups, user) {
   'use strict';
 
   var prev_routes = new utils.Buffer(4);
@@ -23,9 +23,10 @@ function(config, utils, $, _, Backbone, bus, popups) {
     },
 
     routes: {
-      login: function() { popups.popup('login'); },
-      logout: function() { user.logout(); },
-      signup: function() { popups.popup('signup'); }
+      'login': function() { popups.popup('login'); },
+      'logout': user.logout,
+      'signup': function() { popups.popup('signup'); },
+      'users/:username/bugs/:bugslug' : bugs.get_bug_by_slug
     }
   });
 

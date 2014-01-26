@@ -9,7 +9,7 @@ define([
   'bus', 'flash'
 ],
 function(
-  config, utils, $, _, Backbone,
+  config, utils, $, _,
   bus, flash
 ) {
   'use strict';
