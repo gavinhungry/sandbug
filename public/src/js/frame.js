@@ -38,12 +38,11 @@ function(config, utils, $, _, bus, mirrors) {
     pending.push(timestamp);
 
     var post_fn = function() {
-      utils.log('postMessage', timestamp);
-
       if (!_.contains(pending, timestamp)) {
         return clearInterval(interval);
       }
 
+      utils.log('postMessage', timestamp);
       frameWindow.postMessage({
         timestamp: timestamp,
         map: mirrors.get_map()
