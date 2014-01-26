@@ -33,6 +33,8 @@ function(
 
         flash.message_good(locales.string('logged_in', username),
           locales.string('logged_in_msg'));
+
+        that.$save.transitIn();
       });
 
       bus.on('user:logout', function() {
@@ -40,6 +42,8 @@ function(
 
         flash.message(locales.string('logged_out'),
           locales.string('logged_out_msg'));
+
+        that.$save.transitOut();
       });
 
       bus.on('config:mode', function(mode) {
@@ -100,9 +104,13 @@ function(
 
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
-          'by_id': ['title', 'markup', 'style', 'script', 'input', 'output'],
+          'by_id': [
+            'title', 'markup', 'style', 'script', 'input', 'output', 'save'
+          ],
           'by_class': ['panel', 'input-panel', 'panel-options']
         });
+
+        this.$save[!config.username ? 'transitOut' : 'transitIn']();
 
         this.$iframe = this.$output.children('iframe');
         _.isFunction(callback) && callback.call(this);
