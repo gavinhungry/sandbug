@@ -303,6 +303,19 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
   };
 
   /**
+   * Set the content for a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   * @param {String} content - new content to set
+   */
+  mirrors.set_content = function(m, content) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror || !_.isString(content)) { return; }
+
+    mirror.cm.setValue(content);
+  };
+
+  /**
    * Get the theme for a mirror
    *
    * @param {String | Object} m - panel id or mirror
