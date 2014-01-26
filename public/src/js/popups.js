@@ -34,7 +34,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     initialize: function(options) {
       var that = this;
-      this.template = this.template || options.template;
+      _.extend(this, _.pick(options, 'template', 'post_render'));
 
       this.render();
 
@@ -304,14 +304,29 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     }, options));
 
     popups.destroy().done(function() {
+      var $input;
+
       var view = new popups.PopupView({
         model: model,
-        template: 'popup-input'
+        template: 'popup-input',
+        post_render: function() {
+          $input = this.$el.find('input:not([type=hidden])').first();
+          $input.on('input', function() {
+            var $this = $(this);
+            var start = this.selectionStart, end = this.selectionEnd;
+
+            if (_.isFunction(options.filter)) {
+              var val = options.filter($this.val());
+              $this.val(val);
+            }
+
+            this.setSelectionRange(start, end);
+          });
+        }
       });
 
       view.on('submit', function() {
-        var result = view.$el.find('input:not([type=hidden])').first().val();
-
+        var result = $input.val();
         view.destroy();
         d.resolve(result);
       });
