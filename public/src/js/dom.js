@@ -63,6 +63,7 @@ function(config, utils, $, _, Backbone, bus) {
     if (!(view instanceof Backbone.View)) { return; }
     utils.log('destroying view:', view.template);
 
+    view.trigger('destroy');
     view.$el.empty();
     view.stopListening();
     view.undelegateEvents();

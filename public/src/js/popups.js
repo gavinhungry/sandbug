@@ -14,6 +14,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   var popups = utils.module('popups');
   var popupEl = '#popup';
   var popupKeyHander;
+  var currentView = null;
 
   /**
    * Base popup Model
@@ -33,16 +34,20 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     initialize: function(options) {
       var that = this;
+      this.template = this.template || options.template;
 
       this.render();
 
-      // remove popup on popups:destroy or Escape key
-      bus.on('popups:destroy', function() { that.destroy(); }, this);
       popupKeyHander =
         keys.register_handler({ key: 'esc' }, function(e) { that.destroy(); });
     },
 
     events: {
+      'submit form': function(e) {
+        e.preventDefault();
+        this.trigger('submit');
+      },
+
       'click': function(e) {
         // only destroy the popup if the background area is clicked
         if ($(e.target).is(popupEl)) { this.destroy(); }
@@ -58,9 +63,12 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       var that = this;
       keys.unregister_handler(popupKeyHander);
 
-      bus.trigger('navigate', 'back');
+      var data = this.model.toJSON();
+      if (data.route) { bus.trigger('navigate', 'back'); }
+
       popups.hide().always(function() {
         dom.destroy_view(that);
+        currentView = null;
         d.resolve(true);
       });
 
@@ -68,6 +76,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     },
 
     render: function() {
+      currentView = this;
+
       var that = this;
       var data = this.model.toJSON();
 
@@ -94,6 +104,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
             if (_.isFunction(that.post_transition)) { that.post_transition(); }
           });
 
+          that.$el.find('input:not([type=hidden])').first().focus();
+
           if (_.isFunction(that.post_render)) { that.post_render(); }
         });
 
@@ -111,7 +123,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Login popup
    */
   popups.LoginPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'login' }
+    defaults: { route: true, small: true, title: 'login' }
   });
 
   popups.LoginPopupView = popups.PopupView.extend({
@@ -125,7 +137,6 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     _events: {
       'submit #login_form': function(e) {
         var that = this;
-        e.preventDefault();
 
         utils.submit_form($(e.target)).done(function(username) {
           bus.trigger('user:login', username);
@@ -138,7 +149,6 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     post_render: function() {
       dom.cache(this, this.$el, { 'by_name': ['username', 'password'] });
-      this.$username.focus();
     },
 
     show_invalid_login: function() {
@@ -152,7 +162,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Sign Up popup
    */
   popups.SignupPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'create_account' }
+    defaults: { route: true, small: true, title: 'create_account' }
   });
 
   popups.SignupPopupView = popups.PopupView.extend({
@@ -166,7 +176,6 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     _events: {
       'submit #signup_form': function(e) {
         var that = this;
-        e.preventDefault();
 
         if (this.$username.val().length < 3) {
           return flash.message_bad(locales.string('invalid_username'),
@@ -199,8 +208,6 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       dom.cache(this, this.$el, {
         'by_name': ['username', 'email', 'password', 'confirm']
       });
-
-      this.$username.focus();
     }
   });
 
@@ -273,9 +280,44 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
   /**
    * Destroy the currently visible popup(s)
+   *
+   * @return {Promise}
    */
   popups.destroy = function() {
-    bus.trigger('popups:destroy');
+    return currentView instanceof popups.PopupView ?
+      currentView.destroy() : utils.resolve_now(true);
+  };
+
+  /**
+   * Get input from the user (single text input)
+   *
+   * @return {Promise} to return the value of an input field
+   */
+  popups.get_user_input = function(options) {
+    var d = $.Deferred();
+    options = options || {};
+
+    var model = new popups.Popup(_.extend({
+      route: false,
+      small: true,
+      placeholder: options.placeholder
+    }, options));
+
+    popups.destroy().done(function() {
+      var view = new popups.PopupView({
+        model: model,
+        template: 'popup-input'
+      });
+
+      view.on('submit', function() {
+        var result = view.$el.find('input:not([type=hidden])').first().val();
+
+        view.destroy();
+        d.resolve(result);
+      });
+    });
+
+    return d.promise();
   };
 
   return popups;
