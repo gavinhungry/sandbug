@@ -45,6 +45,8 @@ function(config, utils, $, _, bus, dom, locales, templates) {
     $.when(heading_m, body_m, template_p)
       .done(function(heading, body, template_fn)
     {
+      if (!heading) { return; }
+
       // don't do anything if this is the same message as last time
       if (heading === lastHeading && body === lastBody) {
         return start_dismiss_timeout();
