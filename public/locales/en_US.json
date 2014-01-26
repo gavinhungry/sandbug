@@ -18,5 +18,9 @@
   "signup":               "Sign Up",
   "create_account":       "Create a new account",
   "user_exists":          "Username or email in use",
-  "user_exists_msg":      "An account with this username or email already exists"
+  "user_exists_msg":      "An account with this username or email already exists",
+  "bug_not_found":        "Bug not found",
+  "bug_not_found_msg":    "The requested Bug could not be found on the server, it may have been deleted",
+  "bug_is_private":       "This Bug is private",
+  "bug_is_private_msg":   "Contact the Bug author to be added as a collaborator"
 }

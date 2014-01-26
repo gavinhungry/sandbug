@@ -46,7 +46,7 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
     panels.set_layout(config.default_layout, true);
     panels.update_resize_handlers();
     init_input_modes();
-    init_mobile_swipes();
+    if (config.mode.phone) { init_mobile_swipes(); }
   });
 
   /**

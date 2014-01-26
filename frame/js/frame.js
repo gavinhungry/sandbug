@@ -43,7 +43,10 @@
         var oe = e.originalEvent;
         if (!oe.origin) { return; }
 
-        compiler.compile_to_doc(oe.data).done(function(doc) {
+        // send ack to parent frame
+        oe.source.postMessage(oe.data.timestamp, oe.origin);
+
+        compiler.compile_to_doc(oe.data.map).done(function(doc) {
           $frame.attr('srcdoc', doc);
         });
       });

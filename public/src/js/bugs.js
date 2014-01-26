@@ -5,32 +5,61 @@
  */
 
 define([
-  'config', 'utils', 'jquery', 'underscore'
+  'config', 'utils', 'jquery', 'underscore',
+  'flash', 'frame', 'mirrors'
 ],
 function(
-  config, utils, $, _
+  config, utils, $, _, flash, frame, mirrors
 ) {
   'use strict';
 
   var bugs = utils.module('bugs');
 
+  var current_bug;
+
   /**
+   * Get a bug from the server matching a username and slug
    *
+   * @param {String} username - username for a bug
+   * @param {String} bugslug - slug id for a bug
    */
-  bugs.get_bug_by_slug = function(username, bugslug) {
+  bugs.get_by_slug = function(username, bugslug) {
     username = username || '';
     bugslug = _.slugify(bugslug);
 
-    var uri = _.sprintf('/api/users/%s/bugs/%s', username, bugslug);
+    var uri = username ?
+      _.sprintf('/api/users/%s/bugs/%s', username, bugslug) :
+      _.sprintf('/api/bugs/%s', bugslug);
 
-    $.get(uri).done(function(bug) {
+    return $.get(uri);
+  };
 
-      console.log(bug);
+  /**
+   * Display a Bug
+   *
+   * @param {Object} bug - Bug map
+   */
+  bugs.display = function(bug) {
+    _.each(bug.map, function(value, key) {
+      mirrors.set_mode(key, value.mode);
+      mirrors.set_content(key, value.content);
+    });
 
-    }).fail(function(err) {
+    current_bug = bug;
+    if (bug.autorun) { _.defer(frame.update); }
+  };
 
-      console.error(err);
-
+  /**
+   * Get a get bug from the server and display it
+   *
+   * @param {String} username - username for a bug
+   * @param {String} bugslug - slug id for a bug
+   */
+  bugs.display_by_slug = function(username, bugslug) {
+    bugs.get_by_slug(username, bugslug)
+    .done(bugs.display)
+    .fail(function(xhr) {
+      flash.locale_message_bad(xhr.responseJSON);
     });
   };
 

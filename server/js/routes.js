@@ -76,13 +76,13 @@ function(
   routes.get.bug = function(req, res) {
     var user = req.user || {};
 
-    bugs.get_bug_by_slug(req.params.username, req.params.bugslug)
+    bugs.get_by_slug(req.params.username, req.params.bugslug)
     .done(function(bug) {
       var err = new utils.LocaleMsg();
 
       if (!bug) { return res.status(404).json(err.set_id('bug_not_found')); }
-      if (bug.secret && bug.username !== user.username &&
-        !_.contains(bug.secret, user.username)) {
+      if (bug.private && bug.username !== user.username &&
+        !_.contains(bug.collaborators, user.username)) {
         return res.status(403).json(err.set_id('bug_is_private'));
       }
 

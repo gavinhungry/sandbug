@@ -26,7 +26,10 @@ function(config, utils, $, _, Backbone, bugs, bus, popups, user) {
       'login': function() { popups.popup('login'); },
       'logout': user.logout,
       'signup': function() { popups.popup('signup'); },
-      'users/:username/bugs/:bugslug' : bugs.get_bug_by_slug
+      'bugs/:bugslug': function(bugslug) {
+        bugs.display_by_slug(null, bugslug);
+      },
+      'users/:username/bugs/:bugslug': bugs.display_by_slug
     }
   });
 

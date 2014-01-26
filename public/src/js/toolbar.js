@@ -6,12 +6,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'dom', 'flash', 'panels', 'popups', 'templates', 'themes',
+  'backbone', 'bus', 'dom', 'panels', 'popups', 'templates', 'themes',
   'user'
 ],
 function(
   config, utils, $, _, Backbone,
-  bus, dom, flash, panels, popups, templates, themes, user
+  bus, dom, panels, popups, templates, themes, user
 ) {
   'use strict';
 
