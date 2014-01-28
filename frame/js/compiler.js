@@ -120,9 +120,9 @@
      * Compile inputs and build an output document
      *
      * @param {Object} inputs - map of inputs
-     * @return {Promise} to return a document string
+     * @return {Promise} to return a full document string
      */
-    compiler.compile_to_doc = function(inputs) {
+    compiler.compile_to_doc_str = function(inputs) {
       var d = $.Deferred();
 
       var compiling = _.map(inputs, function(input) {
@@ -137,8 +137,8 @@
         }, {});
 
         template_fn_p.done(function(template_fn) {
-          var doc = template_fn(locals);
-          d.resolve(doc);
+          var html = template_fn(locals);
+          d.resolve(html);
         });
       }).fail(d.reject);
 

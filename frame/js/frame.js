@@ -35,7 +35,7 @@
     }
   });
 
-  require(['jquery', 'compiler'], function($, compiler) {
+  require(['jquery', 'underscore', 'compiler'], function($, _, compiler) {
     $(function() {
       var $frame = $('#frame');
 
@@ -46,8 +46,17 @@
         // send ack to parent frame
         oe.source.postMessage(oe.data.timestamp, oe.origin);
 
-        compiler.compile_to_doc(oe.data.map).done(function(doc) {
-          $frame.attr('srcdoc', doc);
+        // clear the current document
+        $frame.attr('srcdoc', '').removeAttr('srcdoc');
+
+        compiler.compile_to_doc_str(oe.data.map).done(function(str) {
+          _.defer(function() {
+            var doc = $frame[0].contentDocument;
+
+            doc.open();
+            doc.write(str);
+            doc.close();
+          });
         });
       });
     });
