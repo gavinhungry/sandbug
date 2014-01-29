@@ -240,7 +240,9 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       var $form = view.$el.find('form');
 
       var serial = _.compact($form.serialize().split('&'));
-      var list = _.map(serial, function(token) { return token.split('='); });
+      var list = _.map(serial, function(token) {
+        return _.map(token.split('='), decodeURIComponent);
+      });
       var map = _.object(list);
 
       _.each(_.keys(map), function(prop) {
