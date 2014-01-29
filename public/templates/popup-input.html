@@ -1,0 +1,17 @@
+<form id='input_form'>
+  <% _.each(data.extra, function(i) { %>
+    <input name='<%= i.name %>' placeholder='<%= i.placeholder %>' autocomplete='off' spellcheck='false' class='plain full' maxlength='128' type='text'>
+  <% }) %>
+
+  <div class='popup-actionbar'>
+    <div class='btn-group right'>
+      <button type='submit' class='btn-small action'>Submit</button>
+    </div>
+
+    <div class='btn-group right'>
+      <button class='btn-small popup-cancel'>Cancel</button>
+    </div>
+
+    <div class='clear'></div>
+  </div>
+</form>

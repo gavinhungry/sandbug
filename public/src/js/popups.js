@@ -212,12 +212,36 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   });
 
   /**
+   * User prompt
+   */
+  popups.InputPopup = popups.Popup.extend({
+    defaults: { route: false, small: true, title: 'bug_name_pick' }
+  });
+
+  popups.InputPopupView = popups.PopupView.extend({
+    template: 'popup-input',
+
+    initialize: function(options) {
+      this.events = _.extend({}, this.events, this._events);
+
+      // FIXME: localize here
+
+      this.constructor.__super__.initialize.apply(this, arguments);
+    },
+
+    _events: {
+      'submit #input_form': function(e) { this.destroy(); }
+    }
+  });
+
+  /**
    * Build a popup and show it right away
    *
    * @param {String} name - name of the popup template to use
+   * @param {Object} [extra] - optional data to pass to template
    * @return {Promise} to resolve to a map of the submitted form
    */
-  popups.popup = function(name) {
+  popups.popup = function(name, extra) {
     var d = $.Deferred();
 
     var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
@@ -232,6 +256,8 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     }
 
     var model = new modelConstructor();
+    model.set('extra', extra);
+
     var view = new viewConstructor({ model: model });
 
     view.on('destroy', d.reject);
