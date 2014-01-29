@@ -215,8 +215,11 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Build a popup and show it right away
    *
    * @param {String} name - name of the popup template to use
+   * @return {Promise} to resolve to a map of the submitted form
    */
   popups.popup = function(name) {
+    var d = $.Deferred();
+
     var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
     var viewName = _.sprintf('%sView', modelName);
 
@@ -230,6 +233,24 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     var model = new modelConstructor();
     var view = new viewConstructor({ model: model });
+
+    view.on('destroy', d.reject);
+
+    view.on('submit', function() {
+      var $form = view.$el.find('form');
+
+      var serial = _.compact($form.serialize().split('&'));
+      var list = _.map(serial, function(token) { return token.split('='); });
+      var map = _.object(list);
+
+      _.each(_.keys(map), function(prop) {
+        if (_.first(prop) === '_') { delete map[prop]; }
+      });
+
+      d.resolve(map);
+    });
+
+    return d.promise();
   };
 
   /**
