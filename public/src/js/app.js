@@ -4,12 +4,12 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'cdn', 'dom', 'flash', 'frame', 'keys', 'locales',
+  'backbone', 'bugs', 'bus', 'cdn', 'dom', 'flash', 'frame', 'keys', 'locales',
   'mirrors', 'panels', 'router', 'templates', 'themes', 'toolbar'
 ],
 function(
   config, utils, $, _,
-  Backbone, bus, cdn, dom, flash, frame, keys, locales, mirrors, panels,
+  Backbone, bugs, bus, cdn, dom, flash, frame, keys, locales, mirrors, panels,
   router, templates, themes, toolbar
 ) {
   'use strict';
@@ -64,12 +64,17 @@ function(
     },
 
     events: {
-      'click #run': 'run'
+      'click #run': 'run',
+      'click #save': 'save'
     },
 
     // submit bug to the frame server
     run: function() {
       frame.update();
+    },
+
+    save: function() {
+      bugs.save();
     },
 
     register_keys: function() {

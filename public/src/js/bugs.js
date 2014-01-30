@@ -6,10 +6,10 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'flash', 'frame', 'mirrors'
+  'flash', 'frame', 'mirrors', 'popups'
 ],
 function(
-  config, utils, $, _, flash, frame, mirrors
+  config, utils, $, _, flash, frame, mirrors, popups
 ) {
   'use strict';
 
@@ -60,6 +60,19 @@ function(
     .done(bugs.display)
     .fail(function(xhr) {
       flash.locale_message_bad(xhr.responseJSON);
+    });
+  };
+
+  /**
+   * Save the currently displayed bug
+   *
+   * @return {Promise}
+   */
+  bugs.save = function() {
+    return popups.popup('input', 'bug_name_pick', [
+      { name: 'bug', placeholder: 'bug_name_example', filter: _.slugify }
+    ]).done(function(result) {
+      console.log(result);
     });
   };
 
