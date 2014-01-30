@@ -1,6 +1,8 @@
 <form id='input_form'>
-  <% _.each(data.extra, function(i) { %>
-    <input name='<%= i.name %>' placeholder='<%= i.placeholder %>' autocomplete='off' spellcheck='false' class='plain full' maxlength='128' type='text'>
+  <% _.each(data.extras, function(extra) { %>
+    <input name='<%= extra.name %>' placeholder='<%= extra.placeholder %>'
+      type='<%= extra.type || 'text' %>' autocomplete='off' spellcheck='false'
+      class='plain full' maxlength='128'>
   <% }) %>
 
   <div class='popup-actionbar'>

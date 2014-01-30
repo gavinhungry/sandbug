@@ -215,22 +215,52 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * User prompt
    */
   popups.InputPopup = popups.Popup.extend({
-    defaults: { route: false, small: true, title: 'bug_name_pick' }
+    defaults: { route: false, small: true, title: 'input' }
   });
 
   popups.InputPopupView = popups.PopupView.extend({
     template: 'popup-input',
 
     initialize: function(options) {
+      var that = this;
+
       this.events = _.extend({}, this.events, this._events);
+      this.extras = utils.ensure_array(this.model.get('extras'));
 
-      // FIXME: localize here
+      var placeholder_p = _.map(this.extras, function(extra) {
+        return locales.string(extra.placeholder).then(function(placeholder) {
+          extra.placeholder = placeholder;
+        });
+      });
 
-      this.constructor.__super__.initialize.apply(this, arguments);
+      $.when.apply(null, placeholder_p).done(function() {
+        that.constructor.__super__.initialize.apply(that, arguments);
+      });
     },
 
     _events: {
       'submit #input_form': function(e) { this.destroy(); }
+    },
+
+    post_render: function() {
+      var that = this;
+
+      _.each(this.extras, function(extra) {
+
+        if (_.isFunction(extra.filter)) {
+          var $input = that.$el.find(_.sprintf("input[name='%s']", extra.name));
+
+          $input.on('input', function(e) {
+            var $this = $(this);
+            var start = this.selectionStart, end = this.selectionEnd;
+
+            var val = extra.filter($this.val());
+            $this.val(val);
+
+            this.setSelectionRange(start, end);
+          });
+        }
+      });
     }
   });
 
@@ -238,10 +268,10 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
    * Build a popup and show it right away
    *
    * @param {String} name - name of the popup template to use
-   * @param {Object} [extra] - optional data to pass to template
+   * @param {Object} [extras] - optional data to pass to template
    * @return {Promise} to resolve to a map of the submitted form
    */
-  popups.popup = function(name, extra) {
+  popups.popup = function(name, title, extras) {
     var d = $.Deferred();
 
     var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
@@ -252,11 +282,12 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     if (!modelConstructor || !viewConstructor) {
       console.error('popups.%s / popups.%s do not exist', modelName, viewName);
-      return;
+      return utils.reject_now();
     }
 
     var model = new modelConstructor();
-    model.set('extra', extra);
+    if (title) { model.set('title', title); }
+    model.set('extras', extras);
 
     var view = new viewConstructor({ model: model });
 
@@ -333,53 +364,6 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
   popups.destroy = function() {
     return currentView instanceof popups.PopupView ?
       currentView.destroy() : utils.resolve_now(true);
-  };
-
-  /**
-   * Get input from the user (single text input)
-   *
-   * @return {Promise} to return the value of an input field
-   */
-  popups.get_user_input = function(options) {
-    var d = $.Deferred();
-    options = options || {};
-
-    var model = new popups.Popup(_.extend({
-      route: false,
-      small: true,
-      placeholder: options.placeholder
-    }, options));
-
-    popups.destroy().done(function() {
-      var $input;
-
-      var view = new popups.PopupView({
-        model: model,
-        template: 'popup-input',
-        post_render: function() {
-          $input = this.$el.find('input:not([type=hidden])').first();
-          $input.on('input', function() {
-            var $this = $(this);
-            var start = this.selectionStart, end = this.selectionEnd;
-
-            if (_.isFunction(options.filter)) {
-              var val = options.filter($this.val());
-              $this.val(val);
-            }
-
-            this.setSelectionRange(start, end);
-          });
-        }
-      });
-
-      view.on('submit', function() {
-        var result = $input.val();
-        view.destroy();
-        d.resolve(result);
-      });
-    });
-
-    return d.promise();
   };
 
   return popups;

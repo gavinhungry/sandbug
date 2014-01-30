@@ -1,4 +1,5 @@
 {
+  "input":                "Input",
   "invalid_creds":        "Invalid login credentials",
   "invalid_creds_msg":    "Check your username and password",
   "invalid_email":        "Invalid email address",
@@ -14,7 +15,7 @@
   "logout_error":         "Error logging out",
   "logout":               "Logout",
   "password_mismatch":    "Passwords do not match",
-  "settings":             "Setings",
+  "settings":             "Settings",
   "signup":               "Sign Up",
   "create_account":       "Create a new account",
   "user_exists":          "Username or email in use",
@@ -23,5 +24,6 @@
   "bug_not_found_msg":    "The requested Bug could not be found on the server, it may have been deleted",
   "bug_is_private":       "This Bug is private",
   "bug_is_private_msg":   "Contact the Bug author to be added as a collaborator",
-  "bug_name_pick":        "Choose a name for this Bug"
+  "bug_name_pick":        "Choose a name for this Bug",
+  "bug_name_example":     "my-bug-name"
 }
