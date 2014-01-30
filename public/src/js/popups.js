@@ -265,11 +265,9 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
     view.on('submit', function() {
       var $form = view.$el.find('form');
 
-      var serial = _.compact($form.serialize().split('&'));
-      var list = _.map(serial, function(token) {
+      var map = _.chain($form.serialize().split('&')).map(function(token) {
         return _.map(token.split('='), decodeURIComponent);
-      });
-      var map = _.object(list);
+      }).object().value();
 
       _.each(_.keys(map), function(prop) {
         if (_.first(prop) === '_') { delete map[prop]; }
