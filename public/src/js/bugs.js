@@ -70,7 +70,8 @@ function(
    */
   bugs.save = function() {
     return popups.popup('input', 'bug_name_pick', [
-      { name: 'bug', placeholder: 'bug_name_example', filter: _.slugify }
+      { name: 'title', placeholder: 'bug_title', copy_to: 'bug' },
+      { name: 'bug', placeholder: 'url_slug', filter: _.slugify }
     ]).done(function(result) {
       console.log(result);
     });

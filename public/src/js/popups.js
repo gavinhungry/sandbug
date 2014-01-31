@@ -247,19 +247,26 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
       _.each(this.extras, function(extra) {
 
-        if (_.isFunction(extra.filter)) {
-          var $input = that.$el.find(_.sprintf("input[name='%s']", extra.name));
+        var $input = that.$el.find(_.sprintf("input[name='%s']", extra.name));
 
-          $input.on('input', function(e) {
+        $input.on('input input-filter', function(e) {
+          var filtering = (e.type === 'input-filter');
+
+          if (_.isFunction(extra.filter)) {
             var $this = $(this);
             var start = this.selectionStart, end = this.selectionEnd;
 
             var val = extra.filter($this.val());
             $this.val(val);
 
-            this.setSelectionRange(start, end);
-          });
-        }
+            if (!filtering) { this.setSelectionRange(start, end); }
+          }
+
+          if (extra.copy_to) {
+            var $dest = that.$el.find(_.sprintf("input[name='%s']", extra.copy_to));
+            $dest.val($input.val()).trigger('input-filter');
+          }
+        });
       });
     }
   });
@@ -297,7 +304,9 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
       var $form = view.$el.find('form');
 
       var map = _.chain($form.serialize().split('&')).map(function(token) {
-        return _.map(token.split('='), decodeURIComponent);
+        return _.map(token.split('='), function(str) {
+          return decodeURIComponent(str.replace(/\+/g, ' '));
+        });
       }).object().value();
 
       _.each(_.keys(map), function(prop) {
