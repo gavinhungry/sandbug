@@ -45,35 +45,6 @@
       preserveLicenseComments: true,
       useStrict: true,
 
-      paths: {
-        jqueryjs: 'empty:',
-        underscorejs: 'empty:',
-        backbonejs: 'empty:',
-        codemirrorjs: 'empty:',
-
-        transit: 'empty:',
-        nano: 'empty:',
-        hammer: 'empty:',
-        string: 'empty:',
-
-        cm_overlay: 'empty:',
-        cm_search: 'empty:',
-
-        cm_xml: 'empty:',
-        cm_html: 'empty:',
-        cm_markdown: 'empty:',
-        cm_gfm: 'empty:',
-        cm_jade: 'empty:',
-        cm_ruby: 'empty:',
-        cm_haml: 'empty:',
-
-        cm_css: 'empty:',
-        cm_less: 'empty:',
-
-        cm_js: 'empty:',
-        cm_coffeescript: 'empty:'
-      },
-
       exclude: ['promise', 'inflection']
     });
   });
