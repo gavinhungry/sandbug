@@ -7,13 +7,12 @@
   "private": true,
 
   "devDependencies" : {
-    "grunt": "0.4.x",
-    "grunt-contrib-requirejs": "0.4.x",
-    "grunt-contrib-less": "0.9.x",
-    "grunt-yui-compressor": "0.3.x",
-    "grunt-contrib-clean": "0.5.x",
-    "grunt-git-describe": "2.3.x",
-    "less": "1.6.x"
+    "gulp": "3.5.x",
+    "gulp-clean": "0.2.x",
+    "gulp-less": "1.2.x",
+    "gulp-minify-css": "0.2.x",
+    "gulp-rename": "0.2.x",
+    "git-rev": "0.2.x"
   },
 
   "dependencies": {

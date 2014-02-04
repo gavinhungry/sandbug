@@ -27,9 +27,9 @@ Currently supported language modes are:
 Installation
 ------------
 
-    # npm -g install grunt-cli
+    # npm -g install gulp
     $ npm install
-    $ grunt
+    $ gulp
 
     $ node debuggerio.js
     > debugger.io running on port 8080
