@@ -13,7 +13,7 @@
       underscore: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min',
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
 
-      marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.min',
+      marked: '//cdnjs.cloudflare.com/ajax/libs/marked/0.3.1/marked.min',
       jade: '//cdnjs.cloudflare.com/ajax/libs/jade/1.1.5/jade.min',
       haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.1/haml.min',
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min',
