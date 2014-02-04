@@ -22,8 +22,8 @@
   gulp.task('clean', function() {
     return gulp.src([
       './build.json',
-      './public/js/debuggerio.min.js',
       './public/css',
+      './public/js/*.min.js',
       './frame/css/*.min.css'
     ], { read: false })
     .pipe(clean());
@@ -83,10 +83,10 @@
    */
   gulp.task('less', function() {
     gulp.src('./public/src/less/debuggerio.*.less')
-    .pipe(less())
-    .pipe(mincss())
-    .pipe(rename(dotmin))
-    .pipe(gulp.dest('./public/css'));
+      .pipe(less())
+      .pipe(mincss())
+      .pipe(rename(dotmin))
+      .pipe(gulp.dest('./public/css'));
   });
 
   /**
@@ -94,9 +94,9 @@
    */
   gulp.task('css', function() {
     gulp.src(['./frame/css/*.css', '!./**/*.min.css'])
-    .pipe(mincss())
-    .pipe(rename(dotmin))
-    .pipe(gulp.dest('./frame/css'));
+      .pipe(mincss())
+      .pipe(rename(dotmin))
+      .pipe(gulp.dest('./frame/css'));
   });
 
   /**
@@ -109,6 +109,14 @@
         rev: rev
       }));
     });
+  });
+
+  /**
+   * Watch for changes in JS and LESS files
+   */
+  gulp.task('watch', ['default'], function() {
+    gulp.watch('./public/src/js/*.js', ['js']);
+    gulp.watch('./public/src/less/*.less', ['less']);
   });
 
   /**
