@@ -15,84 +15,103 @@ function(
   var __dirname = path.dirname(module.uri);
   var bugs = {};
 
-  var mongoose_p = Q.defer();
-  mongoose.connect(db.dsn).connection
-  .once('error', mongoose_p.reject)
-  .once('open', function() {
+  var mongoose_p = (function() {
+    var d = Q.defer();
 
-    var sanitize_username = function(str) {
-      return auth.sanitize_username(str) || null;
-    };
+    mongoose.connect(db.dsn).connection
+    .once('error', d.reject)
+    .once('open', function() {
 
-    var random_slug = function() {
-      return '4'; // FIXME
-    };
+      var sanitize_username = function(str) {
+        return auth.sanitize_username(str) || null;
+      };
 
-    var bugSchema = mongoose.Schema({
-      username: { type: String, filter: sanitize_username },
-      slug: { type: String, filter: _.slugify, default: random_slug },
-      title: { type: String, default: 'Bug' },
+      var random_slug = function() {
+        return '4'; // FIXME
+      };
 
-      created: { type: Date, default: Date.now },
-      updated: { type: Date, default: Date.now },
+      var bugSchema = mongoose.Schema({
+        username: { type: String, filter: sanitize_username },
+        slug: { type: String, filter: _.slugify, default: random_slug },
+        title: { type: String, default: 'Bug' },
 
-      secret: { type: Boolean, default: false },
-      collaborators: { type: [String], default: [] },
+        created: { type: Date, default: Date.now },
+        updated: { type: Date, default: Date.now },
 
-      map: {
-        markup: {
-          mode: { type: String, enum: ['htmlmixed', 'gfm', 'jade', 'haml'] },
-          content: { type: String, default: '' }
-        },
+        secret: { type: Boolean, default: false },
+        collaborators: { type: [String], default: [] },
 
-        style: {
-          mode: { type: String, enum: ['css', 'less', 'scss'] },
-          content: { type: String, default: '' }
-        },
-
-        script: {
-          mode: {
-            type: String,
-            enum: [
-              'javascript', 'traceur', 'coffeescript', 'typescript',
-              'gorillascript'
-            ]
+        map: {
+          markup: {
+            mode: { type: String, enum: ['htmlmixed', 'gfm', 'jade', 'haml'] },
+            content: { type: String, default: '' }
           },
-          content: { type: String, default: '' }
-        }
-      }
-    });
 
-    bugSchema.pre('validate', function(next) {
-      var model = this;
+          style: {
+            mode: { type: String, enum: ['css', 'less', 'scss'] },
+            content: { type: String, default: '' }
+          },
 
-      _.chain(bugSchema.paths).filter(function(key) {
-        return _.first(key.path) !== '_';
-      }).each(function(key) {
-
-        var split = key.path.split('.');
-        var last = split.pop();
-        var base = utils.reduce(split.join('.'), model);
-
-        // use first enum value as default
-        if (key.enumValues && key.enumValues.length &&
-          !_.contains(key.enumValues, model[key.path])) {
-            base[last] = _.first(key.enumValues);
-        }
-
-        // allow for a filter function on strings
-        if (key.options.type === String && _.isFunction(key.options.filter)) {
-           base[last] = key.options.filter(model[key.path]);
+          script: {
+            mode: {
+              type: String,
+              enum: [
+                'javascript', 'traceur', 'coffeescript', 'typescript',
+                'gorillascript'
+              ]
+            },
+            content: { type: String, default: '' }
+          }
         }
       });
 
-      next();
+      bugSchema.pre('validate', function(next) {
+        var model = this;
+
+        _.chain(bugSchema.paths).filter(function(key) {
+          return _.first(key.path) !== '_';
+        }).each(function(key) {
+
+          var split = key.path.split('.');
+          var last = split.pop();
+          var base = utils.reduce(split.join('.'), model);
+
+          // use first enum value as default
+          if (key.enumValues && key.enumValues.length &&
+            !_.contains(key.enumValues, model[key.path])) {
+              base[last] = _.first(key.enumValues);
+          }
+
+          // allow for a filter function on strings
+          if (key.options.type === String && _.isFunction(key.options.filter)) {
+             base[last] = key.options.filter(model[key.path]);
+          }
+        });
+
+        next();
+      });
+
+      bugs.Bug = mongoose.model('bug', bugSchema);
+
+      d.resolve();
     });
 
-    bugs.Bug = mongoose.model('bug', bugSchema);
+    return d.promise;
+  })();
 
-    mongoose_p.resolve();
-  });
+  /**
+   * Create a new bug
+   *
+   * @param {Object} [opts] - options to model constructor
+   * @return {Promise} to return an instance of a Bug model
+   */
+  bugs.new_bug = function(opts) {
+    opts = opts || {};
+
+    return mongoose_p.then(function() {
+      return new bugs.Bug(opts);
+    });
+  };
 
   /**
    * Get a bug from a username and slug
