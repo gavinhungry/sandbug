@@ -15,7 +15,7 @@ function(
   var __dirname = path.dirname(module.uri);
   var db = {};
 
-  var dsn = _.sprintf('%s:%s@%s:%s/%s',
+  db.dsn = _.sprintf('%s:%s@%s:%s/%s',
     config.db.user, config.db.pass, config.db.host, config.db.port,
     config.db.name);
 
@@ -23,7 +23,7 @@ function(
   var connErr = null;
 
   try {
-    var mdb = mongo(dsn);
+    var mdb = mongo(db.dsn);
     var users = mdb.collection('users');
     var bugs = mdb.collection('bugs');
   } catch(err) {
