@@ -34,7 +34,11 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       overflow: hidden;
 
       > * { height: 100%; }
-      button { flex: 0 0 auto; }
+      button {
+        flex: 0 0 auto;
+        font-size: @font_size - 1px;
+      }
+
       .panel-controls { flex: 1 auto; }
     }
 
