@@ -59,6 +59,22 @@ function(config, $, _) {
   };
 
   /**
+   * Reduce a period-delimited string to an object
+   *
+   * @param {String} str - eg. 'module.run_method'
+   * @param {Object} [base] - base object to start from, defaults to `window`
+   * @return {Object} eg. `window.module.run_method`
+   */
+  utils.reduce = function(str, base) {
+    base = base || window;
+    if (!str || !_.isString(str)) { return base; }
+
+    return _.reduce(str.split('.'), function(obj, prop) {
+      return obj ? obj[prop] : null;
+    }, base);
+  };
+
+  /**
    * New module is just an empty object, but attach it to the global window
    * object if config.prod is false
    *

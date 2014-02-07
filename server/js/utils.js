@@ -74,6 +74,22 @@ function(
   };
 
   /**
+   * Reduce a period-delimited string to an object
+   *
+   * @param {String} str - eg. 'module.run_method'
+   * @param {Object} [base] - base object to start from, defaults to `global`
+   * @return {Object} eg. `global.module.run_method`
+   */
+  utils.reduce = function(str, base) {
+    base = base || global;
+    if (!str || !_.isString(str)) { return base; }
+
+    return _.reduce(str.split('.'), function(obj, prop) {
+      return obj ? obj[prop] : null;
+    }, base);
+  };
+
+  /**
    * Create a promise that resolves to a value now
    *
    * @param {Mixed} value - value that the promise will resolve to
