@@ -21,6 +21,7 @@
     "passport-local": "0.1.x",
     "connect-mobile-detection": "0.0.x",
     "mongojs": "0.10.x",
+    "mongoose": "3.8.x",
     "bcrypt-nodejs": "0.0.x",
     "requirejs": "2.1.x",
     "lodash": "2.4.x",
