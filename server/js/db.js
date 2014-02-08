@@ -148,7 +148,7 @@ function(
     var d = Q.defer();
 
     bugs.find({
-      username: username || '', slug: bugslug
+      username: username || null, slug: bugslug
     }, { _id: false }, function(err, bugs) {
       if (err) { return d.reject(err); }
       if (bugs.length !== 1) { return d.resolve(false); }

@@ -38,7 +38,8 @@ function(
         created: { type: Date, default: Date.now },
         updated: { type: Date, default: Date.now },
 
-        secret: { type: Boolean, default: false },
+        autorun: { type: Boolean, default: false },
+        'private': { type: Boolean, default: false },
         collaborators: { type: [String], default: [] },
 
         map: {
