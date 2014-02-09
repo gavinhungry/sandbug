@@ -20,7 +20,7 @@ function(
    * Log the current user out
    */
   user.logout = function() {
-    $.post('/api/logout', { _csrf: config.csrf }).done(function(data) {
+    $.post('/api/logout').done(function(data) {
       bus.trigger('user:logout');
     }).fail(function() {
       flash.message_bad(locales.string('logout_error'));

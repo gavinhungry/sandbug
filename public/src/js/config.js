@@ -106,5 +106,7 @@ function($, _) {
     d.resolve(config);
   });
 
+  $.ajaxSetup({ headers: { 'X-CSRF-Token': config.csrf } });
+
   return d.promise();
 });
