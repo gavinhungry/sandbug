@@ -14,7 +14,7 @@
   /**
    * Append '.min' to the base of a filename; use with `gulp-rename`
    */
-  var dotmin = function(dir, base, ext) { return base + '.min' + ext; };
+  var dotmin = function(path) { path.basename += '.min'; };
 
   /**
    * Clean existing build files
