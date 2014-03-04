@@ -11,7 +11,7 @@
     "gulp-clean": "0.2.x",
     "gulp-less": "1.2.x",
     "gulp-minify-css": "0.3.x",
-    "gulp-rename": "0.2.x",
+    "gulp-rename": "1.1.x",
     "git-rev": "0.2.x"
   },
 
