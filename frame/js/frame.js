@@ -19,7 +19,7 @@
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.3/less.min',
       sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.2.0/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
-      traceur_api: '/js/lib/compilers/traceur-api',
+      traceur_api: '/js/lib/compilers/traceur-api.min',
       coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min',
       'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/0.9.5/typescript.min',
       typestring: '/js/lib/compilers/typestring',
