@@ -21,7 +21,7 @@
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
       coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min',
-      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/0.9.5/typescript.min',
+      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/0.9.7/typescript.min',
       typestring: '/js/lib/compilers/typestring',
       gorillascript: '//cdnjs.cloudflare.com/ajax/libs/gorillascript/0.9.10/gorillascript.min'
     },
