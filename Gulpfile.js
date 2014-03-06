@@ -11,10 +11,7 @@
   var mincss = require('gulp-minify-css');
   var rename = require('gulp-rename');
 
-  /**
-   * Append '.min' to the base of a filename; use with `gulp-rename`
-   */
-  var dotmin = function(path) { path.basename += '.min'; };
+  var minified = { suffix: '.min' };
 
   /**
    * Clean existing build files
@@ -56,7 +53,7 @@
     gulp.src('./public/src/less/debuggerio.*.less')
       .pipe(less())
       .pipe(mincss())
-      .pipe(rename(dotmin))
+      .pipe(rename(minified))
       .pipe(gulp.dest('./public/css'));
   });
 
@@ -66,7 +63,7 @@
   gulp.task('css', function() {
     gulp.src(['./frame/css/*.css', '!./**/*.min.css'])
       .pipe(mincss())
-      .pipe(rename(dotmin))
+      .pipe(rename(minified))
       .pipe(gulp.dest('./frame/css'));
   });
 
