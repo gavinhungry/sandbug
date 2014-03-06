@@ -68,7 +68,9 @@ There is still a lot of work to do, including:
   - Save to Gist, Dropbox, Drive
   - Import from other services
   - Collaboration options
-  - More languages (locale support is in place)
+  - More locales
+  - Multiple files
+  - Local or server-side services
   - Better mobile support
   - Fixing all of the things that are already broken
 
