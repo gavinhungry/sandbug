@@ -28,9 +28,7 @@ function(
       // pass each mutation
       _.each(mutations, function(mutation) {
         // to each listener function
-        _.each(listeners, function(listener) {
-          if (_.isFunction(listener)) { listener(mutation); }
-        });
+        _.each(listeners, function(listener) { listener(mutation); });
       });
     });
 
@@ -44,6 +42,8 @@ function(
    * @return {Integer} unique listener id
    */
   observers.register_listener = function(callback) {
+    if (!_.isFunction(callback) { return; });
+
     var lid = last_lid++;
 
     utils.log('registering observer listener', lid);
