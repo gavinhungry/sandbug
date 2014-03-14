@@ -42,7 +42,7 @@ function(
    * @return {Integer} unique listener id
    */
   observers.register_listener = function(callback) {
-    if (!_.isFunction(callback) { return; });
+    if (!_.isFunction(callback)) { return; }
 
     var lid = last_lid++;
 
