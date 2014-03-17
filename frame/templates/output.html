@@ -14,13 +14,14 @@
       <script type='application/javascript' src='/js/lib/traceur-runtime.min.js'></script>
     <% } %>
 
+    <script type='application/javascript' src='/js/lib/loop-protect.min.js'></script>
     <script type='application/javascript'>
       document.addEventListener('DOMContentLoaded', function() {
         'use strict';
 
         try {
           (function() {
-            <%= script.output %>
+            <%= window.loopProtect.rewriteLoops(script.output) %>
           }).call(window);
         } catch(err) {
           // log and output error message
