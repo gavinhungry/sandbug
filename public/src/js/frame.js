@@ -28,6 +28,10 @@ function(config, utils, $, _, bus, mirrors) {
       // remove from list of pending messages
       pending = _.without(pending, oe.data);
     });
+
+    _.each(mirrors.get_all(), function(mirror) {
+      mirror.cm.on('change', frame.debounced_update);
+    });
   });
 
   /**
@@ -53,6 +57,8 @@ function(config, utils, $, _, bus, mirrors) {
     var interval = setInterval(post_fn, 100);
     post_fn();
   };
+
+  frame.debounced_update = _.debounce(frame.update, config.update_delay);
 
   return frame;
 });

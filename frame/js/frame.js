@@ -46,11 +46,12 @@
         // send ack to parent frame
         oe.source.postMessage(oe.data.timestamp, oe.origin);
 
-        // clear the current document
-        $frame.attr('srcdoc', '').removeAttr('srcdoc');
-
         compiler.compile_to_doc_str(oe.data.map).done(function(str) {
           _.defer(function() {
+
+            // clear the current document
+            $frame.attr('srcdoc', '').removeAttr('srcdoc');
+
             var doc = $frame[0].contentDocument;
 
             doc.open();
