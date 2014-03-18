@@ -29,6 +29,6 @@
     "q": "1.0.x",
     "express": "3.4.x",
     "consolidate": "0.10.x",
-    "validator": "3.4.x"
+    "validator": "3.5.x"
   }
 }
