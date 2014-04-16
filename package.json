@@ -27,7 +27,7 @@
     "lodash": "2.4.x",
     "underscore.string": "2.3.x",
     "q": "1.0.x",
-    "express": "3.4.x",
+    "express": "4.0.x",
     "consolidate": "0.10.x",
     "validator": "3.5.x"
   }
