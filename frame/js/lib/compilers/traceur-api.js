@@ -22,8 +22,11 @@
 define(['traceur'], function(traceur) {
   'use strict';
 
+  var AttachModuleNameTransformer =
+      traceur.codegeneration.module.AttachModuleNameTransformer;
   var ErrorReporter = traceur.util.TestErrorReporter;
   var FromOptionsTransformer = traceur.codegeneration.FromOptionsTransformer;
+  var PureES6Transformer = traceur.codegeneration.PureES6Transformer;
   var Parser = traceur.syntax.Parser;
   var SourceFile = traceur.syntax.SourceFile;
   var SourceMapGenerator = traceur.outputgeneration.SourceMapGenerator;
@@ -53,6 +56,7 @@ define(['traceur'], function(traceur) {
    */
   function compile(content, options) {
     options = merge({
+      outputLanguage: 'es5',
       modules: 'commonjs',
       filename: '<unknown file>',
       sourceMap: false
@@ -65,7 +69,16 @@ define(['traceur'], function(traceur) {
     var sourceFile = new SourceFile(options.filename, content);
     var parser = new Parser(sourceFile, errorReporter);
     var tree = parser.parseModule();
-    var transformer = new FromOptionsTransformer(errorReporter);
+    var moduleName = options.filename.replace(/\.js$/, '');
+    var transformer = new AttachModuleNameTransformer(moduleName);
+    tree = transformer.transformAny(tree);
+
+    if (options.outputLanguage.toLowerCase() === 'es6') {
+      transformer = new PureES6Transformer(errorReporter);
+    } else {
+      transformer = new FromOptionsTransformer(errorReporter);
+    }
+
     var transformedTree = transformer.transform(tree);
 
     if (errorReporter.hadError()) {
