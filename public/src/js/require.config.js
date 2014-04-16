@@ -57,6 +57,24 @@
       codemirror: 'libs/codemirror'
     },
 
+    map: {
+      '*': {
+        '../../lib/codemirror': 'codemirrorjs',
+        '../../addon/mode/overlay': 'cm_overlay',
+        '../search/search': 'cm_search',
+        '../xml/xml': 'cm_xml',
+        '../htmlmixed/htmlmixed': 'cm_html',
+        '../markdown/markdown': 'cm_markdown',
+        '../gfm/gfm': 'cm_gfm',
+        '../jade/jade': 'cm_jade',
+        '../ruby/ruby': 'cm_ruby',
+        '../haml/haml': 'cm_haml',
+        '../css/css': 'cm_css',
+        '../javascript/javascript': 'cm_js',
+        '../coffeescript/coffeescript': 'cm_coffeescript'
+      },
+    },
+
     shim: {
       // libraries
       jqueryjs: { exports: '$' },
