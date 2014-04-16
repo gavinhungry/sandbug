@@ -4,11 +4,13 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'bcrypt-nodejs', 'db', 'express', 'passport', 'passport-local', 'validator'
+  'bcrypt-nodejs', 'body-parser', 'cookie-parser', 'cookie-session', 'csurf',
+  'db', 'express', 'passport', 'passport-local', 'validator'
 ],
 function(
   module, path, config, utils, _, Q,
-  bcrypt, db, express, passport, local, validator
+  bcrypt, bodyParser, cookieParser, cookieSession, csurf, db, express, passport,
+  local, validator
 ) {
   'use strict';
 
@@ -52,17 +54,16 @@ function(
       });
     }));
 
-    server.use(express.json());
-    server.use(express.urlencoded());
-    server.use(express.cookieParser());
-    server.use(express.cookieSession({
+    server.use(bodyParser());
+    server.use(cookieParser());
+    server.use(cookieSession({
       secret: config.auth.secret,
       key: config.auth.cookie
     }));
 
     server.use(passport.initialize());
     server.use(passport.session());
-    server.use(express.csrf());
+    server.use(csurf());
   };
 
   auth.authenticate = passport.authenticate('local');
