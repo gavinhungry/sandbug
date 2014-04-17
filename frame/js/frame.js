@@ -17,7 +17,7 @@
       jade: '//cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min',
       haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.4/haml.min',
       less: '//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.0/less.min',
-      sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.2.0/sass.min',
+      sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.3.0/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
       coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min',
