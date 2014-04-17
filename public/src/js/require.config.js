@@ -28,7 +28,7 @@
 
       // plugins
       transit: '//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min',
-      nano: '//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.8.0/jquery.nanoscroller.min',
+      nano: '//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.7.6/jquery.nanoscroller.min',
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
       inflection: '../../js/plugins/underscore.inflection.min',
 
