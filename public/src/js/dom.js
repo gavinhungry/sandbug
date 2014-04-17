@@ -158,6 +158,8 @@ function(config, utils, $, _, Backbone, bus) {
    * @return {Boolean} true if $element is overflowing, false otherwise
    */
   dom.is_overflowing = function($element, closest) {
+    if (dom.is_detached($element)) { return false; }
+
     var $compare = closest ? $element.closest(closest) : $element;
     return $element[0].scrollHeight > $compare[0].offsetHeight;
   };
