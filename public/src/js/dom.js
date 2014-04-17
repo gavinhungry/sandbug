@@ -114,8 +114,12 @@ function(config, utils, $, _, Backbone, bus) {
    * @param {jQuery} $element - some .nano element in the DOM
    */
   dom.init_scrollbar = function($element) {
-    if (!$element.hasClass('nano') || !$element.children('.content').length) {
-      return;
+    if (!$element.hasClass('nano')) {
+      return console.error($element, 'already has scrollbar');
+    }
+
+    if (!$element.children('.content').length) {
+      return console.error($element, 'has no content to scroll');
     }
 
     // remove the old nanoscroller property if the content has been replaced
