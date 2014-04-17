@@ -24,7 +24,7 @@
       underscorejs: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min',
       backbonejs: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min',
       codemirrorjs: '//cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/codemirror.min',
-      hammer: '//cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.6/hammer.min',
+      hammer: '//cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.10/hammer.min',
 
       // plugins
       transit: '//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min',
