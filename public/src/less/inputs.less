@@ -11,7 +11,7 @@ input[type='search'], input[type='email'] {
     background: @input_bg_color;
     color: @input_text_color;
     padding: 2px 4px;
-    font-family: @system_font;  
+    font-family: @system_font;
     font-size: @font_size;
 
     border: 1px solid fade(@input_border_color, 80%);
@@ -72,5 +72,30 @@ input[type='search'], input[type='email'] {
     &:-ms-input-placeholder {
       opacity: 0.4; color: @input_plain_placeholder_color;
     }
+  }
+}
+
+input[type='checkbox'] {
+  display: none;
+
+  + label {
+    transition: none;
+    user-select: none;
+    margin: 4px;
+    width: 20px;
+    height: 20px;
+    max-height: 20px;
+    background: @checkbox_bg_color;
+    border: 2px solid @checkbox_border_color;
+    box-shadow: 1px 1px @checkbox_border_color, 2px 2px @checkbox_border_color;
+    border-radius: 3px;
+  }
+
+  &:hover + label { background: @checkbox_bg_hover_color; }
+  &:active + label { background: @checkbox_bg_active_color; }
+
+  &:checked + label {
+    background-image: url(@checkbox_checkmark_image);
+    background-repeat: no-repeat;
   }
 }
