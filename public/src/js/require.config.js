@@ -27,6 +27,7 @@
       hammer: '//cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.10/hammer.min',
 
       // plugins
+      ui: '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min',
       transit: '//cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min',
       nano: '//cdnjs.cloudflare.com/ajax/libs/jquery.nanoscroller/0.7.6/jquery.nanoscroller.min',
       string: '//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.3/underscore.string.min',
@@ -83,6 +84,7 @@
       codemirrorjs: { exports: 'CodeMirror' },
 
       // plugins
+      ui: { deps: ['jqueryjs'], exports: '$.ui' },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
       nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
       hammer: { deps: ['jqueryjs'] },
