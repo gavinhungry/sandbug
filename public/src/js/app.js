@@ -55,6 +55,10 @@ function(
         });
       });
 
+      bus.on('config:autorun', function(autorun) {
+        that.$auto.prop('checked', autorun);
+      });
+
       this.render(function() {
         bus.trigger('init', this);
 
@@ -65,7 +69,8 @@ function(
 
     events: {
       'click #run': 'run',
-      'click #save': 'save'
+      'click #save': 'save',
+      'change #auto': function(e) { config.autorun = e.target.checked; }
     },
 
     // submit bug to the frame server
@@ -110,14 +115,16 @@ function(
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           'by_id': [
-            'title', 'markup', 'style', 'script', 'input', 'output', 'save'
+            'title', 'markup', 'style', 'script', 'input', 'output', 'save',
+            'auto'
           ],
           'by_class': ['panel', 'input-panel', 'panel-options']
         });
 
         this.$save[!config.username ? 'transitOut' : 'transitIn']();
-
         this.$iframe = this.$output.children('iframe');
+        this.$auto.prop('checked', config.autorun);
+
         _.isFunction(callback) && callback.call(this);
       });
 

@@ -44,6 +44,9 @@
     "base_locale": "en_US",
 
     // Default locale to use
-    "locale": "en_US"
+    "locale": "en_US",
+
+    // Autorun bugs by default
+    "autorun": false
   }
 }

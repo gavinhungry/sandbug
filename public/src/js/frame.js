@@ -30,14 +30,15 @@ function(config, utils, $, _, bus, mirrors) {
     });
 
     _.each(mirrors.get_all(), function(mirror) {
-      mirror.cm.on('change', frame.debounced_update);
+      mirror.cm.on('change', frame.auto_update);
     });
   });
 
   /**
    * Send all input to the iframe for compilation
+   * @param {Boolean} [noscript] - if true, exclude script from running
    */
-  frame.update = function() {
+  frame.update = function(noscript) {
     var timestamp = (new Date()).toISOString();
     pending.push(timestamp);
 
@@ -46,10 +47,13 @@ function(config, utils, $, _, bus, mirrors) {
         return clearInterval(interval);
       }
 
+      var map = mirrors.get_map();
+      if (noscript) { map['script'].content = ''; }
+
       utils.log('postMessage', timestamp);
       frameWindow.postMessage({
         timestamp: timestamp,
-        map: mirrors.get_map()
+        map: map
       }, config.frame);
     };
 
@@ -58,7 +62,9 @@ function(config, utils, $, _, bus, mirrors) {
     post_fn();
   };
 
-  frame.debounced_update = _.debounce(frame.update, config.update_delay);
+  frame.auto_update = _.debounce(function() {
+    frame.update(!config.autorun);
+  }, config.update_delay);
 
   return frame;
 });
