@@ -13,7 +13,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
   var cdn = utils.module('cdn');
 
-  var cdnjs = '%s://cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
+  var cdnjs = '//cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
   var cache = null;
 
   bus.init(function(av) {
@@ -196,10 +196,9 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       'click': 'select_lib'
     },
 
-    get_uri: function(secure) {
+    get_uri: function() {
       var pkg = this.model.toJSON();
-      var protocol = !!secure ? 'https' : 'http';
-      return _.sprintf(cdnjs, protocol, pkg.name, pkg.version, pkg.filename);
+      return _.sprintf(cdnjs, pkg.name, pkg.version, pkg.filename);
     },
 
     select_lib: function() {
