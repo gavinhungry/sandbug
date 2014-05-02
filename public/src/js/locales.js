@@ -53,6 +53,7 @@ function(
         try {
           var locale = JSON.parse(localeStr);
         } catch(err) {
+          console.error('"' + id + '" locale contains malformed JSON!');
           d.reject(err);
           return;
         }
