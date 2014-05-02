@@ -30,7 +30,14 @@ function(config, utils, $, _, bus, mirrors) {
     });
 
     _.each(mirrors.get_all(), function(mirror) {
-      mirror.cm.on('change', frame.auto_update);
+      mirror.cm.on('changes', function(changes) {
+
+        var changed = !!_.find(utils.ensure_array(changes), function(change) {
+          return !!change.display.prevInput;
+        });
+
+        if (changed) { frame.auto_update(); }
+      });
     });
   });
 
