@@ -563,7 +563,7 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
     else if (layout === 'layout-left') {
       $master.transition({ 'left' : '40%' }, dur);
       $inputs.transition({ 'width': '40%' }, dur);
-      $output.transition({ 'right': 0 }, dur, callback);
+      $output.transition({ 'margin-right': '60%' }, dur, callback);
     }
   };
 
