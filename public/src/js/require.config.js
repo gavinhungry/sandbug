@@ -20,7 +20,7 @@
       promise: '../../js/plugins/requirejs-promise.min',
 
       // libraries
-      jqueryjs: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min',
+      jqueryjs: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min',
       underscorejs: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min',
       backbonejs: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min',
       codemirrorjs: '//cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/codemirror.min',
