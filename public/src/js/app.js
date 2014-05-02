@@ -56,7 +56,7 @@ function(
       });
 
       bus.on('config:autorun', function(autorun) {
-        that.$auto.prop('checked', autorun);
+        that.$auto.toggleClass('checked', autorun);
       });
 
       this.render(function() {
@@ -70,7 +70,7 @@ function(
     events: {
       'click #run': 'run',
       'click #save': 'save',
-      'change #auto': function(e) { config.autorun = e.target.checked; }
+      'click #auto': function(e) { config.autorun = !config.autorun; }
     },
 
     // submit bug to the frame server

@@ -82,6 +82,26 @@ button {
   &.danger { .button(@button_danger_base_color); }
   &.purple { .button(@button_purple_base_color); }
   &.slate { .button(@button_slate_base_color); }
+
+  &.toggle {
+    &::before {
+      content: '';
+      opacity: 0.75;
+      font-size: 0;
+      line-height: 0;
+      vertical-align: top;
+      background-color: #DDD;
+      margin: -2px 6px 0 -2px;
+      padding: 4px 3px 5px 5px;
+      border: 2px solid #DDD;
+      border-radius: 1px;
+      box-shadow: 0 0 0 1px #555, 0 0 2px #555;
+    }
+
+    &.checked::before {
+      background-color: #555;
+    }
+  }
 }
 
 .right > button, button.right {
