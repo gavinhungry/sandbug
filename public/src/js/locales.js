@@ -48,16 +48,7 @@ function(
       var localeUri = _.sprintf('%s/%s.json', dir, id);
       if (!config.prod) { localeUri += '?v=' + (new Date()).getTime(); }
 
-      $.get(localeUri).done(function(localeStr, status, xhr) {
-
-        try {
-          var locale = JSON.parse(localeStr);
-        } catch(err) {
-          console.error('"' + id + '" locale contains malformed JSON!');
-          d.reject(err);
-          return;
-        }
-
+      $.getJSON(localeUri).done(function(locale, status, xhr) {
         if (id !== config.base_locale) {
           locales.get(config.base_locale).done(function(baseLocale) {
             d.resolve(_.extend(baseLocale, locale));
