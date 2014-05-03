@@ -90,16 +90,21 @@ button {
       font-size: 0;
       line-height: 0;
       vertical-align: top;
-      background-color: #DDD;
+      background-color: @toggle_bg_color;
       margin: -2px 6px 0 -2px;
       padding: 4px 3px 5px 5px;
-      border: 2px solid #DDD;
+      border: 2px solid @toggle_bg_color;
       border-radius: 1px;
-      box-shadow: 0 0 0 1px #555, 0 0 2px #555;
+      box-shadow: 0 0 0 1px lighten(@toggle_checked_bg_color, 5%),
+        0 0 2px darken(@toggle_checked_bg_color, 5%);
     }
 
     &.checked::before {
-      background-color: #555;
+      background-color: @toggle_checked_bg_color;
+    }
+
+    &:active::before {
+      background-color: lighten(@toggle_checked_bg_color, 25%);
     }
   }
 }
