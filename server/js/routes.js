@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth','bugs', 'cdn'
+  'auth','bugs'
 ],
 function(
   module, path, config, utils, _, Q,
-  auth, bugs, cdn
+  auth, bugs
 ) {
   'use strict';
 
@@ -27,13 +27,6 @@ function(
       mode: { mobile: !!req.mobile, phone: !!req.phone, tablet: !!req.tablet },
       themes: config.themes
     });
-  };
-
-  // GET /cdn - list of CDN packages
-  routes.get.cdn = function(req, res) {
-    cdn.get_cache().then(function(packages) {
-      res.json(packages);
-    }, utils.server_error_handler(res)).done();
   };
 
   // GET /config - additional client-side config options

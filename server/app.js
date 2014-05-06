@@ -36,7 +36,6 @@ function(
 
   // routes
   server.get('/', routes.get.index);
-  server.get('/api/cdn', routes.get.cdn);
   server.get('/api/config', routes.get.config);
   server.post('/api/signup', routes.post.signup);
   server.post('/api/login', auth.authenticate, routes.post.login);

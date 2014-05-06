@@ -32,7 +32,10 @@
     "default_theme": "dark",
 
     // Number of filtered CDN results to display at once
-    "cdn_results": 32,
+    "cdn_results": 16,
+
+    // Debounce time for fetching CDN results, in ms
+    "cdn_delay": 250,
 
     // Duration for flash messages before auto-dismissed, in ms
     "flash_duration": 8000,

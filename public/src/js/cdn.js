@@ -1,7 +1,7 @@
 /*
  * debugger.io: An interactive web scripting sandbox
  *
- * cdn.js: client-side CDN cache and filter
+ * cdn.js: client-side CDN filter
  */
 
 define([
@@ -13,8 +13,12 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
   var cdn = utils.module('cdn');
 
-  var cdnjs = '//cdnjs.cloudflare.com/ajax/libs/%s/%s/%s';
-  var cache = null;
+  var api_fields = ['name','mainfile','lastversion','description'];
+
+  var jsdelivr = '//cdn.jsdelivr.net/%s/%s/%s';
+  var jsdelivr_api = 'http://api.jsdelivr.com/v1/jsdelivr/libraries?name=%s*'
+    + '&fields=' + api_fields.join(',')
+    + '&limit=' + config.cdn_results;
 
   bus.init(function(av) {
     utils.log('init cdn module');
@@ -22,53 +26,6 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     var filterModel = new cdn.FilterInput();
     var filterView = new cdn.FilterInputView({ model: filterModel });
   });
-
-  /**
-   * Check if client-side CDN package cache exists
-   *
-   * @return {Boolean} true if cache exists, false otherwise
-   */
-  cdn.cache_exists = function() {
-    return _.isArray(cache) && cache.length > 0;
-  };
-
-  /**
-   * Return a cached version of CDN packages
-   *
-   * @param {Boolean} update - if true, force the cache to update first
-   * @return {Promise} promise to return the CDN packages {Array}
-   */
-  cdn.get_cache = function(update) {
-    var d = $.Deferred();
-
-    if (!update && cdn.cache_exists()) {
-      d.resolve(cache);
-    } else {
-      cdn.update_cache().done(function(packages) {
-        d.resolve(utils.ensure_array(packages));
-      }).fail(function(err) {
-        d.resolve(utils.ensure_array(cache));
-      });
-    }
-
-    return d.promise();
-  };
-
-  /**
-   * Update the CDN package cache now
-   *
-   * @return {Promise}
-   */
-  cdn.update_cache = function() {
-    var d = $.Deferred();
-
-    $.get('/api/cdn').done(function(packages) {
-      cache = packages;
-      d.resolve(packages);
-    }).fail(d.reject);
-
-    return d.promise();
-  };
 
   /**
    * Current filter value
@@ -119,18 +76,23 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     },
 
     update: function() {
-      var that = this;
       var filter = _.trim(this.model.get('value')).toLowerCase();
 
-      cdn.get_cache().done(function(packages) {
-        // filter for the packages that match the input
-        var filtered = _.filter(packages, function(pkg) {
-          return !!pkg.name && !!pkg.filename && !!pkg.version &&
-            _.str.include(pkg.name.toLowerCase(), filter);
-        });
+      if (!filter) {
+        this.clear();
+        bus.trigger('cdn:abort');
+        return;
+      }
 
-        // sort filtered packages by comparing them with the filter string
-        var sorted = _.sortBy(filtered, function(pkg) {
+      this.display(filter); // debounced
+    },
+
+    display: _.debounce(function(filter) {
+      var that = this;
+
+      $.getJSON(_.sprintf(jsdelivr_api, filter)).done(function(packages) {
+        // sort packages by comparing them with the filter string
+        var sorted = _.sortBy(packages, function(pkg) {
           return _.levenshtein(filter, pkg.name.toLowerCase());
         });
 
@@ -140,7 +102,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
         that.resultsView.set_filter(filter);
         that.resultsCollection.reset(limited);
       });
-    },
+    }, config.cdn_delay),
 
     render: function() {
       var that = this;
@@ -155,13 +117,11 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
           that.$cdn.select();
         });
 
-        cdn.get_cache().done(function(packages) {
-          that.$cdn.prop('disabled', false);
+        that.$cdn.prop('disabled', false);
 
-          that.resultsCollection = new cdn.FilterResults([]);
-          that.resultsView = new cdn.FilterResultsView({
-            collection: that.resultsCollection
-          });
+        that.resultsCollection = new cdn.FilterResults([]);
+        that.resultsView = new cdn.FilterResultsView({
+          collection: that.resultsCollection
         });
       });
     }
@@ -173,8 +133,8 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   cdn.FilterResult = Backbone.Model.extend({
     defaults: {
       name: '',
-      filename: '',
-      version: '',
+      mainfile: '',
+      lastversion: '',
       active: false
     }
   });
@@ -198,7 +158,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     get_uri: function() {
       var pkg = this.model.toJSON();
-      return _.sprintf(cdnjs, pkg.name, pkg.version, pkg.filename);
+      return _.sprintf(jsdelivr, pkg.name, pkg.lastversion, pkg.mainfile);
     },
 
     select_lib: function() {
@@ -243,7 +203,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       bus.on('cdn:results:next-active', this.next_active, this);
       bus.on('cdn:results:select-active', this.select_active, this);
 
-      bus.on('cdn:result:select mirror:focus', this.hide, this);
+      bus.on('cdn:result:select mirror:focus cdn:abort', this.hide, this);
 
       this.$content = this.$el.children('.content');
       this.filter = '';

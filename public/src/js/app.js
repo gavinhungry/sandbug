@@ -25,9 +25,6 @@ function(
 
       var that = this;
 
-      // fetch the CDN package cache right away
-      cdn.update_cache();
-
       bus.on('user:login', function(username) {
         config.username = username;
 
