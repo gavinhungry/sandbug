@@ -28,6 +28,11 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     var filterModel = new cdn.FilterInput();
     var filterView = new cdn.FilterInputView({ model: filterModel });
+
+    bus.on('config:cdn', function(cdn) {
+      if (providers[cdn]) { return filterView.render(); }
+      config.cdn = _.first(Object.keys(providers));
+    });
   });
 
   /**
