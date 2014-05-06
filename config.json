@@ -31,6 +31,9 @@
     // One of: [light, dark]
     "default_theme": "dark",
 
+    // Default CDN to use (one of 'jsdelivr', 'cdnjs')
+    "cdn": "jsdelivr",
+
     // Number of filtered CDN results to display at once
     "cdn_results": 16,
 

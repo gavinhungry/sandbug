@@ -14,9 +14,12 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   var cdn = utils.module('cdn');
 
   var api_fields = ['name','mainfile','lastversion','description'];
+  var providers = {
+    'jsdelivr': '//cdn.jsdelivr.net/%s/%s/%s',
+    'cdnjs': '//cdnjs.cloudflare.com/ajax/libs/%s/%s/%s'
+  }
 
-  var jsdelivr = '//cdn.jsdelivr.net/%s/%s/%s';
-  var jsdelivr_api = 'http://api.jsdelivr.com/v1/jsdelivr/libraries?name=%s*'
+  var jsdelivr_api = 'http://api.jsdelivr.com/v1/%s/libraries?name=%s*'
     + '&fields=' + api_fields.join(',')
     + '&limit=' + config.cdn_results;
 
@@ -90,7 +93,8 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     display: _.debounce(function(filter) {
       var that = this;
 
-      $.getJSON(_.sprintf(jsdelivr_api, filter)).done(function(packages) {
+      var uri = _.sprintf(jsdelivr_api, config.cdn, filter);
+      $.getJSON(uri).done(function(packages) {
         // sort packages by comparing them with the filter string
         var sorted = _.sortBy(packages, function(pkg) {
           return _.levenshtein(filter, pkg.name.toLowerCase());
@@ -158,7 +162,9 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     get_uri: function() {
       var pkg = this.model.toJSON();
-      return _.sprintf(jsdelivr, pkg.name, pkg.lastversion, pkg.mainfile);
+      var provider = providers[config.cdn];
+
+      return _.sprintf(provider, pkg.name, pkg.lastversion, pkg.mainfile);
     },
 
     select_lib: function() {
