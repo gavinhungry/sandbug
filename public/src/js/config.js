@@ -106,7 +106,13 @@ function($, _) {
     d.resolve(config);
   });
 
-  $.ajaxSetup({ headers: { 'X-CSRF-Token': config.csrf } });
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!settings.crossDomain) {
+        xhr.setRequestHeader('X-CSRF-Token', config.csrf);
+      }
+    }
+  });
 
   return d.promise();
 });
