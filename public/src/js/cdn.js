@@ -13,11 +13,19 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
   var cdn = utils.module('cdn');
 
+  cdn.providers = {
+    'jsdelivr': {
+      name: 'jsDelivr',
+      uri: '//cdn.jsdelivr.net/%s/%s/%s'
+    },
+
+    'cdnjs': {
+      name: 'CDNJS',
+      uri: '//cdnjs.cloudflare.com/ajax/libs/%s/%s/%s'
+    }
+  };
+
   var api_fields = ['name','mainfile','lastversion','description'];
-  var providers = {
-    'jsdelivr': '//cdn.jsdelivr.net/%s/%s/%s',
-    'cdnjs': '//cdnjs.cloudflare.com/ajax/libs/%s/%s/%s'
-  }
 
   var jsdelivr_api = 'http://api.jsdelivr.com/v1/%s/libraries?name=%s*'
     + '&fields=' + api_fields.join(',')
@@ -29,9 +37,9 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     var filterModel = new cdn.FilterInput();
     var filterView = new cdn.FilterInputView({ model: filterModel });
 
-    bus.on('config:cdn', function(cdn) {
-      if (providers[cdn]) { return filterView.render(); }
-      config.cdn = _.first(Object.keys(providers));
+    bus.on('config:cdn', function(val) {
+      if (cdn.providers[val]) { return filterView.render(); }
+      config.cdn = _.first(Object.keys(cdn.providers));
     });
   });
 
@@ -117,7 +125,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       var that = this;
 
       templates.get(this.template, this).done(function(template_fn) {
-        var html = template_fn();
+        var html = template_fn({ current_cdn: cdn.providers[config.cdn].name });
         this.$el.html(html);
         this.$cdn = this.$el.find('#cdn');
 
@@ -167,9 +175,9 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     get_uri: function() {
       var pkg = this.model.toJSON();
-      var provider = providers[config.cdn];
+      var provider = cdn.providers[config.cdn];
 
-      return _.sprintf(provider, pkg.name, pkg.lastversion, pkg.mainfile);
+      return _.sprintf(provider.uri, pkg.name, pkg.lastversion, pkg.mainfile);
     },
 
     select_lib: function() {
