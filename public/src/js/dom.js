@@ -228,24 +228,45 @@ function(config, utils, $, _, Backbone, bus) {
   };
 
   /**
+   * Transition the width of a button while changing its label
    *
-   * @param {jQuery} $cycle -
-   * @param {String} label -
+   * @param {jQuery} $button - button element
+   * @param {String} label - new label to set
    */
-  dom.transition_button_label = function($cycle, label) {
-    $cycle = utils.ensure_jquery($cycle);
+  dom.transition_button_label = function($button, label) {
+    $button = utils.ensure_jquery($button);
 
     // set a fixed width now, change the label and transition
     // to an "auto-esque" state
-    var width = $cycle.outerWidth();
-    $cycle.css({ 'min-width': width, 'max-width': width });
+    var width = $button.outerWidth();
+    $button.css({ 'min-width': width, 'max-width': width });
 
-    $cycle.text(label);
+    $button.text(label);
 
     // HACK: wait for a repaint
     _.delay(function() {
-      $cycle.stop().transition({ 'min-width': 0, 'max-width': 300 });
+      $button.stop().transition({ 'min-width': 0, 'max-width': 300 });
     }, 10);
+  };
+
+  /**
+   * Set a placeholder from a data-placeholder template
+   *
+   * @param {jQuery} $element - some element with a data-placeholder attribute
+   * @param {Array} values - values to pass to _.sprintf
+   * @return {String} the new placeholder
+   */
+  dom.set_templated_placeholder = function($element, values) {
+    var placeholder = $element.attr('data-placeholder');
+    if (!placeholder) { return; }
+
+    var args = utils.ensure_array(values);
+    args.unshift(placeholder);
+
+    placeholder = _.sprintf.apply(null, args);
+    $element.attr('placeholder', placeholder);
+
+    return placeholder;
   };
 
   return dom;
