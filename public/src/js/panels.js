@@ -65,19 +65,8 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
       $cycle.on('click', function(e) { mirrors.cycle_mode(panel); });
 
       bus.on(_.sprintf('mirrors:%s:mode', panel), function(mode, label) {
-        // set a fixed width now, change the label and transition
-        // to an "auto-esque" state
-        var width = $cycle.outerWidth();
-        $cycle.css({ 'min-width': width, 'max-width': width });
-
-        // update the cycle label and hidden input
+        dom.transition_button_label($cycle, label);
         $mode.val(mode);
-        $cycle.text(label);
-
-        // HACK: wait for a repaint
-        _.delay(function() {
-          $cycle.stop().transition({ 'min-width': 0, 'max-width': 300 });
-        }, 10);
       });
     });
   };

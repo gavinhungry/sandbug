@@ -39,7 +39,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
         font-size: @font_size - 1px;
       }
 
-      .panel-controls { flex: 1 auto; }
+      .panel-controls {
+        display: flex;
+        flex: 1 auto;
+      }
     }
 
     .CodeMirror, iframe {

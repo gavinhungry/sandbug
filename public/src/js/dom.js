@@ -227,5 +227,26 @@ function(config, utils, $, _, Backbone, bus) {
     $nano.nanoScroller({ scrollTop: value });
   };
 
+  /**
+   *
+   * @param {jQuery} $cycle -
+   * @param {String} label -
+   */
+  dom.transition_button_label = function($cycle, label) {
+    $cycle = utils.ensure_jquery($cycle);
+
+    // set a fixed width now, change the label and transition
+    // to an "auto-esque" state
+    var width = $cycle.outerWidth();
+    $cycle.css({ 'min-width': width, 'max-width': width });
+
+    $cycle.text(label);
+
+    // HACK: wait for a repaint
+    _.delay(function() {
+      $cycle.stop().transition({ 'min-width': 0, 'max-width': 300 });
+    }, 10);
+  };
+
   return dom;
 });

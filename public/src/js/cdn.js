@@ -67,8 +67,15 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     },
 
     events: {
-      'input #cdn': 'keypress',
-      'keydown #cdn': 'keypress'
+      'input #cdn-filter': 'keypress',
+      'keydown #cdn-filter': 'keypress',
+      'click #cdn': function(e) {
+        e.preventDefault();
+
+        var keys = Object.keys(cdn.providers);
+        var i = (keys.indexOf(config.cdn) + 1) % keys.length;
+        config.cdn = keys[i];
+      }
     },
 
     keypress: function(e) {
@@ -127,10 +134,14 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       templates.get(this.template, this).done(function(template_fn) {
         var html = template_fn({ current_cdn: cdn.providers[config.cdn].name });
         this.$el.html(html);
-        this.$cdn = this.$el.find('#cdn');
+        this.$cdn = this.$el.find('#cdn-filter');
+
+        keys.unregister_handler(this.handler);
 
         // focus the input on key command
-        keys.register_handler({ ctrl: true, key: '/' }, function(e) {
+        this.handler = keys.register_handler({
+          ctrl: true, key: '/'
+        }, function(e) {
           that.$cdn.select();
         });
 
