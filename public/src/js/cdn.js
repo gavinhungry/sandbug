@@ -245,6 +245,11 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     },
 
     show: function() {
+      var num_results = this.$el.find('li:not(:empty)').length;
+      while (num_results !== this.collection.models.length) {
+        return _.defer(this.show.bind(this));
+      }
+
       this.$el.css({ 'display': 'block' });
 
       // adjust margins when overflowing
