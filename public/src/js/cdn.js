@@ -38,7 +38,14 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     var filterView = new cdn.FilterInputView({ model: filterModel });
 
     bus.on('config:cdn', function(val) {
-      if (cdn.providers[val]) { return filterView.render(); }
+      if (cdn.providers[val]) {
+        var cdnName = cdn.providers[val].name;
+
+        dom.set_templated_placeholder(filterView.$filter, cdnName);
+        dom.transition_button_label(filterView.$cdn, cdnName);
+        bus.trigger('cdn:abort');
+        return;
+      }
       config.cdn = _.first(Object.keys(cdn.providers));
     });
   });
@@ -60,6 +67,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     el: '#markup .panel-controls',
 
     initialize: function(options) {
+      bus.on('cdn:abort', this.clear, this);
       bus.on('cdn:result:select mirror:focus', this.clear, this);
       this.model.on('change:value', this.update, this);
 
@@ -95,14 +103,13 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     clear: function() {
       this.model.set({ value: '' });
-      this.$cdn.val('');
+      this.$filter.val('');
     },
 
     update: function() {
       var filter = _.trim(this.model.get('value')).toLowerCase();
 
       if (!filter) {
-        this.clear();
         bus.trigger('cdn:abort');
         return;
       }
@@ -134,7 +141,11 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
       templates.get(this.template, this).done(function(template_fn) {
         var html = template_fn({ current_cdn: cdn.providers[config.cdn].name });
         this.$el.html(html);
-        this.$cdn = this.$el.find('#cdn-filter');
+        this.$filter = this.$el.find('#cdn-filter');
+
+        dom.cache(this, this.$el, {
+          by_id: 'cdn'
+        });
 
         keys.unregister_handler(this.handler);
 
@@ -142,14 +153,17 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
         this.handler = keys.register_handler({
           ctrl: true, key: '/'
         }, function(e) {
-          that.$cdn.select();
+          that.$filter.select();
         });
 
-        that.$cdn.prop('disabled', false);
+        var cdnNameInit = cdn.providers[config.cdn].name;
+        dom.set_templated_placeholder(this.$filter, cdnNameInit);
 
-        that.resultsCollection = new cdn.FilterResults([]);
-        that.resultsView = new cdn.FilterResultsView({
-          collection: that.resultsCollection
+        this.$filter.prop('disabled', false);
+
+        this.resultsCollection = new cdn.FilterResults([]);
+        this.resultsView = new cdn.FilterResultsView({
+          collection: this.resultsCollection
         });
       });
     }

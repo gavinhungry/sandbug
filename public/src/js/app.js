@@ -111,11 +111,11 @@ function(
 
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
-          'by_id': [
+          by_id: [
             'title', 'markup', 'style', 'script', 'input', 'output', 'save',
             'auto'
           ],
-          'by_class': ['panel', 'input-panel', 'panel-options']
+          by_class: ['panel', 'input-panel', 'panel-options']
         });
 
         this.$save[!config.username ? 'transitOut' : 'transitIn']();
