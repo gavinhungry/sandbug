@@ -32,7 +32,7 @@ function(config, utils, $, _, bus, mirrors) {
 
     bus.on('config:theme', themes.set_theme);
     config._priv.set_option('theme', config.default_theme);
-    themes.set_theme('dark');
+    themes.set_theme(config.default_theme);
   });
 
   /**
