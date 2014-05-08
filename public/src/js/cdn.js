@@ -32,7 +32,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
   var api_fields = ['name','mainfile','lastversion','description'];
 
-  var jsdelivr_api = 'http://api.jsdelivr.com/v1/%s/libraries?name=%s*'
+  var jsdelivr_api = '//api.jsdelivr.com/v1/%s/libraries?name=%s*'
     + '&fields=' + api_fields.join(',')
     + '&limit=' + config.cdn_results;
 
