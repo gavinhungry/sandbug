@@ -33,7 +33,7 @@
 
     // Default CDN to use
     // One of: [jsdelivr, cdnjs, google]
-    "cdn": "jsdelivr",
+    "default_cdn": "jsdelivr",
 
     // Number of filtered CDN results to display at once
     "cdn_results": 16,

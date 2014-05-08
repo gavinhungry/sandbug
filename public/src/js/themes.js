@@ -30,7 +30,9 @@ function(config, utils, $, _, bus, mirrors) {
         stylesheet.disabled = true;
     });
 
-    themes.set_theme(config.default_theme);
+    bus.on('config:theme', themes.set_theme);
+    config._priv.set_option('theme', config.default_theme);
+    themes.set_theme('dark');
   });
 
   /**
@@ -52,16 +54,16 @@ function(config, utils, $, _, bus, mirrors) {
    * @param {String} id - theme id to set
    */
   themes.set_theme = function(id) {
-    var themeExists = _.some(theme_map, function(theme) {
-      return theme.id === id;
-    });
-
-    if (!themeExists) { return; }
+    if (!_.some(theme_map, function(theme) { return theme.id === id; })) {
+      return themes.set_theme(config.default_theme);
+    }
 
     mirrors.set_theme_all(id);
     _.each(theme_map, function(theme, i) {
       theme.stylesheet.disabled = (theme.id !== id);
     });
+
+    if (id !== config.theme) { config.theme = id; }
   };
 
   /**

@@ -13,6 +13,8 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
   var cdn = utils.module('cdn');
 
+  var filterModel, filterView;
+
   cdn.providers = {
     jsdelivr: {
       name: 'jsDelivr',
@@ -39,21 +41,31 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   bus.init(function(av) {
     utils.log('init cdn module');
 
-    var filterModel = new cdn.FilterInput();
-    var filterView = new cdn.FilterInputView({ model: filterModel });
+    filterModel = new cdn.FilterInput();
+    filterView = new cdn.FilterInputView({ model: filterModel });
 
-    bus.on('config:cdn', function(val) {
-      if (cdn.providers[val]) {
-        var cdnName = cdn.providers[val].name;
-
-        dom.set_templated_placeholder(filterView.$filter, cdnName);
-        dom.transition_button_label(filterView.$cdn, cdnName);
-        bus.trigger('cdn:abort');
-        return;
-      }
-      config.cdn = _.first(Object.keys(cdn.providers));
-    });
+    bus.on('config:cdn', cdn.set_cdn);
+    config._priv.set_option('cdn', config.default_cdn);
   });
+
+  /**
+   * Set the current CDN by id
+   *
+   * @param {String} id - CDN id to set
+   */
+  cdn.set_cdn = function(id) {
+    if (!cdn.providers[id]) {
+      return cdn.set_cdn(config.default_cdn);
+    }
+
+    var cdnName = cdn.providers[id].name;
+
+    dom.set_templated_placeholder(filterView.$filter, cdnName);
+    dom.transition_button_label(filterView.$cdn, cdnName);
+    bus.trigger('cdn:abort');
+
+    if (id !== config.cdn) { config.cdn = id; }
+  };
 
   /**
    * Current filter value
