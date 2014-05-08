@@ -14,8 +14,8 @@
       urlArgs: ('v=' + (new Date()).getTime()),
 
       paths: {
-        jasminejs: '//cdn.jsdelivr.net/jasmine/1.3.1/jasmine',
-        jasmine_html: '//cdn.jsdelivr.net/jasmine/1.3.1/jasmine-html',
+        jasminejs: '//cdn.jsdelivr.net/jasmine/1.3/jasmine',
+        jasmine_html: '//cdn.jsdelivr.net/jasmine/1.3/jasmine-html',
         jasmine_jquery: TEST + '/js/plugins/jasmine-jquery.min',
 
         jasmine: TEST + '/js/libs/jasmine',

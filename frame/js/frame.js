@@ -9,14 +9,14 @@
 
   requirejs.config({
     paths: {
-      jquery: '//cdn.jsdelivr.net/jquery/2.1.1/jquery.min',
-      underscore: '//cdn.jsdelivr.net/lodash/2.4.1/lodash.min',
-      string: '//cdn.jsdelivr.net/underscore.string/2.3.3/underscore.string.min',
+      jquery: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
+      underscore: '//cdn.jsdelivr.net/lodash/2.4/lodash.min',
+      string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
 
-      marked: '//cdn.jsdelivr.net/marked/0.3.1/marked.min',
+      marked: '//cdn.jsdelivr.net/marked/0.3/marked.min',
       jade: '//cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min',
       haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.4/haml.min',
-      less: '//cdn.jsdelivr.net/less/1.7.0/less.min',
+      less: '//cdn.jsdelivr.net/less/1.7/less.min',
       sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.3.0/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',

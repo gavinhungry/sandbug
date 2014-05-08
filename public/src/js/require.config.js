@@ -20,37 +20,37 @@
       promise: '../../js/plugins/requirejs-promise.min',
 
       // libraries
-      jqueryjs: '//cdn.jsdelivr.net/jquery/2.1.1/jquery.min',
-      underscorejs: '//cdn.jsdelivr.net/lodash/2.4.1/lodash.min',
-      backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1.2/backbone-min',
-      codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.0.3/codemirror.min',
-      hammer: '//cdn.jsdelivr.net/hammerjs/1.0.7/hammer.min',
+      jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
+      underscorejs: '//cdn.jsdelivr.net/lodash/2.4/lodash.min',
+      backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1/backbone-min',
+      codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.0/codemirror.min',
+      hammer: '//cdn.jsdelivr.net/hammerjs/1.0/hammer.min',
 
       // plugins
-      ui: '//cdn.jsdelivr.net/jquery.ui/1.10.4/jquery-ui.min',
-      transit: '//cdn.jsdelivr.net/jquery.transit/0.9.9/jquery.transit.min',
-      nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7.6/javascripts/jquery.nanoscroller.min',
-      string: '//cdn.jsdelivr.net/underscore.string/2.3.3/underscore.string.min',
+      ui: '//cdn.jsdelivr.net/jquery.ui/1.10/jquery-ui.min',
+      transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
+      nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7/javascripts/jquery.nanoscroller.min',
+      string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
       inflection: '../../js/plugins/underscore.inflection.min',
 
-      cm_overlay: '//cdn.jsdelivr.net/codemirror/4.0.3/addon/mode/overlay',
-      cm_search: '//cdn.jsdelivr.net/codemirror/4.0.3/addon/search/searchcursor',
+      cm_overlay: '//cdn.jsdelivr.net/codemirror/4.0/addon/mode/overlay',
+      cm_search: '//cdn.jsdelivr.net/codemirror/4.0/addon/search/searchcursor',
 
       // CodeMirror markup
-      cm_xml: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/xml/xml',
-      cm_html: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/htmlmixed/htmlmixed',
-      cm_markdown: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/markdown/markdown',
-      cm_gfm: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/gfm/gfm',
-      cm_jade: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/jade/jade',
-      cm_ruby: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/ruby/ruby',
-      cm_haml: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/haml/haml',
+      cm_xml: '//cdn.jsdelivr.net/codemirror/4.0/mode/xml/xml',
+      cm_html: '//cdn.jsdelivr.net/codemirror/4.0/mode/htmlmixed/htmlmixed',
+      cm_markdown: '//cdn.jsdelivr.net/codemirror/4.0/mode/markdown/markdown',
+      cm_gfm: '//cdn.jsdelivr.net/codemirror/4.0/mode/gfm/gfm',
+      cm_jade: '//cdn.jsdelivr.net/codemirror/4.0/mode/jade/jade',
+      cm_ruby: '//cdn.jsdelivr.net/codemirror/4.0/mode/ruby/ruby',
+      cm_haml: '//cdn.jsdelivr.net/codemirror/4.0/mode/haml/haml',
 
       // CodeMirror style
-      cm_css: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/css/css',
+      cm_css: '//cdn.jsdelivr.net/codemirror/4.0/mode/css/css',
 
       // CodeMirror script
-      cm_js: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/javascript/javascript',
-      cm_coffeescript: '//cdn.jsdelivr.net/codemirror/4.0.3/mode/coffeescript/coffeescript',
+      cm_js: '//cdn.jsdelivr.net/codemirror/4.0/mode/javascript/javascript',
+      cm_coffeescript: '//cdn.jsdelivr.net/codemirror/4.0/mode/coffeescript/coffeescript',
 
       jquery: 'libs/jquery',
       underscore: 'libs/underscore',
