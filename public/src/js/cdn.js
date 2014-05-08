@@ -14,14 +14,19 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
   var cdn = utils.module('cdn');
 
   cdn.providers = {
-    'jsdelivr': {
+    jsdelivr: {
       name: 'jsDelivr',
       uri: '//cdn.jsdelivr.net/%s/%s/%s'
     },
 
-    'cdnjs': {
+    cdnjs: {
       name: 'CDNJS',
       uri: '//cdnjs.cloudflare.com/ajax/libs/%s/%s/%s'
+    },
+
+    google: {
+      name: 'Google',
+      uri: '//ajax.googleapis.com/ajax/libs/%s/%s/%s'
     }
   };
 
