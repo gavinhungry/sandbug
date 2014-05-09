@@ -12,7 +12,9 @@
     "gulp-less": "1.2.x",
     "gulp-minify-css": "0.3.x",
     "gulp-rename": "1.2.x",
-    "git-rev": "0.2.x"
+    "git-rev": "0.2.x",
+    "through2": "0.4.x",
+    "overtake": "0.4.x"
   },
 
   "dependencies": {

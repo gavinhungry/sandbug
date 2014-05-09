@@ -6,6 +6,9 @@
   var git  = require('git-rev');
   var rjs  = require('requirejs');
 
+  var through2 = require('through2');
+  var overtake = require('overtake');
+
   var clean  = require('gulp-clean');
   var less   = require('gulp-less');
   var mincss = require('gulp-minify-css');
@@ -88,10 +91,35 @@
   });
 
   /**
+   * Check for CDN updates
+   */
+  gulp.task('cdn', function(done) {
+    var filenames = [];
+
+    overtake.opts.update_msg = '  [%s] [%s] [%s] %s => %s';
+
+    gulp.src([
+      '!node_modules/**',
+      '!./**/*.min.*',
+      './**/*.js',
+      './**/*.less',
+      './**/*.html'
+    ], { read: false })
+    .on('end', function(arr) {
+      overtake.check_files(filenames, true).done(function(updates) {
+        done();
+      });
+    }).pipe(through2.obj(function (file, enc, next) {
+      filenames.push(file.path);
+      next();
+    }));
+  });
+
+  /**
    * Default task
    */
   gulp.task('default', ['clean'], function() {
-    gulp.start('js', 'less', 'css', 'rev');
+    return gulp.start('js', 'less', 'css', 'rev');
   });
 
 })();
