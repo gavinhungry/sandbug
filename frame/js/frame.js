@@ -14,16 +14,16 @@
       string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
 
       marked: '//cdn.jsdelivr.net/marked/0.3/marked.min',
-      jade: '//cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min',
-      haml: '//cdnjs.cloudflare.com/ajax/libs/clientside-haml-js/5.4/haml.min',
+      jade: '//cdn.jsdelivr.net/jade/1.3/jade.min',
+      haml: '//cdn.jsdelivr.net/clientside-haml-js/5.4/haml.min',
       less: '//cdn.jsdelivr.net/less/1.7/less.min',
-      sass: '//cdnjs.cloudflare.com/ajax/libs/sass.js/0.3.0/sass.min',
+      sass: '//cdn.jsdelivr.net/sass.js/0.3/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
-      coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min',
-      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/1.0.0/typescript.min',
+      coffeescript: '//cdn.jsdelivr.net/coffeescript/1.7/coffee-script.min',
+      'typescript-api': '//cdn.jsdelivr.net/typescript/1.0/typescript.min',
       typestring: '/js/lib/compilers/typestring.min',
-      gorillascript: '//cdnjs.cloudflare.com/ajax/libs/gorillascript/0.9.10/gorillascript.min'
+      gorillascript: '//cdn.jsdelivr.net/gorillascript/0.9/gorillascript.min'
     },
 
     shim: {
