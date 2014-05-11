@@ -6,7 +6,6 @@
   var git  = require('git-rev');
   var rjs  = require('requirejs');
 
-  var through2 = require('through2');
   var overtake = require('overtake');
 
   var clean  = require('gulp-clean');
@@ -105,14 +104,14 @@
       './**/*.less',
       './**/*.html'
     ], { read: false })
-    .on('end', function(arr) {
-      overtake.check_files(filenames, true).done(function(updates) {
+    .on('data', function(file) {
+      filenames.push(file.path);
+    }).on('end', function() {
+      overtake.check_files(filenames, true).done(function() {
         done();
       });
-    }).pipe(through2.obj(function (file, enc, next) {
-      filenames.push(file.path);
-      next();
-    }));
+    });
+
   });
 
   /**
