@@ -94,7 +94,6 @@
    */
   gulp.task('cdn', function(done) {
     var filenames = [];
-
     overtake.opts.update_msg = '  [%s] [%s] [%s] %s => %s';
 
     gulp.src([
@@ -111,7 +110,6 @@
         done();
       });
     });
-
   });
 
   /**
