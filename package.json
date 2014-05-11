@@ -29,7 +29,7 @@
     "underscore.string": "2.3.x",
     "q": "1.0.x",
     "express": "4.1.x",
-    "body-parser": "1.0.x",
+    "body-parser": "1.1.x",
     "cookie-parser": "1.0.x",
     "cookie-session": "1.0.x",
     "csurf": "1.1.x",
