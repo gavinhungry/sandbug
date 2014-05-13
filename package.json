@@ -28,7 +28,7 @@
     "lodash": "2.4.x",
     "underscore.string": "2.3.x",
     "q": "1.0.x",
-    "express": "4.1.x",
+    "express": "4.2.x",
     "body-parser": "1.1.x",
     "cookie-parser": "1.0.x",
     "cookie-session": "1.0.x",
