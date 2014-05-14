@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'jasmine_jquery'],
-function($, _) {
+define(['jquery', 'underscore', 'jasmine', 'jasmine_jquery'],
+function($, _, jasmine) {
   'use strict'
 
   /**
