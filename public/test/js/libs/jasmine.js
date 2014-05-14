@@ -1,9 +1,12 @@
 /**
  * Jasmine
  *
- * Includes: jasmine-html, jasmine-jquery
+ * Includes: jasmine-html
  */
-define(['jquery', 'jasminejs', 'jasmine_html', 'jasmine_jquery'],
-function($, jasmine, jasmine_html, jasmine_jquery) {
-  return jasmine;
+define(['jquery', 'jasmine_boot'],
+function($, jasmine) {
+  window.jasmine.onJasmineLoad = window.onload;
+  window.onload = null;
+
+  return window.jasmine;
 });

@@ -207,34 +207,26 @@ function(utils, config, $, _) {
   /*
    * utils.resolve_now
    */
-  describe('utils.resolve_now', function() {
+  describe('utils.resolve_now', function(done) {
     it('should return a promise to resolve to a value', function() {
-      var value;
-
-      runs(function() {
-        utils.resolve_now('foobar').done(function(val) { value = val; });
-      });
-
-      waitsFor(function() {
-        return value === 'foobar';
-      }, 'promise to resolve to an expected value', 1000);
+      utils.resolve_now('foobar').done(function(val) {
+        expect(val).toEqual('foobar');
+      }).fail(function() {
+        expect('promise to resolve to an expected value').toEqual(true);
+      }).always(done);
     });
   });
 
   /*
    * utils.reject_now
    */
-  describe('utils.reject_now', function() {
+  describe('utils.reject_now', function(done) {
     it('should return a promise to reject to a value', function() {
-      var value;
-
-      runs(function() {
-        utils.reject_now('foobar').fail(function(val) { value = val; });
-      });
-
-      waitsFor(function() {
-        return value === 'foobar';
-      }, 'promise to reject to an expected value', 1000);
+      utils.reject_now('foobar').done(function() {
+        expect('promise to reject to an expected value').toEqual(true);
+      }).fail(function(val) {
+        expect(val).toEqual('foobar');
+      }).always(done);
     });
   });
 

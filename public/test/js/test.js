@@ -14,8 +14,9 @@
       urlArgs: ('v=' + (new Date()).getTime()),
 
       paths: {
-        jasminejs: '//cdn.jsdelivr.net/jasmine/1.3/jasmine',
-        jasmine_html: '//cdn.jsdelivr.net/jasmine/1.3/jasmine-html',
+        jasminejs: '//cdn.jsdelivr.net/jasmine/2.0.0/jasmine',
+        jasmine_html: '//cdn.jsdelivr.net/jasmine/2.0.0/jasmine-html',
+        jasmine_boot: '//cdn.jsdelivr.net/jasmine/2.0.0/boot',
         jasmine_jquery: TEST + '/js/plugins/jasmine-jquery.min',
 
         jasmine: TEST + '/js/libs/jasmine',
@@ -25,14 +26,13 @@
       shim: {
         jasminejs: { exports: 'jasmine' },
         jasmine_html: { deps: ['jasminejs'] },
-        jasmine_jquery: { deps: ['jasminejs', 'jquery'] }
+        jasmine_boot: { deps: ['jasminejs', 'jasmine_html'] },
+        jasmine_jquery: { deps: ['jquery', 'jasmine'] }
       }
     });
 
     require(['jquery', 'underscore', 'jasmine', 'matchers'],
     function($, _, jasmine, matchers) {
-      var env = jasmine.getEnv();
-      env.addReporter(new jasmine.HtmlReporter());
 
       var specs = _.map([
         'config', 'utils'
@@ -41,10 +41,9 @@
       });
 
       $(function() {
-        matchers.addMatchers();
-
         require(specs, function() {
-          env.execute();
+          matchers.addMatchers();
+          jasmine.onJasmineLoad();
         });
       });
     });
