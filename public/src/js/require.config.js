@@ -31,7 +31,7 @@
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
       nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7/javascripts/jquery.nanoscroller.min',
       string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
-      inflection: '../../js/plugins/underscore.inflection.min',
+      inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
 
       cm_overlay: '//cdn.jsdelivr.net/codemirror/4.0/addon/mode/overlay',
       cm_search: '//cdn.jsdelivr.net/codemirror/4.0/addon/search/searchcursor',
