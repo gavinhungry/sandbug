@@ -17,7 +17,7 @@
         jasminejs: '//cdn.jsdelivr.net/jasmine/2.0.0/jasmine',
         jasmine_html: '//cdn.jsdelivr.net/jasmine/2.0.0/jasmine-html',
         jasmine_boot: '//cdn.jsdelivr.net/jasmine/2.0.0/boot',
-        jasmine_jquery: TEST + '/js/plugins/jasmine-jquery.min',
+        jasmine_jquery: '//cdn.jsdelivr.net/jasmine.jquery/2.0.3/jasmine-jquery.min',
 
         jasmine: TEST + '/js/libs/jasmine',
         matchers: TEST + '/js/matchers'
