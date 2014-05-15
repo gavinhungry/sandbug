@@ -17,7 +17,7 @@
     //>> excludeEnd('bustCache');
 
     paths: {
-      promise: '../../js/plugins/requirejs-promise.min',
+      promise: '//cdn.jsdelivr.net/requirejs.promise/1.2/requirejs-promise.min',
 
       // libraries
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
