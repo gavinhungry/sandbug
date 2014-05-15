@@ -22,7 +22,7 @@
       traceur_api: '/js/lib/compilers/traceur-api.min',
       coffeescript: '//cdn.jsdelivr.net/coffeescript/1.7/coffee-script.min',
       'typescript-api': '//cdn.jsdelivr.net/typescript/1.0/typescript.min',
-      typestring: '/js/lib/compilers/typestring.min',
+      typestring: '//cdn.jsdelivr.net/typestring/1.0/typestring.min',
       gorillascript: '//cdn.jsdelivr.net/gorillascript/0.9/gorillascript.min'
     },
 
