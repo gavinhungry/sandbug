@@ -76,7 +76,7 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
    */
   var init_mobile_swipes = function() {
     panels.get_input_panels().each(function() {
-      Hammer(this, { swipe_velocity: 0.15 })
+      Hammer(this, { swipeVelocityX: 0.1 })
         .on('swipeleft', function(e) { panels.next_active_mobile(); })
         .on('swiperight', function(e) { panels.prev_active_mobile(); });
     });

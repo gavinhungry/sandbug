@@ -9,6 +9,9 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
 // layout-cols
 #input {
+
+  background: @panel_options_bg_color;
+
   height: 100%;
   white-space: nowrap;
   font-size: 0;
@@ -191,8 +194,11 @@ body.phone #input.layout-top {
     top: @header_height;
     width: 100% !important;
     height: 45% !important;
+    opacity: 0;
+    transition: opacity 300ms;
 
     &.active-mobile {
+      opacity: 1;
       z-index: 10;
     }
   }

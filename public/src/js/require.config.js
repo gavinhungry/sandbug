@@ -24,7 +24,7 @@
       underscorejs: '//cdn.jsdelivr.net/lodash/2.4/lodash.min',
       backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1/backbone-min',
       codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.0/codemirror.min',
-      hammer: '//cdn.jsdelivr.net/hammerjs/1.0/hammer.min',
+      hammer: '//cdn.jsdelivr.net/hammerjs/1.1/hammer.min',
 
       // plugins
       ui: '//cdn.jsdelivr.net/jquery.ui/1.10/jquery-ui.min',

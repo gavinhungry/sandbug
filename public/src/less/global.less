@@ -15,7 +15,7 @@
 @import url('//fonts.googleapis.com/css?family=Droid+Sans+Mono');
 
 * { transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; }
-body.mobile * { transition: none !important; }
+body.mobile *:not(.transition) { transition: none !important; }
 
 @popup_width: 800px;
 @popup_height: 400px;
