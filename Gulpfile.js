@@ -22,7 +22,7 @@
     return gulp.src([
       './build.json',
       './public/css',
-      './public/js/*.min.js',
+      './public/js',
       './frame/css/*.min.css'
     ], { read: false })
     .pipe(clean());
