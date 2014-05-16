@@ -44,7 +44,7 @@
       preserveLicenseComments: true,
       useStrict: true,
 
-      exclude: ['promise', 'inflection']
+      exclude: ['promise']
     });
   });
 
