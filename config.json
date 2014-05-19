@@ -8,15 +8,12 @@
   },
 
   "db": {
-    "name": "debugger",
-    "user": "debugger",
-    "pass": "develop",
-    "host": "localhost",
+    // add database credentials to deploy.json
     "port": 27017
   },
 
   "auth": {
-    "secret": "foobar",
+    // add session secret key to deploy.json
     "cookie": "session",
     "hours": 0.1 // 6 minutes
   },

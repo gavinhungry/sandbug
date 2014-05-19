@@ -4,11 +4,11 @@
 
 define([
   'module', 'path', 'underscore', 'q',
-  'cjson'
+  'cjson', 'utils'
 ],
 function(
   module, path, _, Q,
-  cjson
+  cjson, utils
 ) {
   'use strict';
 
@@ -16,6 +16,14 @@ function(
   var appRoot = __dirname + '/../../';
 
   var config = { client: {} };
+
+  var required_options = [
+    'db.name',
+    'db.user',
+    'db.path',
+    'db.host',
+    'auth.secret'
+  ];
 
   /**
    * Extend the config object with data from a JSON file, if available
@@ -28,13 +36,14 @@ function(
     if (prop) { config[prop] = obj; }
 
     try {
-      _.extend(obj, cjson.load(appRoot + filename));
+      _.merge(obj, cjson.load(appRoot + filename));
     } catch(err) {
       // nothing to do
     }
   };
 
   extend_config_with_json(null, 'config.json');
+  extend_config_with_json(null, 'deploy.json');
   extend_config_with_json('build', 'build.json');
 
   config.prod = config.client.prod = (process.env.NODE_ENV === 'production');
@@ -44,6 +53,19 @@ function(
   config.themes[_.indexOf(config.themes, config.client.default_theme)] = null;
   config.themes.push(config.client.default_theme);
   config.themes = _.uniq(_.compact(config.themes));
+
+  var invalids = _.filter(required_options, function(required) {
+    var opt = utils.reduce(required, config);
+    return _.isUndefined(opt) || _.isNull(opt);
+  });
+
+  if (invalids.length) {
+    _.each(invalids, function(invalid) {
+      console.error('Unset option: ' + invalid);
+    });
+
+    console.error('See `config.json`, `deploy.json`');
+  }
 
   return config;
 });
