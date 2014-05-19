@@ -1,0 +1,12 @@
+{
+  "db": {
+    "name": null,
+    "user": null,
+    "pass": null,
+    "host": null
+  },
+
+  "auth": {
+    "secret": null
+  }
+}
