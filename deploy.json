@@ -1,12 +1,14 @@
 {
+  // database
   "db": {
-    "name": null,
-    "user": null,
-    "pass": null,
-    "host": null
+    "name": "debugger",
+    "user": "debugger",
+    "pass": "develop",
+    "host": "localhost"
   },
 
+  // sessions
   "auth": {
-    "secret": null
+    "secret": "foobar"
   }
 }

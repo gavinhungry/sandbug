@@ -15,7 +15,6 @@ npm-debug.log
 node_modules
 
 build.json
-deploy.json
 
 public/js/*.min.js
 public/css/*.min.css
