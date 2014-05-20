@@ -20,7 +20,7 @@ function(
   var required_options = [
     'db.name',
     'db.user',
-    'db.path',
+    'db.pass',
     'db.host',
     'auth.secret'
   ];
