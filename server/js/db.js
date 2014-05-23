@@ -134,31 +134,5 @@ function(
     return d.promise;
   };
 
-  /**
-   * Get a bug from a username and slug
-   *
-   * A falsy username refers to an anonymous bug, one that is not associated
-   * with a user account
-   *
-   * @param {String} username - username for a bug
-   * @param {String} bugslug - slug id for a bug
-   * @return {Promise} to return a bug, or false if no matching result found
-   */
-  db.get_bug_by_slug = function(username, bugslug) {
-    var d = Q.defer();
-
-    bugs.find({
-      username: username || null, slug: bugslug
-    }, { _id: false }, function(err, bugs) {
-      if (err) { return d.reject(err); }
-      if (bugs.length !== 1) { return d.resolve(false); }
-
-      var bug = _.first(bugs);
-      d.resolve(bug);
-    });
-
-    return d.promise;
-  };
-
   return db;
 });

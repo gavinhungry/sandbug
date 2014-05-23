@@ -13,7 +13,7 @@ function(
   'use strict';
 
   var __dirname = path.dirname(module.uri);
-  var routes = { get: {}, post: {} };
+  var routes = { get: {}, put: {}, post: {} };
 
   // GET /
   routes.get.index = function(req, res) {
@@ -43,7 +43,7 @@ function(
 
     auth.create_user(username, email, password, confirm).then(function(user) {
       auth.authenticate(req, res, function(err) {
-        if (err) { utils.server_error(res); }
+        if (err) { utils.server_error(res, err); }
         else { res.json(user.username); }
       });
     }, function(msg) {
@@ -69,23 +69,47 @@ function(
   routes.get.bug = function(req, res) {
     var user = req.user || {};
 
-    bugs.get_by_slug(req.params.username, req.params.bugslug)
+    bugs.get_by_slug(req.params.bugslug)
     .done(function(bug) {
-      var err = new utils.LocaleMsg();
+      var msg = new utils.LocaleMsg();
 
-      if (!bug) { return res.status(404).json(err.set_id('bug_not_found')); }
+      if (!bug) { return res.status(404).json(msg.set_id('bug_not_found')); }
       if (bug.private && bug.username !== user.username &&
         !_.contains(bug.collaborators, user.username)) {
-        return res.status(403).json(err.set_id('bug_is_private'));
+        return res.status(403).json(msg.set_id('bug_is_private'));
       }
 
       res.json(bug);
     }, utils.server_error_handler(res));
   };
 
+  // PUT /bugs/:bugslug
+  routes.put.bug = function(req, res) {
+    var user = req.user || {};
+
+    var data = req.body;
+    var msg = new utils.LocaleMsg();
+
+    bugs.get_model_by_slug(data.slug).done(function(bug) {
+
+      _.merge(bug, data);
+
+      bug.save(function(err) {
+        if (err) { return utils.server_error(res, err); }
+        res.json(msg.set_id('bug_saved'));
+      });
+    }, utils.server_error_handler(res));
+  };
+
   // POST /bugs/:bugslug
   routes.post.bug = function(req, res) {
+    var user = req.user || {};
 
+    bugs.new_bug(req.body).done(function(bug) {
+      bug.save(function(err) {
+        // ?
+      });
+    });
   };
 
   return routes;

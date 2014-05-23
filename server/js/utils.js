@@ -117,8 +117,11 @@ function(
    * Send a server error to a client
    *
    * @param {express.response} res - Express HTTP response
+   * @param {Object} [err]
    */
-  utils.server_error = function(res) {
+  utils.server_error = function(res, err) {
+    if (err) { console.error(err); }
+
     if (!res || !res.status) { return; } // !(res instanceof express.response)
     res.status(500).json(new utils.LocaleMsg('server_error'));
   };
@@ -130,7 +133,7 @@ function(
    * @return {Function}
    */
   utils.server_error_handler = function(res) {
-    return function() { utils.server_error_now(res); };
+    return function() { utils.server_error(res); };
   };
 
   /**

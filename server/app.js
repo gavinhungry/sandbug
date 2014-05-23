@@ -42,10 +42,8 @@ function(
   server.post('/api/logout', routes.post.logout);
 
   server.get('/api/bugs/:bugslug', routes.get.bug);
+  server.put('/api/bugs/:bugslug', routes.put.bug);
   server.post('/api/bugs/:bugslug', routes.post.bug);
-
-  server.get('/api/users/:username/bugs/:bugslug', routes.get.bug);
-  server.post('/api/users/:username/bugs/:bugslug', routes.post.bug);
 
   server.use(routes.get.index);
 

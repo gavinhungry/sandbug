@@ -31,8 +31,14 @@ function(
       };
 
       var bugSchema = mongoose.Schema({
+        slug: {
+          type: String,
+          filter: _.slugify,
+          default: random_slug,
+          index: { unique: true }
+        },
+
         username: { type: String, filter: sanitize_username },
-        slug: { type: String, filter: _.slugify, default: random_slug },
         title: { type: String, default: 'Bug' },
 
         created: { type: Date, default: Date.now },
@@ -110,22 +116,41 @@ function(
     opts = opts || {};
 
     return mongoose_p.then(function() {
+      opts.slug = opts.slug || opts._slug;
+      delete opts._slug;
+
       return new bugs.Bug(opts);
     });
   };
 
-  /**
-   * Get a bug from a username and slug
+ /**
+   * Get the Mongoose model of a bug from a slug
    *
-   * @param {String} username - username for a bug
    * @param {String} bugslug - slug id for a bug
-   * @return {Promise} to return a bug, or false if no matching result found
+   * @return {Promise} to return a bug model, or null if no result
    */
-  bugs.get_by_slug = function(username, bugslug) {
-    username = auth.sanitize_username(username);
+  bugs.get_model_by_slug = function(bugslug) {
+    var d = Q.defer();
     bugslug = _.slugify(bugslug);
 
-    return db.get_bug_by_slug(username, bugslug);
+    bugs.Bug.findOne({ slug: bugslug }, function(err, bug) {
+      if (err || !bug) { d.resolve(null); }
+      d.resolve(bug);
+    });
+
+    return d.promise;
+  };
+
+  /**
+   * Get a bug from a slug
+   *
+   * @param {String} bugslug - slug id for a bug
+   * @return {Promise} to return a bug, or null if no result
+   */
+  bugs.get_by_slug = function(bugslug) {
+    return bugs.get_model_by_slug(bugslug).then(function(bug) {
+      return bug ? bug.toObject() : null;
+    });
   };
 
   return bugs;

@@ -6,16 +6,33 @@
 
 define([
   'config', 'utils', 'jquery', 'underscore',
-  'flash', 'frame', 'mirrors', 'popups'
+  'backbone', 'flash', 'frame', 'mirrors', 'popups'
 ],
 function(
-  config, utils, $, _, flash, frame, mirrors, popups
+  config, utils, $, _, Backbone, flash, frame, mirrors, popups
 ) {
   'use strict';
 
   var bugs = utils.module('bugs');
 
   var current_bug;
+
+
+  bugs.Bug = Backbone.Model.extend({
+    idAttribute: 'slug',
+
+    _url: '/api/bugs/',
+    url: function() {
+      return this._url + this.get('_' + this.idAttribute);
+    }
+  });
+
+  bugs.BugView = Backbone.View.extend({
+
+  });
+
+
+
 
   /**
    * Get a bug from the server matching a username and slug
