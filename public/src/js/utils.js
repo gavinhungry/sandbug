@@ -290,6 +290,17 @@ function(config, $, _) {
   };
 
   /**
+   * Get a value from a function or promise
+   *
+   * @param {Mixed} value - value, promise, or a function returning either
+   * @return {Promise}
+   */
+  utils.value = function(value) {
+    var value_m = _.isFunction(value) ? value(): value;
+    return $.when(value_m);
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
