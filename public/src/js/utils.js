@@ -290,14 +290,19 @@ function(config, $, _) {
   };
 
   /**
-   * Get a value from a function or promise
+   * Get a value from a function or promise (arbitrarily nested)
    *
    * @param {Mixed} value - value, promise, or a function returning either
    * @return {Promise}
    */
   utils.value = function(value) {
+    // base case: not a a function, and not a duck-typed promise
+    if (!_.isFunction(value) && !_.isFunction(value.promise)) {
+      return utils.resolve_now(value);
+    }
+
     var value_m = _.isFunction(value) ? value(): value;
-    return $.when(value_m);
+    return $.when(value_m).then(utils.value);
   };
 
   /**
