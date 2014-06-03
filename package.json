@@ -7,8 +7,8 @@
   "private": true,
 
   "devDependencies" : {
-    "gulp": "3.6.x",
-    "gulp-clean": "0.2.x",
+    "gulp": "3.7.x",
+    "gulp-clean": "0.3.x",
     "gulp-less": "1.2.x",
     "gulp-minify-css": "0.3.x",
     "gulp-rename": "1.2.x",
