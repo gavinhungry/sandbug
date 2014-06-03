@@ -8,8 +8,27 @@ define(['config', 'jquery', 'underscore'],
 function(config, $, _) {
   'use strict';
 
-  var utils = {};
-  if (!config.prod) { window.utils = utils; }
+  /**
+   * New module is just an empty object, but attach it to the global window
+   * object if config.prod is false
+   *
+   * @param {String} name - name of the module (only relevant to window)
+   * @param {Object} [base] - base object to use
+   * @param {Boolean} [global] - if true, attach to global window object as well
+   * @return {Object} empty module object
+   */
+  var _module = function(name, base, global) {
+    var module = base || {};
+    module._priv = module._priv || {};
+
+    if (global || (global === undefined && !config.prod)) {
+      window[name] = module;
+    }
+
+    return module;
+  };
+
+  var utils = _module('utils', { module: _module });
 
   /**
    * Log messages to console only in non-production
@@ -72,26 +91,6 @@ function(config, $, _) {
     return _.reduce(str.split('.'), function(obj, prop) {
       return obj ? obj[prop] : null;
     }, base);
-  };
-
-  /**
-   * New module is just an empty object, but attach it to the global window
-   * object if config.prod is false
-   *
-   * @param {String} name - name of the module (only relevant to window)
-   * @param {Object} [base] - base object to use
-   * @param {Boolean} [global] - if true, attach to global window object as well
-   * @return {Object} empty module object
-   */
-  utils.module = function(name, base, global) {
-    var module = base || {};
-    module._priv = module._priv || {};
-
-    if (global || (global === undefined && !config.prod)) {
-      window[name] = module;
-    }
-
-    return module;
   };
 
   /**
