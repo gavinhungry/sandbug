@@ -15,69 +15,89 @@ function(
 
   var bugs = utils.module('bugs');
 
-  var current_bug;
+  bugs._priv.current = {
+    slug: null,
+    model: null,
+    view: null
+  };
 
-
+  /**
+   *
+   */
   bugs.Bug = Backbone.Model.extend({
     idAttribute: 'slug',
 
     _url: '/api/bugs/',
     url: function() {
-      return this._url + this.get('_' + this.idAttribute);
+      return this._url + this.get(this.idAttribute);
     }
   });
 
+  /**
+   *
+   */
   bugs.BugView = Backbone.View.extend({
+    render: function() {
+      var props = this.toJSON();
 
+      _.each(props.map, function(value, key) {
+        mirrors.set_mode(key, value.mode);
+        mirrors.set_content(key, value.content);
+      });
+
+      if (props.autorun) { _.defer(frame.update); }
+
+      return this;
+    }
   });
 
-
-
-
   /**
-   * Get a bug from the server matching a username and slug
+   * Get a bug from the server matching a slug
    *
-   * @param {String} username - username for a bug
    * @param {String} bugslug - slug id for a bug
+   * @return {Promise} resolving to a {bugs.Bug}
    */
-  bugs.get_by_slug = function(username, bugslug) {
-    username = username || '';
-    bugslug = _.slugify(bugslug);
-
-    var uri = username ?
-      _.sprintf('/api/users/%s/bugs/%s', username, bugslug) :
-      _.sprintf('/api/bugs/%s', bugslug);
-
-    return $.get(uri);
+  bugs.get = function(bugslug) {
+    var bug = new bugs.Bug({ slug: bugslug });
+    return bug.fetch().then(function() {
+      return bug;
+    }, flash.xhr_error);
   };
 
   /**
    * Display a Bug
    *
-   * @param {Object} bug - Bug map
+   * @param {bugs.Bug} bug
+   * @return {Promise} from bugs.BugView@render
    */
   bugs.display = function(bug) {
-    _.each(bug.map, function(value, key) {
-      mirrors.set_mode(key, value.mode);
-      mirrors.set_content(key, value.content);
-    });
+    var props = bug.toJSON();
 
-    current_bug = bug;
-    if (bug.autorun) { _.defer(frame.update); }
+    bus.trigger('navigate', 'bugs/' + props.slug);
+
+      // destroy previous model
+      if (bugs._priv.current.model instanceof bugs.Bug) {
+        bugs._priv.current.model.destroy();
+      }
+
+      var view = new bugs.BugView({ model: bug });
+
+      bugs._priv.current = {
+        slug: props.slug,
+        model: bug,
+        view: view
+      };
+
+      view.render();
   };
 
   /**
    * Get a get bug from the server and display it
    *
-   * @param {String} username - username for a bug
    * @param {String} bugslug - slug id for a bug
    */
-  bugs.display_by_slug = function(username, bugslug) {
-    bugs.get_by_slug(username, bugslug)
-    .done(bugs.display)
-    .fail(function(xhr) {
-      flash.locale_message_bad(xhr.responseJSON);
-    });
+  bugs.open = function(bugslug) {
+    return bugs.get(bugslug).then(bugs.display);
   };
 
   /**
@@ -87,11 +107,24 @@ function(
    */
   bugs.save = function() {
     return popups.popup('input', 'bug_name_pick', [
-      { name: 'title', placeholder: 'bug_title', copy_to: 'bug' },
-      { name: 'bug', placeholder: 'url_slug', filter: _.slugify }
+      { name: 'title', placeholder: 'bug_title', copy_to: 'slug' },
+      { name: 'slug', placeholder: 'url_slug', filter: _.slugify }
     ]).done(function(result) {
+
       console.log(result);
+
+      // save bugs._priv.current here
     });
+  };
+
+  /**
+   * Create a new bug
+   */
+  bugs.create = function() {
+
+
+
+
   };
 
   return bugs;

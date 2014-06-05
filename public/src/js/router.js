@@ -25,14 +25,11 @@ function(config, utils, $, _, Backbone, bugs, bus, popups, user) {
 
   var Router = Backbone.Router.extend({
     routes: {
-      '': function(){},
+      '': function() { /* nop */ },
       'login': function() { popups.popup('login'); },
-      'logout': user.logout,
+      'logout': function() { user.logout(); },
       'signup': function() { popups.popup('signup'); },
-      'bugs/:bugslug': function(bugslug) {
-        bugs.display_by_slug(null, bugslug);
-      },
-      'users/:username/bugs/:bugslug': bugs.display_by_slug
+      'bugs/:bugslug': function(bugslug) { bugs.open(bugslug); }
     }
   });
 

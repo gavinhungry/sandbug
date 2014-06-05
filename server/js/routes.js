@@ -65,7 +65,7 @@ function(
     res.json(true);
   };
 
-  // GET /bugs/:bugslug, /users/:username/bugs/:bugslug
+  // GET /bugs/:bugslug
   routes.get.bug = function(req, res) {
     var user = req.user || {};
 

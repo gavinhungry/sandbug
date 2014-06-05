@@ -111,6 +111,15 @@ function(config, utils, $, _, bus, dom, locales, templates) {
   });
 
   /**
+   * Flash error message from jqXHR fail callback
+   *
+   * @param {jqXHR} xhr
+   */
+  flash.xhr_error = function(xhr, status, err) {
+    flash.locale_message_bad(xhr.responseJSON);
+  };
+
+  /**
    * Dismiss the flash message
    *
    * @return {Promise} to resolve when the flash message is hidden
