@@ -73,7 +73,7 @@
         '../css/css': 'cm_css',
         '../javascript/javascript': 'cm_js',
         '../coffeescript/coffeescript': 'cm_coffeescript'
-      },
+      }
     },
 
     shim: {
