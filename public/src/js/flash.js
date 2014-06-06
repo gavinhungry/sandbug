@@ -118,7 +118,7 @@ function(config, utils, $, _, bus, dom, locales, templates) {
    * @param {jqXHR} xhr
    */
   flash.xhr_error = function(xhr, status, err) {
-    flash.locale_message_bad(xhr.responseJSON);
+    flash.locale_message_bad(xhr.responseJSON || xhr.responseText);
   };
 
   /**
