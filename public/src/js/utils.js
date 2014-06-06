@@ -305,6 +305,11 @@ function(config, $, _) {
   };
 
   /**
+   * Dummy NOP function
+   */
+  utils.nop = function(){};
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
