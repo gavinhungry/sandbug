@@ -36,9 +36,12 @@ function(config, utils, $, _, bus, dom, locales, templates) {
    * @param {String | Promise} heading_m - heading of message (first line)
    * @param {String | Promise} [body_m] - body of message (second line)
    * @param {String} [priority] - string from `priorities` (default is neutral)
+   * @param {Boolean} [no_timeout] - if true, do not timeout flash message
    */
-  flash.message = function(heading_m, body_m, priority) {
+  flash.message = function(heading_m, body_m, priority, no_timeout) {
     var $flash = $(flashEl);
+
+    var timeout_fn = no_timeout ? utils.nop : start_dismiss_timeout;
 
     var template_p = templates.get('flash');
 
@@ -49,7 +52,7 @@ function(config, utils, $, _, bus, dom, locales, templates) {
 
       // don't do anything if this is the same message as last time
       if (heading === lastHeading && body === lastBody) {
-        return start_dismiss_timeout();
+        return timeout_fn();
       }
 
       flash.dismiss().done(function() {
@@ -69,7 +72,7 @@ function(config, utils, $, _, bus, dom, locales, templates) {
         $flash.css({ 'margin-top': $flash.height() * -1 })
           .html(html)
           .css({ 'display': 'block' })
-          .transition(transition_props, start_dismiss_timeout);
+          .transition(transition_props, timeout_fn);
       });
     });
   };
