@@ -37,8 +37,13 @@ function(
    *
    */
   bugs.BugView = Backbone.View.extend({
+
+    events: {
+      // update model when view changes
+    },
+
     render: function() {
-      var props = this.toJSON();
+      var props = this.model.toJSON();
 
       _.each(props.map, function(value, key) {
         mirrors.set_mode(key, value.mode);
@@ -52,10 +57,36 @@ function(
   });
 
   /**
+   * Display a Bug
+   *
+   * @param {bugs.Bug} bug
+   */
+  bugs.display = function(bug) {
+    var props = bug.toJSON();
+
+    bus.trigger('navigate', 'bugs/' + props.slug);
+
+    // destroy previous model
+    if (bugs._priv.current.model instanceof bugs.Bug) {
+      bugs._priv.current.model.destroy();
+    }
+
+    var view = new bugs.BugView({ model: bug });
+
+    bugs._priv.current = {
+      slug: props.slug,
+      model: bug,
+      view: view
+    };
+
+    view.render();
+  };
+
+  /**
    * Get a bug from the server matching a slug
    *
    * @param {String} bugslug - slug id for a bug
-   * @return {Promise} resolving to a {bugs.Bug}
+   * @return {Promise} resolving to {bugs.Bug}
    */
   bugs.get = function(bugslug) {
     var bug = new bugs.Bug({ slug: bugslug });
@@ -65,36 +96,10 @@ function(
   };
 
   /**
-   * Display a Bug
-   *
-   * @param {bugs.Bug} bug
-   * @return {Promise} from bugs.BugView@render
-   */
-  bugs.display = function(bug) {
-    var props = bug.toJSON();
-
-    bus.trigger('navigate', 'bugs/' + props.slug);
-
-      // destroy previous model
-      if (bugs._priv.current.model instanceof bugs.Bug) {
-        bugs._priv.current.model.destroy();
-      }
-
-      var view = new bugs.BugView({ model: bug });
-
-      bugs._priv.current = {
-        slug: props.slug,
-        model: bug,
-        view: view
-      };
-
-      view.render();
-  };
-
-  /**
-   * Get a get bug from the server and display it
+   * Get a bug from the server and display it
    *
    * @param {String} bugslug - slug id for a bug
+   * @return {Promise}
    */
   bugs.open = function(bugslug) {
     return bugs.get(bugslug).then(bugs.display);
@@ -113,7 +118,7 @@ function(
 
       console.log(result);
 
-      // save bugs._priv.current here
+      // save bugs._priv.current here (with new slug? need a "Save As"?)
     });
   };
 
