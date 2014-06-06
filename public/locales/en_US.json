@@ -24,5 +24,7 @@
   "signup":               "Sign Up",
   "url_slug":             "URL slug",
   "user_exists_msg":      "An account with this username or email already exists",
-  "user_exists":          "Username or email in use"
+  "user_exists":          "Username or email in use",
+  "welcome":              "Welcome to debugger.io",
+  "welcome_msg":          "Welcome message goes here"
 }

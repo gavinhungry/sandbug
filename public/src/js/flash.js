@@ -40,12 +40,11 @@ function(config, utils, $, _, bus, dom, locales, templates) {
    */
   flash.message = function(heading_m, body_m, priority, no_timeout) {
     var $flash = $(flashEl);
-
     var timeout_fn = no_timeout ? utils.nop : start_dismiss_timeout;
 
     var template_p = templates.get('flash');
 
-    $.when(heading_m, body_m, template_p)
+    $.when(locales.prefixed(heading_m), locales.prefixed(body_m), template_p)
       .done(function(heading, body, template_fn)
     {
       if (!heading) { return; }

@@ -18,6 +18,8 @@ function(
   var dir = '/locales';
   var cache = {};
 
+  var prefix = '@';
+
   bus.init(function(av) {
     utils.log('init locales module');
 
@@ -124,6 +126,17 @@ function(
     });
 
     return d.promise();
+  };
+
+  /**
+   * Returns a promsie to localize a string if a leading prefix is found
+   *
+   * @param {Mixed}
+   * @return {Promise|String}
+   */
+  locales.prefixed = function(val) {
+    return (_.isString(val) && !val.indexOf(prefix)) ?
+      locales.string(_.strRight(val, prefix)) : val;
   };
 
   /**
