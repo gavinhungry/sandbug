@@ -153,8 +153,7 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
 
     show_invalid_login: function() {
       this.$el.find('input[name="password"]').select();
-      flash.message_bad(locales.string('invalid_creds'),
-        locales.string('invalid_creds_msg'));
+      flash.message_bad('@invalid_creds', '@invalid_creds_msg');
     }
   });
 
@@ -178,21 +177,19 @@ function(config, utils, $, _, bus, dom, flash, keys, locales, templates) {
         var that = this;
 
         if (this.$username.val().length < 3) {
-          return flash.message_bad(locales.string('invalid_username'),
-            locales.string('invalid_username_msg'));
+          return flash.message_bad('@invalid_username', '@invalid_username_msg');
         }
 
         if (this.$email.is(':invalid') || !this.$email.val()) {
-          return flash.message_bad(locales.string('invalid_email'));
+          return flash.message_bad('@invalid_email');
         }
 
         if (this.$password.val() !== this.$confirm.val()) {
-          return flash.message_bad(locales.string('password_mismatch'));
+          return flash.message_bad('@password_mismatch');
         }
 
         if (this.$password.val().length < 8) {
-          return flash.message_bad(locales.string('invalid_password'),
-            locales.string('invalid_password_msg'));
+          return flash.message_bad('@invalid_password', '@invalid_password_msg');
         }
 
         utils.submit_form($(e.target)).done(function(username) {

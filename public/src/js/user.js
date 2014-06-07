@@ -23,7 +23,7 @@ function(
     $.post('/api/logout').done(function(data) {
       bus.trigger('user:logout');
     }).fail(function() {
-      flash.message_bad(locales.string('logout_error'));
+      flash.message_bad('@logout_error');
     });
   };
 

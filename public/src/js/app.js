@@ -27,18 +27,15 @@ function(
 
       bus.on('user:login', function(username) {
         config.username = username;
-
         flash.message_good(locales.string('logged_in', username),
-          locales.string('logged_in_msg'));
+          '@logged_in_msg');
 
         that.$save.transitIn();
       });
 
       bus.on('user:logout', function() {
         config.username = null;
-
-        flash.message(locales.string('logged_out'),
-          locales.string('logged_out_msg'));
+        flash.message('@logged_out', '@logged_out_msg');
 
         that.$save.transitOut();
       });
@@ -100,7 +97,14 @@ function(
       var that = this;
       $('#loading').transition({ 'opacity': '0' }, function() {
         $(this).remove();
-        that.$title.transition({ 'opacity': 1 }, 'slow');
+        that.$title.transition({ 'opacity': 1 }, 'slow', that.welcome);
+      });
+    },
+
+    welcome: function() {
+      flash.message('@welcome', '@welcome_msg', 'good', {
+        no_timeout: true,
+        wide: true
       });
     },
 

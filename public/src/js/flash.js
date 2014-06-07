@@ -36,16 +36,23 @@ function(config, utils, $, _, bus, dom, locales, templates) {
    * @param {String | Promise} heading_m - heading of message (first line)
    * @param {String | Promise} [body_m] - body of message (second line)
    * @param {String} [priority] - string from `priorities` (default is neutral)
-   * @param {Boolean} [no_timeout] - if true, do not timeout flash message
+   * @param {Object} [opts] - additional options
+   *   @param {Boolean} [no_timeout] - if true, do not timeout flash message
+   *   @param {Boolean} [wide] - if true, make the flash message wider
    */
-  flash.message = function(heading_m, body_m, priority, no_timeout) {
+  flash.message = function(heading_m, body_m, priority, opts) {
+    opts = opts || {};
+
     var $flash = $(flashEl);
-    var timeout_fn = no_timeout ? utils.nop : start_dismiss_timeout;
+    var timeout_fn = opts.no_timeout ? utils.nop : start_dismiss_timeout;
 
     var template_p = templates.get('flash');
 
-    $.when(locales.prefixed(heading_m), locales.prefixed(body_m), template_p)
-      .done(function(heading, body, template_fn)
+    heading_m = locales.prefixed(heading_m);
+    body_m = locales.prefixed(body_m);
+
+    return $.when(heading_m, body_m, template_p)
+      .then(function(heading, body, template_fn)
     {
       if (!heading) { return; }
 
@@ -55,6 +62,8 @@ function(config, utils, $, _, bus, dom, locales, templates) {
       }
 
       flash.dismiss().done(function() {
+        $flash.toggleClass('wide', !!opts.wide);
+
         var html = template_fn({
           heading: heading,
           body: body
