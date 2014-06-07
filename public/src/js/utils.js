@@ -310,6 +310,15 @@ function(config, $, _) {
   utils.nop = function(){};
 
   /**
+   * Return the current Unix timestamp
+   *
+   * @return {Number} current Unix timestamp
+   */
+  utils.timestamp_now = function() {
+    return Math.floor(Date.now() / 1000);
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
