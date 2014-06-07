@@ -103,6 +103,8 @@ function(
 
     // show a welcome message, but just once
     welcome: function() {
+      return; // not used
+
       if (!localStorage.getItem('seen')) {
         localStorage.setItem('seen', true);
 
