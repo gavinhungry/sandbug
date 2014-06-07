@@ -71,7 +71,7 @@ There is still a lot of work to do, including:
   - More locales
   - Multiple files
   - Local or server-side services
-  - Better mobile support
+  - ~~Better mobile support~~
   - Fixing all of the things that are already broken
 
 
