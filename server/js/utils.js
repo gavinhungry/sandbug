@@ -171,15 +171,24 @@ function(
    * Determing the age of a Unix timestamp
    *
    * @param {Number | String} timestamp - a Unix timestamp
-   * @return {Number} ms since `timestamp` occurred
+   * @return {Number} seconds since `timestamp` occurred
    */
   utils.timestamp_age = function(timestamp) {
     var then = parseInt(timestamp, 10);
-    var now = new Date().getTime();
+    var now = utils.timestamp_now();
 
     var diff = now - then;
 
     return _.isNaN(diff) ? Math.POSITIVE_INFINITY : diff;
+  };
+
+  /**
+   * Return the current Unix timestamp
+   *
+   * @return {Number} current Unix timestamp
+   */
+  utils.timestamp_now = function() {
+    return Math.floor(Date.now() / 1000);
   };
 
   return utils;

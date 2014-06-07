@@ -22,7 +22,7 @@ function(
    */
   auth.init = function(server) {
     passport.serializeUser(function(user, done) {
-      var timestamp = new Date().getTime();
+      var timestamp = utils.timestamp_now();
       var str = _.sprintf('%s-%s', timestamp, user._id);
 
       done(null, str);
@@ -192,7 +192,7 @@ function(
    * @return {Boolean} true if timestamp is expired, false otherwise
    */
   auth.timestamp_is_expired = function(timestamp) {
-    var max = config.auth.hours * 3600 * 1000;
+    var max = config.auth.hours * 3600;
     var age = utils.timestamp_age(timestamp);
 
     return age < 0 || age > max;
