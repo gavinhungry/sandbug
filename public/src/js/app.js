@@ -101,11 +101,16 @@ function(
       });
     },
 
+    // show a welcome message, but just once
     welcome: function() {
-      flash.message('@welcome', '@welcome_msg', 'good', {
-        no_timeout: true,
-        wide: true
-      });
+      if (!localStorage.getItem('seen')) {
+        localStorage.setItem('seen', true);
+
+        flash.message_good('@welcome', '@welcome_msg', {
+          no_timeout: true,
+          wide: true
+        });
+      }
     },
 
     render: function(callback) {

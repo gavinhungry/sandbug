@@ -35,12 +35,12 @@ function(config, utils, $, _, bus, dom, locales, templates) {
    *
    * @param {String | Promise} heading_m - heading of message (first line)
    * @param {String | Promise} [body_m] - body of message (second line)
-   * @param {String} [priority] - string from `priorities` (default is neutral)
    * @param {Object} [opts] - additional options
    *   @param {Boolean} [no_timeout] - if true, do not timeout flash message
    *   @param {Boolean} [wide] - if true, make the flash message wider
+   * @param {String} [priority] - string from `priorities` (default is neutral)
    */
-  flash.message = function(heading_m, body_m, priority, opts) {
+  flash.message = function(heading_m, body_m, opts, priority) {
     opts = opts || {};
 
     var $flash = $(flashEl);
