@@ -35,55 +35,59 @@
     padding: 11px 0 15px;
   }
 
-  > .content > ol {
-    overflow-x: hidden;
-    padding: 4px;
+  > .content {
+    z-index: -1;
 
-    > li {
-      color: @filter_result_text_color;
-      text-shadow: 1px 1px 0 @filter_result_text_shadow_color;
-      overflow: hidden;
-      user-select: none;
-      cursor: default;
-      font-size: @font_size;
-      padding: 8px 5px;
-      margin: 0 0 1px 0;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+    > ol {
+      overflow-x: hidden;
+      padding: 4px;
 
-      transition: none;
+      > li {
+        color: @filter_result_text_color;
+        text-shadow: 1px 1px 0 @filter_result_text_shadow_color;
+        overflow: hidden;
+        user-select: none;
+        cursor: default;
+        font-size: @font_size;
+        padding: 8px 5px;
+        margin: 0 0 1px 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
-      &:last-child { margin-bottom: 0; }
+        transition: none;
 
-      border: 1px solid transparent;
-      border-bottom-width: 2px;
-      border-radius: 1px;
+        &:last-child { margin-bottom: 0; }
 
-      &:hover {
-        background: lighten(@filter_result_active_bg_color, 5%);
-        border-color: @filter_result_active_border_color;
-        > .right {
-          border-color: darken(@filter_result_active_bg_color, 15%)
+        border: 1px solid transparent;
+        border-bottom-width: 2px;
+        border-radius: 1px;
+
+        &:hover {
+          background: lighten(@filter_result_active_bg_color, 5%);
+          border-color: @filter_result_active_border_color;
+          > .right {
+            border-color: darken(@filter_result_active_bg_color, 15%)
+          }
+        }
+
+        &.active {
+          background: @filter_result_active_bg_color;
+          border-color: darken(@filter_result_active_border_color, 3%);
+          > .right {
+            border-color: darken(@filter_result_active_bg_color, 20%)
+          }
+        }
+
+        > .pkgdesc {
+          font-size: @font_size - 1px;
+          opacity: 0.8;
         }
       }
 
-      &.active {
-        background: @filter_result_active_bg_color;
-        border-color: darken(@filter_result_active_border_color, 3%);
-        > .right {
-          border-color: darken(@filter_result_active_bg_color, 20%)
-        }
+      &.overflow {
+        color: red !important;
+        padding-right: 16px;
       }
-
-      > .pkgdesc {
-        font-size: @font_size - 1px;
-        opacity: 0.8;
-      }
-    }
-
-    &.overflow {
-      color: red !important;
-      padding-right: 16px;
     }
   }
 }
