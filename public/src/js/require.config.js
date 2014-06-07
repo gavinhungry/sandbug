@@ -30,6 +30,7 @@
       ui: '//cdn.jsdelivr.net/jquery.ui/1.10/jquery-ui.min',
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
       nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7/javascripts/jquery.nanoscroller.min',
+      cookie: '//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min',
       string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
 
@@ -73,6 +74,10 @@
         '../css/css': 'cm_css',
         '../javascript/javascript': 'cm_js',
         '../coffeescript/coffeescript': 'cm_coffeescript'
+      },
+
+      'cookie': {
+        'jquery': 'jqueryjs'
       }
     },
 
@@ -87,6 +92,7 @@
       ui: { deps: ['jqueryjs'], exports: '$.ui' },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
       nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
+      cookie: { deps: ['jqueryjs'] },
       hammer: { deps: ['jqueryjs'] },
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
