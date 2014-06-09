@@ -5,10 +5,11 @@
 /**
  * jQuery
  *
- * Includes: Transit, nanoScroller.js, transitIn/transitOut
+ * Includes: Transit, nanoScroller.js, transitIn/transitOut, jQuery.cookie,
+ * jQuery Storage API
  */
-define(['jqueryjs', 'transit', 'nano', 'cookie'],
-function($, transit, nano, cookie) {
+define(['jqueryjs', 'transit', 'nano', 'cookie', 'storage'],
+function($) {
   // jQuery.transit fallback to $.fn.animate
   if (!$.support.transition) { $.fn.transition = $.fn.animate; }
 
