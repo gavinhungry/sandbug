@@ -31,7 +31,7 @@
   /**
    * Optimize scripts from AMD modules and build a single compressed JS file
    */
-  gulp.task('js', function() {
+  gulp.task('js', function(done) {
     rjs.optimize({
       baseUrl: './public/src/js',
       mainConfigFile: './public/src/js/require.config.js',
@@ -45,14 +45,14 @@
       useStrict: true,
 
       exclude: ['promise']
-    });
+    }, function() { done(); });
   });
 
   /**
    * Build LESS files for each theme into a single compressed CSS file
    */
   gulp.task('less', function() {
-    gulp.src('./public/src/less/debuggerio.*.less')
+    return gulp.src('./public/src/less/debuggerio.*.less')
       .pipe(less())
       .pipe(mincss())
       .pipe(rename(minified))
@@ -63,7 +63,7 @@
    * Compress static CSS files
    */
   gulp.task('css', function() {
-    gulp.src(['./frame/css/*.css', '!./**/*.min.css'])
+    return gulp.src(['./frame/css/*.css', '!./**/*.min.css'])
       .pipe(mincss())
       .pipe(rename(minified))
       .pipe(gulp.dest('./frame/css'));
@@ -72,12 +72,12 @@
   /**
    * Write a `build.json` file with build information
    */
-  gulp.task('rev', function() {
+  gulp.task('rev', function(done) {
     git.short(function(rev) {
       fs.writeFile('./build.json', JSON.stringify({
         date: (new Date()).toISOString(),
         rev: rev
-      }));
+      }), function() { done(); });
     });
   });
 
