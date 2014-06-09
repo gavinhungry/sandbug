@@ -15,11 +15,25 @@ function(
 
   var bugs = utils.module('bugs');
 
-  bugs._priv.current = {
-    slug: null,
-    model: null,
-    view: null
-  };
+  bus.init(function(av) {
+    var _model = new bugs.Bug();
+    var _view = new bugs.BugView({ model: _model });
+
+    bugs._priv.current = {
+      model: _model,
+      view: _view
+    };
+
+    _.each(mirrors.get_all(), function(mirror) {
+
+      var update_map = function() {
+        bugs._priv.current.model.set('map', mirrors.get_map(true));
+      };
+
+      bus.on(_.sprintf('mirrors:%s:mode', mirror.panel), update_map);
+      mirror.cm.on('change', update_map);
+    });
+  });
 
   /**
    *
@@ -37,11 +51,6 @@ function(
    *
    */
   bugs.BugView = Backbone.View.extend({
-
-    events: {
-      // update model when view changes
-    },
-
     render: function() {
       var props = this.model.toJSON();
 
@@ -74,7 +83,6 @@ function(
     var view = new bugs.BugView({ model: bug });
 
     bugs._priv.current = {
-      slug: props.slug,
       model: bug,
       view: view
     };
