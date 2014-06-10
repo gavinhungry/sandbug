@@ -33,17 +33,6 @@ function(config, $, _) {
 
   utils = _module('utils', { module: _module });
 
-  var start = Date.now();
-
-  /**
-   * Get the number of seconds since startup
-   *
-   * @return {Number} time in seconds
-   */
-  utils.runtime = function() {
-    return Math.floor((Date.now() - start) / 1000);
-  };
-
   /**
    * Ensure that a value is wrapped with jQuery
    *
@@ -402,6 +391,17 @@ function(config, $, _) {
   }, {});
 
   utils.console = new utils.Console();
+
+  var start = utils.timestamp_now();
+
+  /**
+   * Get the number of seconds since startup
+   *
+   * @return {Number} time in seconds
+   */
+  utils.runtime = function() {
+    return utils.timestamp_now() - start;
+  };
 
   return utils;
 });
