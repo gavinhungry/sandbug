@@ -57,7 +57,7 @@ function(
         bus.trigger('init', this);
 
         this.register_keys();
-        this.remove_splash();
+        _.delay(_.bind(this.remove_splash, this), config.splash_delay);
       });
     },
 

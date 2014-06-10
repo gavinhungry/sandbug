@@ -51,6 +51,9 @@
     "locale": "en_US",
 
     // Autorun bugs by default
-    "autorun": false
+    "autorun": false,
+
+    // Splash screen delay, in ms
+    "splash_delay": 1000
   }
 }
