@@ -32,7 +32,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     }
   };
 
-  var api_fields = ['name','mainfile','lastversion','description'];
+  var api_fields = ['name','mainfile','lastversion','description','homepage'];
 
   var jsdelivr_api = '//api.jsdelivr.com/v1/%s/libraries?name=%s*'
     + '&fields=' + api_fields.join(',')
@@ -229,7 +229,10 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
 
     render: function() {
       templates.get(this.template, this).done(function(template_fn) {
-        var html = template_fn({ pkg: this.model.toJSON() });
+        var pkg = this.model.toJSON();
+        pkg.description = pkg.description || utils.path(pkg.homepage);
+
+        var html = template_fn({ pkg: pkg });
         this.$el.html(html);
       });
     }
