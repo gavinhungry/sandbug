@@ -26,7 +26,7 @@ function(
   /**
    *
    */
-  bugs.Bug = Backbone.Model.extend({
+  bugs.Bug = Backbone.DeepModel.extend({
     idAttribute: 'slug',
 
     _url: '/api/bugs/',
