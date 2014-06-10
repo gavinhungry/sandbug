@@ -195,6 +195,27 @@ function(config, $, _) {
   };
 
   /**
+   * Get the base path for a URI
+   *
+   * @example
+   * // returns 'example.tld/foo/bar'
+   * utils.path('http://example.tld/foo/bar/baz.html?q=abc')
+   *
+   * @param {String} uri - URI of resource
+   * @return {String}
+   */
+  utils.path = function(uri) {
+    var html = _.sprintf('<a href="%s"></a>', utils.ensure_string(uri));
+    var nodes = $.parseHTML(html);
+    var a = utils.ensure_array(nodes)[0];
+
+    var path = a.pathname.replace(/\/[^\/\.]*\.[^\/\.]*$/, '');
+    if (path === '/') { path = ''; }
+
+    return a.hostname + path;
+  };
+
+  /**
    * Create a promise that resolves to a value now
    *
    * @param {Mixed} value - value that the promise will resolve to
