@@ -5,9 +5,9 @@
 /**
  * Backbone.js
  *
- * Includes: nothing additional yet
+ * Includes: backbone.deepmodel
  */
-define(['backbonejs'],
+define(['backbonejs', 'deepmodel'],
 function(Backbone) {
   return Backbone; // Backbone.noConflict();
 });

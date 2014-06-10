@@ -34,6 +34,7 @@
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
       string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
+      deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
       cm_overlay: '//cdn.jsdelivr.net/codemirror/4.0/addon/mode/overlay',
       cm_search: '//cdn.jsdelivr.net/codemirror/4.0/addon/search/searchcursor',
@@ -77,8 +78,13 @@
         '../coffeescript/coffeescript': 'cm_coffeescript'
       },
 
-      'cookie': {
-        'jquery': 'jqueryjs'
+      cookie: {
+        jquery: 'jqueryjs'
+      },
+
+      deepmodel: {
+        underscore: 'underscorejs',
+        backbone: 'backbonejs'
       }
     },
 
@@ -98,6 +104,7 @@
       hammer: { deps: ['jqueryjs'] },
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
+      deepmodel: { deps: ['underscorejs', 'backbonejs'] },
 
       cm_overlay: { deps: ['codemirrorjs'] },
       cm_search: { deps: ['codemirrorjs'] },
