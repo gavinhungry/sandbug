@@ -205,14 +205,15 @@ function(config, $, _) {
    * @return {String}
    */
   utils.path = function(uri) {
-    var html = _.sprintf('<a href="%s"></a>', utils.ensure_string(uri));
+    uri = utils.ensure_string(uri).trim();
+    if (!uri) { return ''; }
+
+    var html = _.sprintf('<a href="%s"></a>', uri);
     var nodes = $.parseHTML(html);
     var a = utils.ensure_array(nodes)[0];
 
-    var path = a.pathname.replace(/\/[^\/\.]*\.[^\/\.]*$/, '');
-    if (path === '/') { path = ''; }
-
-    return a.hostname + path;
+    var path = a.hostname  + a.pathname.replace(/\/[^\/\.]*\.[^\/\.]*$/, '');
+    return _.rtrim(path, '/.');
   };
 
   /**
