@@ -16,22 +16,10 @@ function(
   var bugs = utils.module('bugs');
 
   bus.init(function(av) {
-    var _model = new bugs.Bug();
-    var _view = new bugs.BugView({ model: _model });
+    bugs._priv.current = {};
 
-    bugs._priv.current = {
-      model: _model,
-      view: _view
-    };
-
-    _.each(mirrors.get_all(), function(mirror) {
-
-      var update_map = function() {
-        bugs._priv.current.model.set('map', mirrors.get_map(true));
-      };
-
-      bus.on(_.sprintf('mirrors:%s:mode', mirror.panel), update_map);
-      mirror.cm.on('change', update_map);
+    bus.on('mirrors:mode', function(panel, mode, label) {
+      // deep-model
     });
   });
 
@@ -66,6 +54,32 @@ function(
   });
 
   /**
+   * Get the current bug model
+   *
+   * @return {bugs.Bug}
+   */
+  bugs.model = function() {
+    if (!(bugs._priv.current.model instanceof bugs.Bug)) {
+      bugs._priv.current.model = new bugs.Bug();
+    }
+
+    return bugs._priv.current.model;
+  };
+
+  /**
+   * Get the current bug view
+   *
+   * @return {bugs.BugView}
+   */
+  bugs.view = function() {
+    if (!(bugs._priv.current.view instanceof bugs.BugView)) {
+      bugs._priv.current.view = new bugs.BugView({ model: bugs.model() });
+    }
+
+    return bugs._priv.current.view;
+  };
+
+  /**
    * Display a Bug
    *
    * @param {bugs.Bug} bug
@@ -76,9 +90,7 @@ function(
     bus.trigger('navigate', 'bugs/' + props.slug);
 
     // destroy previous model
-    if (bugs._priv.current.model instanceof bugs.Bug) {
-      bugs._priv.current.model.destroy();
-    }
+    if (bug !== bugs.model()) { bugs.model().destroy(); }
 
     var view = new bugs.BugView({ model: bug });
 
@@ -126,7 +138,7 @@ function(
 
       console.log(result);
 
-      // save bugs._priv.current here (with new slug? need a "Save As"?)
+      // save bugs.model() here (with new slug? need a "Save As"?)
     });
   };
 
@@ -134,9 +146,6 @@ function(
    * Create a new bug
    */
   bugs.create = function() {
-
-
-
 
   };
 

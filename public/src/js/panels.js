@@ -59,15 +59,18 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
       var $panel = $(inputPanelNode);
       var panel = $panel.attr('id');
 
-      var $mode = $panel.children('.mode');
-      var $cycle = $panel.find('.panel-options > .cycle');
-
-      $cycle.on('click', function(e) { mirrors.cycle_mode(panel); });
-
-      bus.on(_.sprintf('mirrors:%s:mode', panel), function(mode, label) {
-        dom.transition_button_label($cycle, label);
-        $mode.val(mode);
+      panels.get_cycle(panel).on('click', function(e) {
+        mirrors.cycle_mode(panel);
       });
+    });
+
+    bus.on('mirrors:mode', function(panel, mode, label) {
+      var $panel = panels.get_by_id(panel);
+      var $mode = $panel.children('.mode');
+      var $cycle = panels.get_cycle(panel);
+
+      dom.transition_button_label($cycle, label);
+      $mode.val(mode);
     });
   };
 
@@ -374,6 +377,16 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
     });
 
     return utils.ensure_jquery(panel);
+  };
+
+  /**
+   * Get a panel cycle button by its id
+   *
+   * @param {String} id - panel id
+   * @return {jQuery} - cycle button from panel with matching id
+   */
+  panels.get_cycle = function(id) {
+    return panels.get_by_id(id).find('.panel-options > .cycle');
   };
 
   /**

@@ -278,8 +278,7 @@ function(config, utils, $, _, bus, CodeMirror, dom) {
     mirror.cm.setOption('mode', set.cm_mode || set.mode);
     mirror.mode = set.mode;
 
-    var eventName = _.sprintf('mirrors:%s:mode', mirror.panel);
-    bus.trigger(eventName, set.mode, set.label);
+    bus.trigger('mirrors:mode', mirror.panel, set.mode, set.label);
   };
 
   /**
