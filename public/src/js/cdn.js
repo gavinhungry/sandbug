@@ -39,7 +39,7 @@ function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
     + '&limit=' + config.cdn_results;
 
   bus.init(function(av) {
-    utils.log('init cdn module');
+    cdn.console.log('init cdn module');
 
     filterModel = new cdn.FilterInput();
     filterView = new cdn.FilterInputView({ model: filterModel });

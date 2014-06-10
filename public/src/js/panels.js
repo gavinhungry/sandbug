@@ -20,7 +20,7 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
   var duration;
 
   bus.init(function(av) {
-    utils.log('init panels module');
+    panels.console.log('init panels module');
 
     $active_panels = av.$panels;
 
@@ -162,7 +162,7 @@ function(config, utils, $, _, Hammer, bus, dom, mirrors) {
     var $panels = panels.get_all_panels();
     var layout = panels.get_layout();
 
-    utils.log('updating panel resize handlers for', layout);
+    panels.console.log('updating panel resize handlers for', layout);
     panels.disable_resize_handlers();
 
     // remove any old resize handlers

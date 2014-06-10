@@ -8,6 +8,8 @@ define(['config', 'jquery', 'underscore'],
 function(config, $, _) {
   'use strict';
 
+  var utils;
+
   /**
    * New module is just an empty object, but attach it to the global window
    * object if config.prod is false
@@ -20,6 +22,7 @@ function(config, $, _) {
   var _module = function(name, base, global) {
     var module = base || {};
     module._priv = module._priv || {};
+    module.console = utils ? (module.console || new utils.Console(name)) : null;
 
     if (global || (global === undefined && !config.prod)) {
       window[name] = module;
@@ -28,19 +31,17 @@ function(config, $, _) {
     return module;
   };
 
-  var utils = _module('utils', { module: _module });
+  utils = _module('utils', { module: _module });
+
+  var start = Date.now();
 
   /**
-   * Log messages to console only in non-production
+   * Get the number of seconds since startup
    *
-   * @param {Mixed} - messages to log
+   * @return {Number} time in seconds
    */
-  utils.log = function() {
-    if (!config.prod) {
-      var args = _.toArray(arguments);
-      args.unshift('==>');
-      console.log.apply(console, args);
-    }
+  utils.runtime = function() {
+    return Math.floor((Date.now() - start) / 1000);
   };
 
   /**
@@ -317,6 +318,10 @@ function(config, $, _) {
    * @return {Promise}
    */
   utils.value = function(value) {
+    if (_.isUndefined(value) || _.isNull(value)) {
+      return utils.resolve_now(value);
+    }
+
     // base case: not a a function, and not a duck-typed promise
     if (!_.isFunction(value) && !_.isFunction(value.promise)) {
       return utils.resolve_now(value);
@@ -370,6 +375,33 @@ function(config, $, _) {
     get: function() { return this._data.slice(0); },
     flush: function() { this._data = []; }
   };
+
+  /**
+   * Get a console object with an optional namespace prefix
+   *
+   * @param {Mixed} [namespace_m] - value, promise or function
+   * @return {Object}
+   */
+  utils.Console = function(namespace_m) {
+    this.value = namespace_m;
+  };
+
+  utils.Console.prototype = _.reduce([
+    'debug', 'error', 'info', 'log', 'warn'
+  ], function(prototype, method) {
+    prototype[method] = function() {
+      if (config.prod) { return; }
+
+      var args = _.toArray(arguments);
+      return utils.value(this.value).then(function(namespace) {
+        if (namespace) { args.unshift(_.sprintf('[%s]', namespace)); }
+        return console[method].apply(console, args);
+      });
+    };
+    return prototype;
+  }, {});
+
+  utils.console = new utils.Console();
 
   return utils;
 });

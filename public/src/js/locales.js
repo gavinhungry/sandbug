@@ -21,7 +21,7 @@ function(
   var prefix = '@';
 
   bus.init(function(av) {
-    utils.log('init locales module');
+    locales.console.log('init locales module');
 
     // localize nodes with `data-localize` attribute as added
     observers.register_listener(function(mutation) {

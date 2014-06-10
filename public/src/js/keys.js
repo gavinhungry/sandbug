@@ -27,7 +27,7 @@ function(config, utils, $, _, bus) {
   };
 
   bus.init(function(av) {
-    utils.log('init keys module');
+    keys.console.log('init keys module');
 
     $(document).on('keyup', function(e) {
       // hey, I just met you ...
@@ -47,7 +47,7 @@ function(config, utils, $, _, bus) {
         var callback = handler ? handler.callback : null;
         // so call me maybe.
         if (_.isFunction(callback)) {
-          utils.log('executing callback for handler', handler.hid);
+          keys.console.log('executing callback for handler', handler.hid);
           callback(e);
         }
       });
@@ -80,7 +80,7 @@ function(config, utils, $, _, bus) {
     var hid = last_hid++;
 
     if (_.isUndefined(opts.key)) { return null; }
-    utils.log('registering key handler', hid);
+    keys.console.log('registering key handler', hid);
 
     handlers[hid] = {
       hid: hid,
@@ -100,7 +100,7 @@ function(config, utils, $, _, bus) {
    */
   keys.unregister_handler = function(hid) {
     if (_.has(handlers, hid)) {
-      utils.log('unregistering key handler', hid);
+      keys.console.log('unregistering key handler', hid);
       delete handlers[hid];
     }
   };
@@ -112,7 +112,7 @@ function(config, utils, $, _, bus) {
    */
   keys.pause_handler = function(hid) {
     if (_.has(handlers, hid)) {
-      utils.log('pausing key handler', hid);
+      keys.console.log('pausing key handler', hid);
       handlers[hid].paused = true;
     }
   };
@@ -124,7 +124,7 @@ function(config, utils, $, _, bus) {
    */
   keys.resume_handler = function(hid) {
     if (_.has(handlers, hid)) {
-      utils.log('resuming key handler', hid);
+      keys.console.log('resuming key handler', hid);
       handlers[hid].paused = false;
     }
   };
@@ -136,7 +136,7 @@ function(config, utils, $, _, bus) {
    */
   keys.toggle_handler = function(hid) {
     if (_.has(handlers, hid)) {
-      utils.log('toggling key handler', hid);
+      keys.console.log('toggling key handler', hid);
       handlers[hid].paused = !handlers[hid].paused;
     }
   };

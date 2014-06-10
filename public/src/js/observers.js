@@ -22,7 +22,7 @@ function(
     window.MutationObserver || window.WebKitMutationObserver;
 
   bus.init(function(av) {
-    utils.log('init observers module');
+    observers.console.log('init observers module');
 
     var observer = new MutationObserver(function(mutations) {
       // pass each mutation
@@ -46,7 +46,7 @@ function(
 
     var lid = last_lid++;
 
-    utils.log('registering observer listener', lid);
+    observers.console.log('registering observer listener', lid);
     listeners[lid] = callback;
 
     return lid;
@@ -59,7 +59,7 @@ function(
    */
   observers.unregister_listener = function(lid) {
     if (_.has(listeners, lid)) {
-      utils.log('unregistering observer listener', lid);
+      observers.console.log('unregistering observer listener', lid);
       delete listeners[lid];
     }
   };

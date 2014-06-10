@@ -21,7 +21,7 @@ function(
     el: '#debuggerio',
 
     initialize: function() {
-      utils.log('init app module');
+      app.console.log('init app module');
 
       var that = this;
 

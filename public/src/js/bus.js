@@ -43,7 +43,7 @@ function(config, utils, $, _, Backbone) {
 
   bus.init(function(av) {
     _.defer(function() {
-      utils.log('init bus module');
+      bus.console.log('init bus module');
 
       // proxy config updates to event bus
       $(document).on('_debugger_io-config', function(e, opt) {

@@ -57,7 +57,7 @@ function(config, utils, $, _, bus, mirrors) {
       var map = mirrors.get_map();
       if (noscript) { map['script'].content = ''; }
 
-      utils.log('postMessage', timestamp);
+      frame.console.log('postMessage', timestamp);
       frameWindow.postMessage({
         timestamp: timestamp,
         map: map

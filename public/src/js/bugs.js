@@ -136,7 +136,7 @@ function(
       { name: 'slug', placeholder: 'url_slug', filter: _.slugify }
     ]).done(function(result) {
 
-      console.log(result);
+      bugs.console.log(result);
 
       // save bugs.model() here (with new slug? need a "Save As"?)
     });

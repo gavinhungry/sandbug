@@ -16,7 +16,7 @@ function(config, utils, $, _, bus, mirrors) {
   var theme_map = [];
 
   bus.init(function(av) {
-    utils.log('init themes module');
+    themes.console.log('init themes module');
 
     var themeRegex = /\/debuggerio\.(\w+)\.min\.css(\?v=.*)?$/;
 

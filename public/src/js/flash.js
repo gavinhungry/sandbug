@@ -22,7 +22,7 @@ function(config, utils, $, _, bus, dom, locales, templates) {
   var transition_props;
 
   bus.init(function(av) {
-    utils.log('init flash module');
+    flash.console.log('init flash module');
 
     transition_props = dom.css(_.sprintf('%s._transition', flashEl));
     $(flashEl).on('click', function(e) { flash.dismiss(); });

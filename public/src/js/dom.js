@@ -14,7 +14,7 @@ function(config, utils, $, _, Backbone, bus) {
   var dom = utils.module('dom');
 
   bus.init(function(av) {
-    utils.log('init dom module');
+    dom.console.log('init dom module');
 
     var $blank = $('#blank');
     var $button = $('<button></button>');
@@ -61,7 +61,7 @@ function(config, utils, $, _, Backbone, bus) {
    */
   dom.destroy_view = function(view) {
     if (!(view instanceof Backbone.View)) { return; }
-    utils.log('destroying view:', view.template);
+    dom.console.log('destroying view:', view.template);
 
     view.trigger('destroy');
     view.$el.empty();
@@ -178,9 +178,10 @@ function(config, utils, $, _, Backbone, bus) {
    * Get a CSS property from an enabled stylesheet
    *
    * @param {String} selector - CSS selector
-   * @return {Object} CSS property map matching selector
+   * @param {Boolean} [string] - if true, convert to CSS string
+   * @return {Object|String} CSS property map matching selector
    */
-  dom.css = function(selector) {
+  dom.css = function(selector, string) {
     var match;
     selector = utils.minify_css_selector(selector);
 
@@ -207,10 +208,15 @@ function(config, utils, $, _, Backbone, bus) {
     var rule = match.cssText.replace(/^.*{\s*/, '').replace(/\s*}\s*$/, '');
 
     // convert the property string to an object
-    return _.object(_.map(rule.split(';'), function(property) {
+    var css = _.object(_.map(rule.split(';'), function(property) {
       var map = _.map(property.split(':'), _.clean);
       return map.length === 2 ? map : null;
     }));
+
+    return !string ? css :
+      _.reduce(css, function(str, value, prop) {
+        return str + _.sprintf('%s: %s; ', prop, value);
+      }, '').trim();
   };
 
   /**
