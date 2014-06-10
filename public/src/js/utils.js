@@ -335,6 +335,15 @@ function(config, $, _) {
   };
 
   /**
+   * Get the number of seconds since startup
+   *
+   * @return {Number} time in seconds
+   */
+  utils.runtime = function() {
+    return Math.floor(performance.now() / 1000)
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
@@ -391,17 +400,6 @@ function(config, $, _) {
   }, {});
 
   utils.console = new utils.Console();
-
-  var start = utils.timestamp_now();
-
-  /**
-   * Get the number of seconds since startup
-   *
-   * @return {Number} time in seconds
-   */
-  utils.runtime = function() {
-    return utils.timestamp_now() - start;
-  };
 
   return utils;
 });
