@@ -8,6 +8,7 @@
   'use strict';
 
   var requirejs = require('requirejs');
+
   requirejs.config({
     baseUrl: 'server/js',
     paths: {
@@ -15,8 +16,7 @@
     }
   });
 
-  requirejs(['../app', 'utils'],
-  function(app, utils) {
+  requirejs(['../app', 'utils'], function(app, utils) {
     app.init();
     utils.log('debugger.io running on port ' + app.port);
   });
