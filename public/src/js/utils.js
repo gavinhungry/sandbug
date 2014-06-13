@@ -20,8 +20,14 @@ function(config, $, _) {
    * @return {Object} empty module object
    */
   var _module = function(name, base, global) {
-    var module = base || {};
-    module._priv = module._priv || {};
+    var module = base || Object.create(null);
+
+    if (!module._priv) {
+      Object.defineProperty(module, '_priv', {
+        value: Object.create(null)
+      });
+    }
+
     module.console = utils ? (module.console || new utils.Console(name)) : null;
 
     if (global || (global === undefined && !config.prod)) {
@@ -31,7 +37,7 @@ function(config, $, _) {
     return module;
   };
 
-  utils = _module('utils', { module: _module });
+  utils = _module('utils', Object.create(null, { module: { value: _module } }));
 
   /**
    * Ensure that a value is wrapped with jQuery
