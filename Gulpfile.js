@@ -94,8 +94,8 @@
   /**
    * Keep watching and restart
    */
-  gulp.task('develop', ['watch'], function() {
-    return nodemon({ script: 'debuggerio.js', ext: 'js json less' });
+  gulp.task('dev', ['watch'], function(done) {
+    nodemon({ script: 'debuggerio.js', ext: 'js json less' }).on('quit', done);
   });
 
   /**
