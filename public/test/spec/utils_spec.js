@@ -3,9 +3,9 @@ function(utils, config, $, _) {
   'use strict';
 
   /**
-   * utils.log
+   * utils.console.log
    */
-  describe('utils.log', function() {
+  describe('utils.console.log', function() {
     var prod = config.prod;
 
     beforeEach(function() { spyOn(console, 'log'); });
@@ -13,13 +13,13 @@ function(utils, config, $, _) {
 
     it('should call console.log when config.prod is false', function() {
       config.prod = false;
-      utils.log('a', 'b');
-      expect(console.log).toHaveBeenCalledWith(jasmine.any(String), 'a', 'b');
+      utils.console.log('a', 'b');
+      expect(console.log).toHaveBeenCalledWith('a', 'b');
     });
 
     it('should not call console.log when config.prod is true', function() {
       config.prod = true;
-      utils.log('a', 'b');
+      utils.console.log('a', 'b');
       expect(console.log).not.toHaveBeenCalled();
     });
   });
