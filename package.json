@@ -34,6 +34,6 @@
     "cookie-session": "1.0.x",
     "csurf": "1.2.x",
     "consolidate": "0.10.x",
-    "validator": "3.14.x"
+    "validator": "3.16.x"
   }
 }
