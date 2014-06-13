@@ -397,9 +397,9 @@ function(config, $, _) {
       if (config.prod) { return; }
 
       var args = _.toArray(arguments);
-      return utils.value(this.value).then(function(namespace) {
+      utils.value(this.value).then(function(namespace) {
         if (namespace) { args.unshift(_.sprintf('[%s]', namespace)); }
-        return console[method].apply(console, args);
+        console[method].apply(console, args);
       });
     };
     return prototype;

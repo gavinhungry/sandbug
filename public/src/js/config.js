@@ -14,7 +14,9 @@ define('config_p', ['jquery', 'underscore'],
 function($, _) {
   'use strict';
 
-  var config = { _priv: {} };
+  var config = Object.create(null, {
+    _priv: { value: Object.create(null) }
+  });
 
   var locals = window._debugger_io || {};
   var hostname = window.location.hostname;
@@ -54,12 +56,14 @@ function($, _) {
    * @param {Boolean} [parent] - parent option
    */
   config._priv.set_option = function(option, value, parent) {
-    if (config.hasOwnProperty(option)) { return; }
+    if (Object.hasOwnProperty.call(config, option)) { return; }
     var dest = parent ? config[parent] : config;
 
     var isBool = _.isBoolean(value);
 
     Object.defineProperty(dest, option, {
+      enumerable: true,
+
       get: function() {
         var val = options[option];
         var isFn = _.isFunction(val);
