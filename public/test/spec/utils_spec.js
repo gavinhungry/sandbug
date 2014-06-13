@@ -3,6 +3,32 @@ function(utils, config, $, _) {
   'use strict';
 
   /**
+   * utils.module
+   */
+  describe('utils.module', function() {
+    it('should initially return an empty object', function() {
+      var module = utils.module('foo', null, false);
+      expect(module._priv).toBeDefined();
+      expect(_.size(module)).toEqual(1); // just _priv
+    });
+
+    it('should allow extending a base object', function() {
+      var module = utils.module('foo', { 'bar': 123 }, false);
+      expect(module.bar).toEqual(123);
+    });
+
+    it('should allow attaching to the global window', function() {
+      var module = utils.module('foo_test', null, false);
+      expect(window.foo_test).toBeUndefined();
+
+      module = utils.module('foo_test', null, true);
+      expect(window.foo_test).toBeDefined();
+      expect(module).toEqual(window.foo_test);
+      delete window.foo_test;
+    });
+  });
+
+  /**
    * utils.console.log
    */
   describe('utils.console.log', function() {
@@ -24,7 +50,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.ensure_jquery
    */
   describe('utils.ensure_jquery', function() {
@@ -52,7 +78,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.ensure_array
    */
   describe('utils.ensure_array', function() {
@@ -68,7 +94,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.ensure_string
    */
   describe('utils.ensure_string', function() {
@@ -83,33 +109,39 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
-   * utils.module
+  /**
+   * utils.reduce
    */
-  describe('utils.module', function() {
-    it('should initially return an empty object', function() {
-      var module = utils.module('foo', null, false);
-      expect(module._priv).toBeDefined();
-      expect(_.size(module)).toEqual(1); // just _priv
+  describe('utils.reduce', function() {
+    var scope = {
+      foo: { bar: { baz: 'robot' } }
+    };
+
+    beforeEach(function() {
+      window._test_utils_reduce = {
+        does: { exist: 'foo' }
+      };
     });
 
-    it('should allow extending a base object', function() {
-      var module = utils.module('foo', { 'bar': 123 }, false);
-      expect(module.bar).toEqual(123);
+    afterEach(function() {
+      delete window._test_utils_reduce;
     });
 
-    it('should allow attaching to the global window', function() {
-      var module = utils.module('foo_test', null, false);
-      expect(window.foo_test).toBeUndefined();
+    it('should return null if object does not exist', function() {
+      expect(utils.reduce('this.does.not.exist')).toEqual(null);
+    });
 
-      module = utils.module('foo_test', null, true);
-      expect(window.foo_test).toBeDefined();
-      expect(module).toEqual(window.foo_test);
-      delete window.foo_test;
+    it('should return object on global window by default', function() {
+      expect(utils.reduce('_test_utils_reduce.does.exist')).toEqual('foo');
+    });
+
+    it('should return object on scope if passed', function() {
+      expect(utils.reduce('_test_utils_reduce.does.exist', scope)).toEqual(null);
+      expect(utils.reduce('foo.bar.baz', scope)).toEqual('robot');
     });
   });
 
-  /*
+  /**
    * utils.no_quotes
    */
   describe('utils.no_quotes', function() {
@@ -127,7 +159,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.extension
    */
   describe('utils.extension', function() {
@@ -139,7 +171,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.script_element_string
    */
   describe('utils.script_element_string', function() {
@@ -154,7 +186,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.style_element_string
    */
   describe('utils.style_element_string', function() {
@@ -169,7 +201,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.resource_tag
    */
   describe('utils.resource_tag', function() {
@@ -189,7 +221,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.resource_element_string
    */
   describe('utils.resource_element_string', function() {
@@ -204,7 +236,26 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
+   * utils.path
+   */
+  describe('utils.path', function() {
+    it('should return a path without a protocol', function() {
+      expect(utils.path('gopher://example.tld')).not.toContain('gopher://');
+    });
+
+    it('should return a path without an extensioned filename', function() {
+      expect(utils.path('http://example.tld/file.html')).not.toContain('file.html');
+    });
+
+    it('should return a domain name and directory path', function() {
+      expect(utils.path('http://example.tld/dir/dir/file.html')).toEqual('example.tld/dir/dir');
+      expect(utils.path('http://example.tld/dir/dir/')).toEqual('example.tld/dir/dir');
+      expect(utils.path('http://example.tld/dir/dir')).toEqual('example.tld/dir/dir');
+    });
+  });
+
+  /**
    * utils.resolve_now
    */
   describe('utils.resolve_now', function(done) {
@@ -217,7 +268,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.reject_now
    */
   describe('utils.reject_now', function(done) {
@@ -230,7 +281,7 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
    * utils.clamp
    */
   describe('utils.clamp', function() {
@@ -264,7 +315,63 @@ function(utils, config, $, _) {
     });
   });
 
-  /*
+  /**
+   * utils.clone
+   */
+  describe('utils.clone', function() {
+    var obj = { foo: 'bar', bar: 'baz' };
+
+    it('should not modify original object', function() {
+      var before = JSON.stringify(obj);
+      var clone = utils.clone(obj);
+      clone.foo = false;
+      var after = JSON.stringify(obj);
+
+      expect(before).toEqual(after);
+    });
+
+    it('should contain all keys/values of original object', function() {
+      var clone = utils.clone(obj);
+      expect(JSON.stringify(obj)).toEqual(JSON.stringify(clone));
+    });
+  });
+
+  /**
+   * utils.value
+   */
+  describe('utils.value', function(done) {
+    it('should read a value passed directly', function() {
+      utils.value('foo_A').done(function(val) {
+        expect(val).toEqual('foo_A');
+      }).always(done);
+    });
+
+    it('should read a value passed from a function', function() {
+      utils.value(function() { return 'foo_B' }).done(function(val) {
+        expect(val).toEqual('foo_B');
+      }).always(done);
+    });
+
+    it('should read a value passed from a promise', function() {
+      utils.value(utils.resolve_now('foo_C')).done(function(val) {
+        expect(val).toEqual('foo_C');
+      }).always(done);
+    });
+
+    it('should read a value passed from a promise-returning function', function() {
+      utils.value(function() { return utils.resolve_now('foo_D') }).done(function(val) {
+        expect(val).toEqual('foo_D');
+      }).always(done);
+    });
+
+    it('should read a value passed from a function-resolving promise', function() {
+      utils.value(utils.resolve_now(function() { return 'foo_E' })).done(function(val) {
+        expect(val).toEqual('foo_E');
+      }).always(done);
+    });
+  });
+
+  /**
    * utils.Buffer
    */
   describe('utils.Buffer', function() {
