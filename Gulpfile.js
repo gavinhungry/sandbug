@@ -13,6 +13,8 @@
   var mincss = require('gulp-minify-css');
   var rename = require('gulp-rename');
 
+  var nodemon = require('gulp-nodemon');
+
   var minified = { suffix: '.min' };
 
   /**
@@ -87,6 +89,13 @@
   gulp.task('watch', ['default'], function() {
     gulp.watch('./public/src/js/*.js', ['js']);
     gulp.watch('./public/src/less/*.less', ['less']);
+  });
+
+  /**
+   * Keep watching and restart
+   */
+  gulp.task('develop', ['watch'], function() {
+    return nodemon({ script: 'debuggerio.js', ext: 'js json less' });
   });
 
   /**

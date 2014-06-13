@@ -12,6 +12,7 @@
     "gulp-less": "1.2.x",
     "gulp-minify-css": "0.3.x",
     "gulp-rename": "1.2.x",
+    "gulp-nodemon": "1.0.x",
     "git-rev": "0.2.x",
     "overtake": "0.5.x"
   },
