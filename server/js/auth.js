@@ -54,7 +54,8 @@ function(
       });
     }));
 
-    server.use(bodyParser());
+    server.use(bodyParser.json());
+    server.use(bodyParser.urlencoded({ extended: true }));
     server.use(cookieParser());
     server.use(cookieSession({
       secret: config.auth.secret,
