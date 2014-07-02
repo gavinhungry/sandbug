@@ -8,7 +8,7 @@
 
   var overtake = require('overtake');
 
-  var clean  = require('gulp-clean');
+  var rimraf = require('gulp-rimraf');
   var less   = require('gulp-less');
   var mincss = require('gulp-minify-css');
   var rename = require('gulp-rename');
@@ -27,7 +27,7 @@
       './public/js',
       './frame/css/*.min.css'
     ], { read: false })
-    .pipe(clean());
+    .pipe(rimraf());
   });
 
   /**
