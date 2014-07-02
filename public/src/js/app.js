@@ -2,17 +2,31 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bugs', 'bus', 'cdn', 'dom', 'flash', 'frame', 'keys', 'locales',
-  'mirrors', 'panels', 'router', 'templates', 'themes', 'toolbar'
-],
-function(
-  config, utils, $, _,
-  Backbone, bugs, bus, cdn, dom, flash, frame, keys, locales, mirrors, panels,
-  router, templates, themes, toolbar
-) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var Backbone  = require('backbone');
+  var bugs      = require('bugs');
+  var cdn       = require('cdn');
+  var dom       = require('dom');
+  var flash     = require('flash');
+  var frame     = require('frame');
+  var keys      = require('keys');
+  var locales   = require('locales');
+  var mirrors   = require('mirrors');
+  var panels    = require('panels');
+  var router    = require('router');
+  var templates = require('templates');
+  var themes    = require('themes');
+  var toolbar   = require('toolbar');
+
+  // ---
 
   var app = utils.module('app');
 

@@ -4,14 +4,22 @@
  * bugs.js: bug actions
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'flash', 'frame', 'mirrors', 'popups'
-],
-function(
-  config, utils, $, _, Backbone, bus, flash, frame, mirrors, popups
-) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var Backbone = require('backbone');
+  var flash    = require('flash');
+  var frame    = require('frame');
+  var mirrors  = require('mirrors');
+  var popups   = require('popups');
+
+  // ---
 
   var bugs = utils.module('bugs');
 

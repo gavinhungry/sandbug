@@ -4,12 +4,21 @@
  * cdn.js: client-side CDN filter
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'dom', 'keys', 'templates'
-],
-function(config, utils, $, _, Backbone, bus, dom, keys, templates) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var Backbone  = require('backbone');
+  var dom       = require('dom');
+  var keys      = require('keys');
+  var templates = require('templates');
+
+  // ---
 
   var cdn = utils.module('cdn');
 

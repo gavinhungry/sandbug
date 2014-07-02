@@ -4,12 +4,18 @@
  * frame.js: sandboxed iframe
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'bus', 'mirrors'
-],
-function(config, utils, $, _, bus, mirrors) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var mirrors = require('mirrors');
+
+  // ---
 
   var frame = utils.module('frame');
 

@@ -2,17 +2,21 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'underscore', 'q',
-  'http', 'https'
-],
-function(
-  module, path, _, Q,
-  http, https
-) {
+define(function(require) {
   'use strict';
 
+  var _ = require('underscore');
+
+  var http  = require('http');
+  var https = require('https');
+  var Q     = require('q');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
+
+  // ---
+
   var utils = {};
 
   /**

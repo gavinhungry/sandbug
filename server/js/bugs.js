@@ -2,17 +2,24 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'db', 'mongoose'
-],
-function(
-  module, path, config, utils, _, Q,
-  auth, db, mongoose
-) {
+define(function(require) {
   'use strict';
 
+  var _      = require('underscore');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var auth     = require('auth');
+  var db       = require('db');
+  var mongoose = require('mongoose');
+  var Q        = require('q');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
+
+  // ---
+
   var bugs = {};
 
   var mongoose_p = (function() {

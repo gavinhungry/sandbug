@@ -4,12 +4,17 @@
  * bus.js: Backbone event bus
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'backbone'
-],
-function(config, utils, $, _, Backbone) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var Backbone = require('backbone');
+
+  // ---
 
   var bus = utils.module('bus', _.clone(Backbone.Events));
 

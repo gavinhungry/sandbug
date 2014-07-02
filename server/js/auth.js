@@ -2,19 +2,30 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'bcrypt-nodejs', 'body-parser', 'cookie-parser', 'cookie-session', 'csurf',
-  'db', 'express', 'passport', 'passport-local', 'validator'
-],
-function(
-  module, path, config, utils, _, Q,
-  bcrypt, bodyParser, cookieParser, cookieSession, csurf, db, express, passport,
-  local, validator
-) {
+define(function(require) {
   'use strict';
 
+  var _      = require('underscore');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var bcrypt        = require('bcrypt-nodejs');
+  var bodyParser    = require('body-parser');
+  var cookieParser  = require('cookie-parser');
+  var cookieSession = require('cookie-session');
+  var csurf         = require('csurf');
+  var db            = require('db');
+  var local         = require('passport-local');
+  var passport      = require('passport');
+  var Q             = require('q');
+  var validator     = require('validator');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
+
+  // ---
+
   var auth = {};
 
   /**

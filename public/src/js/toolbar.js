@@ -4,16 +4,23 @@
  * toolbar.js: user toolbar
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'backbone', 'bus', 'dom', 'panels', 'templates', 'themes',
-  'user'
-],
-function(
-  config, utils, $, _, Backbone,
-  bus, dom, panels, templates, themes, user
-) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var Backbone  = require('backbone');
+  var dom       = require('dom');
+  var panels    = require('panels');
+  var templates = require('templates');
+  var themes    = require('themes');
+  var user      = require('user');
+
+  // ---
 
   var toolbar = utils.module('toolbar');
 

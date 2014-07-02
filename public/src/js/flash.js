@@ -4,12 +4,20 @@
  * flash.js: flash messages
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'bus', 'dom', 'locales', 'templates'
-],
-function(config, utils, $, _, bus, dom, locales, templates) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var dom       = require('dom');
+  var locales   = require('locales');
+  var templates = require('templates');
+
+  // ---
 
   var flash = utils.module('flash');
 

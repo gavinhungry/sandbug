@@ -2,17 +2,22 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'mongojs'
-],
-function(
-  module, path, config, utils, _, Q,
-  mongo
-) {
+define(function(require) {
   'use strict';
 
+  var _      = require('underscore');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var mongojs = require('mongojs');
+  var Q       = require('q');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
+
+  // ---
+
   var db = {};
 
   db.dsn = _.sprintf('%s:%s@%s:%s/%s',

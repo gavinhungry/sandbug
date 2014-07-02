@@ -4,12 +4,19 @@
  * mirrors.js: CodeMirror instances
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'bus', 'codemirror', 'dom'
-],
-function(config, utils, $, _, bus, CodeMirror, dom) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var CodeMirror = require('codemirror');
+  var dom = require('dom');
+
+  // ---
 
   var mirrors = utils.module('mirrors');
 

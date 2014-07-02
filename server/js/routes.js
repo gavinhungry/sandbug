@@ -2,17 +2,22 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth','bugs'
-],
-function(
-  module, path, config, utils, _, Q,
-  auth, bugs
-) {
+define(function(require) {
   'use strict';
 
+  var _      = require('underscore');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var auth = require('auth');
+  var bugs = require('bugs');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
+
+  // ---
+
   var routes = { get: {}, put: {}, post: {} };
 
   // GET /

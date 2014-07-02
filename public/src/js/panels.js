@@ -4,12 +4,20 @@
  * panels.js: resizable panels and layouts
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore', 'hammer',
-  'bus', 'dom', 'mirrors'
-],
-function(config, utils, $, _, Hammer, bus, dom, mirrors) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var Hammer  = require('hammer');
+  var dom     = require('dom');
+  var mirrors = require('mirrors');
+
+  // ---
 
   var panels = utils.module('panels');
 

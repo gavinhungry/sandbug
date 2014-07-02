@@ -2,18 +2,25 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'config', 'utils', 'underscore', 'q',
-  'auth', 'consolidate', 'express', 'routes',
-  'connect-mobile-detection'
-],
-function(
-  module, path, config, utils, _, Q,
-  auth, cons, express, routes, mobile
-) {
+define(function(require) {
   'use strict';
 
+  var _      = require('underscore');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var auth    = require('auth');
+  var cons    = require('consolidate');
+  var express = require('express');
+  var mobile  = require('connect-mobile-detection');
+  var routes  = require('routes');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
+
+  // ---
+
   var app = {};
 
   // Express server

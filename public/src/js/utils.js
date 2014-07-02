@@ -4,9 +4,14 @@
  * utils.js: utility functions
  */
 
-define(['config', 'jquery', 'underscore'],
-function(config, $, _) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var config = require('config');
+
+  // ---
 
   var utils;
 

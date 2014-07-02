@@ -2,20 +2,23 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-define([
-  'module', 'path', 'underscore', 'q',
-  'cjson', 'utils'
-],
-function(
-  module, path, _, Q,
-  cjson, utils
-) {
+define(function(require) {
   'use strict';
 
+  var _     = require('underscore');
+  var utils = require('utils');
+
+  var cjson = require('cjson');
+
+  var module    = require('module');
+  var path      = require('path');
   var __dirname = path.dirname(module.uri);
-  var appRoot = __dirname + '/../../';
+
+  // ---
 
   var config = { client: {} };
+
+  var appRoot = __dirname + '/../../';
 
   var required_options = [
     'db.name',

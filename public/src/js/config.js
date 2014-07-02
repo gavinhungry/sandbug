@@ -4,15 +4,25 @@
  * config.js: simple configuration manager
  */
 
-define(['promise!config_p'], function(config) {
+define(function(require) {
+  'use strict';
+
+  var config = require('promise!config_p');
+
+  // ---
+
   delete window._debugger_io;
   if (!config.prod) { window.config = config; }
   return config;
 });
 
-define('config_p', ['jquery', 'underscore'],
-function($, _) {
+define('config_p', function(require) {
   'use strict';
+
+  var $ = require('jquery');
+  var _ = require('underscore');
+
+  // ---
 
   var config = Object.create(null, {
     _priv: { value: Object.create(null) }

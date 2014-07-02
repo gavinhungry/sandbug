@@ -4,15 +4,18 @@
  * user.js: user actions
  */
 
-define([
-  'config', 'utils', 'jquery', 'underscore',
-  'bus', 'flash'
-],
-function(
-  config, utils, $, _,
-  bus, flash
-) {
+define(function(require) {
   'use strict';
+
+  var $      = require('jquery');
+  var _      = require('underscore');
+  var bus    = require('bus');
+  var config = require('config');
+  var utils  = require('utils');
+
+  var flash = require('flash');
+
+  // ---
 
   var user = utils.module('user');
 
