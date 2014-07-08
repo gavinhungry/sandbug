@@ -79,7 +79,7 @@
       fs.writeFile('./build.json', JSON.stringify({
         date: (new Date()).toISOString(),
         rev: rev
-      }), function() { done(); });
+      }, null, 2) + '\n', function() { done(); });
     });
   });
 
