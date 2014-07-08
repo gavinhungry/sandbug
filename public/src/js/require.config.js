@@ -23,7 +23,7 @@
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
       underscorejs: '//cdn.jsdelivr.net/lodash/2.4/lodash.min',
       backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1/backbone-min',
-      codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.2/codemirror.min',
+      codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.3/codemirror.min',
       hammer: '//cdn.jsdelivr.net/hammerjs/1.1/hammer.min',
 
       // plugins
@@ -36,24 +36,24 @@
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
-      cm_overlay: '//cdn.jsdelivr.net/codemirror/4.2/addon/mode/overlay',
-      cm_search: '//cdn.jsdelivr.net/codemirror/4.2/addon/search/searchcursor',
+      cm_overlay: '//cdn.jsdelivr.net/codemirror/4.3/addon/mode/overlay',
+      cm_search: '//cdn.jsdelivr.net/codemirror/4.3/addon/search/searchcursor',
 
       // CodeMirror markup
-      cm_xml: '//cdn.jsdelivr.net/codemirror/4.2/mode/xml/xml',
-      cm_html: '//cdn.jsdelivr.net/codemirror/4.2/mode/htmlmixed/htmlmixed',
-      cm_markdown: '//cdn.jsdelivr.net/codemirror/4.2/mode/markdown/markdown',
-      cm_gfm: '//cdn.jsdelivr.net/codemirror/4.2/mode/gfm/gfm',
-      cm_jade: '//cdn.jsdelivr.net/codemirror/4.2/mode/jade/jade',
-      cm_ruby: '//cdn.jsdelivr.net/codemirror/4.2/mode/ruby/ruby',
-      cm_haml: '//cdn.jsdelivr.net/codemirror/4.2/mode/haml/haml',
+      cm_xml: '//cdn.jsdelivr.net/codemirror/4.3/mode/xml/xml',
+      cm_html: '//cdn.jsdelivr.net/codemirror/4.3/mode/htmlmixed/htmlmixed',
+      cm_markdown: '//cdn.jsdelivr.net/codemirror/4.3/mode/markdown/markdown',
+      cm_gfm: '//cdn.jsdelivr.net/codemirror/4.3/mode/gfm/gfm',
+      cm_jade: '//cdn.jsdelivr.net/codemirror/4.3/mode/jade/jade',
+      cm_ruby: '//cdn.jsdelivr.net/codemirror/4.3/mode/ruby/ruby',
+      cm_haml: '//cdn.jsdelivr.net/codemirror/4.3/mode/haml/haml',
 
       // CodeMirror style
-      cm_css: '//cdn.jsdelivr.net/codemirror/4.2/mode/css/css',
+      cm_css: '//cdn.jsdelivr.net/codemirror/4.3/mode/css/css',
 
       // CodeMirror script
-      cm_js: '//cdn.jsdelivr.net/codemirror/4.2/mode/javascript/javascript',
-      cm_coffeescript: '//cdn.jsdelivr.net/codemirror/4.2/mode/coffeescript/coffeescript',
+      cm_js: '//cdn.jsdelivr.net/codemirror/4.3/mode/javascript/javascript',
+      cm_coffeescript: '//cdn.jsdelivr.net/codemirror/4.3/mode/coffeescript/coffeescript',
 
       jquery: 'libs/jquery',
       underscore: 'libs/underscore',
