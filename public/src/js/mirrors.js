@@ -51,6 +51,11 @@ define(function(require) {
         last_focused = mirror;
       });
 
+      cm.on('change', function() {
+        var content = mirrors.get_content(mirror);
+        bus.trigger('mirrors:content', mirror.panel, content);
+      });
+
       mirrors.scrollable(mirror);
       instances.push(mirror);
     });
@@ -309,6 +314,19 @@ define(function(require) {
   };
 
   /**
+   * Get the content for a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   * @return {String} content of mirror
+   */
+  mirrors.get_content = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror) { return ''; }
+
+    return mirror.cm.getValue();
+  };
+
+  /**
    * Set the content for a mirror
    *
    * @param {String | Object} m - panel id or mirror
@@ -329,7 +347,7 @@ define(function(require) {
    */
   mirrors.get_theme = function(m) {
     var mirror = mirrors.get_instance(m);
-    if (!mirror) { return null; }
+    if (!mirror) { return ''; }
 
     return mirror.cm.getOption('theme');
   };
