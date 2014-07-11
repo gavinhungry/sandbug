@@ -27,7 +27,11 @@ define(function(require) {
     bugs._priv.current = {};
 
     bus.on('mirrors:mode', function(panel, mode, label) {
-      // deep-model
+      bugs.model().set(_.sprintf('map.%s.mode', panel), mode);
+    });
+
+    bus.on('mirrors:content', function(panel, content) {
+      bugs.model().set(_.sprintf('map.%s.content', panel), content);
     });
   });
 
@@ -60,6 +64,21 @@ define(function(require) {
       return this;
     }
   });
+
+  /**
+   * Get default bug model schema
+   *
+   * @return {Promise}
+   */
+  bugs.get_schema = function() {
+    if (bugs._priv.schema) {
+      return utils.resolve_now(bugs._priv.schema);
+    }
+
+    return $.get('/api/models/bug').then(function(schema) {
+      return bugs._priv.schema = schema;
+    });
+  };
 
   /**
    * Get the current bug model

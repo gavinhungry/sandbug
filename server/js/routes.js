@@ -34,12 +34,12 @@ define(function(require) {
     });
   };
 
-  // GET /config - additional client-side config options
+  // GET /api/config - additional client-side config options
   routes.get.config = function(req, res) {
     res.json(config.client);
   };
 
-  // POST /signup
+  // POST /api/signup
   routes.post.signup = function(req, res) {
     var username = req.body.username;
     var email    = req.body.email;
@@ -57,25 +57,25 @@ define(function(require) {
     }).done();
   };
 
-  // POST /login
+  // POST /api/login
   routes.post.login = function(req, res) {
     var user = req.user || {};
     var username = auth.sanitize_username(user.username);
     res.json(username);
   };
 
-  // POST /logout
+  // POST /api/logout
   routes.post.logout = function(req, res) {
     req.logout();
     res.json(true);
   };
 
-  // GET /bugs/:bugslug
+  // GET /api/bugs/:bugslug
   routes.get.bug = function(req, res) {
     var user = req.user || {};
 
     bugs.get_by_slug(req.params.bugslug)
-    .done(function(bug) {
+    .then(function(bug) {
       var msg = new utils.LocaleMsg();
 
       if (!bug) { return res.status(404).json(msg.set_id('bug_not_found')); }
@@ -85,17 +85,17 @@ define(function(require) {
       }
 
       res.json(bug);
-    }, utils.server_error_handler(res));
+    }, utils.server_error_handler(res)).done();
   };
 
-  // PUT /bugs/:bugslug
+  // PUT /api/bugs/:bugslug
   routes.put.bug = function(req, res) {
     var user = req.user || {};
 
     var data = req.body;
     var msg = new utils.LocaleMsg();
 
-    bugs.get_model_by_slug(data.slug).done(function(bug) {
+    bugs.get_model_by_slug(data.slug).then(function(bug) {
 
       _.merge(bug, data);
 
@@ -103,19 +103,32 @@ define(function(require) {
         if (err) { return utils.server_error(res, err); }
         res.json(msg.set_id('bug_saved'));
       });
-    }, utils.server_error_handler(res));
+    }, utils.server_error_handler(res)).done();
   };
 
-  // POST /bugs/:bugslug
+  // POST /api/bugs/:bugslug
   routes.post.bug = function(req, res) {
     var user = req.user || {};
 
-    bugs.new_bug(req.body).done(function(bug) {
+    bugs.new_bug(req.body).then(function(bug) {
       bug.save(function(err) {
         // ?
       });
-    });
+    }, utils.server_error_handler(res)).done();
   };
+
+  // GET /api/models/bug
+  routes.get.bug_model = function(req, res) {
+    bugs.new_bug({
+      _id: undefined,
+      created: undefined,
+      updated: undefined,
+      title: ''
+    }).then(function(model) {
+      res.json(model);
+    }, utils.server_error_handler(res)).done();
+  };
+
 
   return routes;
 });
