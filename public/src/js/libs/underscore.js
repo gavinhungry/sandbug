@@ -5,10 +5,18 @@
 /**
  * Underscore.js (Lo-Dash)
  *
- * Includes: Underscore.string, underscore.inflection
+ * Includes: Underscore.string, underscore.inflection, _.objMapFunctions
  */
-define(['underscorejs', 'string', 'inflection'],
-function(_, str, inflection) {
+define(function(require) {
+  'use strict';
+
+  var _ = require('underscorejs');
+  var str = require('string');
+  var inflection = require('inflection');
+  var objmap = require('objmap');
+
   _.mixin(str.exports());
-  return _; // _.noConflict();
+  _.mixin(objmap);
+
+  return _;
 });

@@ -34,6 +34,7 @@
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
       string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
+      objmap: 'plugins/_.objMapFunctions.amd.min',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
       cm_overlay: '//cdn.jsdelivr.net/codemirror/4.3/addon/mode/overlay',
@@ -85,6 +86,10 @@
       deepmodel: {
         underscore: 'underscorejs',
         backbone: 'backbonejs'
+      },
+
+      objmap: {
+        underscore: 'underscorejs'
       }
     },
 
@@ -104,6 +109,7 @@
       hammer: { deps: ['jqueryjs'] },
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
+      objmap: { deps: ['underscorejs'] },
       deepmodel: { deps: ['underscorejs', 'backbonejs'] },
 
       cm_overlay: { deps: ['codemirrorjs'] },
