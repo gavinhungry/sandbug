@@ -7,6 +7,19 @@
 define(function(require) {
   'use strict';
 
+  var bugs = require('promise!bugs_p');
+
+  // append default schema with default mirror modes
+  _.each(bugs._priv.schema.map, function(map, panel) {
+    map.mode = mirrors.get_default_mode(panel);
+  });
+
+  return bugs;
+});
+
+define('bugs_p', function(require) {
+  'use strict';
+
   var $      = require('jquery');
   var _      = require('underscore');
   var bus    = require('bus');
@@ -66,35 +79,20 @@ define(function(require) {
   });
 
   /**
-   * Get default bug model schema
-   *
-   * @return {Promise}
-   */
-  bugs.get_schema = function() {
-    if (bugs._priv.schema) {
-      return utils.resolve_now(bugs._priv.schema);
-    }
-
-    return $.get('/api/models/bug').then(function(schema) {
-      return bugs._priv.schema = schema;
-    });
-  };
-
-  /**
-   * Get the current bug model
+   * Get the current (or new) bug model
    *
    * @return {bugs.Bug}
    */
   bugs.model = function() {
     if (!(bugs._priv.current.model instanceof bugs.Bug)) {
-      bugs._priv.current.model = new bugs.Bug();
+      bugs._priv.current.model = bugs.create();
     }
 
     return bugs._priv.current.model;
   };
 
   /**
-   * Get the current bug view
+   * Get the current (or new) bug view
    *
    * @return {bugs.BugView}
    */
@@ -114,7 +112,7 @@ define(function(require) {
   bugs.display = function(bug) {
     var props = bug.toJSON();
 
-    bus.trigger('navigate', 'bugs/' + props.slug);
+    bus.trigger('navigate', props.slug ? ('bugs/' + props.slug) : '');
 
     // destroy previous model
     if (bug !== bugs.model()) { bugs.model().destroy(); }
@@ -173,8 +171,18 @@ define(function(require) {
    * Create a new bug
    */
   bugs.create = function() {
-
+    return new bugs.Bug(bugs._priv.schema);
   };
 
-  return bugs;
+  // get bug schema from server
+  var d = $.Deferred();
+  $.get('/api/models/bug').done(function(schema) {
+    bugs._priv.schema = schema;
+    d.resolve(bugs);
+  }).fail(function() {
+    bugs._priv.schema = {};
+    d.resolve(bugs);
+  });
+
+  return d.promise();
 });

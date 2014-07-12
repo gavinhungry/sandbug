@@ -258,7 +258,7 @@ define(function(require) {
   var get_mode_set = function(panel, mode) {
     return _.find(mirror_mode_sets[panel], function(set) {
       return set.mode === mode || set.cm_mode === mode;
-    });
+    }) || _.first(mirror_mode_sets[panel]);
   };
 
   /**
@@ -278,11 +278,11 @@ define(function(require) {
    * Set the mode for a mirror
    *
    * @param {String | Object} m - panel id or mirror
-   * @param {String} mode - new mode to set
+   * @param {String} [mode] - new mode to set
    */
   mirrors.set_mode = function(m, mode) {
     var mirror = mirrors.get_instance(m);
-    if (!mirror || !_.isString(mode)) { return; }
+    if (!mirror) { return; }
 
     var set = get_mode_set(mirror.panel, mode);
     if (!set) { return; }
@@ -291,6 +291,21 @@ define(function(require) {
     mirror.mode = set.mode;
 
     bus.trigger('mirrors:mode', mirror.panel, set.mode, set.label);
+  };
+
+  /**
+   * Get the default mode of a mirror
+   *
+   * @param {String | Object} m - panel id or mirror
+   * @return {String | null}
+   */
+  mirrors.get_default_mode = function(m) {
+    var mirror = mirrors.get_instance(m);
+    if (!mirror && !_.isString(m)) { return null; }
+
+    var panel = mirror ? mirror.panel : m;
+    var set = get_mode_set(panel);
+    return set ? set.mode : null;
   };
 
   /**
@@ -317,11 +332,11 @@ define(function(require) {
    * Get the content for a mirror
    *
    * @param {String | Object} m - panel id or mirror
-   * @return {String} content of mirror
+   * @return {String | null} content of mirror
    */
   mirrors.get_content = function(m) {
     var mirror = mirrors.get_instance(m);
-    if (!mirror) { return ''; }
+    if (!mirror) { return null; }
 
     return mirror.cm.getValue();
   };
