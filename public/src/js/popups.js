@@ -256,11 +256,14 @@ define(function(require) {
 
         var $input = that.$el.find(_.sprintf("input[name='%s']", extra.name));
 
-        $input.on('input input-filter', function(e) {
+        $input.on('input input-filter', function(e, no_copy) {
+          var $this = $(this);
           var filtering = (e.type === 'input-filter');
 
+          // mark manually updated inputs
+          if ($this.is(':focus')) { $this.data('touched', true); }
+
           if (_.isFunction(extra.filter)) {
-            var $this = $(this);
             var start = this.selectionStart, end = this.selectionEnd;
 
             var val = extra.filter($this.val());
@@ -271,9 +274,11 @@ define(function(require) {
 
           if (extra.copy_to) {
             var $dest = that.$el.find(_.sprintf("input[name='%s']", extra.copy_to));
-            $dest.val($input.val()).trigger('input-filter');
+            if (!$dest.data('touched') && (!no_copy || !$dest.val())) {
+              $dest.val($input.val()).trigger('input-filter');
+            }
           }
-        });
+        }).trigger('input-filter', true); // filter existing values right away
       });
     }
   });

@@ -154,15 +154,24 @@ define('bugs_p', function(require) {
    *
    * @return {Promise}
    */
-  bugs.save = function() {
+  bugs.save_as = function() {
+    var model = bugs.model();
+
     return popups.prompt('bug_name_pick', [
-      { name: 'title', placeholder: 'bug_title', copy_to: 'slug' },
-      { name: 'slug', placeholder: 'url_slug', filter: _.slugify }
+      {
+        name: 'title',
+        placeholder: 'bug_title',
+        value: model.get('title'),
+        copy_to: 'slug'
+      }, {
+        name: 'slug',
+        placeholder: 'url_slug',
+        value: model.get('slug'),
+        filter: _.slugify
+      }
     ]).done(function(result) {
-
-      bugs.console.log(result);
-
-      // save bugs.model() here (with new slug? need a "Save As"?)
+      model.set('title', result.title);
+      model.set('slug', result.slug);
     });
   };
 

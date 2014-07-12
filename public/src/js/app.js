@@ -87,7 +87,7 @@ define(function(require) {
     },
 
     save: function() {
-      bugs.save();
+      bugs.save_as(); // FIXME, need "Save" and "Save As"
     },
 
     register_keys: function() {
