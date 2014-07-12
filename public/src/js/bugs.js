@@ -65,9 +65,9 @@ define('bugs_p', function(require) {
    */
   bugs.BugView = Backbone.View.extend({
     render: function() {
-      var props = this.model.toJSON();
+      var map = this.model.get('map');
 
-      _.each(props.map, function(value, key) {
+      _.each(map, function(value, key) {
         mirrors.set_mode(key, value.mode);
         mirrors.set_content(key, value.content);
       });
@@ -110,9 +110,8 @@ define('bugs_p', function(require) {
    * @param {bugs.Bug} bug
    */
   bugs.display = function(bug) {
-    var props = bug.toJSON();
-
-    bus.trigger('navigate', props.slug ? ('bugs/' + props.slug) : '');
+    var slug = this.model.get('slug');
+    bus.trigger('navigate', slug ? ('bugs/' + slug) : '');
 
     // destroy previous model
     if (bug !== bugs.model()) { bugs.model().destroy(); }
