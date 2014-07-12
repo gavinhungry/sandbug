@@ -9,8 +9,8 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var mongojs = require('mongojs');
-  var Q       = require('q');
+  var mongo = require('mongojs');
+  var Q     = require('q');
 
   var module    = require('module');
   var path      = require('path');
