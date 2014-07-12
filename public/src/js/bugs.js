@@ -156,7 +156,7 @@ define('bugs_p', function(require) {
    * @return {Promise}
    */
   bugs.save = function() {
-    return popups.popup('input', 'bug_name_pick', [
+    return popups.prompt('bug_name_pick', [
       { name: 'title', placeholder: 'bug_title', copy_to: 'slug' },
       { name: 'slug', placeholder: 'url_slug', filter: _.slugify }
     ]).done(function(result) {

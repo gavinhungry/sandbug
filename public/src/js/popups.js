@@ -282,6 +282,7 @@ define(function(require) {
    * Build a popup and show it right away
    *
    * @param {String} name - name of the popup template to use
+   * @param {String} title - locale key to use as popup title
    * @param {Object} [extras] - optional data to pass to template
    * @return {Promise} to resolve to a map of the submitted form
    */
@@ -380,6 +381,17 @@ define(function(require) {
   popups.destroy = function() {
     return currentView instanceof popups.PopupView ?
       currentView.destroy() : utils.resolve_now(true);
+  };
+
+  /**
+   * User prompt using input popup
+   *
+   * @param {String} title - locale key to use as popup title
+   * @param {Object|Array} - inputs, or an array of inputs
+   * @return {Promise}
+   */
+  popups.prompt = function(title, inputs) {
+    return popups.popup('input', title, utils.ensure_array(inputs));
   };
 
   return popups;
