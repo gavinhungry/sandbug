@@ -44,14 +44,14 @@ define(function(require) {
         flash.message_good(locales.string('logged_in', username),
           '@logged_in_msg');
 
-        that.$save.transitIn();
+        that.$saves.transitIn();
       });
 
       bus.on('user:logout', function() {
         config.username = null;
         flash.message('@logged_out', '@logged_out_msg');
 
-        that.$save.transitOut();
+        that.$saves.transitOut();
       });
 
       bus.on('config:mode', function(mode) {
@@ -78,6 +78,7 @@ define(function(require) {
     events: {
       'click #run': 'run',
       'click #save': 'save',
+      'click #save_as': 'save_as',
       'click #auto': function(e) { config.autorun = !config.autorun; }
     },
 
@@ -87,7 +88,11 @@ define(function(require) {
     },
 
     save: function() {
-      bugs.save_as(); // FIXME, need "Save" and "Save As"
+      bugs.save();
+    },
+
+    save_as: function() {
+      bugs.save_as();
     },
 
     register_keys: function() {
@@ -138,12 +143,14 @@ define(function(require) {
         dom.cache(this, this.$el, {
           by_id: [
             'title', 'markup', 'style', 'script', 'input', 'output', 'save',
-            'auto'
+            'save_as', 'auto'
           ],
           by_class: ['panel', 'input-panel', 'panel-options']
         });
 
-        this.$save[!config.username ? 'transitOut' : 'transitIn']();
+        this.$saves = this.$save.add(this.$save_as);
+        this.$saves[!config.username ? 'transitOut' : 'transitIn']();
+
         this.$iframe = this.$output.children('iframe');
         this.$auto.prop('checked', config.autorun);
 

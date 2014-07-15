@@ -82,6 +82,8 @@ define(function(require) {
       bugSchema.pre('validate', function(next) {
         var model = this;
 
+        model.updated = Date.now();
+
         _.chain(bugSchema.paths).filter(function(key) {
           return _.first(key.path) !== '_';
         }).each(function(key) {
@@ -89,16 +91,17 @@ define(function(require) {
           var split = key.path.split('.');
           var last = split.pop();
           var base = utils.reduce(split.join('.'), model);
+          var value = utils.reduce(key.path, model);
 
           // use first enum value as default
           if (key.enumValues && key.enumValues.length &&
-            !_.contains(key.enumValues, model[key.path])) {
+            !_.contains(key.enumValues, value)) {
               base[last] = _.first(key.enumValues);
           }
 
           // allow for a filter function on strings
           if (key.options.type === String && _.isFunction(key.options.filter)) {
-             base[last] = key.options.filter(model[key.path]);
+             base[last] = key.options.filter(value);
           }
         });
 
@@ -158,6 +161,16 @@ define(function(require) {
     return bugs.get_model_by_slug(bugslug).then(function(bug) {
       return bug ? bug.toObject() : null;
     });
+  };
+
+  /**
+   * Ensure an argument is a bug, or resolve to a new bug
+   *
+   * @param {Mixed} bug
+   * @return {Promise} to resolve to the passed bug or a new bug
+   */
+  bugs.ensure_bug = function(bug) {
+    return bug instanceof bugs.Bug ? Q.when(bug) : bugs.new_bug();
   };
 
   return bugs;
