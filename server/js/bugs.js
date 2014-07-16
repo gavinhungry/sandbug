@@ -133,6 +133,21 @@ define(function(require) {
     });
   };
 
+  /**
+   * Save a bug model from user
+   *
+   * @param {bugs.Bug} bug
+   * @param {Express.response} res
+   */
+  bugs.save = function(bug, res) {
+    bug.save(function(err) {
+      if (err) { return utils.server_error(res, err); }
+
+      bugs.get_by_slug(bug.slug)
+        .then(res.json.bind(res), utils.server_error_handler(res))
+    });
+  };
+
  /**
    * Get the Mongoose model of a bug from a slug
    *
@@ -143,8 +158,9 @@ define(function(require) {
     var d = Q.defer();
     bugslug = _.slugify(bugslug);
 
-    bugs.Bug.findOne({ slug: bugslug }, function(err, bug) {
+    bugs.Bug.findOne({ slug: bugslug }, { _id: false }, function(err, bug) {
       if (err || !bug) { d.resolve(null); }
+
       d.resolve(bug);
     });
 

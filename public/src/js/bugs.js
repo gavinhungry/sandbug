@@ -52,11 +52,11 @@ define('bugs_p', function(require) {
    *
    */
   bugs.Bug = Backbone.DeepModel.extend({
-    idAttribute: '_id',
+    idAttribute: 'slug',
 
     _url: '/api/bugs/',
     url: function() {
-      return this._url + this.get('slug');
+      return this._url + this.get(this.idAttribute);
     }
   });
 
@@ -110,11 +110,14 @@ define('bugs_p', function(require) {
    * @param {bugs.Bug} bug
    */
   bugs.display = function(bug) {
-    var slug = bug.get('slug');
-    bus.trigger('navigate', slug ? ('bugs/' + slug) : '');
+    var bugslug = bug.get('slug');
+    bus.trigger('navigate', bugslug ? ('bugs/' + bugslug) : '');
 
     // destroy previous model
-    if (bug !== bugs.model()) { bugs.model().destroy(); }
+    if (bug === bugs.model()) { return; }
+
+    // destroy previous model
+    bugs.model().destroy();
 
     var view = new bugs.BugView({ model: bug });
 
@@ -136,7 +139,10 @@ define('bugs_p', function(require) {
     var bug = new bugs.Bug({ slug: bugslug });
     return bug.fetch().then(function() {
       return bug;
-    }, flash.xhr_error);
+    }, function(err) {
+      flash.xhr_error(err);
+      bus.trigger('navigate', '/');
+    });
   };
 
   /**
@@ -156,7 +162,15 @@ define('bugs_p', function(require) {
    */
   bugs.save = function() {
     var model = bugs.model();
-    return model.get('slug') ? model.save() : bugs.save_as();
+    var bugslug = model.get('slug');
+
+    if (!bugslug) { return bugs.save_as(); }
+
+    bugs.console.log('Saving bug', bugslug);
+    return model.save().then(function(res) {
+      flash.message_good('@bug_saved', locales.string('bug_saved_msg', res.slug));
+      bugs.display(model);
+    }, flash.xhr_error);
   };
 
   /**
@@ -191,6 +205,7 @@ define('bugs_p', function(require) {
    * Create a new bug
    */
   bugs.create = function() {
+    bugs.console.log('Creating new bug');
     return new bugs.Bug(bugs._priv.schema);
   };
 

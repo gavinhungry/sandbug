@@ -95,13 +95,12 @@ define(function(require) {
     var data = req.body;
     var msg = new utils.LocaleMsg();
 
-    bugs.get_model_by_slug(data.slug).then(bugs.ensure_bug).then(function(bug) {
+    bugs.get_model_by_slug(req.params.bugslug)
+    .then(bugs.ensure_bug)
+    .then(function(bug) {
       _.merge(bug, data);
 
-      bug.save(function(err) {
-        if (err) { return utils.server_error(res, err); }
-        res.json(bug);
-      });
+      bugs.save(bug, res);
     }, utils.server_error_handler(res)).done();
   };
 
@@ -111,11 +110,11 @@ define(function(require) {
 
     var msg = new utils.LocaleMsg();
 
-    bugs.new_bug(req.body).then(function(bug) {
-      bug.save(function(err) {
-        if (err) { return utils.server_error(res, err); }
-        res.json(bug);
-      });
+    var opts = _.clone(req.body);
+    opts.slug = req.params.bugslug;
+
+    bugs.new_bug(opts).then(function(bug) {
+      bugs.save(bug, res);
     }, utils.server_error_handler(res)).done();
   };
 
