@@ -113,7 +113,7 @@ define(function(require) {
       var heading_p = locales.string(head_args);
       var body_p = locales.string(msg_args);
 
-      flash.message(heading_p, body_p, msg.priority || priority);
+      flash.message(heading_p, body_p, null, msg.priority || priority);
     }
   };
 
