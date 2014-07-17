@@ -274,6 +274,7 @@ define(function(require) {
 
           if (extra.copy_to) {
             var $dest = that.$el.find(_.sprintf("input[name='%s']", extra.copy_to));
+            if (!$dest.val()) { $dest.data('touched', false); }
             if (!$dest.data('touched') && (!no_copy || !$dest.val())) {
               $dest.val($input.val()).trigger('input-filter');
             }
