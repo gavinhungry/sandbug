@@ -91,7 +91,7 @@ define(function(require) {
 
     if (!_.isString(plaintext) || !plaintext.length) { d.reject(); }
     else {
-      bcrypt.genSalt(null, function(err, salt) {
+      bcrypt.genSalt(config.auth.rounds, function(err, salt) {
         if (err) { return d.reject(err); }
 
         bcrypt.hash(plaintext, salt, null, function(err, hash) {
