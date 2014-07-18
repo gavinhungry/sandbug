@@ -42,12 +42,13 @@
   require(['jquery', 'underscore', 'compiler'], function($, _, compiler) {
     $(function() {
 
-      var reset = function(selector) {
-        var $elem = $(selector).first();
+      var frame_selector = '#frame';
+      var reset_frame = function() {
+        var $elem = $(frame_selector).first();
         if (!$elem.length) { return $(); }
 
         $elem.replaceWith($elem[0].outerHTML);
-        return $(selector).first();
+        return $(frame_selector).first();
       };
 
       $(window).on('message', function(e) {
@@ -61,7 +62,7 @@
           _.defer(function() {
 
             // reset the iframe and get the new document
-            var doc = reset('#frame')[0].contentDocument;
+            var doc = reset_frame()[0].contentDocument;
 
             doc.open();
             doc.write(str);
