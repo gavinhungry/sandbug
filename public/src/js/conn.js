@@ -86,6 +86,7 @@ define(function(require) {
 
     initialize: function() {
       this.collection.on('add', this.append.bind(this));
+      this.$el.draggable({ containment: 'window' });
 
       this.render();
     },
