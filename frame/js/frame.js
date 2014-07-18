@@ -41,7 +41,14 @@
 
   require(['jquery', 'underscore', 'compiler'], function($, _, compiler) {
     $(function() {
-      var $frame = $('#frame');
+
+      var reset = function(selector) {
+        var $elem = $(selector).first();
+        if (!$elem.length) { return $(); }
+
+        $elem.replaceWith($elem[0].outerHTML);
+        return $(selector).first();
+      };
 
       $(window).on('message', function(e) {
         var oe = e.originalEvent;
@@ -53,10 +60,8 @@
         compiler.compile_to_doc_str(oe.data.map).done(function(str) {
           _.defer(function() {
 
-            // clear the current document
-            $frame.attr('srcdoc', '').removeAttr('srcdoc');
-
-            var doc = $frame[0].contentDocument;
+            // reset the iframe and get the new document
+            var doc = reset('#frame')[0].contentDocument;
 
             doc.open();
             doc.write(str);
