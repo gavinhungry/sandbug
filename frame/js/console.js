@@ -13,8 +13,16 @@
         // send to built-in console
         fn.apply(console, arguments);
 
-        // send to debugger console
+        // send up towards debugger conn
+        var e = new CustomEvent('console', {
+          detail: {
+            timestamp: (new Date()).toISOString(),
+            type: method,
+            args: Array.prototype.slice.call(arguments)
+          }
+        });
 
+        parent.dispatchEvent(e);
       }
     }
   });

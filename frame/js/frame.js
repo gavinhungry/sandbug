@@ -42,6 +42,8 @@
   require(['jquery', 'underscore', 'compiler'], function($, _, compiler) {
     $(function() {
 
+      var origin, source;
+
       var frame_selector = '#frame';
       var reset_frame = function() {
         var $elem = $(frame_selector).first();
@@ -51,21 +53,52 @@
         return $(frame_selector).first();
       };
 
+      // ouput console to input
+      $(window).on('console', function(e) {
+        var data = e.originalEvent.detail;
+
+        if (!source || !origin) { return; }
+
+        source.postMessage({
+          action: 'console',
+          timestamp: data.timestamp,
+          type: data.type,
+
+          // we can't postMessage any data that is not stringify-able
+          args: _.map(data.args, function(arg) {
+            try {
+              JSON.parse(JSON.stringify(arg));
+              return arg;
+            } catch(err) {
+              return toString.call(arg);
+            }
+          })
+        }, origin);
+      });
+
+      // input to output
       $(window).on('message', function(e) {
         var oe = e.originalEvent;
         if (!oe.origin || !_.has(oe.data, 'timestamp')) { return; }
 
+        origin = oe.origin;
+        source = oe.source;
+
         // send ack to parent frame
-        oe.source.postMessage({
+        source.postMessage({
           action: 'ack',
           timestamp: oe.data.timestamp
-        }, oe.origin);
+        }, origin);
 
         compiler.compile_to_doc_str(oe.data.map).done(function(str) {
           _.defer(function() {
 
             // reset the iframe and get the new document
-            var doc = reset_frame()[0].contentDocument;
+            var frame = reset_frame()[0];
+            if (!frame) { return; }
+
+            var win = frame.contentWindow;
+            var doc = frame.contentDocument;
 
             doc.open();
             doc.write(str);

@@ -13,6 +13,7 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
+  var conn    = require('conn');
   var mirrors = require('mirrors');
 
   // ---
@@ -30,9 +31,15 @@ define(function(require) {
       var oe = e.originalEvent;
       if (oe.origin !== config.frame) { return; }
 
+      var data = oe.data;
+
       // ack from iframe: remove from list of pending updates
-      if (oe.data.action === 'ack') {
-        pending = _.without(pending, oe.data.ack);
+      if (data.action === 'ack') {
+        pending = _.without(pending, data.timestamp);
+      }
+
+      if (data.action === 'console') {
+        conn.write(data.type, data.timestamp, data.args);
       }
     });
 
