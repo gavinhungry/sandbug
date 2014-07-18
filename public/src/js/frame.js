@@ -70,6 +70,7 @@ define(function(require) {
 
       var map = mirrors.get_map();
       if (noscript) { map['script'].content = ''; }
+      else { conn.flush(); }
 
       frame.console.log('postMessage', timestamp);
       frameWindow.postMessage({

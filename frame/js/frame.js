@@ -42,7 +42,7 @@
   require(['jquery', 'underscore', 'compiler'], function($, _, compiler) {
     $(function() {
 
-      var origin, source;
+      var origin, source, win;
 
       var frame_selector = '#frame';
       var reset_frame = function() {
@@ -59,21 +59,33 @@
 
         if (!source || !origin) { return; }
 
-        source.postMessage({
+        var msg = {
           action: 'console',
           timestamp: data.timestamp,
           type: data.type,
+        };
 
           // we can't postMessage any data that is not stringify-able
-          args: _.map(data.args, function(arg) {
-            try {
-              JSON.parse(JSON.stringify(arg));
-              return arg;
-            } catch(err) {
-              return toString.call(arg);
+        msg.args = _.map(data.args, function(arg) {
+          if (arg instanceof win.Error) {
+            msg.type = 'error';
+            return arg.toString();
+          }
+
+          try {
+            JSON.parse(JSON.stringify(arg));
+            return arg;
+          } catch(err) {
+
+            if (typeof arg.toString === 'function') {
+              return arg.toString();
             }
-          })
-        }, origin);
+
+            return toString.call(arg);
+          }
+        });
+
+        source.postMessage(msg, origin);
       });
 
       // input to output
@@ -97,7 +109,7 @@
             var frame = reset_frame()[0];
             if (!frame) { return; }
 
-            var win = frame.contentWindow;
+            win = frame.contentWindow;
             var doc = frame.contentDocument;
 
             doc.open();
