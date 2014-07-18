@@ -32,7 +32,9 @@ define(function(require) {
       if (oe.origin !== config.frame) { return; }
 
       // remove from list of pending messages
-      pending = _.without(pending, oe.data);
+      if (_.has(oe.data, 'ack')) {
+        pending = _.without(pending, oe.data.ack);
+      }
     });
 
     _.each(mirrors.get_all(), function(mirror) {

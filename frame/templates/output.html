@@ -10,6 +10,8 @@
       <link rel='stylesheet' type='text/css' href='/css/gfm.min.css'>
     <% } %>
 
+    <script type='application/javascript' src='/js/console.js'></script>
+
     <% if (script.mode === 'traceur') { %>
       <script type='application/javascript' src='/js/lib/traceur-runtime.min.js'></script>
     <% } %>
@@ -24,7 +26,7 @@
             <%= window.loopProtect.rewriteLoops(script.output) %>
           }).call(window);
         } catch(err) {
-          // log and output error message
+          console.error(err);
         }
       }, false);
     </script>

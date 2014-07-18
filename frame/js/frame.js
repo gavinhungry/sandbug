@@ -52,10 +52,10 @@
 
       $(window).on('message', function(e) {
         var oe = e.originalEvent;
-        if (!oe.origin) { return; }
+        if (!oe.origin || !_.has(oe.data, 'timestamp')) { return; }
 
         // send ack to parent frame
-        oe.source.postMessage(oe.data.timestamp, oe.origin);
+        oe.source.postMessage({ ack: oe.data.timestamp }, oe.origin);
 
         compiler.compile_to_doc_str(oe.data.map).done(function(str) {
           _.defer(function() {
