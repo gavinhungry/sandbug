@@ -38,13 +38,13 @@
     // Number of filtered CDN results to display at once
     "cdn_results": 16,
 
-    // Debounce time for fetching CDN results, in ms
+    // Debounce time for fetching CDN results (ms)
     "cdn_delay": 250,
 
-    // Duration for flash messages before auto-dismissed, in ms
+    // Duration for flash messages before auto-dismissed (ms)
     "flash_duration": 8000,
 
-    // Time between debounced updates on input, in ms
+    // Time between debounced updates on input (ms)
     "update_delay": 200,
 
     // Fallback locale to use if localized strings are missing from `locale`
@@ -56,7 +56,10 @@
     // Autorun bugs by default
     "autorun": false,
 
-    // Splash screen delay, in ms
-    "splash_delay": 1000
+    // Splash screen delay (ms)
+    "splash_delay": 1000,
+
+    // Delay between iframe update retries (ms)
+    "ack_retry": 100
   }
 }

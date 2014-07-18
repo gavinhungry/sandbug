@@ -26,13 +26,12 @@ define(function(require) {
     $input = av.$input;
     frameWindow = av.$iframe[0].contentWindow;
 
-    // ack from server
     $(window).on('message', function(e) {
       var oe = e.originalEvent;
       if (oe.origin !== config.frame) { return; }
 
-      // remove from list of pending messages
-      if (_.has(oe.data, 'ack')) {
+      // ack from iframe: remove from list of pending updates
+      if (oe.data.action === 'ack') {
         pending = _.without(pending, oe.data.ack);
       }
     });
@@ -73,7 +72,7 @@ define(function(require) {
     };
 
     // keep sending data until an ack is recieved from the iframe
-    var interval = setInterval(post_fn, 100);
+    var interval = setInterval(post_fn, config.ack_retry);
     post_fn();
   };
 
