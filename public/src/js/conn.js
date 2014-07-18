@@ -32,7 +32,7 @@ define(function(require) {
   });
 
   /**
-   *
+   * Model for a single message
    */
   var ConnMsgModel = Backbone.Model.extend({
     defaults: {
@@ -42,7 +42,7 @@ define(function(require) {
   });
 
   /**
-   *
+   * View for a single message
    */
   var ConnMsgView = Backbone.View.extend({
     template: 'conn-msg',
@@ -62,14 +62,14 @@ define(function(require) {
   });
 
   /**
-   *
+   * Collection of message models
    */
   var ConnMsgCollection = Backbone.Collection.extend({
     model: ConnMsgModel
   });
 
   /**
-   *
+   * Model for the entire conn
    */
   var ConnModel = Backbone.Model.extend({
     defaults: {
@@ -78,7 +78,7 @@ define(function(require) {
   });
 
   /**
-   *
+   * View for the entire conn
    */
   var ConnView = Backbone.View.extend({
     template: 'conn',
