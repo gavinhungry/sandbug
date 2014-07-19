@@ -16,7 +16,8 @@
         // send up towards debugger conn
         var e = new CustomEvent('console', {
           detail: {
-            timestamp: (new Date()).toISOString(),
+            timestamp: new Date(),
+            time: Math.round(performance.now()) / 1000,
             type: method,
             args: Array.prototype.slice.call(arguments)
           }

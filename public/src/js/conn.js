@@ -25,11 +25,17 @@ define(function(require) {
   bus.init(function(av) {
     conn.console.log('init conn module');
 
-    connView = new ConnView({
-      model: new ConnModel(),
-      collection: new ConnMsgCollection()
-    });
+    view();
   });
+
+
+  var view = function() {
+    return (connView instanceof ConnView) ? connView :
+      connView = new ConnView({
+        model: new ConnModel(),
+        collection: new ConnMsgCollection()
+      });
+  };
 
   /**
    * Model for a single message
@@ -46,6 +52,7 @@ define(function(require) {
    */
   var ConnMsgView = Backbone.View.extend({
     template: 'conn-msg',
+    className: 'conn-msg',
 
     initialize: function() {
       this.render();
@@ -53,8 +60,12 @@ define(function(require) {
 
     render: function() {
       templates.get(this.template, this).done(function(template_fn) {
-        var html = template_fn({ msg: this.model.toJSON() });
+        var data = this.model.toJSON();
+
+        var html = template_fn({ msg: data });
         this.$el.html(html);
+
+        this.$el.addClass('conn-msg-' + data.type);
       });
 
       return this;
@@ -73,7 +84,7 @@ define(function(require) {
    */
   var ConnModel = Backbone.Model.extend({
     defaults: {
-      wrapping: false
+      // conn options
     }
   });
 
@@ -82,11 +93,23 @@ define(function(require) {
    */
   var ConnView = Backbone.View.extend({
     template: 'conn',
-    el: '#conn',
+    _el: '#conn',
+
+    events: {
+      'dblclick .conn-title': 'corner'
+    },
 
     initialize: function() {
+      this.position = dom.css(_.sprintf('%s._position', this._el));
+      this.opacity = dom.css(_.sprintf('%s._opacity', this._el)).opacity || 1;
+
+      this.setElement(this._el);
+
       this.collection.on('add', this.append.bind(this));
-      this.$el.draggable({ containment: 'window' });
+      this.$el.draggable({
+        containment: 'window',
+        handle: '.conn-title'
+      });
 
       this.render();
     },
@@ -101,6 +124,45 @@ define(function(require) {
     reset: function() {
       this.collection.reset();
       this.render();
+    },
+
+    corner: function() {
+      this.$el.transition({
+        top: this.position.top,
+        left: this.position.left
+      }, 'fast');
+    },
+
+    show: function() {
+      var top = parseInt(this.$el.css('top'), 10);
+
+      if (_.isNaN(top)) {
+        top = parseInt(this.position.top, 10) - 16;
+        this.$el.css({
+          top: top,
+          left: this.position.left
+        });
+      }
+
+      this.$el.show().transition({
+        opacity: this.opacity,
+        top: top + 16
+      }, 'fast');
+    },
+
+    hide: function() {
+      var top = parseInt(this.$el.css('top'), 10);
+
+      this.$el.transition({
+        opacity: 0,
+        top: top - 16
+      }, 'fast', function() {
+        this.hide();
+      });
+    },
+
+    toggle: function() {
+      this.$el.is(':visible') ? this.hide() : this.show();
     },
 
     render: function() {
@@ -119,28 +181,45 @@ define(function(require) {
    * Flush all messages from the conn
    */
   conn.flush = function() {
-    if (!(connView instanceof ConnView)) { return; }
-
-    connView.reset();
+    view().reset();
   };
 
   /**
    * Add a new message to the conn
    *
+   * @param {Number} time - T+ time (seconds)
    * @param {String} type - console method, one of ('log', 'error', etc.)
-   * @param {String} timestamp - ISO formatted timestamp
    * @param {Array} args
    */
-  conn.write = function(type, timestamp, args) {
-    if (!(connView instanceof ConnView)) { return; }
-
+  conn.write = function(time, type, args) {
     var connMsgModel = new ConnMsgModel({
+      time: time,
       type: type,
-      timestamp: timestamp,
       args: args
     });
 
-    connView.collection.add(connMsgModel);
+    view().collection.add(connMsgModel);
+  };
+
+  /**
+   * Show the conn
+   */
+  conn.show = function() {
+    view().show();
+  };
+
+  /**
+   * Hide the conn
+   */
+  conn.hide = function() {
+    view().hide();
+  };
+
+  /**
+   * Toggle the conn
+   */
+  conn.toggle = function() {
+    view().toggle();
   };
 
   return conn;

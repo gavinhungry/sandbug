@@ -39,7 +39,7 @@ define(function(require) {
       }
 
       if (data.action === 'console') {
-        conn.write(data.type, data.timestamp, data.args);
+        conn.write(data.time, data.type, data.args);
       }
     });
 

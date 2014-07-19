@@ -62,6 +62,7 @@
         var msg = {
           action: 'console',
           timestamp: data.timestamp,
+          time: data.time,
           type: data.type,
         };
 

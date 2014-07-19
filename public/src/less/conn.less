@@ -3,10 +3,69 @@
  */
 
 #conn {
-  border: 2px solid yellow;
-  background: white;
-
   position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 19;
+  overflow: hidden;
+
+  &._position {
+    top: 4px;
+    left: 4px;
+  }
+
+  user-select: none;
+
+  background-color: #555;
+  box-shadow: 3px 3px 0 #AAA, 3px 3px 0 #AAA;
+  border: 2px solid #AAA;
+
+  width: 512px;
+  max-height: 90%;
+
+  display: none;
+  opacity: 0;
+  &._opacity { opacity: 0.95; }
+
+  .conn-title {
+    display: flex;
+    background-color: #666;
+    border-bottom: 1px solid #AAA;
+    color: #CCC;
+    cursor: move;
+    padding: 8px;
+    text-shadow: 1px 1px 1px #444;
+    font-size: @font_size + 2px;
+  }
+
+  .conn-messages {
+    display: table;
+    overflow: hidden;
+    margin: 4px;
+
+    font-size: @font_size - 2px;
+    font-family: monospace;
+    line-height: 1.25em;
+
+    min-height: calc(1.25em ~'-' 1px);
+
+    .conn-msg {
+      display: table-row;
+      color: #EEE;
+      text-shadow: 1px 1px 2px #4C4C4C;
+
+      &.conn-msg-debug .conn-args { color: #BDF; }
+      &.conn-msg-error .conn-args { color: #FBB; }
+      &.conn-msg-warn  .conn-args { color: #FD8; }
+    }
+
+    .conn-time {
+      display: table-cell;
+      padding-right: 1em;
+      cursor: default;
+    }
+
+    .conn-args {
+      display: table-cell;
+      user-select: text;
+    }
+  }
 }

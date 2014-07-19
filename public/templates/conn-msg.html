@@ -1,4 +1,2 @@
-<div class='conn-msg conn-msg-<%= msg.type %>'>
-  <span class='conn-timestamp'><%= msg.type %></span>:
-  <span class='conn-msg-args'><%= _.escape(msg.args.join(', ')) %></span>
-</div>
+<span class='conn-time'><%= msg.time %>s</span>
+<span class='conn-args'><%= _.escape(msg.args.join(', ')) %></span>
