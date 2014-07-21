@@ -145,6 +145,11 @@ define(function(require) {
         return memo;
       }, {});
 
+      if (_.has(locals, 'script')) {
+        locals.script.output =
+          locals.script.output.replace(/<\/script>/g, '<\\/script>');
+      }
+
       template_fn_p.done(function(template_fn) {
         var html = template_fn(locals);
         d.resolve(html);
