@@ -47,7 +47,7 @@
       useStrict: true,
 
       exclude: ['promise']
-    }, function() { done(); });
+    }, function() { done(); }, function(err) { console.error(err); done(); });
   });
 
   /**
@@ -56,6 +56,7 @@
   gulp.task('less', function() {
     return gulp.src('./public/src/less/debuggerio.*.less')
       .pipe(less())
+      .on('error', function(err) { console.error(err); })
       .pipe(mincss())
       .pipe(rename(minified))
       .pipe(gulp.dest('./public/css'));
