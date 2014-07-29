@@ -3,7 +3,7 @@
   "db": {
     "name": "debugger",
     "user": "debugger",
-    "pass": "develop",
+    "pass": "debugger",
     "host": "localhost"
   },
 
