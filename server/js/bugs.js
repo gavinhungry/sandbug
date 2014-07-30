@@ -137,28 +137,31 @@ define(function(require) {
    * Save a bug model from user
    *
    * @param {bugs.Bug} bug
-   * @param {Express.response} res
+   * @return {Promise}
    */
-  bugs.save = function(bug, res) {
-    bug.save(function(err) {
-      if (err) { return utils.server_error(res, err); }
+  bugs.save = function(bug) {
+    var d = Q.defer();
 
-      bugs.get_by_slug(bug.slug)
-        .then(res.json.bind(res), utils.server_error_handler(res))
+    bug.save(function(err) {
+      if (err) { return d.reject(); }
+      bugs.get_by_slug(bug.slug).then(d.resolve, d.reject);
     });
+
+    return d.promise;
   };
 
  /**
    * Get the Mongoose model of a bug from a slug
    *
    * @param {String} bugslug - slug id for a bug
+   * @param {Boolean} [noid] - if true, omit _id
    * @return {Promise} to return a bug model, or null if no result
    */
-  bugs.get_model_by_slug = function(bugslug) {
+  bugs.get_model_by_slug = function(bugslug, noid) {
     var d = Q.defer();
     bugslug = _.slugify(bugslug);
 
-    bugs.Bug.findOne({ slug: bugslug }, { _id: false }, function(err, bug) {
+    bugs.Bug.findOne({ slug: bugslug }, { _id: !noid, __v: !noid }, function(err, bug) {
       if (err || !bug) { d.resolve(null); }
 
       d.resolve(bug);
@@ -174,7 +177,7 @@ define(function(require) {
    * @return {Promise} to return a bug, or null if no result
    */
   bugs.get_by_slug = function(bugslug) {
-    return bugs.get_model_by_slug(bugslug).then(function(bug) {
+    return bugs.get_model_by_slug(bugslug, true).then(function(bug) {
       return bug ? bug.toObject() : null;
     });
   };

@@ -91,31 +91,28 @@ define(function(require) {
   // PUT /api/bugs/:bugslug
   routes.put.bug = function(req, res) {
     var user = req.user || {};
-
-    var data = req.body;
     var msg = new utils.LocaleMsg();
 
     bugs.get_model_by_slug(req.params.bugslug)
     .then(bugs.ensure_bug)
     .then(function(bug) {
-      _.merge(bug, data);
-
-      bugs.save(bug, res);
+      _.merge(bug, req.body);
+      return bugs.save(bug);
+    }).then(function(updated) {
+      res.json(updated);
     }, utils.server_error_handler(res)).done();
   };
 
   // POST /api/bugs/:bugslug
   routes.post.bug = function(req, res) {
     var user = req.user || {};
-
     var msg = new utils.LocaleMsg();
 
     var opts = _.clone(req.body);
     opts.slug = req.params.bugslug;
 
-    bugs.new_bug(opts).then(function(bug) {
-      bugs.save(bug, res);
-    }, utils.server_error_handler(res)).done();
+    bugs.new_bug(opts)
+      .then(bugs.save, utils.server_error_handler(res)).done();
   };
 
   // GET /api/models/bug
