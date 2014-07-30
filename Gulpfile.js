@@ -1,19 +1,16 @@
 (function() {
   'use strict';
 
-  var gulp = require('gulp');
-  var fs   = require('fs');
-  var git  = require('git-rev');
-  var rjs  = require('requirejs');
-
+  var fs       = require('fs');
+  var git      = require('git-rev');
+  var gulp     = require('gulp');
+  var less     = require('gulp-less');
+  var mincss   = require('gulp-minify-css');
+  var nodemon  = require('gulp-nodemon');
   var overtake = require('overtake');
-
-  var rimraf = require('gulp-rimraf');
-  var less   = require('gulp-less');
-  var mincss = require('gulp-minify-css');
-  var rename = require('gulp-rename');
-
-  var nodemon = require('gulp-nodemon');
+  var rename   = require('gulp-rename');
+  var rimraf   = require('gulp-rimraf');
+  var rjs      = require('requirejs');
 
   var minified = { suffix: '.min' };
 
@@ -47,7 +44,12 @@
       useStrict: true,
 
       exclude: ['promise']
-    }, function() { done(); }, function(err) { console.error(err); done(); });
+    },
+    function() { done(); },
+    function(err) {
+      console.error(err);
+      done();
+    });
   });
 
   /**
