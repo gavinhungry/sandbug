@@ -2,7 +2,7 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-#conn {
+#com {
   position: absolute;
   z-index: 19;
   overflow: hidden;
@@ -25,7 +25,7 @@
   opacity: 0;
   &._opacity { opacity: 0.95; }
 
-  .conn-title {
+  .com-title {
     display: flex;
     background-color: #666;
     border-bottom: 1px solid #AAA;
@@ -36,7 +36,7 @@
     font-size: @font_size + 2px;
   }
 
-  .conn-messages {
+  .com-messages {
     display: table;
     overflow: hidden;
     margin: 4px;
@@ -47,23 +47,23 @@
 
     min-height: calc(1.25em ~'-' 1px);
 
-    .conn-msg {
+    .com-msg {
       display: table-row;
       color: #EEE;
       text-shadow: 1px 1px 2px #4C4C4C;
 
-      &.conn-msg-debug .conn-args { color: #BDF; }
-      &.conn-msg-error .conn-args { color: #FBB; }
-      &.conn-msg-warn  .conn-args { color: #FD8; }
+      &.com-msg-debug .com-args { color: #BDF; }
+      &.com-msg-error .com-args { color: #FBB; }
+      &.com-msg-warn  .com-args { color: #FD8; }
     }
 
-    .conn-time {
+    .com-time {
       display: table-cell;
       padding-right: 1em;
       cursor: default;
     }
 
-    .conn-args {
+    .com-args {
       display: table-cell;
       user-select: text;
     }

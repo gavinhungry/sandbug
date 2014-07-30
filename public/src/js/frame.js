@@ -13,7 +13,7 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var conn    = require('conn');
+  var com     = require('com');
   var mirrors = require('mirrors');
 
   // ---
@@ -39,7 +39,7 @@ define(function(require) {
       }
 
       if (data.action === 'console') {
-        conn.write(data.time, data.type, data.args);
+        com.write(data.time, data.type, data.args);
       }
     });
 
@@ -70,7 +70,7 @@ define(function(require) {
 
       var map = mirrors.get_map();
       if (noscript) { map['script'].content = ''; }
-      else { conn.flush(); }
+      else { com.flush(); }
 
       frame.console.log('postMessage', timestamp);
       frameWindow.postMessage({

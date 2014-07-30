@@ -1,7 +1,7 @@
 /*
  * debugger.io: An interactive web scripting sandbox
  *
- * conn.js: output console
+ * com.js: output console
  */
 
 define(function(require) {
@@ -18,29 +18,29 @@ define(function(require) {
 
   // ---
 
-  var conn = utils.module('conn');
+  var com = utils.module('com');
 
-  var connView;
+  var comView;
 
   bus.init(function(av) {
-    conn.console.log('init conn module');
+    com.console.log('init com module');
 
     view();
   });
 
 
   var view = function() {
-    return (connView instanceof ConnView) ? connView :
-      connView = new ConnView({
-        model: new ConnModel(),
-        collection: new ConnMsgCollection()
+    return (comView instanceof ComView) ? comView :
+      comView = new ComView({
+        model: new ComModel(),
+        collection: new ComMsgCollection()
       });
   };
 
   /**
    * Model for a single message
    */
-  var ConnMsgModel = Backbone.Model.extend({
+  var ComMsgModel = Backbone.Model.extend({
     defaults: {
       type: 'log',
       args: []
@@ -50,9 +50,9 @@ define(function(require) {
   /**
    * View for a single message
    */
-  var ConnMsgView = Backbone.View.extend({
-    template: 'conn-msg',
-    className: 'conn-msg',
+  var ComMsgView = Backbone.View.extend({
+    template: 'com-msg',
+    className: 'com-msg',
 
     initialize: function() {
       this.render();
@@ -65,7 +65,7 @@ define(function(require) {
         var html = template_fn({ msg: data });
         this.$el.html(html);
 
-        this.$el.addClass('conn-msg-' + data.type);
+        this.$el.addClass('com-msg-' + data.type);
       });
 
       return this;
@@ -75,28 +75,28 @@ define(function(require) {
   /**
    * Collection of message models
    */
-  var ConnMsgCollection = Backbone.Collection.extend({
-    model: ConnMsgModel
+  var ComMsgCollection = Backbone.Collection.extend({
+    model: ComMsgModel
   });
 
   /**
-   * Model for the entire conn
+   * Model for the entire com
    */
-  var ConnModel = Backbone.Model.extend({
+  var ComModel = Backbone.Model.extend({
     defaults: {
-      // conn options
+      // com options
     }
   });
 
   /**
-   * View for the entire conn
+   * View for the entire com
    */
-  var ConnView = Backbone.View.extend({
-    template: 'conn',
-    _el: '#conn',
+  var ComView = Backbone.View.extend({
+    template: 'com',
+    _el: '#com',
 
     events: {
-      'dblclick .conn-title': 'corner'
+      'dblclick .com-title': 'corner'
     },
 
     initialize: function() {
@@ -108,17 +108,17 @@ define(function(require) {
       this.collection.on('add', this.append.bind(this));
       this.$el.draggable({
         containment: 'window',
-        handle: '.conn-title'
+        handle: '.com-title'
       });
 
       this.render();
     },
 
-    append: function(connMsgModel) {
-      var $messages = this.$el.children('.conn-messages');
+    append: function(comMsgModel) {
+      var $messages = this.$el.children('.com-messages');
 
-      var connMsgView = new ConnMsgView({ model: connMsgModel });
-      $messages.append(connMsgView.$el);
+      var comMsgView = new ComMsgView({ model: comMsgModel });
+      $messages.append(comMsgView.$el);
     },
 
     reset: function() {
@@ -167,7 +167,7 @@ define(function(require) {
 
     render: function() {
       templates.get(this.template, this).done(function(template_fn) {
-        var html = template_fn({ conn: this.model.toJSON() });
+        var html = template_fn({ com: this.model.toJSON() });
         this.$el.html(html);
 
         _.each(this.collection, this.append.bind(this));
@@ -178,49 +178,49 @@ define(function(require) {
   });
 
   /**
-   * Flush all messages from the conn
+   * Flush all messages from the com
    */
-  conn.flush = function() {
+  com.flush = function() {
     view().reset();
   };
 
   /**
-   * Add a new message to the conn
+   * Add a new message to the com
    *
    * @param {Number} time - T+ time (seconds)
    * @param {String} type - console method, one of ('log', 'error', etc.)
    * @param {Array} args
    */
-  conn.write = function(time, type, args) {
-    var connMsgModel = new ConnMsgModel({
+  com.write = function(time, type, args) {
+    var comMsgModel = new ComMsgModel({
       time: time,
       type: type,
       args: args
     });
 
-    view().collection.add(connMsgModel);
+    view().collection.add(comMsgModel);
   };
 
   /**
-   * Show the conn
+   * Show the com
    */
-  conn.show = function() {
+  com.show = function() {
     view().show();
   };
 
   /**
-   * Hide the conn
+   * Hide the com
    */
-  conn.hide = function() {
+  com.hide = function() {
     view().hide();
   };
 
   /**
-   * Toggle the conn
+   * Toggle the com
    */
-  conn.toggle = function() {
+  com.toggle = function() {
     view().toggle();
   };
 
-  return conn;
+  return com;
 });

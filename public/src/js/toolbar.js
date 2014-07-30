@@ -14,7 +14,7 @@ define(function(require) {
   var utils  = require('utils');
 
   var Backbone  = require('backbone');
-  var conn      = require('conn');
+  var com       = require('com');
   var dom       = require('dom');
   var panels    = require('panels');
   var templates = require('templates');
@@ -58,7 +58,7 @@ define(function(require) {
     },
 
     events: {
-      'click #console': function(e) { conn.toggle(); },
+      'click #console': function(e) { com.toggle(); },
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
       'click #signup': function(e) { bus.trigger('navigate', 'signup', true); },
