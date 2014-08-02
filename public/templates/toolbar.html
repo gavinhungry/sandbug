@@ -2,10 +2,10 @@
 <button id='theme'><i class='fa fa-lg fa-adjust icon-only'></i></button>
 <button id='layout'><i class='fa fa-lg fa-columns icon-only'></i></button>
 
-<% if (username) { %>
+{{#if username}}
   <button id='settings' data-localize='settings'>Settings</button>
   <button id='logout' class='action' data-localize='logout'>Logout</button>
-<% } else { %>
+{{else}}
   <button id='signup' data-localize='signup'>Sign Up</button>
   <button id='login' class='action' data-localize='login'>Login</button>
-<% } %>
+{{/if}}

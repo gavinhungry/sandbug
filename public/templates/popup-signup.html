@@ -1,5 +1,5 @@
 <form id='signup_form' action='/api/signup' method='post'>
-  <input type='hidden' name='_csrf' value='<%= csrf %>'>
+  <input type='hidden' name='_csrf' value='{{csrf}}'>
 
   <input name='username' placeholder='Username' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
   <input name='email' placeholder='Email Address' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='email'>
