@@ -1,4 +1,4 @@
-<div class='popup {{name}}{{#if small}} popup-small{{/if}}'>
-  <div class='popup-head'>{{title}}</div>
-  <div>{{{content}}}</div>
+<div class='popup <%= name %><%= small ? ' popup-small' : '' %>'>
+  <div class='popup-head'><%= title %></div>
+  <div><%= content %></div>
 </div>

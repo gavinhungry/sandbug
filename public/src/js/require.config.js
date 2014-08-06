@@ -26,8 +26,6 @@
       codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.3/codemirror.min',
       hammer: '//cdn.jsdelivr.net/hammerjs/1.1/hammer.min',
 
-      handlebars: '//cdn.jsdelivr.net/handlebarsjs/1.3/handlebars.min',
-
       // plugins
       ui: '//cdn.jsdelivr.net/jquery.ui/1.10/jquery-ui.min',
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
@@ -101,8 +99,6 @@
       underscorejs: { exports: '_' },
       backbonejs: { deps: ['jqueryjs', 'underscorejs'], exports: 'Backbone' },
       codemirrorjs: { exports: 'CodeMirror' },
-
-      handlebars: { exports: 'Handlebars' },
 
       // plugins
       ui: { deps: ['jqueryjs'], exports: '$.ui' },

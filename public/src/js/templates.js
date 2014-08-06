@@ -13,8 +13,6 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var Handlebars = require('handlebars');
-
   // ---
 
   var templates = utils.module('templates');
@@ -45,7 +43,7 @@ define(function(require) {
 
       $.get(templateUri).done(function(template, status, xhr) {
         // resolve with compiled template function
-        var template_fn = Handlebars.compile(template);
+        var template_fn = _.template(template);
 
         d.resolve(function(data) {
           // extend data passed to template with locals

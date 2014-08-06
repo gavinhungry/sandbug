@@ -1,9 +1,9 @@
 <form id='input_form'>
-  {{#each extras}}
-    <input name='{{name}}' placeholder='{{placeholder}}'
-      type='{{type}}' value='{{value}}' autocomplete='off'
+  <% _.each(data.extras, function(extra) { %>
+    <input name='<%= extra.name %>' placeholder='<%= extra.placeholder %>'
+      type='<%= extra.type || 'text' %>' value='<%= extra.value %>' autocomplete='off'
       spellcheck='false' class='plain full' maxlength='128'>
-  {{/each}}
+  <% }) %>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>
