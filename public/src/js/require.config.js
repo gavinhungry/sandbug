@@ -90,6 +90,10 @@
 
       objmap: {
         underscore: 'underscorejs'
+      },
+
+      transit: {
+        jquery: 'jqueryjs'
       }
     },
 
