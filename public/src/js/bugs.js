@@ -7,7 +7,12 @@
 define(function(require) {
   'use strict';
 
-  var bugs = require('promise!bugs_p');
+  var _  = require('underscore');
+
+  // ---
+
+  var bugs    = require('promise!bugs_p');
+  var mirrors = require('mirrors');
 
   // append default schema with default mirror modes
   _.each(bugs._priv.schema.map, function(map, panel) {
