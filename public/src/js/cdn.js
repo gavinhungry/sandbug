@@ -51,16 +51,25 @@ define(function(require) {
   bus.init(function(av) {
     cdn.console.log('init cdn module');
 
-    config._priv.set_option('cdn', config.default_cdn);
     bus.on('config:cdn', cdn.set_cdn);
 
-    filterModel = new cdn.FilterInput();
-    filterView = new cdn.FilterInputView({ model: filterModel });
-
-    filterView.on('render', function() {
-      cdn.set_cdn(config.default_cdn);
+    var up_checks = Object.keys(cdn.providers).map(function(id) {
+      return cdn.is_up(id).then(function(up) {
+        if (!up) {
+          cdn.console.warn(id, 'CDN down, removing from available providers');
+          delete cdn.providers[id];
+        }
+      });
     });
 
+    $.when.apply(null, up_checks).then(function() {
+      if (Object.keys(cdn.providers).length) {
+        config._priv.set_option('cdn', cdn.get_next_up(config.default_cdn));
+
+        filterModel = new cdn.FilterInput();
+        filterView = new cdn.FilterInputView({ model: filterModel });
+      }
+    });
   });
 
   /**
@@ -70,39 +79,59 @@ define(function(require) {
    */
   cdn.set_cdn = function(id) {
     if (!cdn.providers[id]) {
+      if (!cdn.providers[config.default_cdn]) { return; }
       return cdn.set_cdn(config.default_cdn);
     }
 
-    cdn.is_up(id).then(function(up) {
-      if (!up) {
-        cdn.console.error(id, 'CDN is down, skipping');
-        return cdn.next(id);
-      }
+    var cdnName = cdn.providers[id].name;
 
-      var cdnName = cdn.providers[id].name;
+    dom.set_templated_placeholder(filterView.$filter, cdnName);
+    dom.transition_button_label(filterView.$cdn, cdnName);
+    bus.trigger('cdn:abort');
 
-      dom.set_templated_placeholder(filterView.$filter, cdnName);
-      dom.transition_button_label(filterView.$cdn, cdnName);
-      bus.trigger('cdn:abort');
-
-      if (id !== config.cdn) { config.cdn = id; }
-    });
+    if (id !== config.cdn) { config.cdn = id; }
   };
 
   /**
-   * Select the next CDN
+   * Get the next CDN that is up
+   *
+   * @param {String} [id] - Starting CDN id
    */
-  cdn.next = function(id) {
+  cdn.get_next_up = function(id) {
+    id = id || config.cdn;
+
+    if (cdn.providers[id]) { return id; }
+    else return cdn.get_next(id);
+  };
+
+  /**
+   * Get the next CDN
+   *
+   * @param {String} [id] - Previous CDN id
+   */
+  cdn.get_next = function(id) {
+    id = id || config.cdn;
+
     var keys = Object.keys(cdn.providers);
     var i = (keys.indexOf(id) + 1) % keys.length;
-    cdn.set_cdn(keys[i]);
+    return keys[i];
+  };
+
+  /**
+   * Set the next CDN
+   *
+   * @param {String} [id] - Previous CDN id
+   */
+  cdn.set_next = function(id) {
+    var next = cdn.get_next(id);
+    return cdn.set_cdn(next);
   };
 
   /**
    * Rotate through CDNs
    */
   cdn.rotate = function() {
-    return cdn.next(config.cdn);
+    return cdn.set_next(config.cdn);
   };
 
   /**
@@ -210,6 +239,10 @@ define(function(require) {
         dom.cache(this, this.$el, {
           by_id: 'cdn'
         });
+
+        if (Object.keys(cdn.providers).length < 2) {
+          this.$cdn.hide();
+        }
 
         keys.unregister_handler(this.handler);
 
