@@ -238,6 +238,24 @@ define(function(require) {
   };
 
   /**
+   * Always resolve to true (success) or false (failure)
+   *
+   * @param {Deferred|Promise} p
+   * @return {Promise} resolves to boolean value
+   */
+  utils.resolve_boolean = function(p) {
+    var d = $.Deferred();
+
+    $.when(p).then(function() {
+      d.resolve(true);
+    }, function() {
+      d.resolve(false);
+    });
+
+    return d.promise();
+  };
+
+  /**
    * Return a number clamped by a minimum and maximum
    *
    * @param {Number} val - number to clamp
