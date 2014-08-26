@@ -19,7 +19,6 @@
   border: 2px solid #AAA;
 
   width: 512px;
-  max-height: 90%;
 
   display: none;
   opacity: 0;
@@ -31,41 +30,48 @@
     border-bottom: 1px solid #AAA;
     color: #CCC;
     cursor: move;
-    padding: 8px;
+    padding: 0 8px;
+    height: @console_title_height;
+    line-height: @console_title_height;
     text-shadow: 1px 1px 1px #444;
     font-size: @font_size + 2px;
   }
 
-  .com-messages {
-    display: table;
-    overflow: hidden;
-    margin: 4px;
+  .com-wrapper {
+    max-height: calc(80vh ~'-' 2 * @console_title_height);
+    overflow-y: auto;
 
-    font-size: @font_size - 2px;
-    font-family: monospace;
-    line-height: 1.25em;
+    .com-messages {
+      display: table;
+      overflow: hidden;
+      margin: 4px;
 
-    min-height: calc(1.25em ~'-' 1px);
+      font-size: @font_size - 2px;
+      font-family: monospace;
+      line-height: 1.25em;
 
-    .com-msg {
-      display: table-row;
-      color: #EEE;
-      text-shadow: 1px 1px 2px #4C4C4C;
+      min-height: calc(1.25em ~'-' 1px);
 
-      &.com-msg-debug .com-args { color: #BDF; }
-      &.com-msg-error .com-args { color: #FBB; }
-      &.com-msg-warn  .com-args { color: #FD8; }
-    }
+      .com-msg {
+        display: table-row;
+        color: #EEE;
+        text-shadow: 1px 1px 2px #4C4C4C;
 
-    .com-time {
-      display: table-cell;
-      padding-right: 1em;
-      cursor: default;
-    }
+        &.com-msg-debug .com-args { color: #BDF; }
+        &.com-msg-error .com-args { color: #FBB; }
+        &.com-msg-warn  .com-args { color: #FD8; }
+      }
 
-    .com-args {
-      display: table-cell;
-      user-select: text;
+      .com-time {
+        display: table-cell;
+        padding-right: 1em;
+        cursor: default;
+      }
+
+      .com-args {
+        display: table-cell;
+        user-select: text;
+      }
     }
   }
 }

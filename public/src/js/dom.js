@@ -36,27 +36,30 @@ define(function(require) {
    * @param {Object} context - object to save references to
    * @param {jQuery} $source - source set within which to find elements
    * @param {Object} elements - { 'by_id' => Array, 'by_class' => Array }
-   * @return {Object} context used
+   * @return {Function} execute to (re)query
    */
   dom.cache = function(context, $source, elements) {
     context = context || {};
 
-    // #output cached to this.$output
-    _.each(utils.ensure_array(elements.by_id), _.bind(function(id) {
-      this['$' + _.underscored(id)] = $source.find('#' + id);
-    }, context));
+    var query = function() {
+      // #output cached to this.$output
+      _.each(utils.ensure_array(elements.by_id), _.bind(function(id) {
+        this['$' + _.underscored(id)] = $source.find('#' + id);
+      }, context));
 
-    // .panel-options elements cached to this.$panel_options
-    _.each(utils.ensure_array(elements.by_class), _.bind(function(c) {
-      this['$' + _.pluralize(_.underscored(c))] = $source.find('.' + c);
-    }, context));
+      // .panel-options elements cached to this.$panel_options
+      _.each(utils.ensure_array(elements.by_class), _.bind(function(c) {
+        this['$' + _.pluralize(_.underscored(c))] = $source.find('.' + c);
+      }, context));
 
-    // '[name="username"]' cached to this.$username
-    _.each(utils.ensure_array(elements.by_name), _.bind(function(n) {
-      this['$' + _.underscored(n)] = $source.find(_.sprintf('[name="%s"]', n));
-    }, context));
+      // '[name="username"]' cached to this.$username
+      _.each(utils.ensure_array(elements.by_name), _.bind(function(n) {
+        this['$' + _.underscored(n)] = $source.find(_.sprintf('[name="%s"]', n));
+      }, context));
+    };
 
-    return context;
+    query();
+    return query;
   };
 
   /**

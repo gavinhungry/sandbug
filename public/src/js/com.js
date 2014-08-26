@@ -13,7 +13,8 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var Backbone = require('backbone');
+  var Backbone  = require('backbone');
+  var dom       = require('dom');
   var templates = require('templates');
 
   // ---
@@ -59,7 +60,7 @@ define(function(require) {
     },
 
     render: function() {
-      templates.get(this.template, this).done(function(template_fn) {
+      return templates.get(this.template, this).then(function(template_fn) {
         var data = this.model.toJSON();
 
         var html = template_fn({ msg: data });
@@ -67,8 +68,6 @@ define(function(require) {
 
         this.$el.addClass('com-msg-' + data.type);
       });
-
-      return this;
     }
   });
 
@@ -115,10 +114,9 @@ define(function(require) {
     },
 
     append: function(comMsgModel) {
-      var $messages = this.$el.children('.com-messages');
-
       var comMsgView = new ComMsgView({ model: comMsgModel });
-      $messages.append(comMsgView.$el);
+      this.$com_messages.append(comMsgView.$el);
+      this.scroll_bottom();
     },
 
     reset: function() {
@@ -165,15 +163,26 @@ define(function(require) {
       this.$el.is(':visible') ? this.hide() : this.show();
     },
 
+    scroll_top: function() {
+      this.$com_wrappers.scrollTop(0);
+    },
+
+    scroll_bottom: function() {
+      this.$com_wrappers.scrollTop(this.$com_messages.height());
+    },
+
     render: function() {
-      templates.get(this.template, this).done(function(template_fn) {
+      var requery = dom.cache(this, this.$el, {
+        by_class: ['com-wrapper', 'com-messages']
+      });
+
+      return templates.get(this.template, this).then(function(template_fn) {
         var html = template_fn({ com: this.model.toJSON() });
         this.$el.html(html);
+        requery();
 
         _.each(this.collection, this.append.bind(this));
       });
-
-      return this;
     }
   });
 
@@ -220,6 +229,20 @@ define(function(require) {
    */
   com.toggle = function() {
     view().toggle();
+  };
+
+  /**
+   * Scroll the com to the top
+   */
+  com.scroll_top = function() {
+    view().scroll_top();
+  };
+
+  /**
+   * Scroll the com to the bottom
+   */
+  com.scroll_bottom = function() {
+    view().scroll_bottom();
   };
 
   return com;
