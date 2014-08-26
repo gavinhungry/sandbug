@@ -51,11 +51,16 @@ define(function(require) {
   bus.init(function(av) {
     cdn.console.log('init cdn module');
 
+    config._priv.set_option('cdn', config.default_cdn);
+    bus.on('config:cdn', cdn.set_cdn);
+
     filterModel = new cdn.FilterInput();
     filterView = new cdn.FilterInputView({ model: filterModel });
 
-    bus.on('config:cdn', cdn.set_cdn);
-    config._priv.set_option('cdn', config.default_cdn);
+    filterView.on('render', function() {
+      cdn.set_cdn(config.default_cdn);
+    });
+
   });
 
   /**
@@ -68,22 +73,36 @@ define(function(require) {
       return cdn.set_cdn(config.default_cdn);
     }
 
-    var cdnName = cdn.providers[id].name;
+    cdn.is_up(id).then(function(up) {
+      if (!up) {
+        cdn.console.error(id, 'CDN is down, skipping');
+        return cdn.next(id);
+      }
 
-    dom.set_templated_placeholder(filterView.$filter, cdnName);
-    dom.transition_button_label(filterView.$cdn, cdnName);
-    bus.trigger('cdn:abort');
+      var cdnName = cdn.providers[id].name;
 
-    if (id !== config.cdn) { config.cdn = id; }
+      dom.set_templated_placeholder(filterView.$filter, cdnName);
+      dom.transition_button_label(filterView.$cdn, cdnName);
+      bus.trigger('cdn:abort');
+
+      if (id !== config.cdn) { config.cdn = id; }
+    });
   };
 
   /**
-   * Rotate through CDN values
+   * Select the next CDN
+   */
+  cdn.next = function(id) {
+    var keys = Object.keys(cdn.providers);
+    var i = (keys.indexOf(id) + 1) % keys.length;
+    cdn.set_cdn(keys[i]);
+  };
+
+  /**
+   * Rotate through CDNs
    */
   cdn.rotate = function() {
-    var keys = Object.keys(cdn.providers);
-    var i = (keys.indexOf(config.cdn) + 1) % keys.length;
-    config.cdn = keys[i];
+    return cdn.next(config.cdn);
   };
 
   /**
@@ -92,7 +111,7 @@ define(function(require) {
    * @param {String} id - CDN id
    * @return {Promise} resolves to true or false
    */
-  cdn.cdn_is_up = function(id) {
+  cdn.is_up = function(id) {
     var get = $.get(_.sprintf(jsdelivr_api, id));
     return utils.resolve_boolean(get);
   };
@@ -183,7 +202,7 @@ define(function(require) {
     render: function() {
       var that = this;
 
-      templates.get(this.template, this).done(function(template_fn) {
+      return templates.get(this.template, this).then(function(template_fn) {
         var html = template_fn({ current_cdn: cdn.providers[config.cdn].name });
         this.$el.html(html);
         this.$filter = this.$el.find('#cdn-filter');
@@ -210,6 +229,8 @@ define(function(require) {
         this.resultsView = new cdn.FilterResultsView({
           collection: this.resultsCollection
         });
+
+        return this.trigger('render');
       });
     }
   });
@@ -256,12 +277,14 @@ define(function(require) {
     },
 
     render: function() {
-      templates.get(this.template, this).done(function(template_fn) {
+      return templates.get(this.template, this).then(function(template_fn) {
         var pkg = this.model.toJSON();
         pkg.description = pkg.description || utils.path(pkg.homepage);
 
         var html = template_fn({ pkg: pkg });
         this.$el.html(html);
+
+        return this.trigger('render');
       });
     }
   });
@@ -449,6 +472,8 @@ define(function(require) {
 
       this.$content.html(this.$ol);
       this.show();
+
+      return this.trigger('render');
     }
   });
 
