@@ -43,7 +43,8 @@ define(function(require) {
 
   var api_fields = ['name','mainfile','lastversion','description','homepage'];
 
-  var jsdelivr_api = '//api.jsdelivr.com/v1/%s/libraries?name=%s*'
+  var jsdelivr_api = '//api.jsdelivr.com/v1/%s';
+  var jsdelivr_query = jsdelivr_api + '/libraries?name=%s*'
     + '&fields=' + api_fields.join(',')
     + '&limit=' + config.cdn_results;
 
@@ -77,6 +78,26 @@ define(function(require) {
   };
 
   /**
+   * Rotate through CDN values
+   */
+  cdn.rotate = function() {
+    var keys = Object.keys(cdn.providers);
+    var i = (keys.indexOf(config.cdn) + 1) % keys.length;
+    config.cdn = keys[i];
+  };
+
+  /**
+   * Test if a CDN is up
+   *
+   * @param {String} id - CDN id
+   * @return {Promise} resolves to true or false
+   */
+  cdn.cdn_is_up = function(id) {
+    var get = $.get(_.sprintf(jsdelivr_api, id));
+    return utils.resolve_boolean(get);
+  };
+
+  /**
    * Current filter value
    */
   cdn.FilterInput = Backbone.Model.extend({
@@ -106,9 +127,7 @@ define(function(require) {
       'click #cdn': function(e) {
         e.preventDefault();
 
-        var keys = Object.keys(cdn.providers);
-        var i = (keys.indexOf(config.cdn) + 1) % keys.length;
-        config.cdn = keys[i];
+        cdn.rotate();
       }
     },
 
@@ -146,7 +165,7 @@ define(function(require) {
     display: _.debounce(function(filter) {
       var that = this;
 
-      var uri = _.sprintf(jsdelivr_api, config.cdn, filter);
+      var uri = _.sprintf(jsdelivr_query, config.cdn, filter);
       $.getJSON(uri).done(function(packages) {
         // sort packages by comparing them with the filter string
         var sorted = _.sortBy(packages, function(pkg) {
