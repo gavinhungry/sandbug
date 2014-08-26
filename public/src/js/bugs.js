@@ -34,6 +34,7 @@ define('bugs_p', function(require) {
   var Backbone = require('backbone');
   var flash    = require('flash');
   var frame    = require('frame');
+  var locales  = require('locales');
   var mirrors  = require('mirrors');
   var popups   = require('popups');
 
