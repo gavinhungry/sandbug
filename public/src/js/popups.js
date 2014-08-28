@@ -95,8 +95,8 @@ define(function(require) {
       var content_p = templates.get(this.template, this);
       var title_p = locales.string(data.title);
 
-      $.when(popup_p, content_p, title_p)
-      .done(function(popup_fn, content_fn, title) {
+      return $.when(popup_p, content_p, title_p)
+      .then(function(popup_fn, content_fn, title) {
         var that = _.first(utils.ensure_array(this));
 
         var contentHtml = content_fn({ data: data });
@@ -119,13 +119,13 @@ define(function(require) {
           if (_.isFunction(that.post_render)) { that.post_render(); }
         });
 
+        return that.trigger('render');
+
       }).fail(function(err) {
         var that = _.first(utils.ensure_array(this));
         var msg = _.sprintf('Error rendering "%s" - %s', that.template, err);
         console.error(msg);
       });
-
-      return this;
     }
   });
 

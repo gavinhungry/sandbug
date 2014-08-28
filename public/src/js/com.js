@@ -67,6 +67,8 @@ define(function(require) {
         this.$el.html(html);
 
         this.$el.addClass('com-msg-' + data.type);
+
+        return this.trigger('render');
       });
     }
   });
@@ -182,6 +184,8 @@ define(function(require) {
         requery();
 
         _.each(this.collection, this.append.bind(this));
+
+        return this.trigger('render');
       });
     }
   });

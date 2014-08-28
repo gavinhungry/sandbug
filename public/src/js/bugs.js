@@ -80,7 +80,7 @@ define('bugs_p', function(require) {
 
       if (this.model.get('autorun')) { _.defer(frame.update); }
 
-      return this;
+      return this.trigger('render');
     }
   });
 

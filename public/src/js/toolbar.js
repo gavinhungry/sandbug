@@ -83,7 +83,7 @@ define(function(require) {
     },
 
     render: function() {
-      templates.get(this.template, this).done(function(template_fn) {
+      return templates.get(this.template, this).then(function(template_fn) {
         var that = this;
 
         var html = template_fn({ username: this._username });
@@ -102,9 +102,9 @@ define(function(require) {
         }, this);
 
         this.$el.transition({ opacity: 1 });
-      });
 
-      return this;
+        return this.trigger('render');
+      });
     }
   });
 
