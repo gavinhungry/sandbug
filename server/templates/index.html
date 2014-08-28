@@ -32,7 +32,15 @@
   </head>
 
   <body>
-    <div id='loading' class='overlay'><div>debugger.io</div></div>
+    <div id='loading' class='overlay'>
+      <div class='overlay-wrap'>
+        <div class='overlay-msg'>debugger.io</div>
+        <div class='overlay-err'>
+          Oops! Something went wrong while loading!
+        </div>
+      </div>
+    </div>
+
     <div id='debuggerio'></div>
   </body>
 </html>

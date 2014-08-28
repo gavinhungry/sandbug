@@ -13,24 +13,41 @@
   cursor: default;
   background: @overlay_bg_color;
 
-  > div {
-    background: @overlay_inset_bg_color;
-    position: absolute;
-    left: 50%;
-    top: 128px;
-    width: 250px;
-    margin-left: -125px;
-    padding: 8px;
-    border: 1px solid @overlay_inset_border_color;
-    border-radius: 1px;
-    box-shadow: 4px 4px 0 @overlay_inset_border_color;
-    text-align: center;
-    font-size: 32px;
-    line-height: 1.25em;
-    color: @overlay_inset_text_color;
+  .overlay-wrap {
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+
+    .overlay-msg, .overlay-err {
+      margin: 0 auto 16px;
+      padding: 8px;
+      border-radius: 1px;
+      text-align: center;
+      line-height: 1.25em;
+    }
+
+    .overlay-msg {
+      max-width: 250px;
+      font-size: 32px;
+      background: @overlay_inset_bg_color;
+      border: 1px solid @overlay_inset_border_color;
+      box-shadow: 4px 4px 0 @overlay_inset_border_color;
+      color: @overlay_inset_text_color;
+    }
+
+    .overlay-err {
+      opacity: 0;
+      transition: opacity 0.5s;
+      max-width: 450px;
+      font-size: 16px;
+      background: @overlay_inset_err_bg_color;
+      border: 1px solid @overlay_inset_err_border_color;
+      box-shadow: 4px 4px 0 @overlay_inset_err_border_color;
+      color: @overlay_inset_err_text_color;
+    }
   }
 
-  &#loading > div {
+  &#loading .overlay-msg {
     font-family: @logo_font;
     letter-spacing: 1px;
   }
