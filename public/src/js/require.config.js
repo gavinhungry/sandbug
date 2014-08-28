@@ -28,6 +28,7 @@
 
       // plugins
       ui: '//cdn.jsdelivr.net/jquery.ui/1.10/jquery-ui.min',
+      touchpunch: '//cdn.jsdelivr.net/jquery.ui.touch-punch/0.2/jquery.ui.touch-punch.min',
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
       nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7/javascripts/jquery.nanoscroller.min',
       cookie: '//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min',
@@ -106,6 +107,7 @@
 
       // plugins
       ui: { deps: ['jqueryjs'], exports: '$.ui' },
+      touchpunch: { deps: ['jqueryjs', 'ui'] },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
       nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
       cookie: { deps: ['jqueryjs'] },

@@ -6,9 +6,9 @@
  * jQuery
  *
  * Includes: Transit, nanoScroller.js, transitIn/transitOut, jQuery.cookie,
- * jQuery Storage API, jQuery UI
+ * jQuery Storage API, jQuery UI, jQuery UI Touch Punch
  */
-define(['jqueryjs', 'transit', 'nano', 'cookie', 'storage', 'ui'],
+define(['jqueryjs', 'transit', 'nano', 'cookie', 'storage', 'ui', 'touchpunch'],
 function($) {
   // jQuery.transit fallback to $.fn.animate
   if (!$.support.transition) { $.fn.transition = $.fn.animate; }
