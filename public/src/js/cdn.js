@@ -200,6 +200,8 @@ define(function(require) {
     },
 
     update: function() {
+      this.$filter.removeClass('error');
+
       var filter = _.trim(this.model.get('value')).toLowerCase();
 
       if (!filter) {
@@ -212,9 +214,10 @@ define(function(require) {
 
     display: _.debounce(function(filter) {
       var that = this;
+      this.$cdn_loading.transitIn('fast');
 
       var uri = _.sprintf(jsdelivr_query, config.cdn, filter);
-      $.getJSON(uri).done(function(packages) {
+      $.getJSON(uri).then(function(packages) {
         // sort packages by comparing them with the filter string
         var sorted = _.sortBy(packages, function(pkg) {
           return _.levenshtein(filter, pkg.name.toLowerCase());
@@ -223,8 +226,14 @@ define(function(require) {
         // limit the number of displayed results for performance
         var limited = _.first(sorted, config.cdn_results);
 
-        that.resultsView.set_filter(filter);
+        that.resultsView.once('render', function() {
+          that.$cdn_loading.transitOut('fast');
+        }).set_filter(filter);
+
         that.resultsCollection.reset(limited);
+      }, function(err) {
+        that.$cdn_loading.transitOut('fast');
+        that.$filter.addClass('error');
       });
     }, config.cdn_delay),
 
@@ -237,7 +246,7 @@ define(function(require) {
         this.$filter = this.$el.find('#cdn-filter');
 
         dom.cache(this, this.$el, {
-          by_id: 'cdn'
+          by_id: ['cdn', 'cdn-loading']
         });
 
         if (Object.keys(cdn.providers).length < 2) {
