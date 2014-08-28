@@ -1,6 +1,10 @@
 <header>
   <div id='title'>
-    <span class='bold'>debugger</span>.io
+    <% if (mode.phone) { %>
+      <span class='bold'>dbgr</span>
+    <% } else { %>
+      <span class='bold'>debugger</span><span>.io</span>
+    <% } %>
   </div>
 
   <div id='toolbar' class='right flex noselect'></div>

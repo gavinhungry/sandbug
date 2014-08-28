@@ -7,22 +7,29 @@ header {
   height: @header_height;
   background: @header_bg_color;
   border-bottom: 4px solid @header_bottom_border_color;
-  padding: 6px;
+  padding: @header_padding;
+  overflow-x: auto;
+  overflow-y: hidden;
 
   #title {
     display: inline-block;
     user-select: none;
     cursor: default;
     height: 100%;
-    margin-top: (@header_height / 3) - 3px;
-    margin-left: 4px;
+    margin: 0 0 0 4px;
     font-family: @logo_font;
     font-size: @header_height - 16px;
     letter-spacing: 1px;
-    line-height: 2px;
+    line-height: @header_height - 20px;
     color: @header_text_color;
     text-shadow: 1px 1px 1px rgba(0,0,0, 0.2);
     opacity: 0;
+  }
+
+  #toolbar {
+    position: absolute;
+    right: @header_padding;
+    top: @header_padding;
   }
 }
 

@@ -67,7 +67,7 @@ define(function(require) {
         that.$auto.toggleClass('checked', autorun);
       });
 
-      this.render(function() {
+      this.render().done(function() {
         bus.trigger('init', this);
 
         this.register_keys();
@@ -134,9 +134,13 @@ define(function(require) {
       }
     },
 
-    render: function(callback) {
-      templates.get(this.template, this).done(function(template_fn) {
-        var html = template_fn({ frame: config.frame });
+    render: function() {
+      return templates.get(this.template, this).then(function(template_fn) {
+        var html = template_fn({
+          frame: config.frame,
+          mode: config.mode
+        });
+
         this.$el.html(html);
 
         // cache elements to the Backbone View
@@ -154,10 +158,8 @@ define(function(require) {
         this.$iframe = this.$output.children('iframe');
         this.$auto.prop('checked', config.autorun);
 
-        _.isFunction(callback) && callback.call(this);
+        return this.trigger('render');
       });
-
-      return this;
     }
   });
 
