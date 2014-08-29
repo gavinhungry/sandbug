@@ -240,7 +240,7 @@ define(function(require) {
     ],
     'style': [
       { label: 'CSS', mode: 'css' },
-      { label: 'LESS', mode: 'less' },
+      { label: 'LESS', mode: 'less', cm_mode: 'text/x-less' },
       { label: 'SCSS', mode: 'scss', cm_mode: 'text/x-scss' }
     ],
     'script': [
