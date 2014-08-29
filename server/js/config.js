@@ -50,6 +50,7 @@ define(function(require) {
   extend_config_with_json('build', 'build.json');
 
   config.prod = config.client.prod = (process.env.NODE_ENV === 'production');
+  config.client.build = config.build;
 
   // default theme goes last
   config.themes = ['light', 'dark'];

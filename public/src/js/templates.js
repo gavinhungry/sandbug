@@ -39,7 +39,9 @@ define(function(require) {
       cache[id] = d.promise();
 
       var templateUri = _.sprintf('%s/%s.html', dir, id);
-      if (!config.prod) { templateUri += '?v=' + (new Date()).getTime(); }
+      templateUri += config.prod ?
+        ('?v=' + config.build.rev) :
+        ('?t=' + (new Date()).getTime());
 
       $.get(templateUri).done(function(template, status, xhr) {
         // resolve with compiled template function
