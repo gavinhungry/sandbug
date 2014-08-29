@@ -14,9 +14,9 @@
 
   user-select: none;
 
-  background-color: #555;
-  box-shadow: 3px 3px 0 #AAA, 3px 3px 0 #AAA;
-  border: 2px solid #AAA;
+  background-color: @console_bg_color;
+  box-shadow: 3px 3px 0 @console_border_color, 3px 3px 0 @console_border_color;
+  border: 2px solid @console_border_color;
 
   width: 512px;
 
@@ -26,14 +26,14 @@
 
   .com-title {
     display: flex;
-    background-color: #666;
-    border-bottom: 1px solid #AAA;
-    color: #CCC;
+    background-color: @console_title_bg_color;
+    border-bottom: 1px solid @console_border_color;
+    color: @console_title_text_color;
     cursor: move;
     padding: 0 8px;
     height: @console_title_height;
     line-height: @console_title_height;
-    text-shadow: 1px 1px 1px #444;
+    text-shadow: 1px 1px 1px darken(@console_title_bg_color, 5%);
     font-size: @font_size + 2px;
   }
 
@@ -54,12 +54,12 @@
 
       .com-msg {
         display: table-row;
-        color: #EEE;
-        text-shadow: 1px 1px 2px #4C4C4C;
+        color: @console_msg_text_color;
+        text-shadow: 1px 1px 1px darken(@console_bg_color, 5%);
 
-        &.com-msg-debug .com-args { color: #BDF; }
-        &.com-msg-error .com-args { color: #FBB; }
-        &.com-msg-warn  .com-args { color: #FD8; }
+        &.com-msg-debug .com-args { color: @console_msg_text_color_debug; }
+        &.com-msg-error .com-args { color: @console_msg_text_color_error; }
+        &.com-msg-warn  .com-args { color: @console_msg_text_color_warn; }
       }
 
       .com-time {
