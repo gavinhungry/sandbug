@@ -117,5 +117,18 @@ define(function(require) {
     return this;
   };
 
+  /**
+   * Returns a function to trigger an event (arguments passed to bus.trigger)
+   *
+   * @return {Function}
+   */
+  bus.fn_trigger = function() {
+    var args = _.toArray(arguments);
+
+    return _.bind(function() {
+      return this.trigger.apply(this, args);
+    }, this);
+  };
+
   return bus;
 });
