@@ -196,7 +196,7 @@ define(function(require) {
 
     clear: function() {
       this.model.set({ value: '' });
-      this.$filter.val('');
+      this.$filter.removeClass('error').val('');
     },
 
     update: function() {
@@ -233,7 +233,7 @@ define(function(require) {
         that.resultsCollection.reset(limited);
       }, function(err) {
         that.$cdn_loading.transitOut('fast');
-        that.$filter.addClass('error');
+        if (that.$filter.val().trim()) { that.$filter.addClass('error'); }
       });
     }, config.cdn_delay),
 
