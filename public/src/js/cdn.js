@@ -44,7 +44,7 @@ define(function(require) {
   var api_fields = ['name','mainfile','lastversion','description','homepage'];
 
   var jsdelivr_api = '//api.jsdelivr.com/v1/%s';
-  var jsdelivr_query = jsdelivr_api + '/libraries?name=%s*'
+  var jsdelivr_query = jsdelivr_api + '/libraries?name=*%s*'
     + '&fields=' + api_fields.join(',')
     + '&limit=' + config.cdn_results;
 
