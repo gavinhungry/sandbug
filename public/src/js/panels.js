@@ -51,6 +51,13 @@ define(function(require) {
       }
     });
 
+    var $output = panels.get_output_panel();
+    bus.on('output:nopointer', function() {
+      $output.addClass('nopointer');
+    }).on('output:pointer', function() {
+      $output.removeClass('nopointer');
+    });
+
     panels.set_layout(config.default_layout, true);
     panels.update_resize_handlers();
     init_input_modes();
@@ -201,7 +208,7 @@ define(function(require) {
 
     var bind_resize = function(e) {
       $resizer.addClass('dragging');
-      $output.addClass('nopointer');
+      bus.trigger('output:nopointer');
       $body.addClass(isHorizResizer ? 'ns' : 'ew');
 
       $(document).on('mousemove', do_resize);
@@ -210,7 +217,7 @@ define(function(require) {
 
     var unbind_resize = function(e) {
       $resizer.removeClass('dragging');
-      $output.removeClass('nopointer');
+      bus.trigger('output:pointer');
       $body.removeClass('ns ew');
 
       $(document).off('mousemove', do_resize);

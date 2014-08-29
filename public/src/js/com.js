@@ -109,7 +109,9 @@ define(function(require) {
       this.collection.on('add', this.append.bind(this));
       this.$el.draggable({
         containment: 'window',
-        handle: '.com-title'
+        handle: '.com-title',
+        start: bus.fn_trigger('output:nopointer'),
+        stop: bus.fn_trigger('output:pointer')
       });
 
       this.render();
