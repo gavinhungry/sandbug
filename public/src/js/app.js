@@ -118,7 +118,7 @@ define(function(require) {
 
       _.delay(function() {
         $('#loading').transition({ 'opacity': '0' }, function() {
-          // $(this).remove();
+          $(this).remove();
           that.$title.transition({ 'opacity': 1 }, 'slow', that.welcome);
         });
       }, config.splash_delay);
