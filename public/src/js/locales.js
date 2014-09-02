@@ -21,6 +21,7 @@ define(function(require) {
 
   var dir = '/locales';
   var cache = {};
+  var sync = {};
 
   var prefix = '@';
 
@@ -34,6 +35,7 @@ define(function(require) {
     });
 
     bus.on('config:locale', function(localeStr) {
+      locales.string('onbeforeunload');
       locales.localize_dom_nodes();
     });
   });
@@ -98,14 +100,13 @@ define(function(require) {
   /**
    * Returned a localized string from a string ID
    *
-   * @param {String} msg - a string ID
+   * @param {String} strId - a string ID
    * @param {String} [...] - strings to pass to _.sprintf, if applicable
    * @return {Promise} to return localed string matching `strId`
    */
-  locales.string = function(msg) {
+  locales.string = function(strId) {
     var d = $.Deferred();
 
-    var strId = msg;
     var args = _.rest(arguments);
 
     locales.get(config.locale).done(function(locale) {
@@ -124,6 +125,7 @@ define(function(require) {
 
       sprintfArgs.unshift(str);
       var formattedStr = _.sprintf.apply(null, sprintfArgs);
+      sync[strId] = formattedStr; // sprintfArgs are not cached
       d.resolve(formattedStr);
     }).fail(function(err) {
       d.reject(null);
@@ -172,6 +174,16 @@ define(function(require) {
     }).fail(d.reject)
 
     return d.promise();
+  };
+
+  /**
+   * Return a synchronous value from existing cache
+   *
+   * @param {String} strId - a string ID
+   * @return {String} Localed string matching `strId`
+   */
+  locales.sync = function(strId) {
+    return sync[strId];
   };
 
   return locales;

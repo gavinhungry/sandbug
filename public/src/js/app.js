@@ -73,6 +73,10 @@ define(function(require) {
         this.register_keys();
         this.reveal();
       });
+
+      window.onbeforeunload = function() {
+        return locales.sync('onbeforeunload');
+      };
     },
 
     events: {
