@@ -9,12 +9,7 @@
 (function() {
   'use strict';
 
-  // exposed config options - can't rely on requirejs.s.contexts._.config
-  requirejs._config = {
-    waitSeconds: 10
-  };
-
-  var config = {
+  requirejs.config({
     baseUrl: '/src/js',
 
     //>> excludeStart('bustCache', pragmas.bustCache);
@@ -136,12 +131,6 @@
       cm_js: { deps: ['codemirrorjs'] },
       cm_coffeescript: { deps: ['codemirrorjs'] }
     }
-  };
-
-  Object.keys(requirejs._config).forEach(function(key) {
-    config[key] = requirejs._config[key];
   });
-
-  requirejs.config(config);
 
 })();

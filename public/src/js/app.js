@@ -71,7 +71,7 @@ define(function(require) {
         bus.trigger('init', this);
 
         this.register_keys();
-        _.delay(_.bind(this.remove_splash, this), config.splash_delay);
+        _.delay(_.bind(this.reveal, this), config.splash_delay);
       });
     },
 
@@ -112,8 +112,10 @@ define(function(require) {
       });
     },
 
-    remove_splash: function() {
+    reveal: function() {
       var that = this;
+      this.trigger('reveal');
+
       $('#loading').transition({ 'opacity': '0' }, function() {
         $(this).remove();
         that.$title.transition({ 'opacity': 1 }, 'slow', that.welcome);

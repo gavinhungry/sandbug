@@ -20,10 +20,11 @@
 
     .overlay-msg, .overlay-err {
       margin: 0 auto 16px;
-      padding: 8px;
+      padding: @overlay_msg_padding 0;
       border-radius: 1px;
       text-align: center;
       line-height: 1.25em;
+      overflow: hidden;
     }
 
     .overlay-msg {
@@ -33,6 +34,15 @@
       border: 1px solid @overlay_inset_border_color;
       box-shadow: 4px 4px 0 @overlay_inset_border_color;
       color: @overlay_inset_text_color;
+
+      .overlay-progress {
+        height: 4px;
+        background-color: @overlay_progress_bg_color;
+        margin-bottom: -@overlay_msg_padding;
+        margin-top: @overlay_msg_padding;
+        width: 0%;
+        transition: width 0.05s;
+      }
     }
 
     .overlay-err {
