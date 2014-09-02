@@ -60,6 +60,16 @@ define('bugs_p', function(require) {
   bugs.Bug = Backbone.DeepModel.extend({
     idAttribute: 'slug',
 
+    initialize: function() {
+      this.on('change', function() {
+        this._dirty = true;
+      });
+    },
+
+    isDirty: function() {
+      return this._dirty;
+    },
+
     _url: '/api/bugs/',
     url: function() {
       return this._url + this.get(this.idAttribute);
@@ -176,6 +186,7 @@ define('bugs_p', function(require) {
     return model.save().then(function(res) {
       flash.message_good('@bug_saved', locales.string('bug_saved_msg', res.slug));
       bugs.display(model);
+      model._dirty = false;
     }, flash.xhr_error);
   };
 
@@ -224,6 +235,15 @@ define('bugs_p', function(require) {
     bugs._priv.schema = {};
     d.resolve(bugs);
   });
+
+  /**
+   * Check if the current bug has unsaved content
+   *
+   * @return {Boolean} true if unsaved, false otherwise
+   */
+  bugs.dirty = function() {
+    return bugs.model().isDirty();
+  };
 
   return d.promise();
 });
