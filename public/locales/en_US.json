@@ -21,7 +21,7 @@
   "login":                "Login",
   "logout_error":         "Error logging out",
   "logout":               "Logout",
-  "onbeforeunload":       "You may have unsaved content.",
+  "onbeforeunload":       "Your bug has unsaved code!",
   "password_mismatch":    "Passwords do not match",
   "server_error":         "Server error",
   "server_error_msg":     "The requested action could not complete due to a server error",

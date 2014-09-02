@@ -70,6 +70,12 @@ define('bugs_p', function(require) {
       return this._dirty;
     },
 
+    isEmpty: function() {
+      return _.every(this.get('map'), function(panel) {
+        return _.isBlank(panel.content);
+      });
+    },
+
     _url: '/api/bugs/',
     url: function() {
       return this._url + this.get(this.idAttribute);
@@ -243,6 +249,15 @@ define('bugs_p', function(require) {
    */
   bugs.dirty = function() {
     return bugs.model().isDirty();
+  };
+
+  /**
+   * Check if the current bug is empty
+   *
+   * @return {Boolean} true if empty, false otherwise
+   */
+  bugs.empty = function() {
+    return bugs.model().isEmpty();
   };
 
   return d.promise();

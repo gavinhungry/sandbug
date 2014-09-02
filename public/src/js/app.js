@@ -75,7 +75,9 @@ define(function(require) {
       });
 
       window.onbeforeunload = function() {
-        return locales.sync('onbeforeunload');
+        if (bugs.dirty() && !bugs.empty()) {
+          return locales.sync('onbeforeunload');
+        }
       };
     },
 
