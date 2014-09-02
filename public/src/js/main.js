@@ -35,7 +35,6 @@
     };
 
     i = setInterval(function() {
-      console.log(p);
       progBar.style.width = (p++) + '%';
       if (p > 100) { complete(); }
     }, WAIT_SECONDS * 10); // (WAIT_SECONDS * 1000) / 100
