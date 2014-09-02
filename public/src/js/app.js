@@ -71,7 +71,7 @@ define(function(require) {
         bus.trigger('init', this);
 
         this.register_keys();
-        _.delay(_.bind(this.reveal, this), config.splash_delay);
+        this.reveal();
       });
     },
 
@@ -116,10 +116,12 @@ define(function(require) {
       var that = this;
       this.trigger('reveal');
 
-      $('#loading').transition({ 'opacity': '0' }, function() {
-        $(this).remove();
-        that.$title.transition({ 'opacity': 1 }, 'slow', that.welcome);
-      });
+      _.delay(function() {
+        $('#loading').transition({ 'opacity': '0' }, function() {
+          // $(this).remove();
+          that.$title.transition({ 'opacity': 1 }, 'slow', that.welcome);
+        });
+      }, config.splash_delay);
     },
 
     // show a welcome message, but just once

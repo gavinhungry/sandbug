@@ -41,13 +41,21 @@
         margin-bottom: -@overlay_msg_padding;
         margin-top: @overlay_msg_padding;
         width: 0%;
-        transition: width 0.05s;
+        transition: background-color 300ms;
+
+        &.transition {
+          transition: width 1s;
+        }
+
+        &.timeout {
+          background-color: @overlay_inset_err_bg_color;
+        }
       }
     }
 
     .overlay-err {
       opacity: 0;
-      transition: opacity 0.5s;
+      transition: opacity 300ms;
       max-width: 450px;
       font-size: 16px;
       background: @overlay_inset_err_bg_color;

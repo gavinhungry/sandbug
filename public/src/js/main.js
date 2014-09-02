@@ -5,7 +5,7 @@
 (function() {
   'use strict';
 
-  var WAIT_SECONDS = 5;
+  var WAIT_SECONDS = 10;
 
   /**
    * Execute callback when (or if) the DOM is ready
@@ -18,43 +18,69 @@
     document.addEventListener('DOMContentLoaded', callback);
   };
 
+  var hasError = false;
+
   /**
    * Start progress loading bar
    *
-   * @return {Function} call to set completed progress early
+   * @return {Object} - {Function} complete, {Function} error
    */
   var progress = function() {
     var loading = document.querySelector('#loading');
     var progBar = loading.querySelector('.overlay-progress');
+    var overlayError = loading.querySelector('.overlay-err');
 
     var i, p = 0;
+    var completed = false;
+
+    var stop = function() {
+      clearInterval(i);
+    };
 
     var complete = function() {
-      progBar.style.width = '100%';
-      clearInterval(i);
+      stop();
+
+      if (completed) { return; }
+      completed = true;
+
+      if (!hasError) {
+        progBar.classList.add('transition');
+        progBar.style.width = '100%';
+      }
+    };
+
+    var error = function(err) {
+      stop();
+
+      if (err) { console.error(err.message); }
+      overlayError.style.opacity = 1;
+      progBar.classList.add('timeout');
+
+      hasError = true;
     };
 
     i = setInterval(function() {
       progBar.style.width = (p++) + '%';
-      if (p > 100) { complete(); }
+      if (p > 100) { error(); complete(); }
     }, WAIT_SECONDS * 10); // (WAIT_SECONDS * 1000) / 100
 
-    return complete;
+    return {
+      complete: complete,
+      error: error
+    };
   };
 
   ready(function() {
-    require.config({ waitSeconds: WAIT_SECONDS });
-    var complete = progress();
+    var progression = progress();
 
+    require.config({ waitSeconds: WAIT_SECONDS });
     require(['require.config'], function() {
       require(['app'], function(app) {
+        if (hasError) { return; }
+
         var debuggerio = new app.App();
-        debuggerio.once('reveal', complete);
-      }, function(err) {
-        console.error(err.message);
-        var overlayError = loading.querySelector('.overlay-err');
-        overlayError.style.opacity = 1;
-      });
+        debuggerio.once('reveal', progression.complete);
+      }, progression.error);
     });
   });
 
