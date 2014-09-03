@@ -15,7 +15,7 @@
   "auth": {
     // add session secret key to deploy.json
     "cookie": "session",
-    "hours": 0.1, // 6 minutes
+    "hours": 168, // 1 week
 
     // number of rounds (log_2) used to process new passwords (between 4 and 31)
     "rounds": 10
