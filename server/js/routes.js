@@ -20,6 +20,8 @@ define(function(require) {
 
   var routes = { get: {}, put: {}, post: {} };
 
+  var LOCALES_PATH = './public/locales';
+
   // GET /
   routes.get.index = function(req, res) {
     var user = req.user || {};
@@ -127,6 +129,12 @@ define(function(require) {
     }, utils.server_error_handler(res)).done();
   };
 
+  // GET /api/locales
+  routes.get.locales = function(req, res) {
+    utils.dir_json(LOCALES_PATH, 'locale').then(function(locales) {
+      res.json(locales);
+    }, utils.server_error_handler(res)).done();
+  };
 
   return routes;
 });

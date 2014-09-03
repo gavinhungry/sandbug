@@ -52,7 +52,8 @@ define(function(require) {
   server.put('/api/bugs/:bugslug', routes.put.bug);
   server.post('/api/bugs/:bugslug', routes.post.bug);
 
-  server.get('/api/models/bug', routes.get.bug_model)
+  server.get('/api/models/bug', routes.get.bug_model);
+  server.get('/api/locales', routes.get.locales);
 
   server.use(routes.get.index);
 
