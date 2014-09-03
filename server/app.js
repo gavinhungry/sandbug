@@ -25,7 +25,7 @@ define(function(require) {
 
   // Express server
   var server = express();
-  app.port = config.ports.server;
+  app.port = config.server.port;
 
   auth.init(server);
 
