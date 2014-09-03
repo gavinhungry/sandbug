@@ -11,6 +11,8 @@ define(function(require) {
   var https = require('https');
   var Q     = require('q');
 
+  var cjson     = require('cjson');
+  var fs        = require('fs');
   var module    = require('module');
   var path      = require('path');
   var __dirname = path.dirname(module.uri);
@@ -36,7 +38,7 @@ define(function(require) {
    * @param {Object} opts - options to http.get
    * @return {Promise} promise to return JSON
    */
-  utils.get_JSON = function(opts) {
+  utils.get_json = function(opts) {
     var d = Q.defer();
 
     var protocol = (opts.port === 443) ? https : http;
@@ -54,6 +56,48 @@ define(function(require) {
 
     return d.promise;
   };
+
+  /**
+   * Get an object of JSON from a directory
+   *
+   * @param {String} dir - directory path relative to debugger root
+   * @param {String} [prop] - property name to be returned as value
+   * @return {Promise}
+   */
+  utils.dir_json = _.memoize(function(dir, prop) {
+    var d = Q.defer();
+
+    var root = path.resolve('.');
+    dir = path.resolve(dir);
+
+    if (!_.startsWith(dir, root) || dir === root) {
+      return utils.reject_now();
+    }
+
+    fs.readdir(dir, function(err, filenames) {
+      if (err) { return d.reject(err); }
+
+      var result = _.chain(filenames).filter(function(filename) {
+        return _.endsWith(filename, '.json');
+      }).map(function(json) {
+        try {
+          var data = cjson.load(path.join(dir, json));
+        } catch(err) {
+          return null;
+        }
+
+        var jsonId = _.strLeftBack(json, '.');
+
+        if (prop) { data = utils.reduce(prop, data); }
+
+        return [jsonId, data];
+      }).object().value();
+
+      d.resolve(result);
+    });
+
+    return d.promise;
+  });
 
   /**
    * Ensure that a value is an array
