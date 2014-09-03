@@ -110,7 +110,7 @@ define(function(require) {
     var args = _.rest(arguments);
 
     locales.get(config.locale).done(function(locale) {
-      var str = strId ? locale[strId] : null;
+      var str = (locale.strings && strId) ? locale.strings[strId] : null;
       if (!str) { return d.resolve(null); }
 
       // count the number of sprintf placeholders are present
