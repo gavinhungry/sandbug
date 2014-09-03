@@ -21,7 +21,7 @@
     "rounds": 10
   },
 
-  // available to clients as GET /config
+  // available to clients as GET /api/config
   "client": {
     // Default panel layout
     // One of: [layout-cols, layout-top, layout-left]
