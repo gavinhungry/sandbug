@@ -60,6 +60,6 @@
     "splash_delay": 500,
 
     // Delay between iframe update retries (ms)
-    "ack_retry": 100
+    "ack_timeout": 100
   }
 }

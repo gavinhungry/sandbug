@@ -80,7 +80,7 @@ define(function(require) {
     };
 
     // keep sending data until an ack is recieved from the iframe
-    var interval = setInterval(post_fn, config.ack_retry);
+    var interval = setInterval(post_fn, config.ack_timeout);
     post_fn();
   };
 
