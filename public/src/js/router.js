@@ -22,6 +22,10 @@ define(function(require) {
 
   var prev_routes = new utils.Buffer(4);
 
+  $(window).on('popstate', function(e) {
+    popups.destroy(popups.type());
+  });
+
   /**
    * Keep a record of the previous routes
    */

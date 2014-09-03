@@ -76,6 +76,8 @@ define(function(require) {
       var data = this.model.toJSON();
       if (data.route) { bus.trigger('navigate', 'back'); }
 
+      this.$el.removeData('type');
+
       popups.hide().always(function() {
         dom.destroy_view(that);
         currentView = null;
@@ -110,6 +112,8 @@ define(function(require) {
         // remove any existing popups first
         popups.hide().done(function() {
           that.$el.html(popupHtml);
+          that.$el.data('type', that.template);
+
           popups.show().done(function() {
             if (_.isFunction(that.post_transition)) { that.post_transition(); }
           });
@@ -124,7 +128,7 @@ define(function(require) {
       }).fail(function(err) {
         var that = _.first(utils.ensure_array(this));
         var msg = _.sprintf('Error rendering "%s" - %s', that.template, err);
-        console.error(msg);
+        popups.console.error(msg);
       });
     }
   });
@@ -302,7 +306,7 @@ define(function(require) {
     var viewConstructor = popups[viewName];
 
     if (!modelConstructor || !viewConstructor) {
-      console.error('popups.%s / popups.%s do not exist', modelName, viewName);
+      popups.console.error('popups.%s / popups.%s do not exist', modelName, viewName);
       return utils.reject_now();
     }
 
@@ -382,11 +386,17 @@ define(function(require) {
   /**
    * Destroy the currently visible popup(s)
    *
+   * @param {String} [type]
    * @return {Promise}
    */
-  popups.destroy = function() {
-    return currentView instanceof popups.PopupView ?
-      currentView.destroy() : utils.resolve_now(true);
+  popups.destroy = function(type) {
+    if (!(currentView instanceof popups.PopupView)) {
+      return utils.resolve_now(true);
+    }
+
+    if (!type || (type === currentView.$el.data('type'))) {
+      return currentView.destroy();
+    }
   };
 
   /**
@@ -398,6 +408,10 @@ define(function(require) {
    */
   popups.prompt = function(title, inputs) {
     return popups.popup('input', title, utils.ensure_array(inputs));
+  };
+
+  popups.type = function() {
+    return $(popupEl).data('type');
   };
 
   return popups;
