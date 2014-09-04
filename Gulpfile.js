@@ -55,10 +55,13 @@
   /**
    * Build LESS files for each theme into a single compressed CSS file
    */
-  gulp.task('less', function() {
+  gulp.task('less', function(done) {
     return gulp.src('./public/src/less/debuggerio.*.less')
       .pipe(less())
-      .on('error', function(err) { console.error(err); })
+      .on('error', function(err) {
+        console.error(err.message);
+        done();
+      })
       .pipe(mincss())
       .pipe(rename(minified))
       .pipe(gulp.dest('./public/css'));
