@@ -61,6 +61,7 @@ define(function(require) {
       'click #console': function(e) { com.toggle(); },
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
+      'click #settings': function(e) { bus.trigger('navigate', 'settings', true); },
       'click #signup': function(e) { bus.trigger('navigate', 'signup', true); },
       'click #login': function(e) { bus.trigger('navigate', 'login', true); },
       'click #logout': function(e) { user.logout(); }

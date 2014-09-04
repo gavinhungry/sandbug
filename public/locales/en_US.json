@@ -30,6 +30,7 @@
     "settings":             "Settings",
     "signup":               "Sign Up",
     "url_slug":             "URL slug",
+    "user_settings":        "User Settings",
     "user_exists_msg":      "An account with this username or email already exists.",
     "user_exists":          "Username or email in use"
   }

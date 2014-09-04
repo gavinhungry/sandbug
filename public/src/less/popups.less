@@ -21,18 +21,16 @@
       4px 4px 4px @popup_border_color,
       4px 4px 0 @popup_border_color;
     border: 1px solid @popup_border_color;
-    padding: @popup_padding;
-    padding-bottom: 0;
+    padding: 0;
+    padding-bottom: calc(32px ~'+' 1.5em);
 
     width: @popup_width;
-    height: @popup_height;
     left: calc(50% ~'-' (@popup_width / 2));
     top: calc(25% ~'+' 48px);
 
     &.popup-small {
       @_small_width: round(@popup_width / 1.5);
       width:  @_small_width;
-      height: auto;
       left: calc(50% ~'-' round(@_small_width / 2));
     }
   }
@@ -42,17 +40,28 @@
     font-size:  1.4em;
     font-weight: 400;
     color: @popup_head_text_color;
-    padding: 0 0 10px;
-    border-bottom: 2px solid @popup_head_border_color;
-    margin-bottom: 10px;
+    background-color: @popup_head_bg_color;
+    padding: @popup_padding;
+    border-bottom: 1px solid @popup_head_border_color;
     user-select: none;
     cursor: default;
   }
 
+  .popup-wrap {
+    padding: @popup_padding;
+    padding-bottom: 0;
+    max-height: 40vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   .popup-actionbar {
+    margin-left: -@popup_padding;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 8px;
     background-color: @popup_actionbar_bg_color;
-    margin: @popup_padding / 2 -1 * @popup_padding 0;
-    padding: 0.5 * @popup_padding;
     border-top: 1px solid @popup_actionbar_border_color;
   }
 }

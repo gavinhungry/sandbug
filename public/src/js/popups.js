@@ -58,9 +58,13 @@ define(function(require) {
         this.trigger('submit');
       },
 
-      'click': function(e) {
+      'mousedown': function(e) {
         // only destroy the popup if the background area is clicked
-        if ($(e.target).is(popupEl)) { this.destroy(); }
+        this.bg_mousedown = $(e.target).is(popupEl);
+      },
+
+      'mouseup': function(e) {
+        if ($(e.target).is(popupEl) && this.bg_mousedown) { this.destroy(); }
       },
 
       // destroy a popup when the cancel button is pressed
@@ -223,6 +227,32 @@ define(function(require) {
   });
 
   /**
+   * User settings popup
+   */
+  popups.UserSettingsPopup = popups.Popup.extend({
+    defaults: { route: true, title: 'user_settings' }
+  });
+
+  popups.UserSettingsPopupView = popups.PopupView.extend({
+    template: 'popup-user-settings',
+
+    initialize: function(options) {
+      this.events = _.extend({}, this.events, this._events);
+      this.constructor.__super__.initialize.apply(this, arguments);
+    },
+
+    _events: {
+
+    },
+
+    post_render: function() {
+      // dom.cache(this, this.$el, {
+      //   'by_name': ['username', 'email', 'password', 'confirm']
+      // });
+    }
+  });
+
+  /**
    * User prompt
    */
   popups.InputPopup = popups.Popup.extend({
@@ -349,7 +379,15 @@ define(function(require) {
     if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
     else {
       $popup.removeClass('nopointer');
-      $popup.css({ 'display': 'block' }).transition({
+
+      $popup.css({ 'display': 'block' });
+
+      var $wrap = $popup.find('.popup-wrap');
+      var $bar = $popup.find('.popup-actionbar');
+      var offset = $bar.offset().top - ($wrap.offset().top + $wrap.outerHeight());
+      $wrap.css('margin-bottom', _.sprintf('-%spx', offset));
+
+      $popup.transition({
         'opacity': 1,
         'margin-top': '1em'
       }, function() { d.resolve(true); });

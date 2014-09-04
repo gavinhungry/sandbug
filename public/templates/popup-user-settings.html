@@ -1,0 +1,16 @@
+<form id='user_settings_form' action='/api/settings' method='post'>
+  <input type='hidden' name='_csrf' value='<%= csrf %>'>
+
+  <div class='popup-actionbar'>
+    <div class='btn-group right'>
+      <button type='submit' class='btn-small action'>Save</button>
+    </div>
+
+    <div class='btn-group right'>
+      <button class='btn-small popup-cancel'>Cancel</button>
+    </div>
+
+    <div class='clear'></div>
+  </div>
+
+</form>

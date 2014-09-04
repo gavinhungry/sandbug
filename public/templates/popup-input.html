@@ -1,4 +1,5 @@
 <form id='input_form'>
+
   <% _.each(data.extras, function(extra) { %>
     <input name='<%= extra.name %>' placeholder='<%= extra.placeholder %>'
       type='<%= extra.type || 'text' %>' value='<%= extra.value %>' autocomplete='off'
@@ -16,4 +17,5 @@
 
     <div class='clear'></div>
   </div>
+
 </form>

@@ -39,6 +39,7 @@ define(function(require) {
   var Router = Backbone.Router.extend({
     routes: {
       '': function() { /* nop */ },
+      'settings': function() { popups.popup('user_settings'); },
       'login': function() { popups.popup('login'); },
       'logout': function() { user.logout(); },
       'signup': function() { popups.popup('signup'); },
