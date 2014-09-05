@@ -43,12 +43,12 @@ define(function(require) {
     el: popupEl,
 
     // set pre_rendered as a promise in a subclassed initialize for async
-    pre_rendered: true,
+    pre_rendered: [],
 
     initialize: function(options) {
       var that = this;
       _.extend(this, _.pick(options, 'template', 'post_render'));
-      $.when(this.pre_rendered)
+      $.when.apply(null, this.pre_rendered)
         .done(this.render.bind(this))
         .fail(this.destroy.bind(this));
 
@@ -91,7 +91,7 @@ define(function(require) {
         });
       });
 
-      this.pre_rendered = $.when.apply(null, opts_p);
+      this.pre_rendered.push($.when.apply(null, opts_p));
     },
 
     destroy: function() {
