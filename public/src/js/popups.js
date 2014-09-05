@@ -33,7 +33,29 @@ define(function(require) {
    * @param {String} title - Popup heading
    */
   popups.Popup = Backbone.Model.extend({
-    defaults: { small: false, title: null }
+    defaults: { small: false, title: null },
+
+    // array of promises to resolve before model is ready
+    pre_ready: [],
+
+    /**
+     * Add remote data to model
+     *
+     * @param {Object} opts - { key: uri }, add data from uri to key on model
+     */
+    remote_data: function(opts) {
+      var that = this;
+
+      var opts_p = _.map(opts, function(uri, key) {
+        return $.get(uri).then(function(data) {
+          return that.set(key, data);
+        }, function(err) {
+          flash.message_bad('@server_error', '@server_error_msg');
+        });
+      });
+
+      this.pre_ready.push($.when.apply(null, opts_p));
+    }
   });
 
   /**
@@ -42,13 +64,10 @@ define(function(require) {
   popups.PopupView = Backbone.View.extend({
     el: popupEl,
 
-    // set pre_rendered as a promise in a subclassed initialize for async
-    pre_rendered: [],
-
     initialize: function(options) {
       var that = this;
       _.extend(this, _.pick(options, 'template', 'post_render'));
-      $.when.apply(null, this.pre_rendered)
+      $.when.apply(null, this.model.pre_ready)
         .done(this.render.bind(this))
         .fail(this.destroy.bind(this));
 
@@ -73,25 +92,6 @@ define(function(require) {
 
       // destroy a popup when the cancel button is pressed
       'click .popup-cancel': function(e) { e.preventDefault(); this.destroy(); }
-    },
-
-    /**
-     * Add remote data to model
-     *
-     * @param {Object} opts - { key: uri }, add data from uri to key on model
-     */
-    remote_data: function(opts) {
-      var that = this;
-
-      var opts_p = _.map(opts, function(uri, key) {
-        return $.get(uri).then(function(data) {
-          return that.model.set(key, data);
-        }, function(err) {
-          flash.message_bad('@server_error', '@server_error_msg');
-        });
-      });
-
-      this.pre_rendered.push($.when.apply(null, opts_p));
     },
 
     destroy: function() {
@@ -262,7 +262,13 @@ define(function(require) {
    * User settings popup
    */
   popups.UserSettingsPopup = popups.Popup.extend({
-    defaults: { route: true, small: true, title: 'user_settings' }
+    defaults: { route: true, small: true, title: 'user_settings' },
+
+    initialize: function() {
+      this.remote_data({
+        'locales': '/api/locales'
+      });
+    }
   });
 
   popups.UserSettingsPopupView = popups.PopupView.extend({
@@ -270,10 +276,6 @@ define(function(require) {
 
     initialize: function(options) {
       var that = this;
-
-      this.remote_data({
-        'locales': '/api/locales'
-      });
 
       this.events = _.extend({}, this.events, this._events);
       this.constructor.__super__.initialize.apply(this, arguments);
