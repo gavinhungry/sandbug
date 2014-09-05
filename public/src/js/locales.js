@@ -135,6 +135,27 @@ define(function(require) {
   };
 
   /**
+   * For an array of string IDs, return an object mapping them to their strings
+   *
+   * @example
+   * // returns {Promise} => { foo: 'Foo!', bar: 'Bar?' }
+   *
+   * locales.multi_string(['foo', 'bar']);
+   *
+   * @param {Array} strIds
+   * @return {Promise}
+   */
+  locales.strings = function(strIds) {
+    var strs_p = _.map(utils.ensure_array(strIds), function(strId) {
+      return locales.string(strId);
+    });
+
+    return $.when.apply(null, strs_p).then(function() {
+      return _.object(strIds, arguments);
+    });
+  };
+
+  /**
    * Returns a promise to localize a string if a leading prefix is found
    *
    * @param {Mixed}
