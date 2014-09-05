@@ -412,55 +412,57 @@ define(function(require) {
   /**
    * Show the currently assigned popup
    *
-   * @return {Promise} resolves to true after showing, or rejects to false
+   * @return {Promise} resolves after showing, or rejects on failure
    */
   popups.show = function() {
-    var d = $.Deferred();
-
     var $popup = $(popupEl);
-    if (!$popup.length || $popup.is(':empty')) { d.reject(false); }
-    else {
-      $popup.removeClass('nopointer');
-
-      $popup.css({ 'display': 'block' });
-
-      var $wrap = $popup.find('.popup-wrap');
-      var $bar = $popup.find('.popup-actionbar');
-      var offset = $bar.offset().top - ($wrap.offset().top + $wrap.outerHeight());
-      $wrap.css('margin-bottom', _.sprintf('-%spx', offset));
-
-      $popup.transition({
-        'opacity': 1,
-        'margin-top': '1em'
-      }, function() { d.resolve(true); });
+    if (!$popup.length || $popup.is(':empty')) {
+      return utils.reject_now();
     }
 
-    return d.promise();
+    $popup.removeClass('nopointer');
+    $popup.css({ 'display': 'block' });
+
+    var $inner = $popup.find('.popup');
+    var $wrap = $popup.find('.popup-wrap');
+    var $bar = $popup.find('.popup-actionbar');
+    var offset = $bar.offset().top - ($wrap.offset().top + $wrap.outerHeight());
+    $wrap.css('margin-bottom', _.sprintf('-%spx', offset));
+
+    return dom.multi_transition([
+      { $el: $popup, args: { 'opacity': 1 } },
+      { $el: $inner, args: { 'margin-top': '1em' } }
+    ]);
   };
 
   /**
    * Hide the currently visible popup
    *
-   * @return {Promise} resolves to true after hiding, or rejects to false
+   * @return {Promise} resolves after hiding, or rejects on failure
    */
   popups.hide = function() {
     var d = $.Deferred();
 
     var $popup = $(popupEl);
-    if (!$popup.length) { d.reject(false); }
-    else {
-      // popup is already hidden, don't wait to resolve
-      if ($popup.css('opacity') === '0') { d.resolve(true); }
-      else {
-        $popup.addClass('nopointer');
-        $popup.transition({ 'opacity': 0, 'margin-top': 0 }, function() {
-          $popup.css({ 'display': 'none' });
-          d.resolve(true);
-        });
-      }
+    if (!$popup.length) {
+      return utils.reject_now();
     }
 
-    return d.promise();
+    // popup is already hidden, don't wait to resolve
+    if ($popup.css('opacity') === '0') {
+      return utils.resolve_now();
+    }
+
+    $popup.addClass('nopointer');
+
+    var $inner = $popup.find('.popup');
+
+    return dom.multi_transition([
+      { $el: $popup, args: { 'opacity': 0 } },
+      { $el: $inner, args: { 'margin-top': 0 } }
+    ]).then(function() {
+      $popup.css({ 'display': 'none' });
+    });
   };
 
   /**
