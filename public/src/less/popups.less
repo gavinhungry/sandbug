@@ -2,6 +2,9 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
+@popup_heading_font_size: @font_size * 1.75;
+@popup_heading_height: @popup_heading_font_size * 2.5;
+
 #popup {
   position: fixed;
   left: 0;
@@ -36,16 +39,14 @@
     }
   }
 
-  @popup_heading_font_size: @font_size * 1.75;
-
   .popup-head {
     font-family: @title_font;
     font-size:  @popup_heading_font_size;
     font-weight: 400;
     color: @popup_head_text_color;
     background-color: @popup_head_bg_color;
-    height: @popup_heading_font_size * 2.5;
-    padding: (@popup_heading_font_size * 1.25) @popup_padding 0;
+    height: @popup_heading_height;
+    padding: (@popup_heading_height / 2) @popup_padding 0;
     line-height: 0;
     border-bottom: 1px solid @popup_head_border_color;
     user-select: none;
@@ -75,7 +76,11 @@ body.phone {
   #popup .popup {
     width: calc(100% ~'-' 16px);
     left: 8px;
-    top: calc(25% ~'-' @popup_padding ~'+' 8px);
+    top: -8px;
     max-height: calc(100vh ~'-' 16px);
+
+    .popup-wrap {
+      max-height: calc(100vh ~'-' (@popup_heading_height + 72px));
+    }
   }
 }
