@@ -2,7 +2,7 @@
   <input type='hidden' name='_csrf' value='<%= csrf %>'>
 
   <select name='locales' class='plain full'>
-  <% alert(xxx.locale); _.each(data.locales, function(name, localeId) { %>
+  <% _.each(data.locales, function(name, localeId) { %>
     <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
   <% }); %>
   </select>
