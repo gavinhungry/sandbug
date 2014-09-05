@@ -2,10 +2,14 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-textarea:focus, input:focus, button:focus { outline: none; }
+textarea, input, button, select {
+  &:focus { outline: none; }
+}
+
+select { padding-left: 6px !important; }
 
 input[type='text'], input[type='password'],
-input[type='search'], input[type='email'], .chosen-container {
+input[type='search'], input[type='email'], select, .chosen-container {
   &:not(.plain) {
     background: @input_bg_color;
     color: @input_text_color;
