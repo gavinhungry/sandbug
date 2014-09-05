@@ -262,7 +262,7 @@ define(function(require) {
    * User settings popup
    */
   popups.UserSettingsPopup = popups.Popup.extend({
-    defaults: { route: true, title: 'user_settings' }
+    defaults: { route: true, small: true, title: 'user_settings' }
   });
 
   popups.UserSettingsPopupView = popups.PopupView.extend({
