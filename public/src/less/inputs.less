@@ -5,8 +5,7 @@
 textarea:focus, input:focus, button:focus { outline: none; }
 
 input[type='text'], input[type='password'],
-input[type='search'], input[type='email'], select {
-
+input[type='search'], input[type='email'], .chosen-container {
   &:not(.plain) {
     background: @input_bg_color;
     color: @input_text_color;
@@ -39,6 +38,7 @@ input[type='search'], input[type='email'], select {
   }
 
   &.plain {
+    height: 42px;
     background: @input_plain_bg_color;
     color: @input_plain_text_color;
     border: 2px solid @input_plain_border_color;
@@ -47,13 +47,13 @@ input[type='search'], input[type='email'], select {
     font-family: @font;
     font-size: @font_size + 2px;
 
-    &:focus {
+    &:focus, &.chosen-with-drop {
       background: @input_plain_bg_focus_color;
       border-color: @input_plain_border_focus_color;
     }
 
     &.full {
-      width: 100%;
+      width: 100% !important;
       margin-bottom: 10px;
       padding: 10px;
     }
@@ -75,9 +75,44 @@ input[type='search'], input[type='email'], select {
   }
 }
 
-select > option {
-  background-color: @select_option_bg_color;
-  color: @select_option_text_color;
+#debuggerio select + .chosen-container {
+  * { transition: none; }
+
+  .chosen-single {
+    height: 42px;
+    color: @input_plain_placeholder_color;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    height: 18px;
+    line-height: 18px;
+
+    > div {
+      top: -1px;
+      right: -8px;
+    }
+  }
+
+  .chosen-drop {
+    border-radius: 0;
+    padding-top: 5px;
+    background: @popup_bg_color;
+    color: #CCC;
+    border: 2px solid lighten(@input_plain_border_color, 5%);
+    box-shadow: 0 0 6px @input_plain_box_shadow_color;
+    width: calc(100% ~'-' 8px);
+    margin-left: 4px;
+    margin-top: 4px;
+  }
+
+  .chosen-results li {
+    cursor: default;
+
+    &.highlighted {
+      background: #567;
+    }
+  }
 }
 
 input[type='checkbox'] {

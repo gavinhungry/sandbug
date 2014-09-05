@@ -145,6 +145,11 @@ define(function(require) {
           that.$el.html(popupHtml);
           that.$el.data('type', that.template);
 
+          that.$el.find('select').chosen({
+            disable_search: true,
+            inherit_select_classes: true
+          });
+
           popups.show().done(function() {
             if (_.isFunction(that.post_transition)) { that.post_transition(); }
           });

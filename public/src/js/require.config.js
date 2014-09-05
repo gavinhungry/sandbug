@@ -33,6 +33,8 @@
       nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7/javascripts/jquery.nanoscroller.min',
       cookie: '//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min',
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
+      chosen: '//cdn.jsdelivr.net/chosen/1.1/chosen.jquery.min',
+
       string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
       objmap: 'plugins/_.objMapFunctions.amd',
@@ -113,6 +115,8 @@
       cookie: { deps: ['jqueryjs'] },
       storage: { deps: ['jqueryjs', 'cookie'] },
       hammer: { deps: ['jqueryjs'] },
+      chosen: { deps: ['jqueryjs'] },
+
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
       objmap: { deps: ['underscorejs'] },

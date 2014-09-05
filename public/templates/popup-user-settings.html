@@ -4,8 +4,13 @@
   <select name='locales' class='plain full'>
   <% _.each(data.locales, function(name, localeId) { %>
     <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
+    <option value='monkey'>Monkey (OK)</option>
+    <option value='peanut'>LOL (OK)</option>
   <% }); %>
   </select>
+
+  <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
+  <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>
