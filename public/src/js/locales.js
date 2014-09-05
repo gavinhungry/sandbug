@@ -135,7 +135,7 @@ define(function(require) {
   };
 
   /**
-   * Returns a promsie to localize a string if a leading prefix is found
+   * Returns a promise to localize a string if a leading prefix is found
    *
    * @param {Mixed}
    * @return {Promise|String}
