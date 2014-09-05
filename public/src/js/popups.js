@@ -42,11 +42,15 @@ define(function(require) {
   popups.PopupView = Backbone.View.extend({
     el: popupEl,
 
+    // set pre_rendered as a promise in a subclassed initialize for async
+    pre_rendered: true,
+
     initialize: function(options) {
       var that = this;
       _.extend(this, _.pick(options, 'template', 'post_render'));
-
-      this.render();
+      $.when(this.pre_rendered)
+        .done(this.render.bind(this))
+        .fail(this.destroy.bind(this));
 
       popupKeyHander =
         keys.register_handler({ key: 'esc' }, function(e) { that.destroy(); });
@@ -69,6 +73,25 @@ define(function(require) {
 
       // destroy a popup when the cancel button is pressed
       'click .popup-cancel': function(e) { e.preventDefault(); this.destroy(); }
+    },
+
+    /**
+     * Add remote data to model
+     *
+     * @param {Object} opts - { key: uri }, add data from uri to key on model
+     */
+    remote_data: function(opts) {
+      var that = this;
+
+      var opts_p = _.map(opts, function(uri, key) {
+        return $.get(uri).then(function(data) {
+          return that.model.set(key, data);
+        }, function(err) {
+          flash.message_bad('@server_error', '@server_error_msg');
+        });
+      });
+
+      this.pre_rendered = $.when.apply(null, opts_p);
     },
 
     destroy: function() {
@@ -105,7 +128,11 @@ define(function(require) {
       .then(function(popup_fn, content_fn, title) {
         var that = _.first(utils.ensure_array(this));
 
-        var contentHtml = content_fn({ data: data });
+        var contentHtml = content_fn({
+          data: data,
+          config: _.clone(config)
+        });
+
         var popupHtml = popup_fn({
           small: !!data.small,
           title: title,
@@ -237,18 +264,28 @@ define(function(require) {
     template: 'popup-user-settings',
 
     initialize: function(options) {
+      var that = this;
+
+      this.remote_data({
+        'locales': '/api/locales'
+      });
+
       this.events = _.extend({}, this.events, this._events);
       this.constructor.__super__.initialize.apply(this, arguments);
     },
 
     _events: {
+      'submit #user_settings_form': function(e) {
+        config.locale = this.$locales.val();
 
+        this.destroy();
+      }
     },
 
     post_render: function() {
-      // dom.cache(this, this.$el, {
-      //   'by_name': ['username', 'email', 'password', 'confirm']
-      // });
+      dom.cache(this, this.$el, {
+        'by_name': ['locales',]
+      });
     }
   });
 

@@ -1,6 +1,12 @@
 <form id='user_settings_form' action='/api/settings' method='post'>
   <input type='hidden' name='_csrf' value='<%= csrf %>'>
 
+  <select name='locales' class='plain full'>
+  <% alert(xxx.locale); _.each(data.locales, function(name, localeId) { %>
+    <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
+  <% }); %>
+  </select>
+
   <div class='popup-actionbar'>
     <div class='btn-group right'>
       <button type='submit' class='btn-small action'>Save</button>

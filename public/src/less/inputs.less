@@ -5,7 +5,7 @@
 textarea:focus, input:focus, button:focus { outline: none; }
 
 input[type='text'], input[type='password'],
-input[type='search'], input[type='email'] {
+input[type='search'], input[type='email'], select {
 
   &:not(.plain) {
     background: @input_bg_color;
@@ -73,6 +73,11 @@ input[type='search'], input[type='email'] {
       opacity: 0.4; color: @input_plain_placeholder_color;
     }
   }
+}
+
+select > option {
+  background-color: @select_option_bg_color;
+  color: @select_option_text_color;
 }
 
 input[type='checkbox'] {

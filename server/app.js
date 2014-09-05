@@ -55,6 +55,10 @@ define(function(require) {
   server.get('/api/models/bug', routes.get.bug_model);
   server.get('/api/locales', routes.get.locales);
 
+  server.get('/api/*', function(req, res) {
+    res.status(404).json(new utils.LocaleMsg('not_found'));
+  });
+
   server.use(routes.get.index);
 
   return app;
