@@ -284,5 +284,35 @@ define(function(require) {
     return placeholder;
   };
 
+  /**
+   * Run multiple CSS transitions in parallel, then return a single promise
+   *
+   * @example
+   *
+   * dom.multi_transition([
+   *   [ el: '#first', args: { opacity: 1 } ],
+   *   [ el: '#second', args: { height: 0 } ]
+   * ]);
+   *
+   * el: DOM node, jQuery selector or jQuery object to transition
+   * [args]: array of options (or single option) for $.fn.transition
+   *
+   * @param {Array} transitions - elements to transition
+   * @return {Promise}
+   */
+  dom.multi_transition = function(transitions) {
+    var transitions_p = _.map(transitions, function(opts) {
+      var d = $.Deferred();
+
+      var args = _.clone(utils.ensure_array(opts.args));
+      args.push(d.resolve);
+
+      $.fn.transition.apply($(opts.$el), args);
+      return d.promise();
+    });
+
+    return $.when.apply(null, transitions_p);
+  };
+
   return dom;
 });
