@@ -1,14 +1,51 @@
 <form id='user_settings_form' action='/api/settings' method='post'>
   <input type='hidden' name='_csrf' value='<%= csrf %>'>
 
-  <select name='locales' class='plain full'>
-  <% _.each(data.locales, function(name, localeId) { %>
-    <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
-  <% }); %>
-  </select>
+  <div class='flex'>
+    <label>Locale</label>
+    <select name='locale' class='plain full'>
+    <% _.each(data.locales, function(name, localeId) { %>
+      <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
+    <% }); %>
+    </select>
+  </div>
 
-  <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
-  <input name='username' placeholder='Username or Email' autocomplete='off' spellcheck='false' class='plain full' maxlength='64' type='text'>
+  <div class='flex'>
+    <label>Default Theme</label>
+    <select name='theme' class='plain full'>
+    <% _.each(data.themes, function(name, themeId) { %>
+      <option value='<%- themeId %>' <% config.theme === themeId && print('selected') %>><%- name %></option>
+    <% }); %>
+    </select>
+  </div>
+
+  <div class='flex'>
+    <label>Default Layout</label>
+    <select name='layout' class='plain full'>
+    <% _.each(data.layouts, function(name, layoutId) { %>
+      <option value='<%- layoutId %>' <% config.layout === layoutId && print('selected') %>><%- name %></option>
+    <% }); %>
+    </select>
+  </div>
+
+  <div class='flex'>
+    <label>Default CDN</label>
+    <select name='cdn' class='plain full'>
+    <% _.each(data.cdns, function(name, cdnId) { %>
+      <option value='<%- cdnId %>' <% config.cdn === cdnId && print('selected') %>><%- name %></option>
+    <% }); %>
+    </select>
+  </div>
+
+  <div class='flex'>
+    <label>Change Password</label>
+    <input name='password' placeholder='Password' class='plain full' maxlength='1024' type='password'>
+  </div>
+
+  <div class='flex'>
+    <label>Confirm Password</label>
+    <input name='confirm' placeholder='Confirm Password' class='plain full' maxlength='1024' type='password'>
+  </div>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>

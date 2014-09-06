@@ -58,7 +58,13 @@ define(function(require) {
       $output.removeClass('nopointer');
     });
 
+    bus.on('config:layout', function(layout) {
+      panels.set_layout(layout, true);
+    });
+
+    config._priv.set_option('layout', config.default_layout);
     panels.set_layout(config.default_layout, true);
+
     panels.update_resize_handlers();
     init_input_modes();
     if (config.mode.phone) { init_mobile_swipes(); }
@@ -518,6 +524,15 @@ define(function(require) {
   };
 
   /**
+   * Get all layouts
+   *
+   * @return {Array}
+   */
+  panels.get_layouts = function() {
+    return layouts;
+  };
+
+  /**
    * Set the layout by layout id
    *
    * @param {String} layout - id of layout to set
@@ -582,6 +597,8 @@ define(function(require) {
       $inputs.transition({ 'width': '40%' }, dur);
       $output.transition({ 'margin-right': '60%' }, dur, callback);
     }
+
+    config.layout = layout;
   };
 
   /**

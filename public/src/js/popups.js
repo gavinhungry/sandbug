@@ -265,9 +265,26 @@ define(function(require) {
     defaults: { route: true, small: true, title: 'user_settings' },
 
     initialize: function() {
+      var that = this;
+
       this.remote_data({
         'locales': '/api/locales'
       });
+
+      var themes_p = locales.strings(themes.get_themes())
+      .then(function(themes) {
+        return that.set('themes', themes);
+      });
+
+      var layouts_p = locales.strings(panels.get_layouts())
+      .then(function(layouts) {
+        return that.set('layouts', layouts);
+      });
+
+      this.pre_ready.push(themes_p);
+      this.pre_ready.push(layouts_p);
+
+      this.set('cdns', cdn.get_cdns());
     }
   });
 
@@ -282,9 +299,23 @@ define(function(require) {
     },
 
     _events: {
-      'submit #user_settings_form': function(e) {
-        config.locale = this.$locales.val();
+      'change select[name="locale"]': function(e) {
+        config.locale = $(e.target).val();
+      },
 
+      'change select[name="theme"]': function(e) {
+        config.theme = $(e.target).val();
+      },
+
+      'change select[name="layout"]': function(e) {
+        config.layout = $(e.target).val();
+      },
+
+      'change select[name="cdn"]': function(e) {
+        config.cdn = $(e.target).val();
+      },
+
+      'submit #user_settings_form': function(e) {
         this.destroy();
       }
     },

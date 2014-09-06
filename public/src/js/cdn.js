@@ -41,6 +41,8 @@ define(function(require) {
     }
   };
 
+  var all_cdns = _.clone(cdn.providers);
+
   var api_fields = ['name','mainfile','lastversion','description','homepage'];
 
   var jsdelivr_api = '//api.jsdelivr.com/v1/%s';
@@ -90,6 +92,15 @@ define(function(require) {
     bus.trigger('cdn:abort');
 
     if (id !== config.cdn) { config.cdn = id; }
+  };
+
+  /**
+   * Get all CDNs, with human-friendly names
+   *
+   * @return {Object}
+   */
+  cdn.get_cdns = function() {
+    return _.object(Object.keys(all_cdns), _.map(all_cdns, 'name'));
   };
 
   /**

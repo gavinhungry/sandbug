@@ -32,10 +32,22 @@
     left: calc(50% ~'-' (@popup_width / 2));
     top: 48px;
 
+    label {
+      white-space: nowrap;
+      width: @popup_width * 0.4;
+      height: 0;
+      line-height: 0;
+      padding: 22px 0;
+      color: @popup_head_text_color;
+      font-size: 0.8em;
+    }
+
     &.popup-small {
       @_small_width: round(@popup_width / 1.5);
       width:  @_small_width;
       left: calc(50% ~'-' round(@_small_width / 2));
+
+      label { width: @_small_width * 0.4; }
     }
   }
 
@@ -56,7 +68,7 @@
   .popup-wrap {
     padding: @popup_padding;
     padding-bottom: @popup_padding / 2;
-    max-height: 40vh;
+    max-height: 50vh;
     overflow-x: hidden;
     overflow-y: auto;
   }
