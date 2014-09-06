@@ -13,11 +13,14 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
+  var cdn       = require('cdn');
   var dom       = require('dom');
   var flash     = require('flash');
   var keys      = require('keys');
   var locales   = require('locales');
+  var panels    = require('panels');
   var templates = require('templates');
+  var themes    = require('themes');
 
   // ---
 
