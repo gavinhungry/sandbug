@@ -115,10 +115,12 @@ input[type='search'], input[type='email'], select, .chosen-container {
   }
 
   .chosen-results li {
+    color: @select_option_text_color;
     cursor: default;
 
     &.highlighted {
-      background: #567;
+      color: @select_option_highlighted_text_color;
+      background: @select_option_highlighted_bg_color;
     }
   }
 }
