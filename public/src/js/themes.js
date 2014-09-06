@@ -55,6 +55,15 @@ define(function(require) {
   };
 
   /**
+   * Get all theme ids
+   *
+   * @return {Array}
+   */
+  themes.get_themes = function() {
+    return _.map(theme_map, 'id');
+  };
+
+  /**
    * Set the current theme by id
    *
    * @param {String} id - theme id to set
