@@ -53,7 +53,7 @@ define(function(require) {
   server.post('/api/bugs/:bugslug', routes.post.bug);
 
   server.get('/api/models/bug', routes.get.bug_model);
-  server.get('/api/locales', routes.get.locales);
+  server.get('/api/resources/locales', routes.get.locales);
 
   server.get('/api/*', function(req, res) {
     res.status(404).json(new utils.LocaleMsg('not_found'));
