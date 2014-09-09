@@ -109,7 +109,6 @@
    */
   gulp.task('cdn', function(done) {
     var filenames = [];
-    overtake.opts.update_msg = '  [%s] [%s] [%s] %s => %s';
 
     gulp.src([
       '!node_modules/**',
@@ -119,7 +118,7 @@
       './**/*.html'
     ], { read: false })
     .on('data', function(file) {
-      filenames.push(file.path);
+      filenames.push(file.path.replace(new RegExp('^' + file.base), ''));
     }).on('end', function() {
       overtake.check_files(filenames, true).done(function() {
         done();
