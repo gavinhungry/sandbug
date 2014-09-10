@@ -43,7 +43,8 @@
       preserveLicenseComments: true,
       useStrict: true,
 
-      exclude: ['promise']
+      // local files with individual licenses
+      exclude: ['promise', 'objmap']
     },
     function() { done(); },
     function(err) {
