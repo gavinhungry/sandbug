@@ -466,8 +466,8 @@ define(function(require) {
     $wrap.css('margin-bottom', _.sprintf('-%spx', offset));
 
     return dom.multi_transition([
-      { $el: $popup, args: { 'opacity': 1 } },
-      { $el: $inner, args: { 'margin-top': '1em' } }
+      { el: $popup, args: { 'opacity': 1 } },
+      { el: $inner, args: { 'margin-top': '1em' } }
     ]);
   };
 
@@ -494,8 +494,8 @@ define(function(require) {
     var $inner = $popup.find('.popup');
 
     return dom.multi_transition([
-      { $el: $popup, args: { 'opacity': 0 } },
-      { $el: $inner, args: { 'margin-top': 0 } }
+      { el: $popup, args: { 'opacity': 0 } },
+      { el: $inner, args: { 'margin-top': 0 } }
     ]).then(function() {
       $popup.css({ 'display': 'none' });
     });

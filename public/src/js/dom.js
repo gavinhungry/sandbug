@@ -28,6 +28,16 @@ define(function(require) {
 
     $('body').toggleClass('alt', !!$button.width());
     $blank.empty();
+
+    bus.on('window:resize', dom.hide_dropdowns);
+
+    $('body').on('click', function(e) {
+      var $target = $(e.target);
+
+      if (!$target.is('.dropdown-button')) {
+        dom.hide_dropdowns();
+      }
+    })
   });
 
   /**
@@ -303,15 +313,62 @@ define(function(require) {
   dom.multi_transition = function(transitions) {
     var transitions_p = _.map(transitions, function(opts) {
       var d = $.Deferred();
+      var $el = $(opts.el);
 
       var args = _.clone(utils.ensure_array(opts.args));
       args.push(d.resolve);
 
-      $.fn.transition.apply($(opts.$el), args);
+      $.fn.transition.apply($el.stop(), args);
       return d.promise();
     });
 
     return $.when.apply(null, transitions_p);
+  };
+
+  /**
+   * Set up a new dropdown
+   *
+   * @param {jQuery} $button - dropdown trigger button
+   * @return {jQuery} $menu with matching data-dropdown attribute
+   */
+  dom.dropdown = function($button) {
+    var dropdown = $button.data('dropdown');
+    var $menu = $button.siblings().filter(function() {
+      return $(this).data('dropdown') === dropdown;
+    }).first();
+
+    var right = $menu.hasClass('dropdown-right');
+
+    $button.on('click', function(e) {
+      var offset = $button.offset();
+      var active = $button.hasClass('active');
+
+      var left = offset.left;
+      if (right) { left += ($button.outerWidth() - $menu.outerWidth()); }
+
+      $menu.css({
+        left: left,
+        top: offset.top + $button.outerHeight() + 2
+      });
+
+      if (active) {
+        $menu.flowUp();
+        $button.removeClass('active');
+      } else {
+        $menu.flowDown();
+        $button.addClass('active');
+      }
+    });
+
+    return $menu;
+  };
+
+  /**
+   * Hide all dropdowns
+   */
+  dom.hide_dropdowns = function() {
+    $('.dropdown-button').removeClass('active');
+    $('.dropdown-menu').flowUp();
   };
 
   return dom;

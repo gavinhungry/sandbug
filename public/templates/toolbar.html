@@ -3,8 +3,13 @@
 <button id='layout'><i class='fa fa-lg fa-columns icon-only'></i></button>
 
 <% if (username) { %>
-  <button id='settings' data-localize='settings'>Settings</button>
-  <button id='logout' class='action' data-localize='logout'>Logout</button>
+  <button class='action dropdown-button' data-dropdown='user'><%- username %></button>
+  <div class='dropdown-menu dropdown-right flow' data-dropdown='user'>
+    <ul class='dropdown-menu-content'>
+      <li class='dropdown-item' id='settings'>Settings</li>
+      <li class='dropdown-item' id='logout'>Logout</li>
+    </ul>
+  </div>
 <% } else { %>
   <button id='signup' data-localize='signup'>Sign Up</button>
   <button id='login' class='action' data-localize='login'>Login</button>

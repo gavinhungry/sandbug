@@ -80,9 +80,18 @@ html, body, #debuggerio {
   cursor: default;
 }
 
+.flow {
+  max-height: 0;
+  overflow: hidden;
+  > :first-child {
+    opacity: 0;
+  }
+}
+
 @import 'buttons.less';
 @import 'cdn.less';
 @import 'com.less';
+@import 'dropdown.less';
 @import 'flash.less';
 @import 'header.less';
 @import 'inputs.less';

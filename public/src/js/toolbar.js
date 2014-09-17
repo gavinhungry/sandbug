@@ -102,6 +102,8 @@ define(function(require) {
           that.set_phone_mode(mode.phone);
         }, this);
 
+        dom.dropdown(this.$el.find('.dropdown-button'));
+
         this.$el.transition({ opacity: 1 });
 
         return this.trigger('render');

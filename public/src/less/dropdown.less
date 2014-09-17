@@ -1,0 +1,31 @@
+/*
+ * debugger.io: An interactive web scripting sandbox
+ */
+
+.dropdown-menu {
+  position: fixed;
+  z-index: 25;
+  box-shadow: 0 0 6px @input_plain_box_shadow_color;
+
+  .dropdown-menu-content {
+    padding: 4px;
+    border: 2px solid @dropdown_border_color;
+    background: @dropdown_bg_color;
+
+    .dropdown-item {
+      color: @dropdown_option_text_color;
+      cursor: default;
+      padding: 4px 6px;
+      transition: none;
+
+      &:hover {
+        color: @select_option_highlighted_text_color;
+        background: @dropdown_option_highlighted_bg_color;
+      }
+    }
+  }
+
+  &.dropdown-right .dropdown-item {
+    text-align: right;
+  }
+}

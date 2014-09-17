@@ -13,7 +13,7 @@
     text-shadow: 1px 1px 0 lighten(@_text_shadow_color, 5%);
   }
 
-  &:active {
+  &:active, &.active {
     text-shadow: 1px 1px 0 darken(@_text_shadow_color, 2%);
     background: darken(@base, 4%);
     padding-top: 2px !important;
@@ -100,7 +100,7 @@ button {
       background-color: @toggle_checked_bg_color;
     }
 
-    &:active::before {
+    &:active::before, &.active::before {
       background-color: lighten(@toggle_checked_bg_color, 25%);
     }
   }
