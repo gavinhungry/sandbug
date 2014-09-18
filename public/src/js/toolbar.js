@@ -53,8 +53,22 @@ define(function(require) {
     el: '#toolbar',
 
     initialize: function(options) {
+      var that = this;
+
       this._username = (options ? options.username : null) || config.username;
-      this.render();
+      this.render().then(function() {
+        bus.only_for('console:warn', function() {
+          that.$console.addClass('warning');
+        }, this);
+
+        bus.only_for('console:error', function() {
+          that.$console.addClass('danger');
+        }, this);
+
+        bus.only_for('console:clear', function() {
+          that.$console.removeClass('warning danger');
+        }, this);
+      });
     },
 
     events: {
@@ -93,7 +107,10 @@ define(function(require) {
 
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
-          'by_id': ['theme', 'layout', 'settings', 'logout', 'signup', 'login']
+          'by_id': [
+            'console', 'theme', 'layout', 'settings', 'logout', 'signup',
+            'login'
+          ]
         });
 
         // hide some controls in phone mode
