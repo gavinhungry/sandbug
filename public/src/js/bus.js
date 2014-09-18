@@ -130,5 +130,25 @@ define(function(require) {
     }, this);
   };
 
+  /**
+   * Proxy one event to another, optionally modifying the passed data
+   *
+   * @param {String} from - original event
+   * @param {String} to - target event
+   * @param {Function} [fn] - passed original event data
+   * @param {Object} [context]
+   */
+  bus.proxy = function(from, to, fn, context) {
+    context = context || null;
+
+    bus.on(from, function() {
+      var data = fn ? fn.apply(context, arguments) : _.toArray(arguments);
+
+      $.when(data).done(function(args) {
+        bus.trigger.apply(bus, [to].concat(args));
+      });
+    });
+  };
+
   return bus;
 });
