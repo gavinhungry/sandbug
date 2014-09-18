@@ -207,6 +207,10 @@ define(function(require) {
    * @param {Array} args
    */
   com.write = function(time, type, args) {
+    if (type === 'clear') {
+      return com.flush();
+    }
+
     var comMsgModel = new ComMsgModel({
       time: time,
       type: type,
