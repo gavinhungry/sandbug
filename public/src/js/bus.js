@@ -118,6 +118,23 @@ define(function(require) {
   };
 
   /**
+   * Enable an event only after disabling other events wih the same name/context
+   *
+   * @param {String} event - event name
+   * @param {Function} callback - callback function for event
+   * @param {Object} context - context for event callback
+   * @return {Object} event bus
+   */
+  bus.only_for = function(event, callback, context) {
+    if (_.isUndefined(this._events)) { return this; }
+
+    this.off(event, null, context);
+    this.on(event, callback, context);
+
+    return this;
+  };
+
+  /**
    * Returns a function to trigger an event (arguments passed to bus.trigger)
    *
    * @return {Function}
