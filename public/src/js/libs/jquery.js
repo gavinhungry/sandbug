@@ -16,6 +16,30 @@ function($) {
   // jQuery.transit fallback to $.fn.animate
   if (!$.support.transition) { $.fn.transition = $.fn.animate; }
 
+  $.fn.waitFor = function(fn, time) {
+    var that = this;
+    time = time || 1000; // 1 second default wait time
+
+    return this.queue('fx', function (next, hooks) {
+        var i, t;
+
+        i = setInterval(function() {
+          if (fn.call(that)) {
+            done();
+            return next();
+          }
+        }, 1);
+
+        var done = function() {
+          clearInterval(i);
+          clearTimeout(t);
+        };
+
+        t = setTimeout(done, time);
+        hooks.stop = done;
+    });
+  };
+
   $.fn.transitIn = function(speed, easing, callback) {
     this.css({ display: 'block' });
     this.transition({ opacity: 1 }, speed, easing, function() {
@@ -34,34 +58,29 @@ function($) {
     return this;
   };
 
-  $.fn.flowDown = function(callback) {
+  $.fn.flowDown = function() {
     var $content = this.children().first();
     if (!$content.length) { return this; }
+
+    this.show();
 
     var wHeight = this.outerHeight(true);
     var cHeight = $content.outerHeight(true);
     var closed = cHeight > wHeight;
 
-    this.transition({
+    return this.transition({
+      opacity: 1,
       maxHeight: closed ? cHeight + wHeight + 2 : wHeight
     }, 100);
-
-    $content.transition({ opacity: 1 }, 150, callback);
-
-    return this;
   };
 
-  $.fn.flowUp = function(callback) {
-    var $content = this.children().first();
-    if (!$content.length) { return this; }
-
-    this.transition({ maxHeight: 0 }, 100);
-    $content.transition({ opacity: 0 }, 150, callback);
-
-    return this;
+  $.fn.flowUp = function() {
+    return this.transition({ opacity: 0, maxHeight: 0 }, 100, function() {
+      this.hide();
+    });
   };
 
-  $.fn.flowToggle = function(callback) {
+  $.fn.flowToggle = function() {
     var $content = this.children().first();
     if (!$content.length) { return this; }
 
@@ -69,13 +88,7 @@ function($) {
     var cHeight = $content.outerHeight(true);
     var closed = cHeight > wHeight;
 
-    this.transition({
-      maxHeight: closed ? cHeight + wHeight + 2 : 0
-    }, 100);
-
-    $content.transition({ opacity: closed ? 1 : 0 }, 150, callback);
-
-    return this;
+    return closed ? this.flowDown() : this.flowUp();
   };
 
   return $; // $.noConflict(false);

@@ -64,19 +64,8 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       .CodeMirror-vscrollbar.nano {
         > .content { overflow-y: hidden !important; }
         > .pane {
-          background: none;
           display: block !important;
-          border-radius: 0;
-          width: 6px;
-          padding: 0;
-
           &:hover, &.active { width: 12px; }
-
-          > .slider {
-            background: @nano_slider_bg_color;
-            border-radius: 0;
-            margin: 0;
-          }
         }
       }
     }

@@ -9,6 +9,7 @@
 @bg_color: #FCFCFC;
 @output_bg_color: #EEE;
 @nano_slider_bg_color: #777;
+@nano_slider_invert_bg_color: @nano_slider_bg_color;
 
 // Overlays
 @overlay_msg_padding: 8px;
@@ -92,24 +93,20 @@
 @select_option_highlighted_text_color: #FFF;
 
 // Dropdowns
-@dropdown_border_color: darken(@input_plain_border_color, 10%);
-@dropdown_bg_color: darken(@popup_bg_color, 5%);
-@dropdown_option_text_color: lighten(@select_option_text_color, 15%);
-@dropdown_option_highlighted_bg_color: #888;
+@dropdown_bg_color: #F5F5F5;
+@dropdown_border_color: #BBB;
+@dropdown_box_shadow_color: rgba(0,0,0, 0.15);
+@dropdown_item_text_color: #666;
+@dropdown_item_box_shadow_color: rgba(0,0,0, 0.05);
+@dropdown_item_active_bg_color: #CCC;
+@dropdown_item_hover_bg_color: #DDD;
+@dropdown_item_hover_text_color: darken(@dropdown_item_text_color, 10%);
 
 // CDN filter
 @cdn_loading_bg_color: #999;
-@filter_results_bg_color: #F5F5F5;
-@filter_results_border_color: #BBB;
-@filter_results_error_bg_color: #ECC;
-@filter_results_error_border_color: #C99;
-@filter_results_error_text_color: #866;
-@filter_results_box_shadow_color: rgba(0,0,0, 0.15);
-@filter_result_text_color: #777;
-@filter_result_text_shadow_color: darken(@filter_results_bg_color, 5%);
-@filter_result_box_shadow_color: rgba(0,0,0, 0.05);
-@filter_result_active_bg_color: #D7DDE5;
-@filter_result_active_border_color: darken(@filter_result_active_bg_color, 10%);
+@cdn_error_bg_color: #ECC;
+@cdn_error_border_color: #C99;
+@cdn_error_text_color: #866;
 
 // Popups
 @popup_padding: 16px;

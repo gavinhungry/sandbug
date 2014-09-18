@@ -8,9 +8,9 @@
 
 #cdn-filter {
   &.error {
-    background-color: @filter_results_error_bg_color;
-    border-color: @filter_results_error_border_color;
-    color: @filter_results_error_text_color;
+    background-color: @cdn_error_bg_color;
+    border-color: @cdn_error_border_color;
+    color: @cdn_error_text_color;
   }
 }
 
@@ -41,73 +41,14 @@
   left: 2px;
   right: 2px;
 
-  background: @filter_results_bg_color;
-  border: 2px solid @filter_results_border_color;
-  box-shadow: 0 0 4px @filter_results_box_shadow_color;
-
-  font-family: @font;
-
-  > .nomatch {
-    font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    color: @filter_result_text_color;
-    user-select: none;
-    cursor: default;
-    padding: 11px 0 15px;
-  }
-
   > .content {
     z-index: -1;
+    padding: 0;
 
     > ol {
-      overflow-x: hidden;
       padding: 4px;
 
-      > li {
-        color: @filter_result_text_color;
-        text-shadow: 1px 1px 0 @filter_result_text_shadow_color;
-        overflow: hidden;
-        user-select: none;
-        cursor: default;
-        font-size: @font_size;
-        padding: 8px 5px;
-        margin: 0 0 1px 0;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-
-        transition: none;
-
-        &:last-child { margin-bottom: 0; }
-
-        border: 1px solid transparent;
-        border-bottom-width: 2px;
-        border-radius: 1px;
-
-        &:hover {
-          background: lighten(@filter_result_active_bg_color, 5%);
-          border-color: @filter_result_active_border_color;
-          > .right {
-            border-color: darken(@filter_result_active_bg_color, 15%)
-          }
-        }
-
-        &.active {
-          background: @filter_result_active_bg_color;
-          border-color: darken(@filter_result_active_border_color, 3%);
-          > .right {
-            border-color: darken(@filter_result_active_bg_color, 20%)
-          }
-        }
-
-        > .pkgdesc {
-          font-size: @font_size - 1px;
-          opacity: 0.8;
-        }
-      }
-
       &.overflow {
-        color: red !important;
         padding-right: 16px;
       }
     }

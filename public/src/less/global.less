@@ -74,18 +74,33 @@ html, body, #debuggerio {
 .nopointer { pointer-events: none; }
 .clear { clear: both; }
 
-.nano > .content + .pane {
-  margin: 2px;
-  overflow: hidden;
-  cursor: default;
+.nano {
+  > .pane {
+    background: none !important;
+    border-radius: 0;
+    width: 6px;
+    padding: 0;
+    margin: 2px;
+    overflow: hidden;
+    cursor: default;
+
+    > .slider {
+      background: @nano_slider_bg_color;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+
+  &.nano-invert > .pane > .slider {
+    background: @nano_slider_invert_bg_color;
+  }
 }
 
 .flow {
+  display: none;
+  opacity: 0;
   max-height: 0;
-  overflow: hidden;
-  > :first-child {
-    opacity: 0;
-  }
+  overflow: hidden;  
 }
 
 @import 'buttons.less';

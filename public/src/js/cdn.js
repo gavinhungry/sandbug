@@ -308,6 +308,7 @@ define(function(require) {
   cdn.FilterResultView = Backbone.View.extend({
     template: 'cdn-result',
     tagName: 'li',
+    className: 'dropdown-item',
 
     initialize: function(options) {
       this.render();
@@ -394,9 +395,7 @@ define(function(require) {
       var overflow = dom.is_overflowing_with_scrollbar(this.$ol);
       this.$ol.toggleClass('overflow', overflow);
 
-      var maxHeight = this.$nomatch.is(':visible') ?
-        this.$nomatch.outerHeight(true) :
-        Math.min(this.$ol.outerHeight() + 4, this.max_height);
+      var maxHeight =  Math.min(this.$ol.outerHeight() + 4, this.max_height);
 
       this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
 
@@ -461,23 +460,26 @@ define(function(require) {
         var paddingTop = parseInt(this.$ol.css('padding-top'), 10);
         var paddingBottom = parseInt(this.$ol.css('padding-bottom'), 10);
 
-        var contentHeight = this.$content.outerHeight();
+        var olPaddingTop = _.parseInt(this.$ol.css('padding-top'));
+        var olPaddingBottom = _.parseInt(this.$ol.css('padding-top'));
+
+        var contentHeight = this.$content.outerHeight(true);
         var contentTop = this.$content.scrollTop();
         var contentBottom = contentTop + contentHeight;
 
-        var activeHeight = $active.outerHeight();
+        var activeHeight = $active.outerHeight(true);
         var activeTop = contentTop + $active.position().top;
         var activeBottom = activeTop + activeHeight;
 
         var scrollTop;
 
         // too far down
-        if (activeBottom > contentBottom) {
+        if (activeBottom + olPaddingBottom >= contentBottom) {
           scrollTop = activeBottom - contentHeight + paddingBottom;
           dom.scrollbar_scroll_top(this.$ol, scrollTop);
         }
         // too far up
-        else if (activeTop < contentTop) {
+        else if (activeTop - olPaddingTop <= contentTop) {
           scrollTop = activeTop - paddingTop;
           dom.scrollbar_scroll_top(this.$ol, scrollTop);
         }
@@ -509,9 +511,10 @@ define(function(require) {
         return;
       }
 
-      // show "no results" as appropriate
-      this.$nomatch = this.$el.children('.nomatch');
-      this.$nomatch.toggleClass('hide', !!this.collection.models.length);
+      if (!this.collection.models.length) {
+        this.hide();
+        return this.trigger('render');
+      }
 
       this._rvs = [];
       this.$ol = $('<ol>');

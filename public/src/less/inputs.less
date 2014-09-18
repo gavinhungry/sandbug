@@ -81,6 +81,7 @@ input[type='search'], input[type='email'], select, .chosen-container {
 
 #debuggerio select + .chosen-container {
   * { transition: none; }
+  cursor: pointer;
 
   .chosen-single {
     height: 42px;
@@ -103,25 +104,7 @@ input[type='search'], input[type='email'], select, .chosen-container {
   }
 
   .chosen-drop {
-    border-radius: 0;
-    padding-top: 5px;
-    background: @popup_bg_color;
-    color: #CCC;
-    border: 2px solid lighten(@input_plain_border_color, 5%);
-    box-shadow: 0 0 6px @input_plain_box_shadow_color;
-    width: calc(100% ~'-' 8px);
-    margin-left: 4px;
     margin-top: 4px;
-  }
-
-  .chosen-results li {
-    color: @select_option_text_color;
-    cursor: default;
-
-    &.highlighted {
-      color: @select_option_highlighted_text_color;
-      background: @select_option_highlighted_bg_color;
-    }
   }
 }
 

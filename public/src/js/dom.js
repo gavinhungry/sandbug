@@ -29,13 +29,15 @@ define(function(require) {
     $('body').toggleClass('alt', !!$button.width());
     $blank.empty();
 
-    bus.on('window:resize', dom.hide_dropdowns);
+    bus.proxy('window:resize', 'dropdown:hide');
+    bus.on('dropdown:hide', dom.hide_dropdowns);
 
     $('body').on('click', function(e) {
-      var $target = $(e.target);
+      var $t = $(e.target);
 
-      if (!$target.is('.dropdown-button')) {
-        dom.hide_dropdowns();
+      if ($t.is('.dropdown-item') ||
+        (!$t.is('.dropdown-button') && !$t.closest('.dropdown-menu').length)) {
+        bus.trigger('dropdown:hide');
       }
     })
   });
@@ -367,8 +369,8 @@ define(function(require) {
    * Hide all dropdowns
    */
   dom.hide_dropdowns = function() {
-    $('.dropdown-button').removeClass('active');
-    $('.dropdown-menu').flowUp();
+    $('.dropdown-button:not(.sticky)').removeClass('active');
+    $('.dropdown-menu:not(.sticky)').flowUp();
   };
 
   return dom;
