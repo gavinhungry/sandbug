@@ -102,7 +102,11 @@
    * Keep watching and restart
    */
   gulp.task('dev', ['watch'], function(done) {
-    nodemon({ script: 'debuggerio.js', ext: 'js json less' }).on('quit', done);
+    nodemon({
+      script: 'debuggerio.js',
+      ext: 'js json',
+      ignore: ['.git', 'node_modules', 'frame', 'public']
+    }).on('quit', done);
   });
 
   /**
