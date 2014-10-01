@@ -21,4 +21,7 @@
     utils.log('debugger.io running on port ' + app.port);
   });
 
+  // export with local config
+  module.exports = { require: requirejs };
+
 })();
