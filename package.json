@@ -24,7 +24,7 @@
     "connect-mobile-detection": "0.0.x",
     "mongojs": "0.14.x",
     "mongoose": "3.8.x",
-    "bcrypt-nodejs": "0.0.x",
+    "scrypt": "3.0.x",
     "requirejs": "2.1.x",
     "lodash": "2.4.x",
     "underscore.string": "2.3.x",

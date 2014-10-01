@@ -9,7 +9,6 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var bcrypt        = require('bcrypt-nodejs');
   var bodyParser    = require('body-parser');
   var cookieParser  = require('cookie-parser');
   var cookieSession = require('cookie-session');
@@ -18,6 +17,7 @@ define(function(require) {
   var local         = require('passport-local');
   var passport      = require('passport');
   var Q             = require('q');
+  var scrypt        = require('scrypt');
   var validator     = require('validator');
 
   var module    = require('module');
@@ -27,6 +27,13 @@ define(function(require) {
   // ---
 
   var auth = {};
+
+  // scrypt setup
+  var params = scrypt.params(config.auth.maxtime);
+  scrypt.hash.config.keyEncoding = 'ascii';
+  scrypt.hash.config.outputEncoding = 'base64';
+  scrypt.verify.config.hashEncoding = 'base64';
+  scrypt.verify.config.keyEncoding = 'ascii';
 
   /**
    * @param {Express} server - Express server to init auth methods on
@@ -81,7 +88,7 @@ define(function(require) {
   auth.authenticate = passport.authenticate('local');
 
   /**
-   * Generate a bcrypt salted hash from a plaintext string
+   * Generate an scrypt salted hash from a plaintext string
    *
    * @param {String} plaintext - password to hash
    * @return {Promise} to return salted hash
@@ -89,38 +96,39 @@ define(function(require) {
   auth.generate_hash = function(plaintext) {
     var d = Q.defer();
 
-    if (!_.isString(plaintext) || !plaintext.length) { d.reject(); }
-    else {
-      bcrypt.genSalt(config.auth.rounds, function(err, salt) {
-        if (err) { return d.reject(err); }
-
-        bcrypt.hash(plaintext, salt, null, function(err, hash) {
-          if (err) { return d.reject(err); }
-
-          d.resolve(hash);
-        });
-      });
+    if (!_.isString(plaintext) || !plaintext.length) {
+      return utils.reject_now();
     }
+
+    scrypt.hash(plaintext, params, function(err, hash) {
+      if (err) { return d.reject(err); }
+      d.resolve(hash);
+    });
 
     return d.promise;
   };
 
   /**
-   * Verify a plaintext with a bcrypt hash
+   * Verify a plaintext string against an scrypt hash
    *
    * @param {String} plaintext - password to check
-   * @param {String} hash - bcrypt hash to compare to `plaintext`
+   * @param {String} hash - scrypt hash to compare to `plaintext`
    * @return {Promise} to return a boolean (true if hash matches)
    */
   auth.verify_hash = function(plaintext, hash) {
     var d = Q.defer();
 
-    if (!_.isString(plaintext) || !plaintext.length) { d.resolve(false); }
-    else {
-      bcrypt.compare(plaintext, hash, function(err, result) {
-        d.resolve(!err && !!result);
-      });
+    if (!_.isString(plaintext) || !plaintext.length) {
+      return utils.resolve_now(false);
     }
+
+    if (!_.isString(hash) || hash.length !== 128) {
+      return utils.resolve_now(false);
+    }
+
+    scrypt.verify(hash, plaintext, function(err, result) {
+      d.resolve(!err && !!result);
+    });
 
     return d.promise;
   };

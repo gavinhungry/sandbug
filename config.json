@@ -17,8 +17,8 @@
     "cookie": "session",
     "hours": 168, // 1 week
 
-    // number of rounds (log_2) used to process new passwords (between 4 and 31)
-    "rounds": 10
+    // scrypt maxtime (s)
+    "maxtime": 0.3
   },
 
   // available to clients as GET /api/config
