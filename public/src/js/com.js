@@ -125,7 +125,7 @@ define(function(require) {
 
     reset: function() {
       this.collection.reset();
-      bus.trigger('console:clear');
+      config.com = null;
       this.render();
     },
 
@@ -212,7 +212,7 @@ define(function(require) {
       return com.flush();
     }
 
-    bus.trigger('console:' + type);
+    config.com = type;
 
     var comMsgModel = new ComMsgModel({
       time: time,

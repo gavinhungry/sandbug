@@ -40,7 +40,8 @@ define('config_p', function(require) {
     frame: _.sprintf('%s//frame.%s', protocol, hostname),
     username: locals.username,
     csrf: locals.csrf,
-    mode: locals.mode
+    mode: locals.mode,
+    com: null
   };
 
   /**

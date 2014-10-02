@@ -27,6 +27,12 @@ define(function(require) {
 
   var toolbarView;
 
+  // console methods to class names
+  var consoleLevels = {
+    warn: 'warning',
+    error: 'danger'
+  };
+
   bus.init(function(av) {
     toolbarView = new toolbar.ToolbarView();
 
@@ -40,6 +46,10 @@ define(function(require) {
       toolbarView.destroy().done(function() {
         toolbarView = new toolbar.ToolbarView({ username: null });
       });
+    });
+
+    bus.on('config:com', function(current) {
+      toolbarView.setConsoleStatus(current);
     });
   });
 
@@ -56,19 +66,7 @@ define(function(require) {
       var that = this;
 
       this._username = (options ? options.username : null) || config.username;
-      this.render().then(function() {
-        bus.only_for('console:warn', function() {
-          that.$console.addClass('warning');
-        }, this);
-
-        bus.only_for('console:error', function() {
-          that.$console.addClass('danger');
-        }, this);
-
-        bus.only_for('console:clear', function() {
-          that.$console.removeClass('warning danger');
-        }, this);
-      });
+      this.render();
     },
 
     events: {
@@ -79,6 +77,18 @@ define(function(require) {
       'click #signup': function(e) { bus.trigger('navigate', 'signup', true); },
       'click #login': function(e) { bus.trigger('navigate', 'login', true); },
       'click #logout': function(e) { user.logout(); }
+    },
+
+    setConsoleStatus: function(status) {
+      var classes = _.groupBy(consoleLevels, function(className, statusName) {
+          return status === statusName ? 'add' : 'remove';
+      });
+
+      var removeClasses = utils.ensure_array(classes.remove).join(' ');
+      var addClasses = utils.ensure_array(classes.add).join(' ');
+
+      this.$console.removeClass(removeClasses);
+      this.$console.addClass(addClasses);
     },
 
     destroy: function() {
@@ -121,6 +131,7 @@ define(function(require) {
 
         dom.dropdown(this.$el.find('.dropdown-button'));
 
+        this.setConsoleStatus(config.com);
         this.$el.transition({ opacity: 1 });
 
         return this.trigger('render');
