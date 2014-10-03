@@ -121,6 +121,7 @@ define('bugs_p', function(require) {
   bugs.view = function() {
     if (!(bugs._priv.current.view instanceof bugs.BugView)) {
       bugs._priv.current.view = new bugs.BugView({ model: bugs.model() });
+      utils.title();
     }
 
     return bugs._priv.current.view;
@@ -132,6 +133,8 @@ define('bugs_p', function(require) {
    * @param {bugs.Bug} bug
    */
   bugs.display = function(bug) {
+    utils.title(bug.get('title'));
+
     var bugslug = bug.get('slug');
     bus.trigger('navigate', bugslug ? ('bugs/' + bugslug) : '');
 

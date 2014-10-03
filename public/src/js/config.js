@@ -41,7 +41,8 @@ define('config_p', function(require) {
     username: locals.username,
     csrf: locals.csrf,
     mode: locals.mode,
-    com: null
+    com: null,
+    title: document.title
   };
 
   /**

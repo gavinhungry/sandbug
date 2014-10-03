@@ -373,6 +373,16 @@ define(function(require) {
   };
 
   /**
+   * Set the document title, prefixed by config.title
+   *
+   * @param {String} title - new title to set
+   */
+  utils.title = function(title) {
+    document.title = title ? _.sprintf('%s - %s', config.title, title) :
+      config.title;
+  };
+
+  /**
    * An array of limited capacity
    *
    * @param {Number} cap - capacity of the buffer
