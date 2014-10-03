@@ -13,7 +13,8 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var flash = require('flash');
+  var flash  = require('flash');
+  var popups = require('popups');
 
   // ---
 
