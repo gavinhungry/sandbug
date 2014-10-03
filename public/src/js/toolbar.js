@@ -17,6 +17,7 @@ define(function(require) {
   var com       = require('com');
   var dom       = require('dom');
   var panels    = require('panels');
+  var popups    = require('popups');
   var templates = require('templates');
   var themes    = require('themes');
   var user      = require('user');
@@ -73,9 +74,9 @@ define(function(require) {
       'click #console': function(e) { com.toggle(); },
       'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
-      'click #settings': function(e) { bus.trigger('navigate', 'settings', true); },
-      'click #signup': function(e) { bus.trigger('navigate', 'signup', true); },
-      'click #login': function(e) { bus.trigger('navigate', 'login', true); },
+      'click #settings': function(e) { popups.popup('user_settings'); },
+      'click #signup': function(e) { popups.popup('signup'); },
+      'click #login': function(e) { user.login(); },
       'click #logout': function(e) { user.logout(); }
     },
 

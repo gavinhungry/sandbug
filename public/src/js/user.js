@@ -20,10 +20,17 @@ define(function(require) {
   var user = utils.module('user');
 
   /**
+   * Prompt a user to login
+   */
+  user.login = function() {
+    return popups.popup('login');
+  };
+
+  /**
    * Log the current user out
    */
   user.logout = function() {
-    $.post('/api/logout').done(function(data) {
+    $.post('/api/logout').then(function(data) {
       bus.trigger('user:logout');
     }).fail(function() {
       flash.message_bad('@logout_error');

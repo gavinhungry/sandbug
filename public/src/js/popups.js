@@ -103,9 +103,6 @@ define(function(require) {
       var that = this;
       keys.unregister_handler(popupKeyHander);
 
-      var data = this.model.toJSON();
-      if (data.route) { bus.trigger('navigate', 'back'); }
-
       this.$el.removeData('type');
 
       popups.hide().always(function() {
@@ -176,7 +173,7 @@ define(function(require) {
    * Login popup
    */
   popups.LoginPopup = popups.Popup.extend({
-    defaults: { route: true, small: true, title: 'login' }
+    defaults: { small: true, title: 'login' }
   });
 
   popups.LoginPopupView = popups.PopupView.extend({
@@ -214,7 +211,7 @@ define(function(require) {
    * Sign Up popup
    */
   popups.SignupPopup = popups.Popup.extend({
-    defaults: { route: true, small: true, title: 'create_account' }
+    defaults: { small: true, title: 'create_account' }
   });
 
   popups.SignupPopupView = popups.PopupView.extend({
@@ -265,7 +262,7 @@ define(function(require) {
    * User settings popup
    */
   popups.UserSettingsPopup = popups.Popup.extend({
-    defaults: { route: true, small: true, title: 'user_settings' },
+    defaults: { small: true, title: 'user_settings' },
 
     initialize: function() {
       var that = this;
@@ -334,7 +331,7 @@ define(function(require) {
    * User prompt
    */
   popups.InputPopup = popups.Popup.extend({
-    defaults: { route: false, small: true, title: 'input' }
+    defaults: { small: true, title: 'input' }
   });
 
   popups.InputPopupView = popups.PopupView.extend({

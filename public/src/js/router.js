@@ -15,16 +15,11 @@ define(function(require) {
 
   var Backbone = require('backbone');
   var bugs     = require('bugs');
-  var popups   = require('popups');
   var user     = require('user');
 
   // ---
 
   var prev_routes = new utils.Buffer(4);
-
-  $(window).on('popstate', function(e) {
-    popups.destroy(popups.type());
-  });
 
   /**
    * Keep a record of the previous routes
@@ -39,10 +34,6 @@ define(function(require) {
   var Router = Backbone.Router.extend({
     routes: {
       '': function() { /* nop */ },
-      'settings': function() { popups.popup('user_settings'); },
-      'login': function() { popups.popup('login'); },
-      'logout': function() { user.logout(); },
-      'signup': function() { popups.popup('signup'); },
       'bugs/:bugslug': function(bugslug) { bugs.open(bugslug); }
     }
   });
