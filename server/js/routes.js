@@ -72,7 +72,7 @@ define(function(require) {
     res.json(true);
   };
 
-  // GET /api/bugs/:bugslug
+  // GET /api/bug/:bugslug
   routes.get.bug = function(req, res) {
     var user = req.user || {};
 
@@ -90,7 +90,7 @@ define(function(require) {
     }, utils.server_error_handler(res)).done();
   };
 
-  // PUT /api/bugs/:bugslug
+  // PUT /api/bug/:bugslug
   routes.put.bug = function(req, res) {
     var user = req.user || {};
     var msg = new utils.LocaleMsg();
@@ -105,7 +105,7 @@ define(function(require) {
     }, utils.server_error_handler(res)).done();
   };
 
-  // POST /api/bugs/:bugslug
+  // POST /api/bug/:bugslug
   routes.post.bug = function(req, res) {
     var user = req.user || {};
     var msg = new utils.LocaleMsg();
@@ -117,7 +117,7 @@ define(function(require) {
       .then(bugs.save, utils.server_error_handler(res)).done();
   };
 
-  // GET /api/models/bug
+  // GET /api/model/bug
   routes.get.bug_model = function(req, res) {
     bugs.new_bug({
       _id: undefined,
@@ -129,7 +129,7 @@ define(function(require) {
     }, utils.server_error_handler(res)).done();
   };
 
-  // GET /api/locales
+  // GET /api/resource/locales
   routes.get.locales = function(req, res) {
     utils.dir_json(LOCALES_PATH, 'locale').then(function(locales) {
       res.json(locales);

@@ -34,7 +34,7 @@ define(function(require) {
   var Router = Backbone.Router.extend({
     routes: {
       '': function() { /* nop */ },
-      'bugs/:bugslug': function(bugslug) { bugs.open(bugslug); }
+      'bug/:bugslug': function(bugslug) { bugs.open(bugslug); }
     }
   });
 

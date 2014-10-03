@@ -76,7 +76,7 @@ define('bugs_p', function(require) {
       });
     },
 
-    _url: '/api/bugs/',
+    _url: '/api/bug/',
     url: function() {
       return this._url + this.get(this.idAttribute);
     }
@@ -136,7 +136,7 @@ define('bugs_p', function(require) {
     utils.title(bug.get('title'));
 
     var bugslug = bug.get('slug');
-    bus.trigger('navigate', bugslug ? ('bugs/' + bugslug) : '');
+    bus.trigger('navigate', bugslug ? ('bug/' + bugslug) : '');
 
     // destroy previous model
     if (bug === bugs.model()) { return; }
@@ -237,7 +237,7 @@ define('bugs_p', function(require) {
 
   // get bug schema from server
   var d = $.Deferred();
-  $.get('/api/models/bug').done(function(schema) {
+  $.get('/api/model/bug').done(function(schema) {
     bugs._priv.schema = schema;
     d.resolve(bugs);
   }).fail(function() {

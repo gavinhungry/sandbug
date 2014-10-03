@@ -8,7 +8,7 @@
     "bug_not_found_msg":    "The requested Bug could not be found on the server. It may have been deleted.",
     "bug_title":            "Bug title",
     "bug_saved":            "Bug successfully saved",
-    "bug_saved_msg":        "Bug saved to /bugs/%s",
+    "bug_saved_msg":        "Bug saved to /bug/%s",
     "create_account":       "Create a new account",
     "dark":                 "Dark",
     "input":                "Input",

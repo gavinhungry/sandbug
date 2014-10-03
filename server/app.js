@@ -48,12 +48,12 @@ define(function(require) {
   server.post('/api/login', auth.authenticate, routes.post.login);
   server.post('/api/logout', routes.post.logout);
 
-  server.get('/api/bugs/:bugslug', routes.get.bug);
-  server.put('/api/bugs/:bugslug', routes.put.bug);
-  server.post('/api/bugs/:bugslug', routes.post.bug);
+  server.get('/api/bug/:bugslug', routes.get.bug);
+  server.put('/api/bug/:bugslug', routes.put.bug);
+  server.post('/api/bug/:bugslug', routes.post.bug);
 
-  server.get('/api/models/bug', routes.get.bug_model);
-  server.get('/api/resources/locales', routes.get.locales);
+  server.get('/api/model/bug', routes.get.bug_model);
+  server.get('/api/resource/locales', routes.get.locales);
 
   server.get('/api/*', function(req, res) {
     res.status(404).json(new utils.LocaleMsg('not_found'));

@@ -268,7 +268,7 @@ define(function(require) {
       var that = this;
 
       this.remote_data({
-        'locales': '/api/resources/locales'
+        'locales': '/api/resource/locales'
       });
 
       var themes_p = locales.strings(themes.get_themes())
