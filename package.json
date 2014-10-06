@@ -22,7 +22,7 @@
     "passport": "0.2.x",
     "passport-local": "1.0.x",
     "connect-mobile-detection": "0.0.x",
-    "mongojs": "0.14.x",
+    "mongojs": "0.15.x",
     "mongoose": "3.8.x",
     "scrypt": "3.0.x",
     "requirejs": "2.1.x",
