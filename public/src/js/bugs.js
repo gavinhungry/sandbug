@@ -34,6 +34,7 @@ define('bugs_p', function(require) {
   var Backbone = require('backbone');
   var flash    = require('flash');
   var frame    = require('frame');
+  var keys     = require('keys');
   var locales  = require('locales');
   var mirrors  = require('mirrors');
   var popups   = require('popups');
@@ -51,6 +52,14 @@ define('bugs_p', function(require) {
 
     bus.on('mirrors:content', function(panel, content) {
       bugs.model().set(_.sprintf('map.%s.content', panel), content);
+    });
+
+    keys.register_handler({ ctrl: true, key: 's' }, function(e) {
+      bugs.save();
+    });
+
+    keys.register_handler({ ctrl: true, shift: true, key: 's' }, function(e) {
+      bugs.save_as();
     });
   });
 
