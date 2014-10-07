@@ -33,11 +33,11 @@ define(function(require) {
   bus.init(function(av) {
     keys.console.log('init keys module');
 
-    $(document).on('keyup', function(e) {
+    $(document).on('keydown', function(e) {
       // hey, I just met you ...
       var keyHandlers = _.filter(handlers, function(h) {
         return !h.paused && h.ctrl === e.ctrlKey && h.alt === e.altKey &&
-          h.key === e.which;
+          h.shift === e.shiftKey && h.key === e.which;
       });
 
       // and this is crazy ...
@@ -53,6 +53,8 @@ define(function(require) {
         if (_.isFunction(callback)) {
           keys.console.log('executing callback for handler', handler.hid);
           callback(e);
+
+          return false;
         }
       });
     });
@@ -75,7 +77,9 @@ define(function(require) {
   /**
    * Register a new key callback function
    *
-   * @param {Object} opts - { ctrl: Boolean, alt: Boolean, key: String }
+   * @param {Object} opts - {
+   *   ctrl: Boolean, alt: Boolean, shift: Boolean, key: String
+   * }
    * @param {Function} callback - callback function, passed up event
    * @return {Integer} unique handler id, null if opts.key is undefined
    */
@@ -90,6 +94,7 @@ define(function(require) {
       hid: hid,
       ctrl: !!opts.ctrl,
       alt: !!opts.alt,
+      shift: !!opts.shift,
       key: keys.key_code_for(opts.key),
       callback: callback
     };
