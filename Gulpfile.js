@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  var del      = require('del');
   var fs       = require('fs');
   var git      = require('git-rev');
   var gulp     = require('gulp');
@@ -9,7 +10,6 @@
   var nodemon  = require('gulp-nodemon');
   var overtake = require('overtake');
   var rename   = require('gulp-rename');
-  var rimraf   = require('gulp-rimraf');
   var rjs      = require('requirejs');
 
   var minified = { suffix: '.min' };
@@ -17,14 +17,13 @@
   /**
    * Clean existing build files
    */
-  gulp.task('clean', function() {
-    return gulp.src([
+  gulp.task('clean', function(done) {
+    del([
       './build.json',
       './public/css',
       './public/js',
       './frame/css/*.min.css'
-    ], { read: false })
-    .pipe(rimraf());
+    ], done);
   });
 
   /**
