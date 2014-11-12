@@ -23,18 +23,6 @@ define(function(require) {
   var $input, frameWindow;
   var pending = [];
 
-  /**
-   * Determine if CodeMirror content changed
-   *
-   * @param {Array} changes from CodeMirror changes event
-   * @return {Boolean} true if changes occurred, false otherwise
-   */
-  var changes_occurred = function(changes) {
-    return !!_.find(utils.ensure_array(changes), function(change) {
-      return !!change.display.prevInput;
-    });
-  };
-
   bus.init(function(av) {
     $input = av.$input;
     frameWindow = av.$iframe[0].contentWindow;
@@ -55,20 +43,22 @@ define(function(require) {
       }
     });
 
-    _.each(mirrors.get_by_ids(['markup', 'script']), function(mirror) {
-      mirror.cm.on('changes', function(changes) {
-        if (changes_occurred(changes)) {
+    bus.on('mirrors:content', function(panel, content) {
+      switch(panel) {
+        case 'markup':
           frame.auto_update();
-        }
-      });
-    });
+        break;
 
-    _.each(mirrors.get_by_ids('style'), function(mirror) {
-      mirror.cm.on('changes', function(changes) {
-        if (changes_occurred(changes)) {
+        case 'style':
           frame.auto_update(true);
-        }
-      });
+        break;
+
+        case 'script':
+          if (config.autorun) {
+            frame.auto_update();
+          }
+        break;
+      }
     });
   });
 
