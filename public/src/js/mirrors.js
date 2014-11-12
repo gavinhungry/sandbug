@@ -118,6 +118,16 @@ define(function(require) {
   };
 
   /**
+   * Get multiple mirrors by their panel ids
+   *
+   * @param {Array|String} ids - panel ids
+   * @return {Array} of CodeMirror instances
+   */
+  mirrors.get_by_ids = function(ids) {
+    return _.compact(_.map(utils.ensure_array(ids), mirrors.get_by_id));
+  };
+
+  /**
    * Get a mirror for either its panel id or the mirror itself
    *
    * @param {String | Object} m - panel id or mirror

@@ -103,6 +103,21 @@
           timestamp: oe.data.timestamp
         }, origin);
 
+        // live-update of CSS only
+        if (win && oe.data.css) {
+          var $style = $(win.document).find('#_debugger_io_style_output');
+
+          // build the entire document as usual if no existing style is found
+          if ($style.length) {
+
+            compiler.compile(oe.data.map.style).then(function(compiled) {
+              $style.text(compiled.output);
+            });
+
+            return;
+          }
+        }
+
         compiler.compile_to_doc_str(oe.data.map).done(function(str) {
           _.defer(function() {
 

@@ -23,6 +23,18 @@ define(function(require) {
   var $input, frameWindow;
   var pending = [];
 
+  /**
+   * Determine if CodeMirror content changed
+   *
+   * @param {Array} changes from CodeMirror changes event
+   * @return {Boolean} true if changes occurred, false otherwise
+   */
+  var changes_occurred = function(changes) {
+    return !!_.find(utils.ensure_array(changes), function(change) {
+      return !!change.display.prevInput;
+    });
+  };
+
   bus.init(function(av) {
     $input = av.$input;
     frameWindow = av.$iframe[0].contentWindow;
@@ -43,14 +55,19 @@ define(function(require) {
       }
     });
 
-    _.each(mirrors.get_all(), function(mirror) {
+    _.each(mirrors.get_by_ids(['markup', 'script']), function(mirror) {
       mirror.cm.on('changes', function(changes) {
+        if (changes_occurred(changes)) {
+          frame.auto_update();
+        }
+      });
+    });
 
-        var changed = !!_.find(utils.ensure_array(changes), function(change) {
-          return !!change.display.prevInput;
-        });
-
-        if (changed) { frame.auto_update(); }
+    _.each(mirrors.get_by_ids('style'), function(mirror) {
+      mirror.cm.on('changes', function(changes) {
+        if (changes_occurred(changes)) {
+          frame.auto_update(true);
+        }
       });
     });
   });
@@ -58,8 +75,9 @@ define(function(require) {
   /**
    * Send all input to the iframe for compilation
    * @param {Boolean} [noscript] - if true, exclude script from running
+   * @param {Boolean} [css] - if true, live-update CSS and nothing else
    */
-  frame.update = function(noscript) {
+  frame.update = function(noscript, css) {
     var timestamp = (new Date()).toISOString();
     pending.push(timestamp);
 
@@ -75,7 +93,8 @@ define(function(require) {
       frame.console.log('postMessage', timestamp);
       frameWindow.postMessage({
         timestamp: timestamp,
-        map: map
+        map: map,
+        css: !!css
       }, config.frame);
     };
 
@@ -84,8 +103,8 @@ define(function(require) {
     post_fn();
   };
 
-  frame.auto_update = _.debounce(function() {
-    frame.update(!config.autorun);
+  frame.auto_update = _.debounce(function(css) {
+    frame.update(!config.autorun, css);
   }, config.update_delay);
 
   return frame;
