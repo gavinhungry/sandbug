@@ -2,7 +2,6 @@ debugger.io
 ===========
 An interactive web scripting sandbox.
 
-
 Modes
 -----
 Currently supported language modes are:
@@ -23,17 +22,15 @@ Currently supported language modes are:
     [TypeScript](http://www.typescriptlang.org) and
     [GorillaScript](http://ckknight.github.io/gorillascript)
 
-
 Installation
 ------------
-```
-# npm -g install gulp
-$ npm install
-$ gulp
 
-$ node debuggerio.js
-> debugger.io running on port 8080
-```
+    # npm -g install gulp
+    $ npm install
+    $ gulp
+    
+    $ node debuggerio.js
+    > debugger.io running on port 8080
 
 ### Example Nginx configuration
 
@@ -76,13 +73,11 @@ There is still a lot of work to do, including:
   - ~~Better mobile support~~
   - Fixing all of the things that are already broken
 
-
 Attributions
 ------------
 The icons used throughout the interface are from the
 [Font Awesome](http://fontawesome.io) set by Dave Gandy
 ([SIL OFL 1.1](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)).
-
 
 License
 -------
