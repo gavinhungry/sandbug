@@ -43,22 +43,12 @@ define(function(require) {
       }
     });
 
+    bus.on('mirrors:mode', function(panel, mode, label) {
+      frame.update_by_panel(panel, true);
+    });
+
     bus.on('mirrors:content', function(panel, content) {
-      switch(panel) {
-        case 'markup':
-          frame.auto_update();
-        break;
-
-        case 'style':
-          frame.auto_update(true);
-        break;
-
-        case 'script':
-          if (config.autorun) {
-            frame.auto_update();
-          }
-        break;
-      }
+      frame.update_by_panel(panel);
     });
   });
 
@@ -93,9 +83,37 @@ define(function(require) {
     post_fn();
   };
 
-  frame.auto_update = _.debounce(function(css) {
+  /**
+   * Update by panel action
+   *
+   * @param {String} panel - panel id triggering update
+   * @param {Boolean} [now] - update now if true, debounce otherwise
+   */
+  frame.update_by_panel = function(panel, now) {
+    var auto_update = now ? frame.auto_update : frame.auto_update_d;
+
+    switch(panel) {
+      case 'markup':
+        auto_update();
+      break;
+
+      case 'style':
+        auto_update(true);
+      break;
+
+      case 'script':
+        if (config.autorun) {
+          auto_update();
+        }
+      break;
+    }
+  };
+
+  frame.auto_update = function(css) {
     frame.update(!config.autorun, css);
-  }, config.update_delay);
+  };
+
+  frame.auto_update_d = _.debounce(frame.auto_update, 2000);
 
   return frame;
 });
