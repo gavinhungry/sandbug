@@ -67,6 +67,10 @@ define(function(require) {
         that.$auto.toggleClass('checked', autorun);
       });
 
+      bus.on('config:patch', function(patch) {
+        that.$patch.toggleClass('checked', patch);
+      });
+
       this.render().done(function() {
         bus.trigger('init', this);
 
@@ -85,7 +89,8 @@ define(function(require) {
       'click #run': 'run',
       'click #save': 'save',
       'click #save_as': 'save_as',
-      'click #auto': function(e) { config.autorun = !config.autorun; }
+      'click #auto': function(e) { config.autorun = !config.autorun; },
+      'click #patch': function(e) { config.patch = !config.patch; }
     },
 
     // submit bug to the frame server
@@ -157,7 +162,7 @@ define(function(require) {
         dom.cache(this, this.$el, {
           by_id: [
             'title', 'markup', 'style', 'script', 'input', 'output', 'save',
-            'save_as', 'auto'
+            'save_as', 'auto', 'patch'
           ],
           by_class: ['panel', 'input-panel', 'panel-options']
         });
@@ -167,6 +172,7 @@ define(function(require) {
 
         this.$iframe = this.$output.children('iframe');
         this.$auto.prop('checked', config.autorun);
+        this.$patch.prop('checked', config.patch);
 
         return this.trigger('render');
       });

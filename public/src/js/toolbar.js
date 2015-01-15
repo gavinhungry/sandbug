@@ -72,7 +72,6 @@ define(function(require) {
 
     events: {
       'click #console': function(e) { com.toggle(); },
-      'click #theme': function(e) { themes.cycle_theme(); },
       'click #layout': function(e) { panels.cycle_layout(); },
       'click #settings': function(e) { popups.popup('user_settings'); },
       'click #signup': function(e) { popups.popup('signup'); },

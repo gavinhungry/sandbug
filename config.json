@@ -56,6 +56,9 @@
     // Autorun bugs by default
     "autorun": false,
 
+    // Patch output DOM by default
+    "patch": false,
+
     // Splash screen delay (ms)
     "splash_delay": 500,
 
