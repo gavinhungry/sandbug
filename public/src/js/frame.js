@@ -74,7 +74,8 @@ define(function(require) {
       frameWindow.postMessage({
         timestamp: timestamp,
         map: map,
-        css: !!css
+        css: !!css,
+        patch: config.patch
       }, config.frame);
     };
 
@@ -113,7 +114,7 @@ define(function(require) {
     frame.update(!config.autorun, css);
   };
 
-  frame.auto_update_d = _.debounce(frame.auto_update, 2000);
+  frame.auto_update_d = _.debounce(frame.auto_update, config.update_delay);
 
   return frame;
 });

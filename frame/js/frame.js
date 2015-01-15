@@ -27,7 +27,8 @@
       coffeescript: '//cdn.jsdelivr.net/coffeescript/1.7/coffee-script.min',
       'typescript-api': '//cdn.jsdelivr.net/typescript/1.0/typescript.min',
       typestring: '//cdn.jsdelivr.net/typestring/1.0/typestring.min',
-      gorillascript: '//cdn.jsdelivr.net/gorillascript/0.9/gorillascript.min'
+      gorillascript: '//cdn.jsdelivr.net/gorillascript/0.9/gorillascript.min',
+      diffdom: '//cdn.jsdelivr.net/diffdom/0.0/diffdom.min'
     },
 
     shim: {
@@ -39,10 +40,12 @@
     }
   });
 
-  require(['jquery', 'underscore', 'compiler'], function($, _, compiler) {
+  require(['jquery', 'underscore', 'compiler', 'diffdom'],
+    function($, _, compiler) {
     $(function() {
 
       var origin, source, win;
+      var dd = new diffDOM();
 
       var frame_selector = '#frame';
       var reset_frame = function() {
@@ -118,21 +121,36 @@
           }
         }
 
-        compiler.compile_to_doc_str(oe.data.map).done(function(str) {
-          _.defer(function() {
+        if (oe.data.patch) {
 
-            // reset the iframe and get the new document
-            var frame = reset_frame()[0];
-            if (!frame) { return; }
+          compiler.compile(oe.data.map.markup).then(function(html) {
 
-            win = frame.contentWindow;
-            var doc = frame.contentDocument;
+            var $body = $(frame_selector).first().contents().find('body');
+            var $clone = $body.clone().html(html.output);
 
-            doc.open();
-            doc.write(str);
-            doc.close();
+            var diff = dd.diff($body[0], $clone[0]);
+            dd.apply($body[0], diff);
           });
-        });
+
+        } else {
+          compiler.compile_to_doc_str(oe.data.map).done(function(str) {
+            _.defer(function() {
+
+              // reset the iframe and get the new document
+              var frame = reset_frame()[0];
+              if (!frame) { return; }
+
+              win = frame.contentWindow;
+              var doc = frame.contentDocument;
+
+              doc.open();
+              doc.write(str);
+              doc.close();
+            });
+          });
+        }
+
+
       });
     });
   });
