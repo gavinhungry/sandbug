@@ -76,10 +76,9 @@ define(function(require) {
       return require_p(['less'], function(less) {
         var d = $.Deferred();
 
-        (new less.Parser()).parse(str, function (err, tree) {
-          if (err) { d.reject(err); }
-          d.resolve(tree.toCSS());
-        });
+        less.render(str).then(function(result) {
+          d.resolve(result.css);
+        }, d.reject);
 
         return d.promise();
       });

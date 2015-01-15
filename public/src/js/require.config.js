@@ -35,7 +35,7 @@
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
       chosen: '//cdn.jsdelivr.net/chosen/1.1/chosen.jquery.min',
 
-      string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
+      string: '//cdn.jsdelivr.net/underscore.string/2.4/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
       objmap: 'plugins/_.objMapFunctions.amd',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',

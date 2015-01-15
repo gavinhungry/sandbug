@@ -15,12 +15,12 @@
     paths: {
       jquery: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
       underscore: '//cdn.jsdelivr.net/lodash/2.4/lodash.min',
-      string: '//cdn.jsdelivr.net/underscore.string/2.3/underscore.string.min',
+      string: '//cdn.jsdelivr.net/underscore.string/2.4/underscore.string.min',
 
       marked: '//cdn.jsdelivr.net/marked/0.3/marked.min',
       jade: '//cdn.jsdelivr.net/jade/1.3/jade.min',
       haml: '//cdn.jsdelivr.net/clientside-haml-js/5.4/haml.min',
-      less: '//cdn.jsdelivr.net/less/1.7/less.min',
+      less: '//cdn.jsdelivr.net/less/2.2/less.min',
       sass: '//cdn.jsdelivr.net/sass.js/0.3/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
