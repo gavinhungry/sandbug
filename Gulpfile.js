@@ -62,7 +62,7 @@
         console.error(err.message);
         done();
       })
-      .pipe(mincss())
+      .pipe(mincss({ processImport: false }))
       .pipe(rename(minified))
       .pipe(gulp.dest('./public/css'));
   });
