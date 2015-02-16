@@ -37,7 +37,7 @@ define(function(require) {
   server.use(mobile());
 
   // use Underscore/Lodash templates
-  server.engine('html', cons.lodash);
+  server.engine('html', cons.underscore);
   server.set('view engine', 'html');
   server.set('views', __dirname + '/templates');
 

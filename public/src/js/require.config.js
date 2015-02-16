@@ -17,11 +17,11 @@
     //>> excludeEnd('bustCache');
 
     paths: {
-      promise: 'plugins/requirejs-promise.min',
+      promise: 'plugins/requirejs-promise',
 
       // libraries
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
-      underscorejs: '//cdn.jsdelivr.net/lodash/3.0/lodash.min',
+      underscorejs: '//cdn.jsdelivr.net/underscorejs/1.7/underscore-min',
       backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1/backbone-min',
       codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.5/codemirror.min',
       hammer: '//cdn.jsdelivr.net/hammerjs/1.1/hammer.min',
@@ -38,6 +38,7 @@
       string: '//cdn.jsdelivr.net/underscore.string/3.0/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
       objmap: 'plugins/_.objMapFunctions.amd',
+      deepclone: 'plugins/underscore.deepclone',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
       cm_overlay: '//cdn.jsdelivr.net/codemirror/4.5/addon/mode/overlay',
@@ -86,6 +87,10 @@
         jquery: 'jqueryjs'
       },
 
+      deepclone: {
+        underscore: 'underscorejs'
+      },
+
       deepmodel: {
         underscore: 'underscorejs',
         backbone: 'backbonejs'
@@ -120,7 +125,7 @@
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
       objmap: { deps: ['underscorejs'] },
-      deepmodel: { deps: ['underscorejs', 'backbonejs'] },
+      deepmodel: { deps: ['underscorejs', 'deepclone', 'backbonejs'] },
 
       cm_overlay: { deps: ['codemirrorjs'] },
       cm_search: { deps: ['codemirrorjs'] },

@@ -11,6 +11,7 @@
   var overtake = require('overtake');
   var rename   = require('gulp-rename');
   var rjs      = require('requirejs');
+  var symlink  = require('gulp-symlink');
 
   var minified = { suffix: '.min' };
 
@@ -24,6 +25,18 @@
       './public/js',
       './frame/css/*.min.css'
     ], done);
+  });
+
+  /**
+   * Create underscorejs module symlink so we can use the "underscore" name
+   * to include mixins
+   */
+  gulp.task('symlink', function() {
+    return gulp.src('node_modules/underscore')
+      .pipe(symlink('node_modules/underscorejs', {
+        log: false,
+        force: true
+      }));
   });
 
   /**
@@ -134,7 +147,7 @@
    * Default task
    */
   gulp.task('default', ['clean'], function() {
-    return gulp.start('js', 'less', 'css', 'rev');
+    return gulp.start('symlink', 'js', 'less', 'css', 'rev');
   });
 
 })();

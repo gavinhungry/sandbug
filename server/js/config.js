@@ -39,7 +39,7 @@ define(function(require) {
     if (prop) { config[prop] = obj; }
 
     try {
-      _.merge(obj, cjson.load(appRoot + filename));
+      _.deepExtend(obj, cjson.load(appRoot + filename));
     } catch(err) {
       // nothing to do
     }

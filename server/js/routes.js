@@ -98,7 +98,7 @@ define(function(require) {
     bugs.get_model_by_slug(req.params.bugslug)
     .then(bugs.ensure_bug)
     .then(function(bug) {
-      _.merge(bug, req.body);
+      _.deepExtend(bug, req.body);
       return bugs.save(bug);
     }).then(function(updated) {
       res.json(updated);

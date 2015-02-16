@@ -229,10 +229,10 @@ define(function(require) {
     var rule = match.cssText.replace(/^.*{\s*/, '').replace(/\s*}\s*$/, '');
 
     // convert the property string to an object
-    var css = _.object(_.map(rule.split(';'), function(property) {
+    var css = _.chain(rule.split(';')).map(function(property) {
       var map = _.map(property.split(':'), _.str.clean);
       return map.length === 2 ? map : null;
-    }));
+    }).compact().object().value();
 
     return !string ? css :
       _.reduce(css, function(str, value, prop) {
