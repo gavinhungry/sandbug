@@ -15,7 +15,7 @@ define(function(require) {
   var inflection = require('inflection');
   var objmap = require('objmap');
 
-  _.mixin(str.exports());
+  _.str = str;
   _.mixin(objmap);
 
   return _;

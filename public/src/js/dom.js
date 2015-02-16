@@ -56,17 +56,17 @@ define(function(require) {
     var query = function() {
       // #output cached to this.$output
       _.each(utils.ensure_array(elements.by_id), _.bind(function(id) {
-        this['$' + _.underscored(id)] = $source.find('#' + id);
+        this['$' + _.str.underscored(id)] = $source.find('#' + id);
       }, context));
 
       // .panel-options elements cached to this.$panel_options
       _.each(utils.ensure_array(elements.by_class), _.bind(function(c) {
-        this['$' + _.pluralize(_.underscored(c))] = $source.find('.' + c);
+        this['$' + _.pluralize(_.str.underscored(c))] = $source.find('.' + c);
       }, context));
 
       // '[name="username"]' cached to this.$username
       _.each(utils.ensure_array(elements.by_name), _.bind(function(n) {
-        this['$' + _.underscored(n)] = $source.find(_.sprintf('[name="%s"]', n));
+        this['$' + _.str.underscored(n)] = $source.find(_.str.sprintf('[name="%s"]', n));
       }, context));
     };
 
@@ -230,13 +230,13 @@ define(function(require) {
 
     // convert the property string to an object
     var css = _.object(_.map(rule.split(';'), function(property) {
-      var map = _.map(property.split(':'), _.clean);
+      var map = _.map(property.split(':'), _.str.clean);
       return map.length === 2 ? map : null;
     }));
 
     return !string ? css :
       _.reduce(css, function(str, value, prop) {
-        return str + _.sprintf('%s: %s; ', prop, value);
+        return str + _.str.sprintf('%s: %s; ', prop, value);
       }, '').trim();
   };
 
@@ -280,7 +280,7 @@ define(function(require) {
    * Set a placeholder from a data-placeholder template
    *
    * @param {jQuery} $element - some element with a data-placeholder attribute
-   * @param {Array} values - values to pass to _.sprintf
+   * @param {Array} values - values to pass to _.str.sprintf
    * @return {String} the new placeholder
    */
   dom.set_templated_placeholder = function($element, values) {
@@ -290,7 +290,7 @@ define(function(require) {
     var args = utils.ensure_array(values);
     args.unshift(placeholder);
 
-    placeholder = _.sprintf.apply(null, args);
+    placeholder = _.str.sprintf.apply(null, args);
     $element.attr('placeholder', placeholder);
 
     return placeholder;

@@ -137,7 +137,7 @@ define(function(require) {
           small: !!data.small,
           title: title,
           content: contentHtml,
-          name: _.sprintf('%s-outer', that.template)
+          name: _.str.sprintf('%s-outer', that.template)
         });
 
         // remove any existing popups first
@@ -163,7 +163,7 @@ define(function(require) {
 
       }).fail(function(err) {
         var that = _.first(utils.ensure_array(this));
-        var msg = _.sprintf('Error rendering "%s" - %s', that.template, err);
+        var msg = _.str.sprintf('Error rendering "%s": %s', that.template, err);
         popups.console.error(msg);
       });
     }
@@ -363,7 +363,7 @@ define(function(require) {
 
       _.each(this.extras, function(extra) {
 
-        var $input = that.$el.find(_.sprintf("input[name='%s']", extra.name));
+        var $input = that.$el.find(_.str.sprintf("input[name='%s']", extra.name));
 
         $input.on('input input-filter', function(e, no_copy) {
           var $this = $(this);
@@ -382,7 +382,7 @@ define(function(require) {
           }
 
           if (extra.copy_to) {
-            var $dest = that.$el.find(_.sprintf("input[name='%s']", extra.copy_to));
+            var $dest = that.$el.find(_.str.sprintf("input[name='%s']", extra.copy_to));
             if (!$dest.val()) { $dest.data('touched', false); }
             if (!$dest.data('touched') && (!no_copy || !$dest.val())) {
               $dest.val($input.val()).trigger('input-filter');
@@ -404,8 +404,8 @@ define(function(require) {
   popups.popup = function(name, title, extras) {
     var d = $.Deferred();
 
-    var modelName = _.sprintf('%sPopup', _.capitalize(_.camelize(name)));
-    var viewName = _.sprintf('%sView', modelName);
+    var modelName = _.str.sprintf('%sPopup', _.str.capitalize(_.str.camelize(name)));
+    var viewName = _.str.sprintf('%sView', modelName);
 
     var modelConstructor = popups[modelName];
     var viewConstructor = popups[viewName];
@@ -460,7 +460,7 @@ define(function(require) {
     var $wrap = $popup.find('.popup-wrap');
     var $bar = $popup.find('.popup-actionbar');
     var offset = $bar.offset().top - ($wrap.offset().top + $wrap.outerHeight());
-    $wrap.css('margin-bottom', _.sprintf('-%spx', offset));
+    $wrap.css('margin-bottom', _.str.sprintf('-%spx', offset));
 
     return dom.multi_transition([
       { el: $popup, args: { 'opacity': 1 } },

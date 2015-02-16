@@ -38,7 +38,7 @@ define(function(require) {
       var d = $.Deferred();
       cache[id] = d.promise();
 
-      var templateUri = _.sprintf('%s/%s.html', dir, id);
+      var templateUri = _.str.sprintf('%s/%s.html', dir, id);
       templateUri += config.prod ?
         ('?v=' + config.build.rev) :
         ('?t=' + (new Date()).getTime());

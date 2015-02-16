@@ -248,10 +248,10 @@ define(function(require) {
       var nextOffsetX = _nextOffsetX - distanceX;
       var nextOffsetY = _nextOffsetY - distanceY;
 
-      var newPrevWidth = _.sprintf('calc(%s + %spx)', prevWidth, prevOffsetX);
-      var newNextWidth = _.sprintf('calc(%s + %spx)', nextWidth, nextOffsetX);
-      var newPrevHeight = _.sprintf('calc(%s + %spx)', prevHeight, prevOffsetY);
-      var newNextHeight = _.sprintf('calc(%s + %spx)', nextHeight, nextOffsetY);
+      var newPrevWidth = _.str.sprintf('calc(%s + %spx)', prevWidth, prevOffsetX);
+      var newNextWidth = _.str.sprintf('calc(%s + %spx)', nextWidth, nextOffsetX);
+      var newPrevHeight = _.str.sprintf('calc(%s + %spx)', prevHeight, prevOffsetY);
+      var newNextHeight = _.str.sprintf('calc(%s + %spx)', nextHeight, nextOffsetY);
 
       lastX = e.pageX;
       lastY = e.pageY;

@@ -525,14 +525,14 @@ define(function(require) {
     var indent = markup.cm.getOption('indentUnit'); // default 2
     var tag = utils.resource_tag(uri);
     var lib = utils.resource_element_string(uri); // <script ...> or <link ...>
-    var indentLib = _.sprintf('%s%s', indent, lib);
+    var indentLib = _.str.sprintf('%s%s', indent, lib);
 
     var scriptPos, linkPos, headPos, htmlPos;
 
     // put the new script element after the last script element in the document
     if (scriptPos = mirrors.search_last(markup, /<script [^>]*><\/script>/i)) {
       if (tag === 'script') {
-        lib = _.sprintf('\n%s%s', _.repeat(' ', scriptPos.from.ch), lib);
+        lib = _.str.sprintf('\n%s%s', _.str.repeat(' ', scriptPos.from.ch), lib);
         return mirrors.add_content_at(markup, lib, scriptPos.to);
       }
     }
@@ -540,26 +540,26 @@ define(function(require) {
     // put the new link element after the last link element in the document
     if (linkPos = mirrors.search_last(markup, /<link [^>]*>/i)) {
       if (tag === 'link') {
-        lib = _.sprintf('\n%s%s', _.repeat(' ', linkPos.from.ch), lib);
+        lib = _.str.sprintf('\n%s%s', _.str.repeat(' ', linkPos.from.ch), lib);
         return mirrors.add_content_at(markup, lib, linkPos.to);
       }
     }
 
     // put the new element as the last item in <head>
     if (headPos = mirrors.search_first(markup, '</head>', true)) {
-      lib = _.sprintf('%s%s\n', _.repeat(' ', indent), lib);
+      lib = _.str.sprintf('%s%s\n', _.str.repeat(' ', indent), lib);
       return mirrors.add_content_at(markup, lib, headPos.from);
     }
 
     // put the new element as the first item in <head>
     if (headPos = mirrors.search_first(markup, '<head>', true)) {
-      lib = _.sprintf('\n%s%s', _.repeat(' ', headPos.from.ch + indent), lib);
+      lib = _.str.sprintf('\n%s%s', _.str.repeat(' ', headPos.from.ch + indent), lib);
       return mirrors.add_content_at(markup, lib, headPos.to);
     }
 
     // put the new element as the first item in <html>
     if (htmlPos = mirrors.search_first(markup, '<html>', true)) {
-      lib = _.sprintf('\n%s%s', _.repeat(' ', htmlPos.from.ch + indent), lib);
+      lib = _.str.sprintf('\n%s%s', _.str.repeat(' ', htmlPos.from.ch + indent), lib);
       return mirrors.add_content_at(markup, lib, htmlPos.to);
     }
 

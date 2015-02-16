@@ -122,8 +122,8 @@ define(function(require) {
    * @returns {String} extension
    */
   utils.extension = function(uri) {
-    uri = _.trim(utils.no_quotes(uri));
-    return _.strRightBack(uri, '.');
+    uri = _.str.trim(utils.no_quotes(uri));
+    return _.str.strRightBack(uri, '.');
   };
 
   /**
@@ -134,10 +134,11 @@ define(function(require) {
    * @return {String} script string
    */
   utils.script_element_string = function(uri, type) {
-    uri = _.trim(utils.no_quotes(uri));
+    uri = _.str.trim(utils.no_quotes(uri));
     type = type || ext_map['js'].type;
 
-    return _.sprintf('<script type="%s" src="%s"></script>', type, uri);
+    var template = '<script type="%s" src="%s"></script>';
+    return _.str.sprintf(template, type, uri);
   };
 
   /**
@@ -148,10 +149,11 @@ define(function(require) {
    * @return {String} style link string
    */
   utils.style_element_string = function(uri, type) {
-    uri = _.trim(utils.no_quotes(uri));
+    uri = _.str.trim(utils.no_quotes(uri));
     type = type || ext_map['css'].type;
 
-    return _.sprintf('<link rel="stylesheet" type="%s" href="%s">', type, uri);
+    var template = '<link rel="stylesheet" type="%s" href="%s">';
+    return _.str.sprintf(template, type, uri);
   };
 
   // map file extensions to functions generating the appropriate element string
@@ -209,12 +211,12 @@ define(function(require) {
     uri = utils.ensure_string(uri).trim();
     if (!uri) { return ''; }
 
-    var html = _.sprintf('<a href="%s"></a>', uri);
+    var html = _.str.sprintf('<a href="%s"></a>', uri);
     var nodes = $.parseHTML(html);
     var a = utils.ensure_array(nodes)[0];
 
     var path = a.hostname  + a.pathname.replace(/\/[^\/\.]*\.[^\/\.]*$/, '');
-    return _.rtrim(path, '/.');
+    return _.str.rtrim(path, '/.');
   };
 
   /**
@@ -309,7 +311,7 @@ define(function(require) {
    */
   utils.minify_css_selector = function(selector) {
     selector = utils.ensure_string(selector);
-    return _.clean(selector.replace(/\s*([>+~])\s*/g, '$1'));
+    return _.str.clean(selector.replace(/\s*([>+~])\s*/g, '$1'));
   };
 
   /**
@@ -378,7 +380,7 @@ define(function(require) {
    * @param {String} title - new title to set
    */
   utils.title = function(title) {
-    document.title = title ? _.sprintf('%s - %s', config.title, title) :
+    document.title = title ? _.str.sprintf('%s - %s', config.title, title) :
       config.title;
   };
 
@@ -431,7 +433,7 @@ define(function(require) {
 
       var args = _.toArray(arguments);
       utils.value(this.value).then(function(namespace) {
-        if (namespace) { args.unshift(_.sprintf('[%s]', namespace)); }
+        if (namespace) { args.unshift(_.str.sprintf('[%s]', namespace)); }
         console[method].apply(console, args);
       });
     };

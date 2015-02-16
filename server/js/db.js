@@ -20,7 +20,7 @@ define(function(require) {
 
   var db = {};
 
-  db.dsn = _.sprintf('%s:%s@%s:%s/%s',
+  db.dsn = _.str.sprintf('%s:%s@%s:%s/%s',
     config.db.user, config.db.pass, config.db.host, config.db.port,
     config.db.name);
 
@@ -51,7 +51,7 @@ define(function(require) {
     if (connErr) { d.reject(connErr); }
     else if (!login) { d.resolve(false); }
     else {
-      var query = _.include(login, '@') ?
+      var query = _.str.include(login, '@') ?
         { email: login } : { username: login };
 
       users.find(query, function(err, users) {

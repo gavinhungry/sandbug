@@ -152,7 +152,7 @@ define(function(require) {
    * @return {Promise} resolves to true or false
    */
   cdn.is_up = function(id) {
-    var get = $.get(_.sprintf(jsdelivr_api, id));
+    var get = $.get(_.str.sprintf(jsdelivr_api, id));
     return utils.resolve_boolean(get);
   };
 
@@ -213,7 +213,7 @@ define(function(require) {
     update: function() {
       this.$filter.removeClass('error');
 
-      var filter = _.trim(this.model.get('value')).toLowerCase();
+      var filter = _.str.trim(this.model.get('value')).toLowerCase();
 
       if (!filter) {
         bus.trigger('cdn:abort');
@@ -227,11 +227,11 @@ define(function(require) {
       var that = this;
       this.$cdn_loading.transitIn('fast');
 
-      var uri = _.sprintf(jsdelivr_query, config.cdn, filter);
+      var uri = _.str.sprintf(jsdelivr_query, config.cdn, filter);
       $.getJSON(uri).then(function(packages) {
         // sort packages by comparing them with the filter string
         var sorted = _.sortBy(packages, function(pkg) {
-          return _.levenshtein(filter, pkg.name.toLowerCase());
+          return _.str.levenshtein(filter, pkg.name.toLowerCase());
         });
 
         // limit the number of displayed results for performance
@@ -322,7 +322,7 @@ define(function(require) {
       var pkg = this.model.toJSON();
       var provider = cdn.providers[config.cdn];
 
-      return _.sprintf(provider.uri, pkg.name, pkg.lastversion, pkg.mainfile);
+      return _.str.sprintf(provider.uri, pkg.name, pkg.lastversion, pkg.mainfile);
     },
 
     select_lib: function() {
@@ -397,7 +397,7 @@ define(function(require) {
 
       var maxHeight =  Math.min(this.$ol.outerHeight() + 4, this.max_height);
 
-      this.$el.css({ 'max-height': _.sprintf('%spx', maxHeight) });
+      this.$el.css({ 'max-height': _.str.sprintf('%spx', maxHeight) });
 
       this.first_active();
       dom.transition_with_scrollbar(this.$el, { 'opacity': 1 });

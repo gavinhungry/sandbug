@@ -36,8 +36,8 @@ define('config_p', function(require) {
   // default options
   var options = {
     github: 'https://github.com/gavinhungry/debugger.io',
-    root: _.sprintf('%s//%s/', protocol, hostname),
-    frame: _.sprintf('%s//frame.%s', protocol, hostname),
+    root: _.str.sprintf('%s//%s/', protocol, hostname),
+    frame: _.str.sprintf('%s//frame.%s', protocol, hostname),
     username: locals.username,
     csrf: locals.csrf,
     mode: locals.mode,

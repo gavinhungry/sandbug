@@ -41,7 +41,7 @@ define(function(require) {
   auth.init = function(server) {
     passport.serializeUser(function(user, done) {
       var timestamp = utils.timestamp_now();
-      var str = _.sprintf('%s-%s', timestamp, user._id);
+      var str = _.str.sprintf('%s-%s', timestamp, user._id);
 
       done(null, str);
     });
@@ -167,8 +167,8 @@ define(function(require) {
   auth.create_user = function(username, email, plaintext, confirm) {
     var d = Q.defer();
 
-    username = _.clean(username);
-    email = _.clean(email);
+    username = _.str.clean(username);
+    email = _.str.clean(email);
 
     if (!auth.is_valid_username(username)) {
       return utils.reject_now(new utils.LocaleMsg('invalid_username'));

@@ -53,7 +53,7 @@ define(function(require) {
       var d = $.Deferred();
       cache[id] = d.promise();
 
-      var localeUri = _.sprintf('%s/%s.json', dir, id);
+      var localeUri = _.str.sprintf('%s/%s.json', dir, id);
       if (!config.prod) { localeUri += '?v=' + (new Date()).getTime(); }
 
       $.getJSON(localeUri).done(function(locale, status, xhr) {
@@ -101,7 +101,7 @@ define(function(require) {
    * Returned a localized string from a string ID
    *
    * @param {String} strId - a string ID
-   * @param {String} [...] - strings to pass to _.sprintf, if applicable
+   * @param {String} [...] - strings to pass to _.str.sprintf, if applicable
    * @return {Promise} to return localed string matching `strId`
    */
   locales.string = function(strId) {
@@ -124,7 +124,7 @@ define(function(require) {
       });
 
       sprintfArgs.unshift(str);
-      var formattedStr = _.sprintf.apply(null, sprintfArgs);
+      var formattedStr = _.str.sprintf.apply(null, sprintfArgs);
       sync[strId] = formattedStr; // sprintfArgs are not cached
       d.resolve(formattedStr);
     }).fail(function(err) {
@@ -163,7 +163,7 @@ define(function(require) {
    */
   locales.prefixed = function(val) {
     return (_.isString(val) && !val.indexOf(prefix)) ?
-      locales.string(_.strRight(val, prefix)) : val;
+      locales.string(_.str.strRight(val, prefix)) : val;
   };
 
   /**

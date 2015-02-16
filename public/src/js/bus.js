@@ -76,7 +76,7 @@ define(function(require) {
     if (_.isUndefined(this._events)) { return this; }
 
     var ns_events = _.filter(_.keys(this._events), function(key) {
-      return _.startsWith(key, namespace + ':');
+      return _.str.startsWith(key, namespace + ':');
     });
 
     _.each(ns_events, function(event) {

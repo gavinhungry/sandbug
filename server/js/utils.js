@@ -70,7 +70,7 @@ define(function(require) {
     var root = path.resolve('.');
     dir = path.resolve(dir);
 
-    if (!_.startsWith(dir, root) || dir === root) {
+    if (!_.str.startsWith(dir, root) || dir === root) {
       return utils.reject_now();
     }
 
@@ -78,7 +78,7 @@ define(function(require) {
       if (err) { return d.reject(err); }
 
       var result = _.chain(filenames).filter(function(filename) {
-        return _.endsWith(filename, '.json');
+        return _.str.endsWith(filename, '.json');
       }).map(function(json) {
         try {
           var data = cjson.load(path.join(dir, json));
@@ -86,7 +86,7 @@ define(function(require) {
           return null;
         }
 
-        var jsonId = _.strLeftBack(json, '.');
+        var jsonId = _.str.strLeftBack(json, '.');
 
         if (prop) { data = utils.reduce(prop, data); }
 

@@ -47,11 +47,11 @@ define('bugs_p', function(require) {
     bugs._priv.current = {};
 
     bus.on('mirrors:mode', function(panel, mode, label) {
-      bugs.model().set(_.sprintf('map.%s.mode', panel), mode);
+      bugs.model().set(_.str.sprintf('map.%s.mode', panel), mode);
     });
 
     bus.on('mirrors:content', function(panel, content) {
-      bugs.model().set(_.sprintf('map.%s.content', panel), content);
+      bugs.model().set(_.str.sprintf('map.%s.content', panel), content);
     });
 
     keys.register_handler({ ctrl: true, key: 's' }, function(e) {
@@ -81,7 +81,7 @@ define('bugs_p', function(require) {
 
     isEmpty: function() {
       return _.every(this.get('map'), function(panel) {
-        return _.isBlank(panel.content);
+        return _.str.isBlank(panel.content);
       });
     },
 
@@ -226,7 +226,7 @@ define('bugs_p', function(require) {
         name: 'slug',
         placeholder: 'url_slug',
         value: model.get('slug'),
-        filter: _.slugify
+        filter: _.str.slugify
       }
     ]).then(function(result) {
       model.set('title', result.title);

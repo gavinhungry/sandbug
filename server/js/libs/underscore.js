@@ -5,6 +5,6 @@
  */
 define(['lodash', 'underscore.string'],
 function(_, str) {
-  _.mixin(str.exports());
+  _.str = str;
   return _; // _.noConflict();
 });

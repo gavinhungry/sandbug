@@ -40,7 +40,7 @@ define(function(require) {
       var bugSchema = mongoose.Schema({
         slug: {
           type: String,
-          filter: _.slugify,
+          filter: _.str.slugify,
           default: random_slug,
           index: { unique: true }
         },
@@ -159,7 +159,7 @@ define(function(require) {
    */
   bugs.get_model_by_slug = function(bugslug, noid) {
     var d = Q.defer();
-    bugslug = _.slugify(bugslug);
+    bugslug = _.str.slugify(bugslug);
 
     bugs.Bug.findOne({ slug: bugslug }, { _id: !noid, __v: !noid }, function(err, bug) {
       if (err || !bug) { d.resolve(null); }

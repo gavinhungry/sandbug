@@ -101,8 +101,8 @@ define(function(require) {
     },
 
     initialize: function() {
-      this.position = dom.css(_.sprintf('%s._position', this._el));
-      this.opacity = dom.css(_.sprintf('%s._opacity', this._el)).opacity || 1;
+      this.position = dom.css(_.str.sprintf('%s._position', this._el));
+      this.opacity = dom.css(_.str.sprintf('%s._opacity', this._el)).opacity || 1;
 
       this.setElement(this._el);
 

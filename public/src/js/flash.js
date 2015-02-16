@@ -32,7 +32,7 @@ define(function(require) {
   bus.init(function(av) {
     flash.console.log('init flash module');
 
-    transition_props = dom.css(_.sprintf('%s._transition', flashEl));
+    transition_props = dom.css(_.str.sprintf('%s._transition', flashEl));
     $(flashEl).on('click', function(e) { flash.dismiss(); });
   });
 
@@ -102,7 +102,7 @@ define(function(require) {
   flash.locale_message = function(msg, priority) {
     if ((typeof msg !== 'string') && msg.localize) {
       var heading = utils.ensure_string(msg.localize);
-      var body = _.sprintf('%s_msg', heading);
+      var body = _.str.sprintf('%s_msg', heading);
 
       var head_args = utils.ensure_array(msg.args.head);
       head_args.unshift(heading);
