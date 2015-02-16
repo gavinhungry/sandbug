@@ -37,7 +37,7 @@
       var specs = _.map([
         'config', 'utils'
       ], function(module) {
-        return _.sprintf('%s/spec/%s_spec', TEST, module);
+        return _.str.sprintf('%s/spec/%s_spec', TEST, module);
       });
 
       $(function() {

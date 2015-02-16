@@ -87,6 +87,10 @@
         jquery: 'jqueryjs'
       },
 
+      objmap: {
+        underscore: 'underscorejs'
+      },
+
       deepclone: {
         underscore: 'underscorejs'
       },
@@ -94,10 +98,6 @@
       deepmodel: {
         underscore: 'underscorejs',
         backbone: 'backbonejs'
-      },
-
-      objmap: {
-        underscore: 'underscorejs'
       },
 
       transit: {
@@ -125,6 +125,7 @@
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },
       objmap: { deps: ['underscorejs'] },
+      deepclone: { deps: ['underscorejs'] },
       deepmodel: { deps: ['underscorejs', 'deepclone', 'backbonejs'] },
 
       cm_overlay: { deps: ['codemirrorjs'] },

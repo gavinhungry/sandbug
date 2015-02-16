@@ -14,7 +14,7 @@
   requirejs.config({
     paths: {
       jquery: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
-      underscorejs: '//cdn.jsdelivr.net/underscorejs/1.7/underscore-min',
+      underscore: '//cdn.jsdelivr.net/underscorejs/1.7/underscore-min',
       string: '//cdn.jsdelivr.net/underscore.string/3.0/underscore.string.min',
 
       marked: '//cdn.jsdelivr.net/marked/0.3/marked.min',

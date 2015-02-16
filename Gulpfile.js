@@ -56,7 +56,7 @@
       useStrict: true,
 
       // local files with individual licenses
-      exclude: ['promise', 'objmap']
+      exclude: ['promise', 'objmap', 'deepclone']
     },
     function() { done(); },
     function(err) {

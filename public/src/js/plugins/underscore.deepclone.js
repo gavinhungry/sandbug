@@ -1,23 +1,14 @@
-// https://github.com/mateusmaso/underscore.deepclone
-// MIT license
-(function(root, factory) {
+/* https://github.com/mateusmaso/underscore.deepclone
+ * MIT license
+ *
+ * Re-written for AMD by Gavin Lloyd <gavinhungry@gmail.com>
+ */
+define(function(require) {
+  'use strict';
 
-  if (typeof exports !== 'undefined') {
-    var _ = require('underscore');
-    if (typeof module !== 'undefined' && module.exports)
-      module.exports = factory(_);
-    exports = factory(_);
-  } else if (typeof requirejs === 'function') {
-    var _ = requirejs(['underscore'], function(_) {
-      _.mixin(factory(_));
-    });
-  } else {
-    root._.mixin(factory(root._));
-  }
+  var _ = require('underscore');
 
-}(this, function(_) {
-
-  return {
+  _.mixin({
     deepClone: function(object) {
       var clone = _.clone(object);
 
@@ -29,6 +20,6 @@
 
       return clone;
     }
-  };
+  });
 
-}));
+});
