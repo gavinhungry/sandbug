@@ -25,6 +25,8 @@ Currently supported language modes are:
 Installation
 ------------
 
+    $ git update-index --assume-unchanged deploy.json
+
     # npm -g install gulp
     $ npm install
     $ gulp
