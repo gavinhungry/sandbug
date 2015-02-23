@@ -21,7 +21,7 @@
 
       // libraries
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
-      underscorejs: '//cdn.jsdelivr.net/underscorejs/1.7/underscore-min',
+      underscorejs: '//cdn.jsdelivr.net/underscorejs/1.8/underscore-min',
       backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1/backbone-min',
       codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.5/codemirror.min',
       hammer: '//cdn.jsdelivr.net/hammerjs/1.1/hammer.min',
