@@ -11,10 +11,10 @@
     "git-rev": "0.2.x",
     "gulp": "3.8.x",
     "gulp-less": "3.0.x",
-    "gulp-minify-css": "0.4.x",
     "gulp-nodemon": "1.0.x",
     "gulp-rename": "1.2.x",
     "gulp-symlink": "2.1.x",
+    "gulp-uglifycss": "1.0.x",
     "overtake": "0.5.x"
   },
 

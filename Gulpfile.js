@@ -1,17 +1,17 @@
 (function() {
   'use strict';
 
-  var del      = require('del');
-  var fs       = require('fs');
-  var git      = require('git-rev');
-  var gulp     = require('gulp');
-  var less     = require('gulp-less');
-  var mincss   = require('gulp-minify-css');
-  var nodemon  = require('gulp-nodemon');
-  var overtake = require('overtake');
-  var rename   = require('gulp-rename');
-  var rjs      = require('requirejs');
-  var symlink  = require('gulp-symlink');
+  var del       = require('del');
+  var fs        = require('fs');
+  var git       = require('git-rev');
+  var gulp      = require('gulp');
+  var less      = require('gulp-less');
+  var nodemon   = require('gulp-nodemon');
+  var overtake  = require('overtake');
+  var rename    = require('gulp-rename');
+  var rjs       = require('requirejs');
+  var symlink   = require('gulp-symlink');
+  var uglifycss = require('gulp-uglifycss');
 
   var minified = { suffix: '.min' };
 
@@ -75,7 +75,7 @@
         console.error(err.message);
         done();
       })
-      .pipe(mincss({ processImport: false }))
+      .pipe(uglifycss())
       .pipe(rename(minified))
       .pipe(gulp.dest('./public/css'));
   });
@@ -85,7 +85,7 @@
    */
   gulp.task('css', function() {
     return gulp.src(['./frame/css/*.css', '!./**/*.min.css'])
-      .pipe(mincss())
+      .pipe(uglifycss())
       .pipe(rename(minified))
       .pipe(gulp.dest('./frame/css'));
   });
