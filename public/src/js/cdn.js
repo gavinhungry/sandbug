@@ -55,23 +55,12 @@ define(function(require) {
 
     bus.on('config:cdn', cdn.set_cdn);
 
-    var up_checks = Object.keys(cdn.providers).map(function(id) {
-      return cdn.is_up(id).then(function(up) {
-        if (!up) {
-          cdn.console.warn(id, 'CDN down, removing from available providers');
-          delete cdn.providers[id];
-        }
-      });
-    });
+    if (Object.keys(cdn.providers).length) {
+      config._priv.set_option('cdn', cdn.get_next_up(config.default_cdn));
 
-    $.when.apply(null, up_checks).then(function() {
-      if (Object.keys(cdn.providers).length) {
-        config._priv.set_option('cdn', cdn.get_next_up(config.default_cdn));
-
-        filterModel = new cdn.FilterInput();
-        filterView = new cdn.FilterInputView({ model: filterModel });
-      }
-    });
+      filterModel = new cdn.FilterInput();
+      filterView = new cdn.FilterInputView({ model: filterModel });
+    }
   });
 
   /**
@@ -143,17 +132,6 @@ define(function(require) {
    */
   cdn.rotate = function() {
     return cdn.set_next(config.cdn);
-  };
-
-  /**
-   * Test if a CDN is up
-   *
-   * @param {String} id - CDN id
-   * @return {Promise} resolves to true or false
-   */
-  cdn.is_up = function(id) {
-    var get = $.get(_.str.sprintf(jsdelivr_api, id));
-    return utils.resolve_boolean(get);
   };
 
   /**
@@ -460,8 +438,8 @@ define(function(require) {
         var paddingTop = parseInt(this.$ol.css('padding-top'), 10);
         var paddingBottom = parseInt(this.$ol.css('padding-bottom'), 10);
 
-        var olPaddingTop = _.parseInt(this.$ol.css('padding-top'));
-        var olPaddingBottom = _.parseInt(this.$ol.css('padding-top'));
+        var olPaddingTop = parseInt(this.$ol.css('padding-top'), 10);
+        var olPaddingBottom = parseInt(this.$ol.css('padding-top'), 10);
 
         var contentHeight = this.$content.outerHeight(true);
         var contentTop = this.$content.scrollTop();
