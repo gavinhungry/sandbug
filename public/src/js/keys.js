@@ -84,7 +84,7 @@ define(function(require) {
    * @return {Integer} unique handler id, null if opts.key is undefined
    */
   keys.register_handler = function(opts, callback) {
-    var opts = opts || {};
+    opts = opts || {};
     var hid = last_hid++;
 
     if (_.isUndefined(opts.key)) { return null; }

@@ -135,7 +135,7 @@ define(function(require) {
    */
   utils.script_element_string = function(uri, type) {
     uri = _.str.trim(utils.no_quotes(uri));
-    type = type || ext_map['js'].type;
+    type = type || ext_map.js.type;
 
     var template = '<script type="%s" src="%s"></script>';
     return _.str.sprintf(template, type, uri);
@@ -150,7 +150,7 @@ define(function(require) {
    */
   utils.style_element_string = function(uri, type) {
     uri = _.str.trim(utils.no_quotes(uri));
-    type = type || ext_map['css'].type;
+    type = type || ext_map.css.type;
 
     var template = '<link rel="stylesheet" type="%s" href="%s">';
     return _.str.sprintf(template, type, uri);
@@ -371,7 +371,7 @@ define(function(require) {
    * @return {Number} time in seconds
    */
   utils.runtime = function() {
-    return Math.floor(performance.now() / 1000)
+    return Math.floor(performance.now() / 1000);
   };
 
   /**

@@ -407,19 +407,19 @@ define(function(require) {
     var modelName = _.str.sprintf('%sPopup', _.str.capitalize(_.str.camelize(name)));
     var viewName = _.str.sprintf('%sView', modelName);
 
-    var modelConstructor = popups[modelName];
-    var viewConstructor = popups[viewName];
+    var ModelConstructor = popups[modelName];
+    var ViewConstructor = popups[viewName];
 
-    if (!modelConstructor || !viewConstructor) {
+    if (!ModelConstructor || !ViewConstructor) {
       popups.console.error('popups.%s / popups.%s do not exist', modelName, viewName);
       return utils.reject_now();
     }
 
-    var model = new modelConstructor();
+    var model = new ModelConstructor();
     if (title) { model.set('title', title); }
     model.set('extras', extras);
 
-    var view = new viewConstructor({ model: model });
+    var view = new ViewConstructor({ model: model });
 
     view.on('destroy', d.reject);
 

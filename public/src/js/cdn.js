@@ -46,9 +46,9 @@ define(function(require) {
   var api_fields = ['name','mainfile','lastversion','description','homepage'];
 
   var jsdelivr_api = '//api.jsdelivr.com/v1/%s';
-  var jsdelivr_query = jsdelivr_api + '/libraries?name=*%s*'
-    + '&fields=' + api_fields.join(',')
-    + '&limit=' + config.cdn_results;
+  var jsdelivr_query = jsdelivr_api + '/libraries?name=*%s*' +
+    '&fields=' + api_fields.join(',') +
+    '&limit=' + config.cdn_results;
 
   bus.init(function(av) {
     cdn.console.log('init cdn module');
@@ -388,7 +388,9 @@ define(function(require) {
         if (_.isFunction(stop_fn) && stop_fn() === true) { return; }
 
         this.css({ 'display': 'none' });
-        _.isFunction(callback) && callback.call(that);
+        if (_.isFunction(callback)) {
+          callback.call(that);
+        }
       });
     },
 

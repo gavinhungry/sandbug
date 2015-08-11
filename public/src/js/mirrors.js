@@ -99,7 +99,7 @@ define(function(require) {
     }, {});
 
     return strip ? _.each(map, function(value) {
-      delete value['panel'];
+      delete value.panel;
     }) : map;
   };
 

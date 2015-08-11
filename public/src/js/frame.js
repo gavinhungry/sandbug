@@ -67,7 +67,7 @@ define(function(require) {
       }
 
       var map = mirrors.get_map();
-      if (noscript) { map['script'].content = ''; }
+      if (noscript) { map.script.content = ''; }
       else { com.flush(); }
 
       frame.console.log('postMessage', timestamp);

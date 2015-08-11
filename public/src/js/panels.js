@@ -32,11 +32,11 @@ define(function(require) {
 
     $active_panels = av.$panels;
 
-    var optionsHeight = dom.css('#input > .panel .panel-options')['height'];
+    var optionsHeight = dom.css('#input > .panel .panel-options').height;
     min_size = (parseInt(optionsHeight, 10) || 0) + 10;
 
     var css = dom.css('#input._transition');
-    var transition = css['transition-duration'] || css['transition'];
+    var transition = css['transition-duration'] || css.transition;
     duration = parseInt(transition, 10) || 0;
 
     bus.on('config:mode', function(mode) {
@@ -278,7 +278,7 @@ define(function(require) {
             $master.css({ 'left': newPrevWidth });
           }
         break;
-      };
+      }
 
       bus.trigger('panels:resizing');
     };
@@ -553,7 +553,7 @@ define(function(require) {
 
     var $parent = panels.get_parent();
     var $panels = panels.get_all_panels();
-    var $resizers = panels.get_all_resizers()
+    var $resizers = panels.get_all_resizers();
     var $master = panels.get_master_resizer();
     var $inputs = panels.get_input_panels();
     var $output = panels.get_output_panel();

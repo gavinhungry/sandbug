@@ -39,7 +39,7 @@ define(function(require) {
         (!$t.is('.dropdown-button') && !$t.closest('.dropdown-menu').length)) {
         bus.trigger('dropdown:hide');
       }
-    })
+    });
   });
 
   /**
@@ -167,7 +167,9 @@ define(function(require) {
 
       $element.transition(opts, 'fast', function() {
         dom.init_scrollbar($element);
-        _.isFunction(callback) && callback.call($element[0]);
+        if (_.isFunction(callback)) {
+          callback.call($element[0]);
+        }
       });
   };
 
