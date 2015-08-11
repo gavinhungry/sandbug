@@ -97,7 +97,7 @@ define(function(require) {
     var d = Q.defer();
 
     if (!_.isString(plaintext) || !plaintext.length) {
-      return utils.reject_now();
+      return utils.reject();
     }
 
     scrypt.hash(plaintext, params, function(err, hash) {
@@ -119,11 +119,11 @@ define(function(require) {
     var d = Q.defer();
 
     if (!_.isString(plaintext) || !plaintext.length) {
-      return utils.resolve_now(false);
+      return utils.resolve(false);
     }
 
     if (!_.isString(hash) || hash.length !== 128) {
-      return utils.resolve_now(false);
+      return utils.resolve(false);
     }
 
     scrypt.verify(hash, plaintext, function(err, result) {
@@ -171,19 +171,19 @@ define(function(require) {
     email = _.str.clean(email);
 
     if (!auth.is_valid_username(username)) {
-      return utils.reject_now(new utils.LocaleMsg('invalid_username'));
+      return utils.reject(new utils.LocaleMsg('invalid_username'));
     }
 
     if (!auth.is_valid_email(email)) {
-      return utils.reject_now(new utils.LocaleMsg('invalid_email'));
+      return utils.reject(new utils.LocaleMsg('invalid_email'));
     }
 
     if (plaintext !== confirm) {
-      return utils.reject_now(new utils.LocaleMsg('password_mismatch'));
+      return utils.reject(new utils.LocaleMsg('password_mismatch'));
     }
 
     if (!auth.is_valid_password(plaintext)) {
-      return utils.reject_now(new utils.LocaleMsg('invalid_password'));
+      return utils.reject(new utils.LocaleMsg('invalid_password'));
     }
 
     // check that the login is available first

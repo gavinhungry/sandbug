@@ -225,7 +225,7 @@ define(function(require) {
    * @param {Mixed} value - value that the promise will resolve to
    * @return {Promise} promise to return value
    */
-  utils.resolve_now = function(value) {
+  utils.resolve = function(value) {
     return $.Deferred().resolve(value).promise();
   };
 
@@ -235,7 +235,7 @@ define(function(require) {
    * @param {Mixed} value - value that the promise will reject to
    * @return {Promise} promise to return value
    */
-  utils.reject_now = function(value) {
+  utils.reject = function(value) {
     return $.Deferred().reject(value).promise();
   };
 
@@ -339,12 +339,12 @@ define(function(require) {
    */
   utils.value = function(value) {
     if (_.isUndefined(value) || _.isNull(value)) {
-      return utils.resolve_now(value);
+      return utils.resolve(value);
     }
 
     // base case: not a a function, and not a duck-typed promise
     if (!_.isFunction(value) && !_.isFunction(value.promise)) {
-      return utils.resolve_now(value);
+      return utils.resolve(value);
     }
 
     var value_m = _.isFunction(value) ? value(): value;

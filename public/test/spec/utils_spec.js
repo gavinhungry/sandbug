@@ -256,11 +256,11 @@ function(utils, config, $, _) {
   });
 
   /**
-   * utils.resolve_now
+   * utils.resolve
    */
-  describe('utils.resolve_now', function(done) {
+  describe('utils.resolve', function(done) {
     it('should return a promise to resolve to a value', function() {
-      utils.resolve_now('foobar').done(function(val) {
+      utils.resolve('foobar').done(function(val) {
         expect(val).toEqual('foobar');
       }).fail(function() {
         expect('promise to resolve to an expected value').toEqual(true);
@@ -269,11 +269,11 @@ function(utils, config, $, _) {
   });
 
   /**
-   * utils.reject_now
+   * utils.reject
    */
-  describe('utils.reject_now', function(done) {
+  describe('utils.reject', function(done) {
     it('should return a promise to reject to a value', function() {
-      utils.reject_now('foobar').done(function() {
+      utils.reject('foobar').done(function() {
         expect('promise to reject to an expected value').toEqual(true);
       }).fail(function(val) {
         expect(val).toEqual('foobar');
@@ -353,19 +353,19 @@ function(utils, config, $, _) {
     });
 
     it('should read a value passed from a promise', function() {
-      utils.value(utils.resolve_now('foo_C')).done(function(val) {
+      utils.value(utils.resolve('foo_C')).done(function(val) {
         expect(val).toEqual('foo_C');
       }).always(done);
     });
 
     it('should read a value passed from a promise-returning function', function() {
-      utils.value(function() { return utils.resolve_now('foo_D') }).done(function(val) {
+      utils.value(function() { return utils.resolve('foo_D') }).done(function(val) {
         expect(val).toEqual('foo_D');
       }).always(done);
     });
 
     it('should read a value passed from a function-resolving promise', function() {
-      utils.value(utils.resolve_now(function() { return 'foo_E' })).done(function(val) {
+      utils.value(utils.resolve(function() { return 'foo_E' })).done(function(val) {
         expect(val).toEqual('foo_E');
       }).always(done);
     });

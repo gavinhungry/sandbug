@@ -412,7 +412,7 @@ define(function(require) {
 
     if (!ModelConstructor || !ViewConstructor) {
       popups.console.error('popups.%s / popups.%s do not exist', modelName, viewName);
-      return utils.reject_now();
+      return utils.reject();
     }
 
     var model = new ModelConstructor();
@@ -450,7 +450,7 @@ define(function(require) {
   popups.show = function() {
     var $popup = $(popupEl);
     if (!$popup.length || $popup.is(':empty')) {
-      return utils.reject_now();
+      return utils.reject();
     }
 
     $popup.removeClass('nopointer');
@@ -478,12 +478,12 @@ define(function(require) {
 
     var $popup = $(popupEl);
     if (!$popup.length) {
-      return utils.reject_now();
+      return utils.reject();
     }
 
     // popup is already hidden, don't wait to resolve
     if ($popup.css('opacity') === '0') {
-      return utils.resolve_now();
+      return utils.resolve();
     }
 
     $popup.addClass('nopointer');
@@ -506,7 +506,7 @@ define(function(require) {
    */
   popups.destroy = function(type) {
     if (!(currentView instanceof popups.PopupView)) {
-      return utils.resolve_now(true);
+      return utils.resolve(true);
     }
 
     if (!type || (type === currentView.$el.data('type'))) {

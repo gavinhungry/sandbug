@@ -71,7 +71,7 @@ define(function(require) {
     dir = path.resolve(dir);
 
     if (!_.str.startsWith(dir, root) || dir === root) {
-      return utils.reject_now();
+      return utils.reject();
     }
 
     fs.readdir(dir, function(err, filenames) {
@@ -143,7 +143,7 @@ define(function(require) {
    * @param {Mixed} value - value that the promise will resolve to
    * @return {Promise} promise to return value
    */
-  utils.resolve_now = function(value) {
+  utils.resolve = function(value) {
     var d = Q.defer();
     d.resolve(value);
     return d.promise;
@@ -155,7 +155,7 @@ define(function(require) {
    * @param {Mixed} value - value that the promise will reject to
    * @return {Promise} promise to return value
    */
-  utils.reject_now = function(value) {
+  utils.reject = function(value) {
     var d = Q.defer();
     d.reject(value);
     return d.promise;
