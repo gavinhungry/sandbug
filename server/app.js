@@ -138,7 +138,7 @@ define(function(require) {
       },
 
       bug: function(req, res) {
-        bugs.crud.read(req.param.slug, bugs.crud.rest(res, function(bug) {
+        bugs.crud.read(req.params.slug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;
         }));
       }
