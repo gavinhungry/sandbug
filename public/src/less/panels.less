@@ -2,7 +2,8 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-@import url('//cdn.jsdelivr.net/codemirror/4.5/codemirror.css');
+@import url('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/codemirror.min.css');
+@import url('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/scroll/simplescrollbars.min.css');
 
 body.ns, body.ns * { cursor: ns-resize !important; }
 body.ew, body.ew * { cursor: ew-resize !important; }
@@ -61,11 +62,14 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       font-family: @monospace !important;
       font-size: @mirror_font_size !important;
 
-      .CodeMirror-vscrollbar.nano {
-        > .content { overflow-y: hidden !important; }
-        > .pane {
-          display: block !important;
-          &:hover, &.active { width: 12px; }
+      .CodeMirror-simplescroll-vertical {
+        background: @scrollbar_bg_color;
+        width: 10px;
+
+        div {
+          background: @scrollbar_fg_color;
+          border-radius: 0;
+          border: none;
         }
       }
     }

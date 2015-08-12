@@ -13,7 +13,7 @@
     baseUrl: '/src/js',
 
     //>> excludeStart('bustCache', pragmas.bustCache);
-    urlArgs: 'v=' + (new Date().getTime()),
+    urlArgs: 'v=' + (Date.now()),
     //>> excludeEnd('bustCache');
 
     paths: {
@@ -23,14 +23,13 @@
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
       underscorejs: '//cdn.jsdelivr.net/underscorejs/1.8/underscore-min',
       backbonejs: '//cdn.jsdelivr.net/backbonejs/1.2/backbone-min',
-      codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.5/codemirror.min',
+      codemirrorjs: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/codemirror.min',
       hammer: '//cdn.jsdelivr.net/hammerjs/2.0/hammer.min',
 
       // plugins
       ui: '//cdn.jsdelivr.net/jquery.ui/1.11/jquery-ui.min',
       touchpunch: '//cdn.jsdelivr.net/jquery.ui.touch-punch/0.2/jquery.ui.touch-punch.min',
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
-      nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.8/javascripts/jquery.nanoscroller.min',
       cookie: '//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min',
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
       chosen: '//cdn.jsdelivr.net/chosen/1.1/chosen.jquery.min',
@@ -41,24 +40,26 @@
       deepclone: 'plugins/underscore.deepclone',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
-      cm_overlay: '//cdn.jsdelivr.net/codemirror/4.5/addon/mode/overlay',
-      cm_search: '//cdn.jsdelivr.net/codemirror/4.5/addon/search/searchcursor',
+      cm_meta: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/meta.min',
+      cm_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/mode/overlay.min',
+      cm_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/search/searchcursor.min',
+      cm_scrollbars: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/scroll/simplescrollbars.min',
 
       // CodeMirror markup
-      cm_xml: '//cdn.jsdelivr.net/codemirror/4.5/mode/xml/xml',
-      cm_html: '//cdn.jsdelivr.net/codemirror/4.5/mode/htmlmixed/htmlmixed',
-      cm_markdown: '//cdn.jsdelivr.net/codemirror/4.5/mode/markdown/markdown',
-      cm_gfm: '//cdn.jsdelivr.net/codemirror/4.5/mode/gfm/gfm',
-      cm_jade: '//cdn.jsdelivr.net/codemirror/4.5/mode/jade/jade',
-      cm_ruby: '//cdn.jsdelivr.net/codemirror/4.5/mode/ruby/ruby',
-      cm_haml: '//cdn.jsdelivr.net/codemirror/4.5/mode/haml/haml',
+      cm_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/xml/xml.min',
+      cm_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/htmlmixed/htmlmixed.min',
+      cm_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/markdown/markdown.min',
+      cm_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/gfm/gfm.min',
+      cm_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/jade/jade.min',
+      cm_ruby: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/ruby/ruby.min',
+      cm_haml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/haml/haml.min',
 
       // CodeMirror style
-      cm_css: '//cdn.jsdelivr.net/codemirror/4.5/mode/css/css',
+      cm_css: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/css/css',
 
       // CodeMirror script
-      cm_js: '//cdn.jsdelivr.net/codemirror/4.5/mode/javascript/javascript',
-      cm_coffeescript: '//cdn.jsdelivr.net/codemirror/4.5/mode/coffeescript/coffeescript',
+      cm_js: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/javascript/javascript',
+      cm_coffeescript: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/coffeescript/coffeescript',
 
       jquery: 'libs/jquery',
       underscore: 'libs/underscore',
@@ -68,6 +69,7 @@
 
     map: {
       '*': {
+        '../lib/codemirror': 'codemirrorjs',
         '../../lib/codemirror': 'codemirrorjs',
         '../../addon/mode/overlay': 'cm_overlay',
         '../search/search': 'cm_search',
@@ -83,8 +85,8 @@
         '../coffeescript/coffeescript': 'cm_coffeescript'
       },
 
-      nano: {
-        jquery: 'jqueryjs'
+      cm_markdown: {
+        '../meta': 'cm_meta',
       },
 
       ui: {
@@ -124,7 +126,6 @@
       ui: { deps: ['jqueryjs'], exports: '$.ui' },
       touchpunch: { deps: ['jqueryjs', 'ui'] },
       transit: { deps: ['jqueryjs'], exports: '$.transit' },
-      nano: { deps: ['jqueryjs'], exports: '$.fn.nanoScroller' },
       cookie: { deps: ['jqueryjs'] },
       storage: { deps: ['jqueryjs', 'cookie'] },
       hammer: { deps: ['jqueryjs'] },
@@ -136,11 +137,12 @@
       deepclone: { deps: ['underscorejs'] },
       deepmodel: { deps: ['underscorejs', 'deepclone', 'backbonejs'] },
 
+      cm_scrollbars: { deps: ['codemirrorjs'] },
       cm_overlay: { deps: ['codemirrorjs'] },
       cm_search: { deps: ['codemirrorjs'] },
       cm_xml: { deps: ['codemirrorjs'] },
       cm_html: { deps: ['codemirrorjs'] },
-      cm_markdown: { deps: ['codemirrorjs'] },
+      cm_markdown: { deps: ['codemirrorjs', 'cm_meta'] },
       cm_gfm: { deps: ['codemirrorjs', 'cm_overlay', 'cm_markdown'] },
       cm_jade: { deps: ['codemirrorjs'] },
       cm_ruby: { deps: ['codemirrorjs'] },

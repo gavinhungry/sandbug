@@ -35,7 +35,8 @@ define(function(require) {
         lineNumbers: true,
         lineWrapping: true,
         mode: mode,
-        tabSize: 2
+        tabSize: 2,
+        scrollbarStyle: 'simple'
       });
 
       var mirror = {
@@ -56,7 +57,18 @@ define(function(require) {
         bus.trigger('mirrors:content', mirror.panel, content);
       });
 
-      mirrors.scrollable(mirror);
+      bus.on('panels:resizing', function() {
+        _.defer(function() {
+          CodeMirror.signal(mirror.cm, 'change');
+        });
+      });
+
+      bus.on('window:resize panels:resized', function() {
+        _.defer(function() {
+          mirrors.simulate_change(mirror);
+        });
+      });
+
       instances.push(mirror);
     });
 
@@ -135,110 +147,6 @@ define(function(require) {
    */
   mirrors.get_instance = function(m) {
     return m && m.cm instanceof CodeMirror ? m : mirrors.get_by_id(m);
-  };
-
-  /**
-   * Hack for letting a scrollbar at least be a visual scroll indicator
-   *
-   * @param {String | Object} m - panel id or mirror
-   */
-  mirrors.scrollable = function(m) {
-    var mirror = mirrors.get_instance(m);
-    if (!mirror) { return null; }
-
-    var $scroll = mirror.$panel.find('.CodeMirror-vscrollbar').first();
-    $scroll.addClass('nano').css({ 'overflow': 'visible', 'width': '10px' });
-    $scroll.children().first().addClass('nano-content');
-
-    dom.init_scrollbar($scroll);
-    var $slider = $scroll.find('.pane > .slider');
-
-    var track_remainder = function() {
-      return $scroll.height() - $slider.height() - 4; // - margin
-    };
-
-    // update the scrollbar to match the current mirror position
-    var update_scrollbar = function(info, remainder) {
-      info = info || mirror.cm.getScrollInfo();
-      remainder = remainder || track_remainder();
-
-      var multiplier = (info.top / (info.height - info.clientHeight)) || 0;
-
-      $slider.css({ 'top': multiplier * remainder });
-      $scroll.css({
-        'display': info.height > info.clientHeight ? 'block' : 'none'
-      });
-    };
-
-    // update the mirror position to match the current scrollbar position
-    var update_mirror_scroll = function(info, remainder) {
-      info = info || mirror.cm.getScrollInfo();
-      remainder = remainder || track_remainder();
-
-      var top = parseInt($slider.css('top'), 10);
-      var multiplier = top / remainder;
-      mirror.cm.scrollTo(null, multiplier * (info.height - info.clientHeight));
-    };
-
-    (function() {
-      var mde; // mousedown event
-      var top = 0;
-      var info;
-      var remainder;
-
-      var bind_scroll = function(e) {
-        mde = e;
-        top = parseInt($slider.css('top'), 10);
-        info = mirror.cm.getScrollInfo();
-        remainder = track_remainder();
-
-        $(document).on('mousemove', do_scroll);
-        $(document).on('mouseup', unbind_scroll);
-      };
-
-      var unbind_scroll = function(e) {
-        $(document).off('mousemove', do_scroll);
-        $(document).off('mouseup', unbind_scroll);
-      };
-
-      var do_scroll = function(e) {
-        var distanceY = e.pageY - mde.pageY;
-        $slider.css('top', utils.clamp(top + distanceY, 0, remainder));
-
-        update_mirror_scroll(info, remainder);
-      };
-
-      // let the user drag the scrollbars
-      $slider.on('mousedown', bind_scroll);
-    })();
-
-    // or, click on the track to move the scrollbar
-    $scroll.on('click', function(e) {
-      if ($slider.is(e.target)) { return; }
-
-      var midPoint = e.offsetY - $slider.height() / 2;
-      var newTop = utils.clamp(midPoint, 0, track_remainder());
-      $slider.css('top', newTop);
-
-      update_mirror_scroll();
-    });
-
-    mirror.cm.on('change', function() {
-      $scroll[0].nanoscroller.reset();
-      update_scrollbar();
-    });
-
-    mirror.cm.on('scroll', function() {
-      update_scrollbar();
-    });
-
-    bus.on('panels:resizing', function() {
-      _.defer(function() { CodeMirror.signal(mirror.cm, 'change'); });
-    });
-
-    bus.on('window:resize panels:resized', function() {
-      _.defer(function() { mirrors.simulate_change(mirror); });
-    });
   };
 
   var mirror_mode_sets = {

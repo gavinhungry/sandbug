@@ -73,7 +73,10 @@
   ready(function() {
     var progression = progress();
 
-    require.config({ waitSeconds: WAIT_SECONDS });
+    require.config({
+      waitSeconds: WAIT_SECONDS
+    });
+
     require(['require.config'], function() {
       require(['app'], function(app) {
         if (hasError) { return; }

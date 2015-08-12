@@ -130,50 +130,6 @@ define(function(require) {
   };
 
   /**
-   * (Re)initialize an element with a nanoScrollerJS scrollbar
-   *
-   * @param {jQuery} $element - some .nano element in the DOM
-   */
-  dom.init_scrollbar = function($element) {
-    if (!$element.hasClass('nano')) {
-      return dom.console.error($element, 'already has scrollbar');
-    }
-
-    if (!$element.children('.nano-content').length) {
-      return dom.console.error($element, 'has no content to scroll');
-    }
-
-    // remove the old nanoscroller property if the content has been replaced
-    if ($element[0].nanoscroller) {
-      var $nanoContent = $element[0].nanoscroller.$content;
-      if (dom.is_detached($nanoContent)) {
-        $element.removeClass('has-scrollbar');
-        $element[0].nanoscroller = null;
-      }
-    }
-
-    $element.nanoScroller({ alwaysVisible: true });
-  };
-
-  /**
-   * Transition an element, then (re)initialize a nanoScrollerJS scrollbar
-   *
-   * @param {jQuery} $element - some .nano element in the DOM
-   * @param {Object} [opts] - options to $.fn.transition
-   * @param {Function} [callback] - callback to $.fn.transition
-   */
-  dom.transition_with_scrollbar = function($element, opts, callback) {
-      opts = opts || {};
-
-      $element.transition(opts, 'fast', function() {
-        dom.init_scrollbar($element);
-        if (_.isFunction(callback)) {
-          callback.call($element[0]);
-        }
-      });
-  };
-
-  /**
    * Determine if an element is overflowing itself or a parent
    *
    * @param {jQuery} $element - some element in the DOM
@@ -185,16 +141,6 @@ define(function(require) {
 
     var $compare = closest ? $element.closest(closest) : $element;
     return $element[0].scrollHeight > $compare[0].offsetHeight;
-  };
-
-  /**
-   * Determine if a nanoScrollerJS content area is overflowing
-   *
-   * @param {jQuery} $element - some element within a nanoScrollerJS scrollbar
-   * @return {Boolean} true if $element is overflowing, false otherwise
-   */
-  dom.is_overflowing_with_scrollbar = function($element) {
-    return dom.is_overflowing($element, '.nano');
   };
 
   /**
@@ -240,20 +186,6 @@ define(function(require) {
       _.reduce(css, function(str, value, prop) {
         return str + _.str.sprintf('%s: %s; ', prop, value);
       }, '').trim();
-  };
-
-  /**
-   * Scroll a nanoScrollerJS container to a specified scrollTop
-   *
-   * @param {jQuery} $element - some element within a nanoScrollerJS scrollbar
-   * @param {Number | String} [value] - position to scroll to, defaults to 'top'
-   */
-  dom.scrollbar_scroll_top = function($element, value) {
-    var $nano = $element.closest('.nano');
-    if (!$nano.length) { return; }
-
-    value = value || 'top';
-    $nano.nanoScroller({ scrollTop: value });
   };
 
   /**

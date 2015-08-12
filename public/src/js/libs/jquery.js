@@ -5,12 +5,11 @@
 /**
  * jQuery
  *
- * Includes: Transit, nanoScroller.js, transitIn/transitOut, jQuery.cookie,
+ * Includes: Transit, transitIn/transitOut, jQuery.cookie,
  * jQuery Storage API, jQuery UI, jQuery UI Touch Punch
  */
 define([
-  'jqueryjs', 'transit', 'nano', 'cookie', 'storage', 'ui', 'touchpunch',
-  'chosen'
+  'jqueryjs', 'transit', 'cookie', 'storage', 'ui', 'touchpunch', 'chosen'
 ],
 function($) {
   // jQuery.transit fallback to $.fn.animate

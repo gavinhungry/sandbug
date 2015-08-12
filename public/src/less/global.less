@@ -7,7 +7,6 @@
 @import url('//cdn.jsdelivr.net/jquery.ui/1.11/themes/humanity/jquery-ui.min.css');
 
 @import url('//cdn.jsdelivr.net/meyer-reset/2.0/reset.min.css');
-@import url('//cdn.jsdelivr.net/nanoscrollerjs/0.8/css/nanoscroller.css');
 @import url('//cdn.jsdelivr.net/fontawesome/4.4/css/font-awesome.min.css');
 @import url('//cdn.jsdelivr.net/chosen/1.1/chosen.min.css');
 
@@ -74,28 +73,6 @@ html, body, #debuggerio {
 .noselect { user-select: none; }
 .nopointer { pointer-events: none; }
 .clear { clear: both; }
-
-.nano {
-  > .pane {
-    background: none !important;
-    border-radius: 0;
-    width: 6px;
-    padding: 0;
-    margin: 2px;
-    overflow: hidden;
-    cursor: default;
-
-    > .slider {
-      background: @nano_slider_bg_color;
-      border-radius: 0;
-      margin: 0;
-    }
-  }
-
-  &.nano-invert > .pane > .slider {
-    background: @nano_slider_invert_bg_color;
-  }
-}
 
 .flow {
   display: none;

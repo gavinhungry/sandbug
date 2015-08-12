@@ -370,7 +370,7 @@ define(function(require) {
       this.$el.css({ 'display': 'block' });
 
       // adjust margins when overflowing
-      var overflow = dom.is_overflowing_with_scrollbar(this.$ol);
+      var overflow = this.$ol.height() > this.$el.height(); // FIXME
       this.$ol.toggleClass('overflow', overflow);
 
       var maxHeight =  Math.min(this.$ol.outerHeight() + 4, this.max_height);
@@ -378,7 +378,7 @@ define(function(require) {
       this.$el.css({ 'max-height': _.str.sprintf('%spx', maxHeight) });
 
       this.first_active();
-      dom.transition_with_scrollbar(this.$el, { 'opacity': 1 });
+      this.$el.transition({ 'opacity': 1 });
     },
 
     hide: function(callback, stop_fn) {
@@ -435,33 +435,32 @@ define(function(require) {
 
     // keep the active result visible
     scroll_active: function() {
+      var $wrapper = this.$content.parent();
+
       var $active = this.$ol.children().filter('.active').first();
       if ($active.length && this.$ol.hasClass('overflow')) {
         var paddingTop = parseInt(this.$ol.css('padding-top'), 10);
         var paddingBottom = parseInt(this.$ol.css('padding-bottom'), 10);
 
-        var olPaddingTop = parseInt(this.$ol.css('padding-top'), 10);
-        var olPaddingBottom = parseInt(this.$ol.css('padding-top'), 10);
+        var wrapperHeight = $wrapper.height();
+        var wrapperTop = $wrapper.scrollTop();
+        var wrapperBottom = wrapperTop + wrapperHeight;
 
-        var contentHeight = this.$content.outerHeight(true);
-        var contentTop = this.$content.scrollTop();
-        var contentBottom = contentTop + contentHeight;
-
-        var activeHeight = $active.outerHeight(true);
-        var activeTop = contentTop + $active.position().top;
+        var activeHeight = $active.outerHeight();
+        var activeTop = wrapperTop + $active.position().top;
         var activeBottom = activeTop + activeHeight;
 
         var scrollTop;
 
         // too far down
-        if (activeBottom + olPaddingBottom >= contentBottom) {
-          scrollTop = activeBottom - contentHeight + paddingBottom;
-          dom.scrollbar_scroll_top(this.$ol, scrollTop);
+        if (activeBottom >= wrapperBottom) {
+          scrollTop = activeBottom  - wrapperHeight + paddingBottom;
+          $wrapper.scrollTop(scrollTop);
         }
         // too far up
-        else if (activeTop - olPaddingTop <= contentTop) {
+        else if (activeTop <= wrapperTop) {
           scrollTop = activeTop - paddingTop;
-          dom.scrollbar_scroll_top(this.$ol, scrollTop);
+          $wrapper.scrollTop(scrollTop);
         }
       }
     },
