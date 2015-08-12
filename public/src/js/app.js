@@ -43,15 +43,11 @@ define(function(require) {
         config.username = username;
         flash.message_good(locales.string('logged_in', username),
           '@logged_in_msg');
-
-        that.$saves.transitIn();
       });
 
       bus.on('user:logout', function() {
         config.username = null;
         flash.message('@logged_out', '@logged_out_msg');
-
-        that.$saves.transitOut();
       });
 
       bus.on('config:mode', function(mode) {
@@ -165,9 +161,6 @@ define(function(require) {
           ],
           by_class: ['panel', 'input-panel', 'panel-options']
         });
-
-        this.$saves = this.$save.add(this.$save_as);
-        this.$saves[!config.username ? 'transitOut' : 'transitIn']();
 
         this.$iframe = this.$output.children('iframe');
         this.$auto.prop('checked', config.autorun);
