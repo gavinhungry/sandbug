@@ -12,6 +12,7 @@ define(function(require) {
   var bodyParser    = require('body-parser');
   var cookieParser  = require('cookie-parser');
   var cookieSession = require('cookie-session');
+  var crypto        = require('crypto');
   var csurf         = require('csurf');
   var db            = require('db');
   var local         = require('passport-local');
@@ -86,6 +87,16 @@ define(function(require) {
   };
 
   auth.authenticate = passport.authenticate('local');
+
+  /**
+   * Hashes a plaintext string with SHA-512
+   *
+   * @param {String} plaintext - plaintext string to hash
+   * @return {String} hex-encoded hash
+   */
+  auth.sha512 = function(plaintext) {
+    return crypto.createHash('sha512').update(plaintext).digest('hex');
+  };
 
   /**
    * Generate an scrypt salted hash from a plaintext string

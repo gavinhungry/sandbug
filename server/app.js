@@ -42,7 +42,7 @@ define(function(require) {
       // the bug is private and
       (!enforcePrivate || bug.private) &&
       // the bug has no recorded origin, or origin tokens do not match and
-      (!bug.origin || (req.session.csrfSecret !== bug.origin)) &&
+      (!bug.origin || (auth.sha512(req.session.csrfSecret) !== bug.origin)) &&
       // theres no username or
       (!user.username ||
         // there is a username, but not a match
@@ -105,7 +105,7 @@ define(function(require) {
 
         var bug = req.body;
         bug.username = user.username || null;
-        bug.origin = req.session.csrfSecret;
+        bug.origin = auth.sha512(req.session.csrfSecret);
 
         bugs.crud.create(bug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;
