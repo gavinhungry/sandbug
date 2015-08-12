@@ -184,6 +184,7 @@ define('bugs', function(require) {
   bugs.get = function(slug) {
     var bug = new bugs.Bug({ slug: slug });
     return bug.fetch().then(function() {
+      bug._dirty = false;
       return bug;
     }, function(xhr, status, err) {
       switch(xhr.statusCode().status) {
