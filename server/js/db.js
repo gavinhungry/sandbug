@@ -28,7 +28,7 @@ define(function(require) {
   var connErr = null;
 
   try {
-    var mdb = mongo(db.dsn, ['users', 'bugs'], { authMechanism: 'ScramSHA1' });
+    db.raw = mongo(db.dsn, ['users', 'bugs'], { authMechanism: 'ScramSHA1' });
   } catch(err) {
     connErr = err;
   }
@@ -52,7 +52,7 @@ define(function(require) {
       var query = _.str.include(login, '@') ?
         { email: login } : { username: login };
 
-      mdb.users.find(query, function(err, users) {
+      db.raw.users.find(query, function(err, users) {
         if (err) { return d.reject(err); }
         if (users.length !== 1) { return d.resolve(false); }
 
@@ -97,7 +97,7 @@ define(function(require) {
   db.create_user = function(username, email, hash) {
     var d = Q.defer();
 
-    mdb.users.insert({
+    db.raw.users.insert({
       username: username,
       email: email,
       hash: hash
@@ -125,7 +125,7 @@ define(function(require) {
     if (connErr) { d.reject(connErr); }
     else if (!id) { d.resolve(false); }
     else {
-      mdb.users.find({ _id: mongo.ObjectId(id) }, projection, function(err, users) {
+      db.raw.users.find({ _id: mongo.ObjectId(id) }, projection, function(err, users) {
         if (err) { return d.reject(err); }
         if (users.length !== 1) { return d.resolve(false); }
 

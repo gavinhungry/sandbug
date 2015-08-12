@@ -4,25 +4,7 @@
  * bugs.js: bug actions
  */
 
-define(function(require) {
-  'use strict';
-
-  var _ = require('underscore');
-
-  // ---
-
-  var bugs    = require('promise!bugs_p');
-  var mirrors = require('mirrors');
-
-  // append default schema with default mirror modes
-  _.each(bugs._priv.schema.map, function(map, panel) {
-    map.mode = mirrors.get_default_mode(panel);
-  });
-
-  return bugs;
-});
-
-define('bugs_p', function(require) {
+define('bugs', function(require) {
   'use strict';
 
   var $      = require('jquery');
@@ -42,9 +24,19 @@ define('bugs_p', function(require) {
   // ---
 
   var bugs = utils.module('bugs');
+  bugs._priv.schema = {};
 
   bus.init(function(av) {
     bugs._priv.current = {};
+
+    // set all default modes in schema
+    bugs._priv.schema.map = _.reduce(mirrors.get_all(), function(memo, mirror) {
+      memo[mirror.panel] = {
+        mode: mirrors.get_default_mode(mirror.panel)
+      };
+
+      return memo;
+    }, {});
 
     bus.on('mirrors:mode', function(panel, mode, label) {
       bugs.model().set(_.str.sprintf('map.%s.mode', panel), mode);
@@ -85,9 +77,21 @@ define('bugs_p', function(require) {
       });
     },
 
+    isNew: function() {
+      return !this.has('_fetched') || (this.get('slug') !== this._lastSlug);
+    },
+
     _url: '/api/bug/',
     url: function() {
       return this._url + this.get(this.idAttribute);
+    },
+
+    sync: function(method, model, options) {
+      if (method === 'create') {
+        options.url = '/api/bugs'
+      }
+
+      return Backbone.sync.apply(this, arguments);
     }
   });
 
@@ -129,7 +133,10 @@ define('bugs_p', function(require) {
    */
   bugs.view = function() {
     if (!(bugs._priv.current.view instanceof bugs.BugView)) {
-      bugs._priv.current.view = new bugs.BugView({ model: bugs.model() });
+      bugs._priv.current.view = new bugs.BugView({
+        model: bugs.model()
+      });
+
       utils.title();
     }
 
@@ -144,16 +151,21 @@ define('bugs_p', function(require) {
   bugs.display = function(bug) {
     utils.title(bug.get('title'));
 
-    var bugslug = bug.get('slug');
-    bus.trigger('navigate', bugslug ? ('bug/' + bugslug) : '');
+    var slug = bug.get('slug');
+    bus.trigger('navigate', slug ? ('bug/' + slug) : '');
 
-    // destroy previous model
-    if (bug === bugs.model()) { return; }
+    bug._lastSlug = bug.get('slug');
+
+    if (bug === bugs.model()) {
+      return;
+    }
 
     // destroy previous model
     bugs.model().destroy();
 
-    var view = new bugs.BugView({ model: bug });
+    var view = new bugs.BugView({
+      model: bug
+    });
 
     bugs._priv.current = {
       model: bug,
@@ -166,15 +178,20 @@ define('bugs_p', function(require) {
   /**
    * Get a bug from the server matching a slug
    *
-   * @param {String} bugslug - slug id for a bug
+   * @param {String} slug - slug id for a bug
    * @return {Promise} resolving to {bugs.Bug}
    */
-  bugs.get = function(bugslug) {
-    var bug = new bugs.Bug({ slug: bugslug });
+  bugs.get = function(slug) {
+    var bug = new bugs.Bug({ slug: slug });
     return bug.fetch().then(function() {
       return bug;
-    }, function(err) {
-      flash.xhr_error(err);
+    }, function(xhr, status, err) {
+      switch(xhr.statusCode().status) {
+        case 403: flash.message_bad('@bug_is_private'); break;
+        case 404: flash.message_bad('@bug_not_found'); break;
+        default: flash.xhr_error(xhr, status, err);
+      }
+
       bus.trigger('navigate', '/');
     });
   };
@@ -182,11 +199,11 @@ define('bugs_p', function(require) {
   /**
    * Get a bug from the server and display it
    *
-   * @param {String} bugslug - slug id for a bug
+   * @param {String} slug - slug id for a bug
    * @return {Promise}
    */
-  bugs.open = function(bugslug) {
-    return bugs.get(bugslug).then(bugs.display);
+  bugs.open = function(slug) {
+    return bugs.get(slug).then(bugs.display);
   };
 
   /**
@@ -196,16 +213,24 @@ define('bugs_p', function(require) {
    */
   bugs.save = function() {
     var model = bugs.model();
-    var bugslug = model.get('slug');
+    var slug = model.get('slug');
 
-    if (!bugslug) { return bugs.save_as(); }
+    if (!slug) {
+      return bugs.save_as();
+    }
 
-    bugs.console.log('Saving bug', bugslug);
+    bugs.console.log('Saving bug', slug);
     return model.save().then(function(res) {
       flash.message_good('@bug_saved', locales.string('bug_saved_msg', res.slug));
+
       bugs.display(model);
       model._dirty = false;
-    }, flash.xhr_error);
+    }, function(xhr, status, err) {
+      switch(xhr.statusCode().status) {
+        case 409: flash.message_bad('@bug_slug_in_use'); break;
+        default: flash.xhr_error(xhr, status, err);
+      }
+    });
   };
 
   /**
@@ -244,16 +269,6 @@ define('bugs_p', function(require) {
     return new bugs.Bug(bugs._priv.schema);
   };
 
-  // get bug schema from server
-  var d = $.Deferred();
-  $.get('/api/model/bug').done(function(schema) {
-    bugs._priv.schema = schema;
-    d.resolve(bugs);
-  }).fail(function() {
-    bugs._priv.schema = {};
-    d.resolve(bugs);
-  });
-
   /**
    * Check if the current bug has unsaved content
    *
@@ -272,5 +287,5 @@ define('bugs_p', function(require) {
     return bugs.model().isEmpty();
   };
 
-  return d.promise();
+  return bugs;
 });

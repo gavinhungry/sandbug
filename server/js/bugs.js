@@ -9,10 +9,9 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var auth     = require('auth');
   var db       = require('db');
-  var mongoose = require('mongoose');
   var Q        = require('q');
+  var Rudiment = require('rudiment');
 
   var module    = require('module');
   var path      = require('path');
@@ -22,175 +21,57 @@ define(function(require) {
 
   var bugs = {};
 
-  var mongoose_p = (function() {
-    var d = Q.defer();
+  bugs.crud = new Rudiment({
+    db: db.raw.bugs,
+    key: 'slug',
+    path: 'bug',
+    map: function(bug) {
+      delete bug._id;
+      bug._fetched = Date.now();
+    }
+  });
 
-    mongoose.connect(db.dsn).connection
-    .once('error', d.reject)
-    .once('open', function() {
+  // FIXME: schema
+  //
+  //   slug: {
+  //     type: String,
+  //     filter: _.str.slugify,
+  //     default: random_slug,
+  //     index: { unique: true }
+  //   },
 
-      var sanitize_username = function(str) {
-        return auth.sanitize_username(str) || null;
-      };
+  //   username: { type: String, filter: sanitize_username },
+  //   title: { type: String, default: 'Bug' },
 
-      var random_slug = function() {
-        return '4'; // FIXME
-      };
+  //   created: { type: Date, default: Date.now },
+  //   updated: { type: Date, default: Date.now },
 
-      var bugSchema = mongoose.Schema({
-        slug: {
-          type: String,
-          filter: _.str.slugify,
-          default: random_slug,
-          index: { unique: true }
-        },
+  //   autorun: { type: Boolean, default: false },
+  //   'private': { type: Boolean, default: false },
+  //   collaborators: { type: [String], default: [] },
 
-        username: { type: String, filter: sanitize_username },
-        title: { type: String, default: 'Bug' },
+  //   map: {
+  //     markup: {
+  //       mode: { type: String, enum: ['htmlmixed', 'gfm', 'jade', 'haml'] },
+  //       content: { type: String, default: '' }
+  //     },
 
-        created: { type: Date, default: Date.now },
-        updated: { type: Date, default: Date.now },
+  //     style: {
+  //       mode: { type: String, enum: ['css', 'less', 'scss'] },
+  //       content: { type: String, default: '' }
+  //     },
 
-        autorun: { type: Boolean, default: false },
-        'private': { type: Boolean, default: false },
-        collaborators: { type: [String], default: [] },
-
-        map: {
-          markup: {
-            mode: { type: String, enum: ['htmlmixed', 'gfm', 'jade', 'haml'] },
-            content: { type: String, default: '' }
-          },
-
-          style: {
-            mode: { type: String, enum: ['css', 'less', 'scss'] },
-            content: { type: String, default: '' }
-          },
-
-          script: {
-            mode: {
-              type: String,
-              enum: [
-                'javascript', 'traceur', 'coffeescript', 'typescript',
-                'gorillascript'
-              ]
-            },
-            content: { type: String, default: '' }
-          }
-        }
-      });
-
-      bugSchema.pre('validate', function(next) {
-        var model = this;
-
-        model.updated = Date.now();
-
-        _.chain(bugSchema.paths).filter(function(key) {
-          return _.first(key.path) !== '_';
-        }).each(function(key) {
-
-          var split = key.path.split('.');
-          var last = split.pop();
-          var base = utils.reduce(split.join('.'), model);
-          var value = utils.reduce(key.path, model);
-
-          // use first enum value as default
-          if (key.enumValues && key.enumValues.length &&
-            !_.contains(key.enumValues, value)) {
-              base[last] = _.first(key.enumValues);
-          }
-
-          // allow for a filter function on strings
-          if (key.options.type === String && _.isFunction(key.options.filter)) {
-             base[last] = key.options.filter(value);
-          }
-        });
-
-        next();
-      });
-
-      bugs.Bug = mongoose.model('bug', bugSchema);
-
-      d.resolve();
-    });
-
-    return d.promise;
-  })();
-
-  /**
-   * Create a new bug
-   *
-   * @param {Object} [opts] - options to model constructor
-   * @return {Promise} to return an instance of a Bug model
-   */
-  bugs.new_bug = function(opts) {
-    opts = opts || {};
-
-    return mongoose_p.then(function() {
-      opts.slug = opts.slug || opts._slug;
-      delete opts._slug;
-
-      return new bugs.Bug(opts);
-    });
-  };
-
-  /**
-   * Save a bug model from user
-   *
-   * @param {bugs.Bug} bug
-   * @return {Promise}
-   */
-  bugs.save = function(bug) {
-    var d = Q.defer();
-
-    bug.save(function(err) {
-      if (err) { return d.reject(); }
-      bugs.get_by_slug(bug.slug).then(d.resolve, d.reject);
-    });
-
-    return d.promise;
-  };
-
- /**
-   * Get the Mongoose model of a bug from a slug
-   *
-   * @param {String} bugslug - slug id for a bug
-   * @param {Boolean} [noid] - if true, omit _id
-   * @return {Promise} to return a bug model, or null if no result
-   */
-  bugs.get_model_by_slug = function(bugslug, noid) {
-    var d = Q.defer();
-    bugslug = _.str.slugify(bugslug);
-
-    bugs.Bug.findOne({ slug: bugslug }, { _id: !noid, __v: !noid }, function(err, bug) {
-      if (err || !bug) { d.resolve(null); }
-
-      d.resolve(bug);
-    });
-
-    return d.promise;
-  };
-
-  /**
-   * Get a bug from a slug
-   *
-   * @param {String} bugslug - slug id for a bug
-   * @return {Promise} to return a bug, or null if no result
-   */
-  bugs.get_by_slug = function(bugslug) {
-    return bugs.get_model_by_slug(bugslug, true).then(function(bug) {
-      return bug ? bug.toObject() : null;
-    });
-  };
-
-  /**
-   * Ensure an argument is a bug, or resolve to a new bug
-   *
-   * @param {Mixed} bug
-   * @return {Promise} to resolve to the passed bug or a new bug
-   */
-  bugs.ensure_bug = function(bug) {
-    return bug instanceof bugs.Bug ? Q.when(bug) : bugs.new_bug();
-  };
+  //     script: {
+  //       mode: {
+  //         type: String,
+  //         enum: [
+  //           'javascript', 'traceur', 'coffeescript', 'typescript',
+  //           'gorillascript'
+  //         ]
+  //       },
+  //       content: { type: String, default: '' }
+  //     }
+  //   }
 
   return bugs;
 });

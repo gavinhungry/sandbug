@@ -162,8 +162,18 @@ define(function(require) {
    * @return {Promise|String}
    */
   locales.prefixed = function(val) {
-    return (_.isString(val) && !val.indexOf(prefix)) ?
+    return (_.isString(val) && locales.is_prefixed(val)) ?
       locales.string(_.str.strRight(val, prefix)) : val;
+  };
+
+  /**
+   * Checks if a string is local prefixed
+   *
+   * @param {String} str
+   * @return {Boolean} true if str is prefixed, false otherwise
+   */
+  locales.is_prefixed = function(str) {
+    return !str.indexOf(prefix);
   };
 
   /**

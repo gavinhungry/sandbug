@@ -80,8 +80,10 @@ define(function(require) {
       var result = _.chain(filenames).filter(function(filename) {
         return _.str.endsWith(filename, '.json');
       }).map(function(json) {
+        var data;
+
         try {
-          var data = cjson.load(path.join(dir, json));
+          data = cjson.load(path.join(dir, json));
         } catch(err) {
           return null;
         }

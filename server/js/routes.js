@@ -18,7 +18,12 @@ define(function(require) {
 
   // ---
 
-  var routes = { get: {}, put: {}, post: {} };
+  var routes = {
+    put: {},
+    get: {},
+    post: {},
+    delete: {}
+  };
 
   var LOCALES_PATH = './public/locales';
 
@@ -39,6 +44,13 @@ define(function(require) {
   // GET /api/config - additional client-side config options
   routes.get.config = function(req, res) {
     res.json(config.client);
+  };
+
+  // GET /api/resource/locales
+  routes.get.locales = function(req, res) {
+    utils.dir_json(LOCALES_PATH, 'locale').then(function(locales) {
+      res.json(locales);
+    }, utils.server_error_handler(res)).done();
   };
 
   // POST /api/signup
@@ -72,68 +84,25 @@ define(function(require) {
     res.json(true);
   };
 
-  // GET /api/bug/:bugslug
-  routes.get.bug = function(req, res) {
-    var user = req.user || {};
-
-    bugs.get_by_slug(req.params.bugslug)
-    .then(function(bug) {
-      var msg = new utils.LocaleMsg();
-
-      if (!bug) { return res.status(404).json(msg.set_id('bug_not_found')); }
-      if (bug.private && bug.username !== user.username &&
-        !_.contains(bug.collaborators, user.username)) {
-        return res.status(403).json(msg.set_id('bug_is_private'));
-      }
-
-      res.json(bug);
-    }, utils.server_error_handler(res)).done();
-  };
-
-  // PUT /api/bug/:bugslug
-  routes.put.bug = function(req, res) {
-    var user = req.user || {};
-    var msg = new utils.LocaleMsg();
-
-    bugs.get_model_by_slug(req.params.bugslug)
-    .then(bugs.ensure_bug)
-    .then(function(bug) {
-      _.deepExtend(bug, req.body);
-      return bugs.save(bug);
-    }).then(function(updated) {
-      res.json(updated);
-    }, utils.server_error_handler(res)).done();
-  };
-
-  // POST /api/bug/:bugslug
+  // POST /api/bugs
   routes.post.bug = function(req, res) {
-    var user = req.user || {};
-    var msg = new utils.LocaleMsg();
-
-    var opts = _.clone(req.body);
-    opts.slug = req.params.bugslug;
-
-    bugs.new_bug(opts)
-      .then(bugs.save, utils.server_error_handler(res)).done();
+    bugs.crud.create(req.body, bugs.crud.rest(res));
   };
 
-  // GET /api/model/bug
-  routes.get.bug_model = function(req, res) {
-    bugs.new_bug({
-      _id: undefined,
-      created: undefined,
-      updated: undefined,
-      title: ''
-    }).then(function(model) {
-      res.json(model);
-    }, utils.server_error_handler(res)).done();
+  // GET /api/bug/:slug
+  routes.get.bug = function(req, res) {
+    // FIXME: need to handle 403 private here
+    bugs.crud.read(req.params.slug, bugs.crud.rest(res));
   };
 
-  // GET /api/resource/locales
-  routes.get.locales = function(req, res) {
-    utils.dir_json(LOCALES_PATH, 'locale').then(function(locales) {
-      res.json(locales);
-    }, utils.server_error_handler(res)).done();
+  // PUT /api/bug/:slug
+  routes.put.bug = function(req, res) {
+    bugs.crud.update(req.params.slug, req.body, bugs.crud.rest(res));
+  };
+
+  // DELETE /api/bug/:slug
+  routes.delete.bug = function(req, res) {
+    // FIXME
   };
 
   return routes;

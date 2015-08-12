@@ -56,6 +56,10 @@ define(function(require) {
 
     var template_p = templates.get('flash');
 
+    if (!body_m && body_m !== false && _.isString(heading_m) && locales.is_prefixed(heading_m)) {
+      body_m = _.str.sprintf('%s_msg', heading_m);
+    }
+
     heading_m = locales.prefixed(heading_m);
     body_m = locales.prefixed(body_m);
 
@@ -100,21 +104,27 @@ define(function(require) {
    * @param {String} [priority] - override the priority of the LocaleMsg
    */
   flash.locale_message = function(msg, priority) {
-    if ((typeof msg !== 'string') && msg.localize) {
-      var heading = utils.ensure_string(msg.localize);
-      var body = _.str.sprintf('%s_msg', heading);
-
-      var head_args = utils.ensure_array(msg.args.head);
-      head_args.unshift(heading);
-
-      var msg_args = utils.ensure_array(msg.args.msg);
-      msg_args.unshift(body);
-
-      var heading_p = locales.string(head_args);
-      var body_p = locales.string(msg_args);
-
-      flash.message(heading_p, body_p, null, msg.priority || priority);
+    if (_.isString(msg)) {
+      return flash.message(msg, null, null, priority);
     }
+
+    if (!msg || !msg.localize) {
+      return;
+    }
+
+    var heading = utils.ensure_string(msg.localize);
+    var body = _.str.sprintf('%s_msg', heading);
+
+    var head_args = utils.ensure_array(msg.args.head);
+    head_args.unshift(heading);
+
+    var msg_args = utils.ensure_array(msg.args.msg);
+    msg_args.unshift(body);
+
+    var heading_p = locales.string(head_args);
+    var body_p = locales.string(msg_args);
+
+    flash.message(heading_p, body_p, null, msg.priority || priority);
   };
 
   // eg. flash.message_bad
@@ -135,7 +145,8 @@ define(function(require) {
    * @param {jqXHR} xhr
    */
   flash.xhr_error = function(xhr, status, err) {
-    flash.locale_message_bad(xhr.responseJSON || xhr.responseText);
+    var status = _.str.sprintf('%s %s', xhr.statusCode().status, xhr.statusText);
+    flash.locale_message_bad(xhr.responseJSON || xhr.responseText || status);
   };
 
   /**
