@@ -10,8 +10,9 @@ define(function(require) {
   var utils  = require('utils');
 
   var auth    = require('auth');
-  var bugs   = require('bugs');
+  var bugs    = require('bugs');
   var cons    = require('consolidate');
+  var db      = require('db');
   var express = require('express');
   var mobile  = require('connect-mobile-detection');
 
@@ -141,6 +142,13 @@ define(function(require) {
         bugs.crud.read(req.params.slug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;
         }));
+      },
+
+      user: function(req, res) {
+        var user = req.user || {};
+        var username = user.username;
+
+        db.users.crud.read(username, db.users.crud.rest(res));
       }
     },
 
@@ -157,6 +165,13 @@ define(function(require) {
         bugs.crud.update(req.params.slug, bug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;
         }));
+      },
+
+      user: function(req, res) {
+        var user = req.user || {};
+        var username = user.username;
+
+        db.users.crud.update(username, { settings: req.body }, db.users.crud.rest(res));
       }
     },
 
@@ -178,6 +193,8 @@ define(function(require) {
   // routes
   server.get('/', routes.get.index);
   server.get('/api/config', routes.get.config);
+  server.get('/api/resource/locales', routes.get.locales);
+
   server.post('/api/signup', routes.post.signup);
   server.post('/api/login', auth.authenticate, routes.post.login);
   server.post('/api/logout', routes.post.logout);
@@ -187,7 +204,8 @@ define(function(require) {
   server.put('/api/bug/:slug', userCanWriteBug, routes.put.bug);
   server.delete('/api/bug/:slug', userCanWriteBug, routes.delete.bug);
 
-  server.get('/api/resource/locales', routes.get.locales);
+  server.get('/api/user', routes.get.user);
+  server.put('/api/user', routes.put.user);
 
   server.get('/api/*', function(req, res) {
     res.status(404).end();

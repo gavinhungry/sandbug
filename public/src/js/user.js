@@ -14,17 +14,26 @@ define(function(require) {
   var utils  = require('utils');
 
   var flash  = require('flash');
-  var popups = require('popups');
 
   // ---
 
   var user = utils.module('user');
 
+  bus.init(function(av) {
+    bus.on('login', user.login);
+    bus.on('logout', user.logout);
+    bus.on('user:login', user.get_settings);
+
+    if (config.username) {
+      user.get_settings();
+    }
+  });
+
   /**
    * Prompt a user to login
    */
   user.login = function() {
-    return popups.popup('login');
+    bus.trigger('popup:login');
   };
 
   /**
@@ -36,6 +45,32 @@ define(function(require) {
     }).fail(function() {
       flash.message_bad('@logout_error');
     });
+  };
+
+  /**
+   * @return {Promise}
+   */
+  user.get_settings = function() {
+    return $.ajax({
+      method: 'GET',
+      url: '/api/user'
+    }).then(function(user) {
+      _.each(user.settings, function(value, setting) {
+        config[setting] = value || config['default_' + setting];
+      });
+    });
+  };
+
+  /**
+   * @param {Object} settings
+   * @return {Promise}
+   */
+  user.set_settings = function(settings) {
+    return $.ajax({
+      method: 'PUT',
+      url: '/api/user',
+      data: settings
+    }).then(user.get_settings);
   };
 
   return user;

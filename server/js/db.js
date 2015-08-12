@@ -9,8 +9,9 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
-  var mongo = require('mongojs');
-  var Q     = require('q');
+  var mongo    = require('mongojs');
+  var Q        = require('q');
+  var Rudiment = require('rudiment');
 
   var module    = require('module');
   var path      = require('path');
@@ -33,12 +34,25 @@ define(function(require) {
     connErr = err;
   }
 
+  /*
+   * FIXME: This can eventually replace all of the methods below
+   */
+  db.users = {};
+  db.users.crud = new Rudiment({
+    db: db.raw.users,
+    key: 'username',
+    map: function(user) {
+      delete user._id;
+      delete user.hash;
+    }
+  });
+
   /**
    * Get a user from a login
    *
    * To get only enabled users with a password, see `auth.get_user_by_login`
    *
-   * @param {String} login - username or password
+   * @param {String} login - username or email
    * @param {Boolean} [hash] - if true, include the hash property
    * @return {Promise} to return a user or false if no matching user found
    */
@@ -54,7 +68,9 @@ define(function(require) {
 
       db.raw.users.find(query, function(err, users) {
         if (err) { return d.reject(err); }
-        if (users.length !== 1) { return d.resolve(false); }
+        if (users.length !== 1) {
+          return d.resolve(false);
+        }
 
         var user = _.first(users);
         if (!hash) { delete user.hash; }
@@ -100,7 +116,8 @@ define(function(require) {
     db.raw.users.insert({
       username: username,
       email: email,
-      hash: hash
+      hash: hash,
+      settings: {}
     }, function(err, user) {
       if (user) {
         delete user.hash;

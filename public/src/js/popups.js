@@ -21,6 +21,7 @@ define(function(require) {
   var panels    = require('panels');
   var templates = require('templates');
   var themes    = require('themes');
+  var user      = require('user');
 
   // ---
 
@@ -28,6 +29,12 @@ define(function(require) {
   var popupEl = '#popup';
   var popupKeyHander;
   var currentView = null;
+
+  bus.init(function(av) {
+    bus.on('popup:login', function() {
+      popups.popup('login');
+    });
+  });
 
   /**
    * Base popup Model
@@ -300,26 +307,15 @@ define(function(require) {
       this.constructor.__super__.initialize.apply(this, arguments);
 
       this.on('submit', function(form) {
+        user.set_settings({
+          locale: this.$el.find('select[name="locale"]').val(),
+          theme: this.$el.find('select[name="theme"]').val(),
+          layout: this.$el.find('select[name="layout"]').val(),
+          cdn: this.$el.find('select[name="cdn"]').val()
+        });
+
         this.destroy();
       });
-    },
-
-    _events: {
-      'change select[name="locale"]': function(e) {
-        config.locale = $(e.target).val();
-      },
-
-      'change select[name="theme"]': function(e) {
-        config.theme = $(e.target).val();
-      },
-
-      'change select[name="layout"]': function(e) {
-        config.layout = $(e.target).val();
-      },
-
-      'change select[name="cdn"]': function(e) {
-        config.cdn = $(e.target).val();
-      }
     },
 
     post_render: function() {

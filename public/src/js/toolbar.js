@@ -20,7 +20,6 @@ define(function(require) {
   var popups    = require('popups');
   var templates = require('templates');
   var themes    = require('themes');
-  var user      = require('user');
 
   // ---
 
@@ -75,8 +74,8 @@ define(function(require) {
       'click #layout': function(e) { panels.cycle_layout(); },
       'click #settings': function(e) { popups.popup('user_settings'); },
       'click #signup': function(e) { popups.popup('signup'); },
-      'click #login': function(e) { user.login(); },
-      'click #logout': function(e) { user.logout(); }
+      'click #login': function(e) { bus.trigger('login'); },
+      'click #logout': function(e) { bus.trigger('logout'); }
     },
 
     setConsoleStatus: function(status) {
