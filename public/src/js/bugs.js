@@ -227,6 +227,7 @@ define('bugs', function(require) {
       model._dirty = false;
     }, function(xhr, status, err) {
       switch(xhr.statusCode().status) {
+        case 403: flash.message_bad('@bug_no_save_perm'); break;
         case 409: flash.message_bad('@bug_slug_in_use'); break;
         default: flash.xhr_error(xhr, status, err);
       }
