@@ -15,7 +15,7 @@
     "gulp-rename": "1.2.x",
     "gulp-symlink": "2.1.x",
     "gulp-uglifycss": "1.0.x",
-    "overtake": "0.5.x"
+    "overtake": "0.6.x"
   },
 
   "dependencies": {
