@@ -22,20 +22,20 @@
       // libraries
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
       underscorejs: '//cdn.jsdelivr.net/underscorejs/1.8/underscore-min',
-      backbonejs: '//cdn.jsdelivr.net/backbonejs/1.1/backbone-min',
+      backbonejs: '//cdn.jsdelivr.net/backbonejs/1.2/backbone-min',
       codemirrorjs: '//cdn.jsdelivr.net/codemirror/4.5/codemirror.min',
-      hammer: '//cdn.jsdelivr.net/hammerjs/1.1/hammer.min',
+      hammer: '//cdn.jsdelivr.net/hammerjs/2.0/hammer.min',
 
       // plugins
-      ui: '//cdn.jsdelivr.net/jquery.ui/1.10/jquery-ui.min',
+      ui: '//cdn.jsdelivr.net/jquery.ui/1.11/jquery-ui.min',
       touchpunch: '//cdn.jsdelivr.net/jquery.ui.touch-punch/0.2/jquery.ui.touch-punch.min',
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
-      nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.7/javascripts/jquery.nanoscroller.min',
+      nano: '//cdn.jsdelivr.net/nanoscrollerjs/0.8/javascripts/jquery.nanoscroller.min',
       cookie: '//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min',
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
       chosen: '//cdn.jsdelivr.net/chosen/1.1/chosen.jquery.min',
 
-      string: '//cdn.jsdelivr.net/underscore.string/3.0/underscore.string.min',
+      string: '//cdn.jsdelivr.net/underscore.string/3.1/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
       objmap: 'plugins/_.objMapFunctions.amd',
       deepclone: 'plugins/underscore.deepclone',
@@ -81,6 +81,14 @@
         '../css/css': 'cm_css',
         '../javascript/javascript': 'cm_js',
         '../coffeescript/coffeescript': 'cm_coffeescript'
+      },
+
+      nano: {
+        jquery: 'jqueryjs'
+      },
+
+      ui: {
+        jquery: 'jqueryjs'
       },
 
       cookie: {

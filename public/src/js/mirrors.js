@@ -148,7 +148,7 @@ define(function(require) {
 
     var $scroll = mirror.$panel.find('.CodeMirror-vscrollbar').first();
     $scroll.addClass('nano').css({ 'overflow': 'visible', 'width': '10px' });
-    $scroll.children().first().addClass('content');
+    $scroll.children().first().addClass('nano-content');
 
     dom.init_scrollbar($scroll);
     var $slider = $scroll.find('.pane > .slider');

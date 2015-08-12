@@ -15,7 +15,7 @@
     paths: {
       jquery: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
       underscore: '//cdn.jsdelivr.net/underscorejs/1.8/underscore-min',
-      string: '//cdn.jsdelivr.net/underscore.string/3.0/underscore.string.min',
+      string: '//cdn.jsdelivr.net/underscore.string/3.1/underscore.string.min',
 
       marked: '//cdn.jsdelivr.net/marked/0.3/marked.min',
       jade: '//cdn.jsdelivr.net/jade/1.3/jade.min',

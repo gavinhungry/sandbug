@@ -139,7 +139,7 @@ define(function(require) {
       return dom.console.error($element, 'already has scrollbar');
     }
 
-    if (!$element.children('.content').length) {
+    if (!$element.children('.nano-content').length) {
       return dom.console.error($element, 'has no content to scroll');
     }
 
