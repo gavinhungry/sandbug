@@ -145,8 +145,8 @@ define(function(require) {
    * @param {jqXHR} xhr
    */
   flash.xhr_error = function(xhr, status, err) {
-    var status = _.str.sprintf('%s %s', xhr.statusCode().status, xhr.statusText);
-    flash.locale_message_bad(xhr.responseJSON || xhr.responseText || status);
+    statusString = _.str.sprintf('%s %s', xhr.statusCode().status, xhr.statusText);
+    flash.locale_message_bad(xhr.responseJSON || xhr.responseText || statusString);
   };
 
   /**

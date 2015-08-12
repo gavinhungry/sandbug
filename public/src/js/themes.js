@@ -31,9 +31,14 @@ define(function(require) {
       var match = themeRegex.exec(href);
 
       // either save the matched theme or disable the stylesheet
-      !!match ?
-        theme_map.push({ id: match[1], stylesheet: stylesheet }) :
+      if (match) {
+        theme_map.push({
+          id: match[1],
+          stylesheet: stylesheet
+        });
+      } else {
         stylesheet.disabled = true;
+      }        
     });
 
     bus.on('config:theme', themes.set_theme);

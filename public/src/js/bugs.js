@@ -88,7 +88,7 @@ define('bugs', function(require) {
 
     sync: function(method, model, options) {
       if (method === 'create') {
-        options.url = '/api/bugs'
+        options.url = '/api/bugs';
       }
 
       return Backbone.sync.apply(this, arguments);

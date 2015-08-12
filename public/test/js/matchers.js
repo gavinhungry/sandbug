@@ -1,6 +1,6 @@
 define(['jquery', 'underscore', 'jasmine', 'jasmine_jquery'],
 function($, _, jasmine) {
-  'use strict'
+  'use strict';
 
   /**
    * Create a new matcher

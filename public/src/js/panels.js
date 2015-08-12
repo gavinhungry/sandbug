@@ -100,7 +100,7 @@ define(function(require) {
    */
   var init_mobile_swipes = function() {
     panels.get_input_panels().each(function() {
-      Hammer(this, { swipeVelocityX: 0.1 })
+      new Hammer(this, { swipeVelocityX: 0.1 })
         .on('swipeleft', function(e) { panels.next_active_mobile(); })
         .on('swiperight', function(e) { panels.prev_active_mobile(); });
     });

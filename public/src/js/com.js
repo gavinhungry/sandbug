@@ -165,7 +165,11 @@ define(function(require) {
     },
 
     toggle: function() {
-      this.$el.is(':visible') ? this.hide() : this.show();
+      if (this.$el.is(':visible')) {
+        this.hide();
+      } else {
+        this.show();
+      }
     },
 
     scroll_top: function() {

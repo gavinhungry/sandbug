@@ -347,7 +347,7 @@ function(utils, config, $, _) {
     });
 
     it('should read a value passed from a function', function() {
-      utils.value(function() { return 'foo_B' }).done(function(val) {
+      utils.value(function() { return 'foo_B'; }).done(function(val) {
         expect(val).toEqual('foo_B');
       }).always(done);
     });
@@ -359,13 +359,13 @@ function(utils, config, $, _) {
     });
 
     it('should read a value passed from a promise-returning function', function() {
-      utils.value(function() { return utils.resolve('foo_D') }).done(function(val) {
+      utils.value(function() { return utils.resolve('foo_D'); }).done(function(val) {
         expect(val).toEqual('foo_D');
       }).always(done);
     });
 
     it('should read a value passed from a function-resolving promise', function() {
-      utils.value(utils.resolve(function() { return 'foo_E' })).done(function(val) {
+      utils.value(utils.resolve(function() { return 'foo_E'; })).done(function(val) {
         expect(val).toEqual('foo_E');
       }).always(done);
     });

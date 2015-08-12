@@ -137,9 +137,8 @@ define(function(require) {
 
     // show a welcome message, but just once
     welcome: function() {
-      return; // not used
-
-      if (!localStorage.getItem('seen')) {
+      // not used
+      if (false && !localStorage.getItem('seen')) {
         localStorage.setItem('seen', true);
 
         flash.message_good('@welcome', '@welcome_msg', {

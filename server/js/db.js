@@ -102,8 +102,15 @@ define(function(require) {
       email: email,
       hash: hash
     }, function(err, user) {
-      if (user) { delete user.hash; }
-      err ? d.reject(err) : d.resolve(user);
+      if (user) {
+        delete user.hash;
+      }
+
+      if (err) {
+        d.reject(err);
+      } else {
+        d.resolve(user);
+      }
     });
 
     return d.promise;

@@ -24,7 +24,7 @@
         });
 
         parent.dispatchEvent(e);
-      }
+      };
     }
   });
 

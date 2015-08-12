@@ -58,7 +58,11 @@ define(function(require) {
 
         // find a user for this session
         db.get_user_by_id(id, false).then(function(user) {
-          user ? done(null, user) : done(null, false, { msg: 'invalid login' });
+          if (user) {
+            done(null, user);
+          } else {
+            done(null, false, { msg: 'invalid login' });
+          }
         }, function(err) {
           done(err, false, { msg: 'authentication error' });
         });
@@ -67,7 +71,11 @@ define(function(require) {
 
     passport.use(new local.Strategy(function(login, plaintext, done) {
       auth.get_user_by_login(login, plaintext).then(function(user) {
-        user ? done(null, user) : done(null, false, { msg: 'invalid login' });
+        if (user) {
+          done(null, user);
+        } else {
+          done(null, false, { msg: 'invalid login' });
+        }
       }, function(err) {
         done(err, false, { msg: 'authentication error' });
       });
@@ -159,7 +167,7 @@ define(function(require) {
 
       auth.verify_hash(plaintext, user.hash).done(function(match) {
         delete user.hash;
-        match ? d.resolve(user) : d.resolve(false);
+        d.resolve(match ? user : false);
       });
     }, d.reject);
 

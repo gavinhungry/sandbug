@@ -14,7 +14,10 @@ function(config) {
       expect(config.foo_test).toEqual(true);
 
       config._priv.set_option('bar_test', true);
-      config.bar_test = function() { return ''; } // return something falsey
+      config.bar_test = function() {
+        return ''; // return something falsey
+      };
+
       expect(config.bar_test).toEqual(false);
     });
   });
