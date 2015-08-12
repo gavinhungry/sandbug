@@ -81,7 +81,7 @@ define(function(require) {
     events: {
       'submit form': function(e) {
         e.preventDefault();
-        this.trigger('submit');
+        this.trigger('submit', e.target);
       },
 
       'mousedown': function(e) {
@@ -94,7 +94,10 @@ define(function(require) {
       },
 
       // destroy a popup when the cancel button is pressed
-      'click .popup-cancel': function(e) { e.preventDefault(); this.destroy(); }
+      'click .popup-cancel': function(e) {
+        e.preventDefault();
+        this.destroy();
+      }
     },
 
     destroy: function() {
@@ -182,19 +185,18 @@ define(function(require) {
     initialize: function(options) {
       this.events = _.extend({}, this.events, this._events);
       this.constructor.__super__.initialize.apply(this, arguments);
-    },
 
-    _events: {
-      'submit #login_form': function(e) {
+      this.on('submit', function(form) {
         var that = this;
+        var $form = $(form);
 
-        utils.submit_form($(e.target)).done(function(username) {
+        utils.submit_form($form).done(function(username) {
           bus.trigger('user:login', username);
           that.destroy();
         }).fail(function() {
           that.show_invalid_login(); // invalid credentials
         });
-      }
+      });
     },
 
     post_render: function() {
@@ -220,11 +222,11 @@ define(function(require) {
     initialize: function(options) {
       this.events = _.extend({}, this.events, this._events);
       this.constructor.__super__.initialize.apply(this, arguments);
-    },
 
-    _events: {
-      'submit #signup_form': function(e) {
+      this.on('submit', function(form) {
         var that = this;
+        var $form = $(form);
+        console.log('signup');
 
         if (this.$username.val().length < 3) {
           return flash.message_bad('@invalid_username', '@invalid_username_msg');
@@ -242,13 +244,13 @@ define(function(require) {
           return flash.message_bad('@invalid_password', '@invalid_password_msg');
         }
 
-        utils.submit_form($(e.target)).done(function(username) {
+        utils.submit_form($form).done(function(username) {
           bus.trigger('user:login', username);
           that.destroy();
         }).fail(function(xhr) {
           flash.locale_message_bad(xhr.responseJSON);
        });
-      }
+      });
     },
 
     post_render: function() {
@@ -296,6 +298,10 @@ define(function(require) {
 
       this.events = _.extend({}, this.events, this._events);
       this.constructor.__super__.initialize.apply(this, arguments);
+
+      this.on('submit', function(form) {
+        this.destroy();
+      });
     },
 
     _events: {
@@ -313,10 +319,6 @@ define(function(require) {
 
       'change select[name="cdn"]': function(e) {
         config.cdn = $(e.target).val();
-      },
-
-      'submit #user_settings_form': function(e) {
-        this.destroy();
       }
     },
 
@@ -352,10 +354,10 @@ define(function(require) {
       $.when.apply(null, placeholder_p).done(function() {
         that.constructor.__super__.initialize.apply(that, arguments);
       });
-    },
 
-    _events: {
-      'submit #input_form': function(e) { this.destroy(); }
+      this.on('submit', function(form) {
+        this.destroy();
+      });
     },
 
     post_render: function() {
@@ -423,8 +425,8 @@ define(function(require) {
 
     view.on('destroy', d.reject);
 
-    view.on('submit', function() {
-      var $form = view.$el.find('form');
+    view.on('submit', function(form) {
+      var $form = $(form);
 
       var map = _.chain($form.serialize().split('&')).map(function(token) {
         return _.map(token.split('='), function(str) {
