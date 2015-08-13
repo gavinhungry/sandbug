@@ -59,6 +59,7 @@ define(function(require) {
     });
 
     bus.on('config:layout', function(layout) {
+      if (config.mode.phone) { return; }
       panels.set_layout(layout, true);
     });
 
