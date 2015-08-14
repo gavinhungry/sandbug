@@ -18,6 +18,8 @@ define(function(require) {
   var local         = require('passport-local');
   var passport      = require('passport');
   var Q             = require('q');
+  var Rudiment      = require('rudiment');
+  var schema        = require('js-schema');
   var scrypt        = require('scrypt');
   var validator     = require('validator');
 
@@ -28,6 +30,31 @@ define(function(require) {
   // ---
 
   var auth = {};
+
+  auth.crud = new Rudiment({
+    db: db.raw.users,
+    key: 'username',
+
+    schema: [schema({
+      username: String,
+      email: String,
+      settings: {
+        cdn: ['jsdelivr', 'cdnjs', 'google'],
+        layout: ['layout-cols', 'layout-top', 'layout-left'],
+        locale: ['en_US'],
+        theme: ['light', 'dark']
+      }
+    }), function(user) {
+      return auth.is_valid_username(user.username) &&
+        auth.is_valid_email(user.email) &&
+        _.keys(user.settings).length === 4;
+    }],
+
+    out: function(user) {
+      delete user._id;
+      delete user.hash;
+    }
+  });
 
   // scrypt setup
   var params = scrypt.params(config.auth.maxtime);

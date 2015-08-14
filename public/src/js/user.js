@@ -70,7 +70,12 @@ define(function(require) {
       method: 'PUT',
       url: '/api/user',
       data: settings
-    }).then(user.get_settings);
+    }).then(user.get_settings, function(xhr, status, err) {
+      switch(xhr.statusCode().status) {
+        case 400: flash.message_bad('@settings_invalid'); break;
+        default: flash.xhr_error(xhr, status, err);
+      }
+    });
   };
 
   return user;

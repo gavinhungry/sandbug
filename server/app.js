@@ -12,7 +12,6 @@ define(function(require) {
   var auth    = require('auth');
   var bugs    = require('bugs');
   var cons    = require('consolidate');
-  var db      = require('db');
   var express = require('express');
   var mobile  = require('connect-mobile-detection');
 
@@ -148,7 +147,7 @@ define(function(require) {
         var user = req.user || {};
         var username = user.username;
 
-        db.users.crud.read(username, db.users.crud.rest(res));
+        auth.crud.read(username, auth.crud.rest(res));
       }
     },
 
@@ -169,7 +168,9 @@ define(function(require) {
         var user = req.user || {};
         var username = user.username;
 
-        db.users.crud.update(username, { settings: req.body }, db.users.crud.rest(res));
+        auth.crud.update(username, {
+          settings: req.body
+        }, auth.crud.rest(res));
       }
     },
 

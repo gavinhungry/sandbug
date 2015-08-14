@@ -11,7 +11,6 @@ define(function(require) {
 
   var mongo    = require('mongojs');
   var Q        = require('q');
-  var Rudiment = require('rudiment');
 
   var module    = require('module');
   var path      = require('path');
@@ -33,19 +32,6 @@ define(function(require) {
   } catch(err) {
     connErr = err;
   }
-
-  /*
-   * FIXME: This can eventually replace all of the methods below
-   */
-  db.users = {};
-  db.users.crud = new Rudiment({
-    db: db.raw.users,
-    key: 'username',
-    map: function(user) {
-      delete user._id;
-      delete user.hash;
-    }
-  });
 
   /**
    * Get a user from a login
