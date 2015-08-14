@@ -58,7 +58,6 @@ define(function(require) {
         }
       }
     }), function(bug) {
-
       if (_.isString(bug.username)) {
         if (!auth.is_valid_username(bug.username)) {
           return false;

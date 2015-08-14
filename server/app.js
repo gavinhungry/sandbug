@@ -107,6 +107,10 @@ define(function(require) {
         bug.username = user.username || null;
         bug.origin = auth.sha512(req.session.csrfSecret);
 
+        if (bug.username) {
+          bug.origin = null;
+        }
+
         bugs.crud.create(bug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;
         }));
