@@ -32,7 +32,8 @@ define('bugs', function(require) {
     // set all default modes in schema
     bugs._priv.schema.map = _.reduce(mirrors.get_all(), function(memo, mirror) {
       memo[mirror.panel] = {
-        mode: mirrors.get_default_mode(mirror.panel)
+        mode: mirrors.get_default_mode(mirror.panel),
+        content: ''
       };
 
       return memo;
@@ -228,6 +229,7 @@ define('bugs', function(require) {
       model._dirty = false;
     }, function(xhr, status, err) {
       switch(xhr.statusCode().status) {
+        case 400: flash.message_bad('@bug_invalid_data'); break;
         case 403: flash.message_bad('@bug_no_save_perm'); break;
         case 409: flash.message_bad('@bug_slug_in_use'); break;
         default: flash.xhr_error(xhr, status, err);

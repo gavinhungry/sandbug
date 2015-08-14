@@ -158,9 +158,7 @@ define(function(require) {
 
         var bug = req.body;
         bug.username = user.username || null;
-        if (bug.username) {
-          bug.origin = null;
-        }
+        bug.origin = bug.username ? null : auth.sha512(req.session.csrfSecret);
 
         bugs.crud.update(req.params.slug, bug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;

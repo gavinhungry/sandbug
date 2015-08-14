@@ -1,6 +1,8 @@
 {
   "locale": "English (US)",
   "strings": {
+    "bug_invalid_data":     "Invalid Bug data",
+    "bug_invalid_data_msg": "Your Bug contains invalid data",
     "bug_is_private":       "This Bug is private",
     "bug_is_private_msg":   "Contact the Bug author to be added as a collaborator.",
     "bug_name_pick":        "Choose a name for this Bug",

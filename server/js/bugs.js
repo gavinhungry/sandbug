@@ -9,9 +9,11 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
+  var auth     = require('auth');
   var db       = require('db');
   var Q        = require('q');
   var Rudiment = require('rudiment');
+  var schema   = require('js-schema');
 
   var module    = require('module');
   var path      = require('path');
@@ -25,53 +27,59 @@ define(function(require) {
     db: db.raw.bugs,
     key: 'slug',
     path: 'bug',
-    map: function(bug) {
+    schema: [schema({
+      username: [null, String],
+      origin: [null, String.of(128, null)],
+
+      slug: String,
+      title: String.of(0, 128, null),
+
+      // created: Date,
+      // updated: Date,
+
+      // autorun: Boolean,
+      // 'private': Boolean,
+      // collaborators: [StringArray],
+
+      map: {
+        markup: {
+          mode: ['htmlmixed', 'gfm', 'jade', 'haml'],
+          content: String
+        },
+
+        style: {
+          mode: ['css', 'less', 'scss'],
+          content: String
+        },
+
+        script: {
+          mode: ['javascript', 'traceur', 'coffeescript', 'typescript', 'gorillascript'],
+          content: String
+        }
+      }
+    }), function(bug) {
+
+      if (_.isString(bug.username)) {
+        if (!auth.is_valid_username(bug.username)) {
+          return false;
+        }
+
+        if (auth.sanitize_username(bug.username) !== bug.username) {
+          return false;
+        }
+      }
+
+      if (_.str.slugify(bug.slug) !== bug.slug) {
+        return false;
+      }
+
+      return true;
+    }],
+    out: function(bug) {
       delete bug._id;
       bug._fetched = Date.now();
     }
   });
-
-  // FIXME: schema
-  //
-  //   slug: {
-  //     type: String,
-  //     filter: _.str.slugify,
-  //     default: random_slug,
-  //     index: { unique: true }
-  //   },
-
-  //   username: { type: String, filter: sanitize_username },
-  //   title: { type: String, default: 'Bug' },
-
-  //   created: { type: Date, default: Date.now },
-  //   updated: { type: Date, default: Date.now },
-
-  //   autorun: { type: Boolean, default: false },
-  //   'private': { type: Boolean, default: false },
-  //   collaborators: { type: [String], default: [] },
-
-  //   map: {
-  //     markup: {
-  //       mode: { type: String, enum: ['htmlmixed', 'gfm', 'jade', 'haml'] },
-  //       content: { type: String, default: '' }
-  //     },
-
-  //     style: {
-  //       mode: { type: String, enum: ['css', 'less', 'scss'] },
-  //       content: { type: String, default: '' }
-  //     },
-
-  //     script: {
-  //       mode: {
-  //         type: String,
-  //         enum: [
-  //           'javascript', 'traceur', 'coffeescript', 'typescript',
-  //           'gorillascript'
-  //         ]
-  //       },
-  //       content: { type: String, default: '' }
-  //     }
-  //   }
 
   return bugs;
 });
