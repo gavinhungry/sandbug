@@ -233,7 +233,6 @@ define(function(require) {
       this.on('submit', function(form) {
         var that = this;
         var $form = $(form);
-        console.log('signup');
 
         if (this.$username.val().length < 3) {
           return flash.message_bad('@invalid_username', '@invalid_username_msg');
