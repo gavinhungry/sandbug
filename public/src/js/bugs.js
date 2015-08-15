@@ -62,16 +62,6 @@ define('bugs', function(require) {
   bugs.Bug = Backbone.DeepModel.extend({
     idAttribute: 'slug',
 
-    initialize: function() {
-      this.on('change', function() {
-        this._dirty = true;
-      });
-    },
-
-    isDirty: function() {
-      return this._dirty;
-    },
-
     isEmpty: function() {
       return _.every(this.get('map'), function(panel) {
         return _.str.isBlank(panel.content);
@@ -156,6 +146,7 @@ define('bugs', function(require) {
     bus.trigger('navigate', slug ? ('bug/' + slug) : '');
 
     bug._lastSlug = bug.get('slug');
+    bugs._priv.current.map = utils.clone(bug.get('map'));
 
     if (bug === bugs.model()) {
       return;
@@ -164,16 +155,12 @@ define('bugs', function(require) {
     // destroy previous model
     bugs.model().destroy();
 
-    var view = new bugs.BugView({
+    bugs._priv.current.model = bug;
+    bugs._priv.current.view = new bugs.BugView({
       model: bug
     });
 
-    bugs._priv.current = {
-      model: bug,
-      view: view
-    };
-
-    view.render();
+    bugs._priv.current.view.render();
   };
 
   /**
@@ -185,7 +172,6 @@ define('bugs', function(require) {
   bugs.get = function(slug) {
     var bug = new bugs.Bug({ slug: slug });
     return bug.fetch().then(function() {
-      bug._dirty = false;
       return bug;
     }, function(xhr, status, err) {
       switch(xhr.statusCode().status) {
@@ -226,7 +212,6 @@ define('bugs', function(require) {
       flash.message_good('@bug_saved', locales.string('bug_saved_msg', res.slug));
 
       bugs.display(model);
-      model._dirty = false;
     }, function(xhr, status, err) {
       switch(xhr.statusCode().status) {
         case 400: flash.message_bad('@bug_invalid_data'); break;
@@ -279,7 +264,7 @@ define('bugs', function(require) {
    * @return {Boolean} true if unsaved, false otherwise
    */
   bugs.dirty = function() {
-    return bugs.model().isDirty();
+    return !_.isEqual(bugs.model().get('map'), bugs._priv.current.map);
   };
 
   /**
