@@ -104,8 +104,11 @@ define(function(require) {
         var user = req.user || {};
 
         var bug = req.body;
-        bug.username = user.username || null;
+        bug.username = bug.updater = user.username || null;
         bug.origin = auth.sha512(req.session.csrfSecret);
+
+        bug.created = new Date();
+        bug.updated = bug.created;
 
         if (bug.username) {
           bug.origin = null;
@@ -160,8 +163,12 @@ define(function(require) {
         var user = req.user || {};
 
         var bug = req.body;
-        bug.username = user.username || null;
+        bug.username = bug.username || user.username || null;
         bug.origin = bug.username ? null : auth.sha512(req.session.csrfSecret);
+
+        delete bug.created;
+        bug.updated = new Date();
+        bug.updater = user.username;
 
         bugs.crud.update(req.params.slug, bug, bugs.crud.rest(res, function(bug) {
           delete bug.origin;
@@ -180,7 +187,9 @@ define(function(require) {
 
     delete: { // DELETE
       bug: function(req, res) {
-        bugs.crud.delete(req.params.slug, bugs.crud.rest(res));
+        // FIXME
+        res.status(403).end();
+        // bugs.crud.delete(req.params.slug, bugs.crud.rest(res));
       }
     }
   };

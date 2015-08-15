@@ -34,8 +34,9 @@ define(function(require) {
       slug: String,
       title: String.of(0, 128, null),
 
-      // created: Date,
-      // updated: Date,
+      created: Date,
+      updated: Date,
+      updater: [null, String], // same as username
 
       // autorun: Boolean,
       // 'private': Boolean,
@@ -68,12 +69,33 @@ define(function(require) {
         }
       }
 
+      if (_.isString(bug.updater)) {
+        if (!auth.is_valid_username(bug.updater)) {
+          return false;
+        }
+
+        if (auth.sanitize_username(bug.updater) !== bug.updater) {
+          return false;
+        }
+      }
+
       if (_.str.slugify(bug.slug) !== bug.slug) {
+        return false;
+      }
+
+      if (_.keys(bug.map).length !== 3) {
+        return false;
+      }
+
+      if (_.some(_.keys(bug.map), function(key) {
+        return _.keys(bug.map[key]).length !== 2;
+      })) {
         return false;
       }
 
       return true;
     }],
+
     out: function(bug) {
       delete bug._id;
       bug._fetched = Date.now();
