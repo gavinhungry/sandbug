@@ -17,12 +17,12 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width,user-scalable=no'>
     <% _.each(themes, function(theme) { %>
-    <link rel='stylesheet' type='text/css' href='/css/debuggerio.<%= theme %>.min.css<%= (prod && rev) ? '?v=' + rev : '' %>'><% }); %>
+    <link rel='stylesheet' type='text/css' href='/css/debuggerio.<%- theme %>.min.css<%- (prod && rev) ? '?v=' + rev : '' %>'><% }); %>
     <script type='application/javascript'>
       window._debugger_io = {
-        csrf: '<%= csrf %>',
+        csrf: '<%- csrf %>',
         mode: <%= JSON.stringify(mode) %>,
-        username: <%= username ? "'" + username + "'" : 'null' %>
+        username: <%- username ? "'" + username + "'" : 'null' %>
       };
     </script>
     <script type='application/javascript'
