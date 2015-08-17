@@ -1,6 +1,7 @@
 {
   "locale": "English (US)",
   "strings": {
+    "autorun":                   "Autorun",
     "bug_invalid_data":          "Invalid Bug data",
     "bug_invalid_data_msg":      "This Bug contains invalid data",
     "bug_is_private":            "This Bug is private",
@@ -36,6 +37,10 @@
     "logout_error":              "Error logging out",
     "onbeforeunload":            "This Bug has unsaved code!",
     "password_mismatch":         "Passwords do not match",
+    "patch":                     "Patch",
+    "run":                       "Run",
+    "save":                      "Save",
+    "save_as":                   "Save As",
     "server_error":              "Server error",
     "server_error_msg":          "The requested action could not complete due to a server error",
     "settings":                  "Settings",

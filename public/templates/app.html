@@ -40,7 +40,7 @@
       <div class='panel-options'>
         <button class='btn-small cycle'>JavaScript</button>
         <div class='panel-controls noselect'></div>
-        <button id='auto' class='btn-small toggle right'>Autorun</button>
+        <button id='auto' class='btn-small toggle right' data-localize='autorun'>Autorun</button>
       </div>
       <input class='mode' type='hidden' name='script_mode' value='javascript'>
       <textarea class='textarea' name='script'></textarea>
@@ -50,12 +50,12 @@
     <!-- OUTPUT -->
     <div id='output' class='panel'>
       <div class='panel-options'>
-        <button id='save' class='btn-small'>Save</button>
-        <button id='save_as' class='btn-small'>Save As</button>
+        <button id='save' class='btn-small' data-localize='save'>Save</button>
+        <button id='save_as' class='btn-small' data-localize='save_as'>Save As</button>
 
         <div class='panel-controls noselect'></div>
-        <button id='patch' class='btn-small right toggle'>Patch</button>
-        <button id='run' class='btn-small right purple'>Run</button>
+        <button id='patch' class='btn-small right toggle' data-localize='patch'>Patch</button>
+        <button id='run' class='btn-small right purple' data-localize='run'>Run</button>
       </div>
       <iframe name='proxy' allowTransparency='true'
         src='<%- frame %>'></iframe>

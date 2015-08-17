@@ -111,7 +111,10 @@ define(function(require) {
 
     locales.get(config.locale).done(function(locale) {
       var str = (locale.strings && strId) ? locale.strings[strId] : null;
-      if (!str) { return d.resolve(null); }
+      if (!str) {
+        bugs.console.warn(_.str.sprintf('No %s locale string: %s', config.locale, strId));
+        return d.resolve(null);
+      }
 
       // count the number of sprintf placeholders are present
       var sprintfMatches = str.match(/\%s/g);
@@ -196,7 +199,9 @@ define(function(require) {
           .first().each(function() {
             var that = this;
             locales.string(localize).done(function(localizedValue) {
-              if (localizedValue) { that.nodeValue = localizedValue; }
+              if (localizedValue) {
+                that.nodeValue = localizedValue;
+              }
             });
           });
       });
