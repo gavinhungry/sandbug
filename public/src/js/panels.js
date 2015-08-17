@@ -63,6 +63,15 @@ define(function(require) {
       panels.set_layout(layout, true);
     });
 
+    bus.on('window:resize', function() {
+      if (!config.mode.phone) {
+        return;
+      }
+
+      var landscape = $(window).width() > $(window).height();
+      panels.set_output_fullscreen(landscape);
+    });
+
     config._priv.set_option('layout', config.default_layout);
     panels.set_layout(config.default_layout, true);
 
@@ -376,6 +385,15 @@ define(function(require) {
       $panel.prev('.panel-resizer').transition({ 'width': w }, dur, callback);
       panels.get_master_resizer().transition({ 'left': w }, dur, callback);
     }
+  };
+
+  /**
+   * Enable or disable fullscreen output
+   *
+   * @param {Boolean} fullscreen - fullscreen output if true
+   */
+  panels.set_output_fullscreen = function(fullscreen) {
+    panels.get_output_panel().toggleClass('fullscreen', !!fullscreen);
   };
 
   /**

@@ -60,7 +60,11 @@ define(function(require) {
         bus.trigger('config:' + option, config[option]);
       });
 
-      $(window).on('resize', function() { bus.trigger('window:resize'); });
+      $(window).on('resize', function() {
+        bus.trigger('window:resize');
+      });
+
+      bus.trigger('window:resize');
     });
   });
 
