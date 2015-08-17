@@ -113,6 +113,14 @@ define('config_p', function(require) {
 
   config._priv.set_options(options);
 
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!settings.crossDomain) {
+        xhr.setRequestHeader('X-CSRF-Token', config.csrf);
+      }
+    }
+  });
+
   // get additional client-side config options from the server
   var d = $.Deferred();
   $.get('/api/config').done(function(data) {
@@ -121,14 +129,6 @@ define('config_p', function(require) {
     d.resolve(config);
   }).fail(function() {
     d.resolve(config);
-  });
-
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!settings.crossDomain) {
-        xhr.setRequestHeader('X-CSRF-Token', config.csrf);
-      }
-    }
   });
 
   return d.promise();
