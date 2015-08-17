@@ -13,7 +13,6 @@ define(function(require) {
   var cookieParser  = require('cookie-parser');
   var cookieSession = require('cookie-session');
   var crypto        = require('crypto');
-  var csurf         = require('csurf');
   var db            = require('db');
   var local         = require('passport-local');
   var passport      = require('passport');
@@ -21,6 +20,7 @@ define(function(require) {
   var Rudiment      = require('rudiment');
   var schema        = require('js-schema');
   var scrypt        = require('scrypt');
+  var seasurf       = require('seasurf');
   var validator     = require('validator');
 
   var module    = require('module');
@@ -118,7 +118,10 @@ define(function(require) {
 
     server.use(passport.initialize());
     server.use(passport.session());
-    server.use(csurf());
+
+    server.use(seasurf({
+      paths: ['/api/']
+    }));
   };
 
   auth.authenticate = passport.authenticate('local');
