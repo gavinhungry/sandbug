@@ -22,7 +22,7 @@
       window._debugger_io = {
         csrf: '<%- csrf %>',
         mode: <%= JSON.stringify(mode) %>,
-        username: <%- username ? "'" + username + "'" : 'null' %>
+        username: <% if (username) { %>"<%- username %>"<% } else { %>null<% } %>
       };
     </script>
     <script type='application/javascript'
