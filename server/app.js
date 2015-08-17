@@ -223,7 +223,11 @@ define(function(require) {
     res.status(404).end();
   });
 
-  server.use(routes.get.index);
+  server.get('/bug/:slug', routes.get.index);
+
+  server.use(function(req, res) {
+    res.redirect('/');
+  });
 
   return app;
 });
