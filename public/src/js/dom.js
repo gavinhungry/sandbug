@@ -280,7 +280,18 @@ define(function(require) {
       var active = $button.hasClass('active');
 
       var left = offset.left;
-      if (right) { left += ($button.outerWidth() - $menu.outerWidth()); }
+      var menuWidth = $menu.outerWidth();
+
+      if (right) {
+        left += ($button.outerWidth() - menuWidth);
+      }
+
+      var overflow = (left + menuWidth) - $(window).width() + 6;
+
+      if (overflow > 0) {
+        left -= overflow;
+        $menu.addClass('dropdown-right')
+      }
 
       $menu.css({
         left: left,
