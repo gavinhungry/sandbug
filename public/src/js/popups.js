@@ -161,7 +161,9 @@ define(function(require) {
           });
 
           popups.show().done(function() {
-            if (_.isFunction(that.post_transition)) { that.post_transition(); }
+            if (_.isFunction(that.post_transition)) {
+              that.post_transition();
+            }
           });
 
           that.$el.find('input:not([type=hidden])').first().focus();
