@@ -276,6 +276,8 @@ define(function(require) {
     var right = $menu.hasClass('dropdown-right');
 
     $button.on('click', function(e) {
+      dom.hide_dropdowns($button, $menu);
+
       var offset = $button.offset();
       var active = $button.hasClass('active');
 
@@ -312,10 +314,13 @@ define(function(require) {
 
   /**
    * Hide all dropdowns
+   *
+   * @param {jQuery} [$button] - except this button
+   * @param {jQuery} [$menu] - except this menu
    */
-  dom.hide_dropdowns = function() {
-    $('.dropdown-button:not(.sticky)').removeClass('active');
-    $('.dropdown-menu:not(.sticky)').flowUp();
+  dom.hide_dropdowns = function($button, $menu) {
+    $('.dropdown-button:not(.sticky)').not($button).removeClass('active');
+    $('.dropdown-menu:not(.sticky)').not($menu).flowUp();
   };
 
   return dom;
