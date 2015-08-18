@@ -77,9 +77,15 @@ define(function(require) {
     initialize: function(options) {
       var that = this;
       _.extend(this, _.pick(options, 'template', 'post_render'));
+
       $.when.apply(null, this.model.pre_ready)
-        .done(this.render.bind(this))
-        .fail(this.destroy.bind(this));
+        .then(function() {
+          popups.destroy().then(function() {
+            that.render();
+          });
+        }, function() {
+          that.destroy();
+        });
 
       popupKeyHander =
         keys.register_handler({ key: 'esc' }, function(e) { that.destroy(); });
