@@ -294,7 +294,7 @@ define(function(require) {
 
         if (overflow > 0) {
           left -= overflow;
-          $menu.addClass('dropdown-right')
+          $menu.addClass('dropdown-right');
         }
 
         $menu.css({
