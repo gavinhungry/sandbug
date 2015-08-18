@@ -37,7 +37,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       background: @panel_options_bg_color;
       overflow: hidden;
 
-      > *:not(.dropdown-menu) {
+      > * {
         height: 100%;
       }
 
@@ -49,6 +49,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       .panel-controls {
         display: flex;
         flex: 1 auto;
+      }
+
+      .noselect + .right {
+        margin-left: 0;
       }
     }
 

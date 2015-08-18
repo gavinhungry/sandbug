@@ -10,6 +10,7 @@
   background: @dropdown_bg_color !important;
   border-radius: 0 !important;
   min-width: 100px;
+  height: auto !important;
 
   * { cursor: default !important; }
 
@@ -50,6 +51,12 @@
       > .subtext {
         font-size: @font_size - 1px;
         opacity: 0.8;
+      }
+
+      &.danger:hover {
+        background: @button_danger_base_color !important;
+        color: rgba(255, 255, 255, 0.95) !important;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5) !important;
       }
     }
 

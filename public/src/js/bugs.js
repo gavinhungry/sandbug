@@ -152,9 +152,6 @@ define('bugs', function(require) {
       return;
     }
 
-    // destroy previous model
-    bugs.model().destroy();
-
     bugs._priv.current.model = bug;
     bugs._priv.current.view = new bugs.BugView({
       model: bug
@@ -247,6 +244,28 @@ define('bugs', function(require) {
       model.set('slug', result.slug);
 
       return bugs.save();
+    });
+  };
+
+  /**
+   * Delete the current bug
+   */
+  bugs.delete = function() {
+    var model = bugs.model();
+
+    if (model.isNew()) {
+      return flash.message('this bug is new, it cannot be deleted!');
+    }
+
+    bugs.model().destroy().then(function() {
+      flash.message_good('Bug deleted!');
+      bugs.display(bugs.create());
+    }, function() {
+
+
+      flash.message_bad('Error deleting Bug');
+
+
     });
   };
 

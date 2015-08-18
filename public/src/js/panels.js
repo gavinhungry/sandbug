@@ -77,7 +77,10 @@ define(function(require) {
 
     panels.update_resize_handlers();
     init_input_modes();
-    if (config.mode.phone) { init_mobile_swipes(); }
+
+    if (config.mode.phone) {
+      init_mobile_swipes();
+    }
   });
 
   /**
@@ -395,6 +398,66 @@ define(function(require) {
   panels.set_output_fullscreen = function(fullscreen) {
     panels.get_output_panel().toggleClass('fullscreen', !!fullscreen);
   };
+
+  /**
+   * If needed, display icons for buttons in panel-options
+   */
+  panels.iconify_panel_options = (function() {
+    var iconifyButton = function($button, iconify) {
+      $button.toggleClass('iconify', iconify);
+      $button.children('.icon-only').toggleClass('hide', !iconify);
+    };
+
+    return _.debounce(function() {
+      var $allOptions = panels.get_all_panels().find('.panel-options').each(function() {
+        $(this).find('> button > .icon-only').parent('button').each(function() {
+          var $button = $(this);
+
+          if ($button.data('width-full')) {
+            return;
+          }
+
+          $button.data('width-full', $button.outerWidth(true));
+
+          iconifyButton($button, true);
+
+          _.defer(function() {
+            $button.data('width-icon', $button.outerWidth(true));
+            iconifyButton($button, false);
+          });
+        });
+      });
+
+      _.defer(function() {
+        $allOptions.each(function() {
+          var $options = $(this);
+
+          if (!$options.parent("#output").length) return;
+
+          var $children = $options.children().not('.noselect');
+          var icons = $children.children('.icon-only').toArray().reverse();
+          var containerWidth = $options.outerWidth(true);
+
+          var fullWidth = _.reduce($children.toArray(), function(total, child) {
+            var $child = $(child);
+            return total + ($child.data('width-full') || $child.outerWidth(true));
+          }, 8);
+
+          _.each(icons, function(icon, i) {
+            var $icon = $(icon);
+            var $button = $icon.parent('button');
+
+            var iconify = fullWidth > containerWidth;
+            iconifyButton($button, iconify);
+
+            if (iconify) {
+              fullWidth = fullWidth - $button.data('width-full') + $button.data('width-icon');
+            }
+          });
+        });
+      });
+    }, 50);
+  })();
 
   /**
    * Get all active panels

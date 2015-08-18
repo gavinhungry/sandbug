@@ -85,6 +85,7 @@ define(function(require) {
       'click #run': 'run',
       'click #save': 'save',
       'click #save_as': 'save_as',
+      'click #settings': 'settings',
       'click #auto': function(e) { config.autorun = !config.autorun; },
       'click #patch': function(e) { config.patch = !config.patch; }
     },
@@ -100,6 +101,10 @@ define(function(require) {
 
     save_as: function() {
       bugs.save_as();
+    },
+
+    settings: function() {
+
     },
 
     register_keys: function() {

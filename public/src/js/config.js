@@ -124,8 +124,13 @@ define('config_p', function(require) {
   // get additional client-side config options from the server
   var d = $.Deferred();
   $.get('/api/config').done(function(data) {
+    if ($(window).width() < 1280) {
+      config._priv.set_option('default_layout', data.default_compact_layout);
+    }
+
     config._priv.set_options(data);
     config._priv.set_option('default_locale', data.locale);
+
     d.resolve(config);
   }).fail(function() {
     d.resolve(config);

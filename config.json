@@ -27,6 +27,8 @@
     // One of: [layout-cols, layout-top, layout-left]
     "default_layout": "layout-col",
 
+    "default_compact_layout": "layout-top",
+
     // Default theme stylesheet
     // One of: [light, dark]
     "default_theme": "dark",

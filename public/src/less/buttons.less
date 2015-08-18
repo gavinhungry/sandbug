@@ -44,6 +44,10 @@ button {
 
   &::-moz-focus-inner { border: none; }
 
+  &.iconify > span {
+    display: none;
+  }
+
   > i.fa {
     width: 22px;
     display: inline-block;
@@ -71,6 +75,14 @@ button {
     color: @button_text_color;
     border-color: @button_small_border_color;
     border-bottom-color: @button_small_bottom_border_color;
+
+    > i.fa {
+      margin-left: -8px;
+
+      &.icon-only {
+        padding-right: 8px;
+      }
+    }
   }
 
   &.action { .button(@button_action_base_color); }

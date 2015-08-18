@@ -83,7 +83,9 @@ define(function(require) {
       theme.stylesheet.disabled = (theme.id !== id);
     });
 
-    if (id !== config.theme) { config.theme = id; }
+    if (id !== config.theme) {
+      config.theme = id;
+    }
   };
 
   /**
@@ -99,7 +101,9 @@ define(function(require) {
       }
     });
 
-    if (!hasTheme) { themes.set_theme(config.default_theme); }
+    if (!hasTheme) {
+      themes.set_theme(config.default_theme);
+    }
   };
 
   return themes;
