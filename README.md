@@ -58,23 +58,6 @@ Unit Tests
 ----------
 Run the (woefully incomplete) set of Jasmine unit tests from `localhost:8080/test`.
 
-
-Upcoming Plans
---------------
-There is still a lot of work to do, including:
-
-  - User accounts, user settings
-  - User export of data
-  - Save to server (with history?)
-  - Save to Gist, Dropbox, Drive
-  - Import from other services
-  - Collaboration options
-  - More locales
-  - Multiple files
-  - Local or server-side services
-  - ~~Better mobile support~~
-  - Fixing all of the things that are already broken
-
 Attributions
 ------------
 The icons used throughout the interface are from the
