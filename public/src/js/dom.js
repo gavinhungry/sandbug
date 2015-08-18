@@ -218,6 +218,10 @@ define(function(require) {
    * @return {String} the new placeholder
    */
   dom.set_templated_placeholder = function($element, values) {
+    if (!$element) {
+      return;
+    }
+
     var placeholder = $element.attr('data-placeholder');
     if (!placeholder) { return; }
 
