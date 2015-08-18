@@ -371,6 +371,17 @@ define(function(require) {
       this.events = _.extend({}, this.events, this._events);
       this.constructor.__super__.initialize.apply(this, arguments);
 
+      this.on('submit', function(form) {
+        var bug = this.model.get('extras').bug;
+
+        var $form = $(form);
+        var map = utils.form_map($form);
+        map.private = !!map.private;
+
+        bug.set(map);
+        bus.trigger('bugs:save');
+        this.destroy();
+      });
     }
   });
 
@@ -447,12 +458,17 @@ define(function(require) {
    * Build a popup and show it right away
    *
    * @param {String} name - name of the popup template to use
-   * @param {String} title - locale key to use as popup title
+   * @param {String} [title] - locale key to use as popup title
    * @param {Object} [extras] - optional data to pass to template
    * @return {Promise} to resolve to a map of the submitted form
    */
   popups.popup = function(name, title, extras) {
     var d = $.Deferred();
+
+    if (!_.isString(title) && _.isUndefined(extras)) {
+      extras = title;
+      title = null;
+    }
 
     var modelName = _.str.sprintf('%sPopup', _.str.capitalize(_.str.camelize(name)));
     var viewName = _.str.sprintf('%sView', modelName);
@@ -466,7 +482,10 @@ define(function(require) {
     }
 
     var model = new ModelConstructor();
-    if (title) { model.set('title', title); }
+    if (title) {
+      model.set('title', title);
+    }
+
     model.set('extras', extras);
 
     var view = new ViewConstructor({ model: model });
@@ -475,12 +494,7 @@ define(function(require) {
 
     view.on('submit', function(form) {
       var $form = $(form);
-
-      var map = _.chain($form.serialize().split('&')).map(function(token) {
-        return _.map(token.split('='), function(str) {
-          return decodeURIComponent(str.replace(/\+/g, ' '));
-        });
-      }).object().value();
+      var map = utils.form_map($form);
 
       _.each(_.keys(map), function(prop) {
         if (_.first(prop) === '_') { delete map[prop]; }

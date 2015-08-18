@@ -349,6 +349,18 @@ define(function(require) {
   };
 
   /**
+   * Convert a form to a map
+   *
+   * @param {jQuery} $form
+   * @return {Object}
+   */
+  utils.form_map = function($form) {
+    return _.reduce($form.serializeArray(), function(obj, prop) {
+      obj[prop.name] = prop.value; return obj;
+    }, {});
+  };
+
+  /**
    * Get a value from a function or promise (arbitrarily nested)
    *
    * @param {Mixed} value - value, promise, or a function returning either

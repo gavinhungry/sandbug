@@ -104,7 +104,9 @@ define(function(require) {
     },
 
     properties: function() {
-      popups.popup('bug_properties');
+      popups.popup('bug_properties', {
+        bug: bugs.model()
+      });
     },
 
     register_keys: function() {

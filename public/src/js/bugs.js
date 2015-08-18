@@ -24,7 +24,9 @@ define('bugs', function(require) {
   // ---
 
   var bugs = utils.module('bugs');
-  bugs._priv.schema = {};
+  bugs._priv.schema = {
+    private: false
+  };
 
   bus.init(function(av) {
     bugs._priv.current = {};
@@ -38,6 +40,10 @@ define('bugs', function(require) {
 
       return memo;
     }, {});
+
+    bus.on('bugs:save', function() {
+      bugs.save();
+    });
 
     bus.on('mirrors:mode', function(panel, mode, label) {
       bugs.model().set(_.str.sprintf('map.%s.mode', panel), mode);

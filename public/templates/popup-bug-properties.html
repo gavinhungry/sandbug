@@ -1,5 +1,14 @@
 <form id='bug_properties_form'>
 
+  <input name='title' data-localize-placeholder='bug_title'
+    type='text' value='<%- data.extras.bug.get('title') %>' autocomplete='off'
+    spellcheck='false' class='plain full' maxlength='128'>
+
+  <div class='flex'>
+    <label data-localize='private'>Private</label>
+    <input id='checkbox-private' type='checkbox' name='private' <% if (data.extras.bug.get('private')) { print("checked") } %>>
+    <label for='checkbox-private' data-localize='private-tip'>%</label>
+  </div>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>

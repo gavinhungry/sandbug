@@ -31,16 +31,15 @@ define(function(require) {
       username: [null, String],
       origin: [null, String.of(128, null)],
 
-      slug: String,
+      slug: String.of(0, 128, null),
       title: String.of(0, 128, null),
 
       created: Date,
       updated: Date,
       updater: [null, String], // same as username
 
-      // autorun: Boolean,
-      // 'private': Boolean,
-      // collaborators: [StringArray],
+      'private': Boolean,
+      // collaborators: Array, // of Strings passing auth.is_valid_username
 
       map: {
         markup: {
