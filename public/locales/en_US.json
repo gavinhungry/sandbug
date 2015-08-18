@@ -40,18 +40,19 @@
     "onbeforeunload":            "This Bug has unsaved code!",
     "password_mismatch":         "Passwords do not match",
     "patch":                     "Patch",
+    "properties":                "Properties",
     "run":                       "Run",
     "save":                      "Save",
     "save_as":                   "Save As",
     "server_error":              "Server error",
     "server_error_msg":          "The requested action could not complete due to a server error",
     "settings":                  "Settings",
+    "settings_invalid":          "User settings invalid",
+    "settings_invalid_msg":      "The user settings provided are invalid and have not been saved.",
+    "settings_updated":          "User settings saved",
     "signup":                    "Sign Up",
     "url_slug":                  "URL slug",
     "user_exists":               "Username or email in use",
-    "user_exists_msg":           "An account with this username or email already exists.",
-    "user_preferences":          "User preferences",
-    "user_preferences_invalid":  "Invalid user preferences",
-    "user_preferences_updated":  "User preferences updated"
+    "user_exists_msg":           "An account with this username or email already exists."
   }
 }

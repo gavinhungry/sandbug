@@ -180,7 +180,7 @@ define(function(require) {
         var username = user.username;
 
         auth.crud.update(username, {
-          preferences: req.body
+          settings: req.body
         }, auth.crud.rest(res));
       }
     },

@@ -22,10 +22,10 @@ define(function(require) {
   bus.init(function(av) {
     bus.on('login', user.login);
     bus.on('logout', user.logout);
-    bus.on('user:login', user.get_prefs);
+    bus.on('user:login', user.get_settings);
 
     if (config.username) {
-      user.get_prefs();
+      user.get_settings();
     }
   });
 
@@ -50,13 +50,13 @@ define(function(require) {
   /**
    * @return {Promise}
    */
-  user.get_prefs = function() {
+  user.get_settings = function() {
     return $.ajax({
       method: 'GET',
       url: '/api/user'
     }).then(function(user) {
-      _.each(user.preferences, function(value, pref) {
-        config[pref] = value || config['default_' + pref];
+      _.each(user.settings, function(value, setting) {
+        config[setting] = value || config['default_' + setting];
       });
     });
   };

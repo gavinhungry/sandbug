@@ -85,7 +85,7 @@ define(function(require) {
       'click #run': 'run',
       'click #save': 'save',
       'click #save_as': 'save_as',
-      'click #settings': 'settings',
+      'click #properties': 'properties',
       'click #auto': function(e) { config.autorun = !config.autorun; },
       'click #patch': function(e) { config.patch = !config.patch; }
     },
@@ -103,8 +103,8 @@ define(function(require) {
       bugs.save_as();
     },
 
-    settings: function() {
-
+    properties: function() {
+      popups.popup('bug_properties');
     },
 
     register_keys: function() {
@@ -162,7 +162,7 @@ define(function(require) {
         dom.cache(this, this.$el, {
           by_id: [
             'title', 'markup', 'style', 'script', 'input', 'output', 'save',
-            'save_as', 'auto', 'patch'
+            'save_as', 'auto', 'patch', 'properties'
           ],
           by_class: ['panel', 'input-panel', 'panel-options']
         });

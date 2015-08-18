@@ -275,11 +275,11 @@ define(function(require) {
   });
 
   /**
-   * User preferences popup
+   * User settings popup
    */
-  popups.UserPreferencesPopup = popups.Popup.extend({
+  popups.SettingsPopup = popups.Popup.extend({
     defaults: {
-      small: true, title: 'user_preferences'
+      small: true, title: 'settings'
     },
 
     initialize: function() {
@@ -306,8 +306,8 @@ define(function(require) {
     }
   });
 
-  popups.UserPreferencesPopupView = popups.PopupView.extend({
-    template: 'popup-user-preferences',
+  popups.SettingsPopupView = popups.PopupView.extend({
+    template: 'popup-settings',
 
     initialize: function(options) {
       var that = this;
@@ -320,13 +320,13 @@ define(function(require) {
         var $form = $(form);
 
         utils.submit_form($form).done(function() {
-          user.get_prefs().then(function() {
+          user.get_settings().then(function() {
             that.destroy();
-            flash.message_good('@user_preferences_updated');
+            flash.message_good('@settings_updated');
           });
         }).fail(function(xhr, status, err) {
           switch(xhr.statusCode().status) {
-            case 400: flash.message_bad('@user_preferences_invalid'); break;
+            case 400: flash.message_bad('@settings_invalid'); break;
             default: flash.xhr_error(xhr, status, err);
           }
         });
@@ -424,7 +424,7 @@ define(function(require) {
     var ViewConstructor = popups[viewName];
 
     if (!ModelConstructor || !ViewConstructor) {
-      popups.console.error('popups.%s / popups.%s do not exist', modelName, viewName);
+      popups.console.error(_.str.sprintf('popups.%s / popups.%s not found', modelName, viewName));
       return utils.reject();
     }
 

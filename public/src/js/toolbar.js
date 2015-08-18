@@ -72,7 +72,7 @@ define(function(require) {
     events: {
       'click #console': function(e) { com.toggle(); },
       'click #layout': function(e) { panels.cycle_layout(); },
-      'click #preferences': function(e) { popups.popup('user_preferences'); },
+      'click #settings': function(e) { popups.popup('settings'); },
       'click #signup': function(e) { popups.popup('signup'); },
       'click #login': function(e) { bus.trigger('login'); },
       'click #logout': function(e) { bus.trigger('logout'); }
@@ -117,7 +117,7 @@ define(function(require) {
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           'by_id': [
-            'console', 'theme', 'layout', 'preferences', 'logout', 'signup',
+            'console', 'theme', 'layout', 'settings', 'logout', 'signup',
             'login'
           ]
         });
