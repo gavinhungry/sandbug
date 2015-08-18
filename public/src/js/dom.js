@@ -264,52 +264,53 @@ define(function(require) {
   /**
    * Set up a new dropdown
    *
-   * @param {jQuery} $button - dropdown trigger button
-   * @return {jQuery} $menu with matching data-dropdown attribute
+   * @param {jQuery} $buttons - dropdown trigger button
    */
-  dom.dropdown = function($button) {
-    var dropdown = $button.data('dropdown');
-    var $menu = $button.siblings().filter(function() {
-      return $(this).data('dropdown') === dropdown;
-    }).first();
+  dom.dropdown = function($buttons) {
+    $buttons.each(function() {
+      var $button = $(this);
 
-    var right = $menu.hasClass('dropdown-right');
+      var dropdown = $button.data('dropdown');
+      var $menu = $button.siblings().filter(function() {
+        return $(this).data('dropdown') === dropdown;
+      }).first();
 
-    $button.on('click', function(e) {
-      dom.hide_dropdowns($button, $menu);
+      var right = $menu.hasClass('dropdown-right');
 
-      var offset = $button.offset();
-      var active = $button.hasClass('active');
+      $button.on('click', function(e) {
+        dom.hide_dropdowns($button, $menu);
 
-      var left = offset.left;
-      var menuWidth = $menu.outerWidth();
+        var offset = $button.offset();
+        var active = $button.hasClass('active');
 
-      if (right) {
-        left += ($button.outerWidth() - menuWidth);
-      }
+        var left = offset.left;
+        var menuWidth = $menu.outerWidth();
 
-      var overflow = (left + menuWidth) - $(window).width() + 6;
+        if (right) {
+          left += ($button.outerWidth() - menuWidth);
+        }
 
-      if (overflow > 0) {
-        left -= overflow;
-        $menu.addClass('dropdown-right')
-      }
+        var overflow = (left + menuWidth) - $(window).width() + 6;
 
-      $menu.css({
-        left: left,
-        top: offset.top + $button.outerHeight() + 2
+        if (overflow > 0) {
+          left -= overflow;
+          $menu.addClass('dropdown-right')
+        }
+
+        $menu.css({
+          left: left,
+          top: offset.top + $button.outerHeight() + 2
+        });
+
+        if (active) {
+          $menu.flowUp();
+          $button.removeClass('active');
+        } else {
+          $menu.flowDown();
+          $button.addClass('active');
+        }
       });
-
-      if (active) {
-        $menu.flowUp();
-        $button.removeClass('active');
-      } else {
-        $menu.flowDown();
-        $button.addClass('active');
-      }
     });
-
-    return $menu;
   };
 
   /**

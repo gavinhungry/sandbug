@@ -37,7 +37,10 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       background: @panel_options_bg_color;
       overflow: hidden;
 
-      > * { height: 100%; }
+      > *:not(.dropdown-menu) {
+        height: 100%;
+      }
+
       button {
         flex: 0 0 auto;
         font-size: @font_size - 1px;

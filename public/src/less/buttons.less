@@ -27,7 +27,7 @@ button {
   height: 33px;
   line-height: 28px;
   border: 1px solid @button_border_color;
-  border-bottom: 3px solid @button_bottom_border_color;
+  border-bottom: 2px solid @button_bottom_border_color;
   border-radius: 1px 1px 2px 2px;
   box-shadow: 0 0 4px @button_box_shadow_color;
   font-family: @button_font;
@@ -103,10 +103,6 @@ button {
     &:active::before, &.active::before {
       background-color: lighten(@toggle_checked_bg_color, 25%);
     }
-  }
-
-  &.dropdown-button::after {
-    content: 'v';
   }
 }
 
