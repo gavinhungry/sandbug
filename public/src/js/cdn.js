@@ -76,7 +76,7 @@ define(function(require) {
 
     var cdnName = cdn.providers[id].name;
 
-    dom.set_templated_placeholder(filterView.$filter, cdnName);
+    locales.localize_placeholder(filterView.$filter, cdnName);
     dom.transition_button_label(filterView.$cdn, cdnName);
     bus.trigger('cdn:abort');
 
@@ -252,7 +252,7 @@ define(function(require) {
         });
 
         var cdnNameInit = cdn.providers[config.cdn].name;
-        dom.set_templated_placeholder(this.$filter, cdnNameInit);
+        locales.localize_placeholder(this.$filter, cdnNameInit);
 
         this.$filter.prop('disabled', false);
 

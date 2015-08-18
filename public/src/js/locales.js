@@ -30,8 +30,7 @@ define(function(require) {
 
     // localize nodes with `data-localize` attribute as added
     observers.register_listener(function(mutation) {
-      var $localize = $(mutation.addedNodes).filter('[data-localize]');
-      locales.localize_dom_nodes($localize);
+      locales.localize_dom_nodes($(mutation.addedNodes));
     });
 
     bus.on('config:locale', function(localeStr) {
@@ -185,31 +184,61 @@ define(function(require) {
    * @param {jQuery} [$localize] - set of nodes to localize
    * @return {Promise} to resolve upon completion
    */
-  locales.localize_dom_nodes = function($localize) {
-    var d = $.Deferred();
-    $localize = $localize || $('[data-localize]');
+  locales.localize_dom_nodes = function($root) {
+    $root = $root || $('body');
+    var $localize = $root.find('[data-localize]');
+    var $placeholders = $root.find('[data-localize-placeholder]');
 
-    locales.get(config.locale).done(function(locale) {
+    return locales.get(config.locale).then(function(locale) {
       $localize.each(function() {
         // get the locale string ID
         var localize = $(this).attr('data-localize');
 
         // replace the first text node with the localized string, if present
         $(this).contents().filter(function() { return this.nodeType === 3; })
-          .first().each(function() {
-            var that = this;
-            locales.string(localize).done(function(localizedValue) {
-              if (localizedValue) {
-                that.nodeValue = localizedValue;
-              }
-            });
+        .first().each(function() {
+          var that = this;
+          locales.string(localize).then(function(localizedValue) {
+            if (localizedValue) {
+              that.nodeValue = localizedValue;
+            }
           });
+        });
       });
 
-      d.resolve(true);
-    }).fail(d.reject);
+      $placeholders.each(function() {
+        var $placeholder = $(this);
+        locales.localize_placeholder($placeholder);
+      });
+    });
+  };
 
-    return d.promise();
+  /**
+   * Set a placeholder from a data-localize-placeholder template
+   *
+   * @param {jQuery} $element - some element with a data-localize-placeholder attribute
+   * @param {Array} values - values to pass to _.str.sprintf
+   * @return {Promise}
+   */
+  locales.localize_placeholder = function($element, values) {
+    if (!$element) {
+      return utils.resolve(false);
+    }
+
+    var args;
+
+    if (values) {
+      args = utils.ensure_array(values);
+      $element.data('placeholder-args', JSON.stringify(args));
+    } else {
+      args = utils.parse_json($element.data('placeholder-args'));
+    }
+
+    var strId = $element.attr('data-localize-placeholder');
+
+    return locales.string(strId, args).then(function(placeholder) {
+      $element.attr('placeholder', placeholder);
+    });
   };
 
   /**

@@ -43,7 +43,10 @@ define(function(require) {
    * @param {String} title - Popup heading
    */
   popups.Popup = Backbone.Model.extend({
-    defaults: { small: false, title: null },
+    defaults: {
+      small: false,
+      title: null
+    },
 
     // array of promises to resolve before model is ready
     pre_ready: [],
@@ -138,7 +141,7 @@ define(function(require) {
 
       var popup_p = templates.get('popup', this);
       var content_p = templates.get(this.template, this);
-      var title_p = locales.string(data.title);
+      var title_p = locales.prefixed(data.title);
 
       return $.when(popup_p, content_p, title_p)
       .then(function(popup_fn, content_fn, title) {
@@ -166,15 +169,17 @@ define(function(require) {
             inherit_select_classes: true
           });
 
-          popups.show().done(function() {
-            if (_.isFunction(that.post_transition)) {
-              that.post_transition();
-            }
+          locales.localize_dom_nodes(that.$el).then(function() {
+            popups.show().done(function() {
+              if (_.isFunction(that.post_transition)) {
+                that.post_transition();
+              }
+            });
+
+            that.$el.find('input:not([type=hidden])').first().focus();
+
+            if (_.isFunction(that.post_render)) { that.post_render(); }
           });
-
-          that.$el.find('input:not([type=hidden])').first().focus();
-
-          if (_.isFunction(that.post_render)) { that.post_render(); }
         });
 
         return that.trigger('render');
@@ -191,7 +196,10 @@ define(function(require) {
    * Login popup
    */
   popups.LoginPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'login' }
+    defaults: {
+      small: true,
+      title: '@login'
+    }
   });
 
   popups.LoginPopupView = popups.PopupView.extend({
@@ -228,7 +236,10 @@ define(function(require) {
    * Sign Up popup
    */
   popups.SignupPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'create_account' }
+    defaults: {
+      small: true,
+      title: '@create_account'
+    }
   });
 
   popups.SignupPopupView = popups.PopupView.extend({
@@ -279,7 +290,8 @@ define(function(require) {
    */
   popups.SettingsPopup = popups.Popup.extend({
     defaults: {
-      small: true, title: 'settings'
+      small: true,
+      title: '@settings'
     },
 
     initialize: function() {
@@ -341,10 +353,35 @@ define(function(require) {
   });
 
   /**
+   * Bug properties popup
+   */
+  popups.BugPropertiesPopup = popups.Popup.extend({
+    defaults: {
+      small: true,
+      title: '@bug_properties'
+    }
+  });
+
+  popups.BugPropertiesPopupView = popups.PopupView.extend({
+    template: 'popup-bug-properties',
+
+    initialize: function(options) {
+      var that = this;
+
+      this.events = _.extend({}, this.events, this._events);
+      this.constructor.__super__.initialize.apply(this, arguments);
+
+    }
+  });
+
+  /**
    * User prompt
    */
   popups.InputPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'input' }
+    defaults: {
+      small: true,
+      title: '@input'
+    }
   });
 
   popups.InputPopupView = popups.PopupView.extend({
@@ -357,7 +394,7 @@ define(function(require) {
       this.extras = utils.ensure_array(this.model.get('extras'));
 
       var placeholder_p = _.map(this.extras, function(extra) {
-        return locales.string(extra.placeholder).then(function(placeholder) {
+        return locales.prefixed(extra.placeholder).then(function(placeholder) {
           extra.placeholder = placeholder;
         });
       });
@@ -424,7 +461,7 @@ define(function(require) {
     var ViewConstructor = popups[viewName];
 
     if (!ModelConstructor || !ViewConstructor) {
-      popups.console.error(_.str.sprintf('popups.%s / popups.%s not found', modelName, viewName));
+      popups.console.error(_.str.sprintf('popups.%s or popups.%s not found', modelName, viewName));
       return utils.reject();
     }
 

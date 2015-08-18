@@ -227,15 +227,15 @@ define('bugs', function(require) {
   bugs.save_as = function() {
     var model = bugs.model();
 
-    return popups.prompt('bug_name_pick', [
+    return popups.prompt('@bug_name_pick', [
       {
         name: 'title',
-        placeholder: 'bug_title',
+        placeholder: '@bug_title',
         value: model.get('title'),
         copy_to: 'slug'
       }, {
         name: 'slug',
-        placeholder: 'url_slug',
+        placeholder: '@url_slug',
         value: model.get('slug'),
         filter: _.str.slugify
       }

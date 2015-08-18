@@ -1,6 +1,6 @@
 <form id='settings_form' action='/api/user' method='put'>
   <div class='flex'>
-    <label>Locale</label>
+    <label data-localize='locale'>Locale</label>
     <select name='locale' class='plain full'>
     <% _.each(data.locales, function(name, localeId) { %>
       <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
@@ -9,7 +9,7 @@
   </div>
 
   <div class='flex'>
-    <label>Default Theme</label>
+    <label data-localize='default_theme'>Default theme</label>
     <select name='theme' class='plain full'>
     <% _.each(data.themes, function(name, themeId) { %>
       <option value='<%- themeId %>' <% config.theme === themeId && print('selected') %>><%- name %></option>
@@ -18,7 +18,7 @@
   </div>
 
   <div class='flex'>
-    <label>Default Layout</label>
+    <label data-localize='default_layout'>Default layout</label>
     <select name='layout' class='plain full'>
     <% _.each(data.layouts, function(name, layoutId) { %>
       <option value='<%- layoutId %>' <% config.layout === layoutId && print('selected') %>><%- name %></option>
@@ -27,7 +27,7 @@
   </div>
 
   <div class='flex'>
-    <label>Default CDN</label>
+    <label data-localize='default_cdn'>Default CDN</label>
     <select name='cdn' class='plain full'>
     <% _.each(data.cdns, function(name, cdnId) { %>
       <option value='<%- cdnId %>' <% config.cdn === cdnId && print('selected') %>><%- name %></option>
@@ -35,24 +35,23 @@
     </select>
   </div>
 
-
   <div class='flex'>
-    <label>Change Password</label>
-    <input name='password' disabled='true' placeholder='Password' class='plain full' maxlength='1024' type='password'>
+    <label data-localize='change_password'>Change password</label>
+    <input name='password' disabled='true' data-localize-placeholder='password' class='plain full' maxlength='1024' type='password'>
   </div>
 
   <div class='flex'>
-    <label>Confirm Password</label>
-    <input name='confirm' disabled='true' placeholder='Confirm Password' class='plain full' maxlength='1024' type='password'>
+    <label data-localize='confirm_password'>Confirm password</label>
+    <input name='confirm' disabled='true' data-localize-placeholder='confirm_password' class='plain full' maxlength='1024' type='password'>
   </div>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>
-      <button type='submit' class='btn-small action'>Save</button>
+      <button type='submit' class='btn-small action' data-localize='save'>Save</button>
     </div>
 
     <div class='btn-group right'>
-      <button class='btn-small popup-cancel'>Cancel</button>
+      <button class='btn-small popup-cancel' data-localize='cancel'>Cancel</button>
     </div>
 
     <div class='clear'></div>

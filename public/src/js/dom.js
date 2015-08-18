@@ -211,30 +211,6 @@ define(function(require) {
   };
 
   /**
-   * Set a placeholder from a data-placeholder template
-   *
-   * @param {jQuery} $element - some element with a data-placeholder attribute
-   * @param {Array} values - values to pass to _.str.sprintf
-   * @return {String} the new placeholder
-   */
-  dom.set_templated_placeholder = function($element, values) {
-    if (!$element) {
-      return;
-    }
-
-    var placeholder = $element.attr('data-placeholder');
-    if (!placeholder) { return; }
-
-    var args = utils.ensure_array(values);
-    args.unshift(placeholder);
-
-    placeholder = _.str.sprintf.apply(null, args);
-    $element.attr('placeholder', placeholder);
-
-    return placeholder;
-  };
-
-  /**
    * Run multiple CSS transitions in parallel, then return a single promise
    *
    * @example

@@ -284,6 +284,20 @@ define(function(require) {
   };
 
   /**
+   * Try to parse JSON
+   *
+   * @param {String} json
+   * @return {Object}
+   */
+  utils.parse_json = function(json) {
+    try {
+      return JSON.parse(json);
+    } catch(err) {
+      return null;
+    }
+  };
+
+  /**
    * Hash function for _.memoize
    *
    * @return {String} joined arguments with hopefully unique separator

@@ -51,7 +51,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
         flex: 1 auto;
       }
 
-      .noselect + .right {
+      .noselect:not(.ignore) + .right {
         margin-left: 0;
       }
     }
