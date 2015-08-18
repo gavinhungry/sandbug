@@ -22,10 +22,10 @@ define(function(require) {
   bus.init(function(av) {
     bus.on('login', user.login);
     bus.on('logout', user.logout);
-    bus.on('user:login', user.get_settings);
+    bus.on('user:login', user.get_prefs);
 
     if (config.username) {
-      user.get_settings();
+      user.get_prefs();
     }
   });
 
@@ -50,31 +50,14 @@ define(function(require) {
   /**
    * @return {Promise}
    */
-  user.get_settings = function() {
+  user.get_prefs = function() {
     return $.ajax({
       method: 'GET',
       url: '/api/user'
     }).then(function(user) {
-      _.each(user.settings, function(value, setting) {
-        config[setting] = value || config['default_' + setting];
+      _.each(user.preferences, function(value, pref) {
+        config[pref] = value || config['default_' + pref];
       });
-    });
-  };
-
-  /**
-   * @param {Object} settings
-   * @return {Promise}
-   */
-  user.set_settings = function(settings) {
-    return $.ajax({
-      method: 'PUT',
-      url: '/api/user',
-      data: settings
-    }).then(user.get_settings, function(xhr, status, err) {
-      switch(xhr.statusCode().status) {
-        case 400: flash.message_bad('@settings_invalid'); break;
-        default: flash.xhr_error(xhr, status, err);
-      }
     });
   };
 

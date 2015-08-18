@@ -103,7 +103,7 @@ define(function(require) {
       username: username,
       email: email,
       hash: hash,
-      settings: {}
+      preferences: {}
     }, function(err, user) {
       if (user) {
         delete user.hash;

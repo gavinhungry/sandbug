@@ -269,10 +269,12 @@ define(function(require) {
   });
 
   /**
-   * User settings popup
+   * User preferences popup
    */
-  popups.UserSettingsPopup = popups.Popup.extend({
-    defaults: { small: true, title: 'user_settings' },
+  popups.UserPreferencesPopup = popups.Popup.extend({
+    defaults: {
+      small: true, title: 'user_preferences'
+    },
 
     initialize: function() {
       var that = this;
@@ -298,8 +300,8 @@ define(function(require) {
     }
   });
 
-  popups.UserSettingsPopupView = popups.PopupView.extend({
-    template: 'popup-user-settings',
+  popups.UserPreferencesPopupView = popups.PopupView.extend({
+    template: 'popup-user-preferences',
 
     initialize: function(options) {
       var that = this;
@@ -308,14 +310,21 @@ define(function(require) {
       this.constructor.__super__.initialize.apply(this, arguments);
 
       this.on('submit', function(form) {
-        user.set_settings({
-          locale: this.$el.find('select[name="locale"]').val(),
-          theme: this.$el.find('select[name="theme"]').val(),
-          layout: this.$el.find('select[name="layout"]').val(),
-          cdn: this.$el.find('select[name="cdn"]').val()
-        });
+        var that = this;
+        var $form = $(form);
 
-        this.destroy();
+        utils.submit_form($form).done(function() {
+          user.get_prefs();
+          that.destroy();
+        }).fail(function() {
+
+          debugger;
+
+          // switch(xhr.statusCode().status) {
+          //   case 400: flash.message_bad('@preferences_invalid'); break;
+          //   default: flash.xhr_error(xhr, status, err);
+          // }
+        });
       });
     },
 

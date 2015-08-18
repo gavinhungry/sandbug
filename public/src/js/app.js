@@ -166,6 +166,8 @@ define(function(require) {
         this.$auto.prop('checked', config.autorun);
         this.$patch.prop('checked', config.patch);
 
+        dom.dropdown(this.$el.find('.dropdown-button'));
+
         return this.trigger('render');
       });
     }

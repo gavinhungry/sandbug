@@ -326,9 +326,12 @@ define(function(require) {
     var uri = $form.attr('action');
     var data = $form.serialize();
 
-    var methodAttr = utils.ensure_string($form.attr('method'));
-    var method = methodAttr.toLowerCase() === 'post' ? 'post' : 'get';
-    return $[method](uri, data);
+    var method = utils.ensure_string($form.attr('method')) || 'get';
+    return $.ajax({
+      method: method,
+      url: uri,
+      data: data
+    });
   };
 
   /**

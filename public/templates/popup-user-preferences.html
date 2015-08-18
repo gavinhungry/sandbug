@@ -1,6 +1,4 @@
-<form id='user_settings_form' action='/api/settings' method='post'>
-  <input type='hidden' name='_csrf' value='<%- csrf %>'>
-
+<form id='user_preferences_form' action='/api/user' method='put'>
   <div class='flex'>
     <label>Locale</label>
     <select name='locale' class='plain full'>
@@ -59,5 +57,4 @@
 
     <div class='clear'></div>
   </div>
-
 </form>

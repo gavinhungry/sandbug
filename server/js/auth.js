@@ -38,7 +38,7 @@ define(function(require) {
     schema: [schema({
       username: String,
       email: String,
-      settings: {
+      preferences: {
         cdn: ['jsdelivr', 'cdnjs', 'google'],
         layout: ['layout-cols', 'layout-top', 'layout-left'],
         locale: ['en_US'],
@@ -47,7 +47,7 @@ define(function(require) {
     }), function(user) {
       return auth.is_valid_username(user.username) &&
         auth.is_valid_email(user.email) &&
-        _.keys(user.settings).length === 4;
+        _.keys(user.preferences).length === 4;
     }],
 
     out: function(user) {

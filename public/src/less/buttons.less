@@ -104,6 +104,10 @@ button {
       background-color: lighten(@toggle_checked_bg_color, 25%);
     }
   }
+
+  &.dropdown-button::after {
+    content: 'v';
+  }
 }
 
 .right > button, button.right {

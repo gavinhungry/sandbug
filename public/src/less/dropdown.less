@@ -9,6 +9,8 @@
   border: 2px solid @dropdown_border_color !important;
   background: @dropdown_bg_color !important;
   border-radius: 0 !important;
+  min-width: 100px;
+
   * { cursor: default !important; }
 
   .chosen-results {
@@ -49,6 +51,13 @@
         font-size: @font_size - 1px;
         opacity: 0.8;
       }
+    }
+
+    .dropdown-separator {
+      background: @dropdown_border_color;
+      padding: 0 !important;
+      height: 1px;
+      margin: 4px 0;
     }
   }
 

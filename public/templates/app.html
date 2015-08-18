@@ -50,8 +50,16 @@
     <!-- OUTPUT -->
     <div id='output' class='panel'>
       <div class='panel-options'>
-        <button id='save' class='btn-small' data-localize='save'>Save</button>
-        <button id='save_as' class='btn-small' data-localize='save_as'>Save As</button>
+        <button class='btn-small dropdown-button' data-dropdown='bug' data-localize='bug'>Bug</button>
+        <div class='dropdown-menu flow' data-dropdown='bug'>
+          <ul class='dropdown-menu-content'>
+            <li class='dropdown-item' id='save' data-localize='save'>Save</li>
+            <li class='dropdown-item' id='save_as' data-localize='save_as'>Save As</li>
+            <li class='dropdown-separator'></li>
+            <li class='dropdown-item' id='bug_delete' data-localize='delete'>Delete</li>
+            <li class='dropdown-item' id='bug_settings' data-localize='settings'>Settings</li>
+          </ul>
+        </div>
 
         <div class='panel-controls noselect'></div>
         <button id='patch' class='btn-small right toggle' data-localize='patch'>Patch</button>

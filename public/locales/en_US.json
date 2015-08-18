@@ -2,6 +2,7 @@
   "locale": "English (US)",
   "strings": {
     "autorun":                   "Autorun",
+    "bug":                       "Bug",
     "bug_invalid_data":          "Invalid Bug data",
     "bug_invalid_data_msg":      "This Bug contains invalid data",
     "bug_is_private":            "This Bug is private",
@@ -18,6 +19,7 @@
     "bug_title":                 "Bug title",
     "create_account":            "Create a new account",
     "dark":                      "Dark",
+    "delete":                    "Delete",
     "input":                     "Input",
     "invalid_creds":             "Invalid login credentials",
     "invalid_creds_msg":         "Check the username and password.",
@@ -44,11 +46,11 @@
     "server_error":              "Server error",
     "server_error_msg":          "The requested action could not complete due to a server error",
     "settings":                  "Settings",
-    "settings_invalid":          "Invalid settings",
+    "preferences_invalid":       "Invalid preferences",
     "signup":                    "Sign Up",
     "url_slug":                  "URL slug",
     "user_exists":               "Username or email in use",
     "user_exists_msg":           "An account with this username or email already exists.",
-    "user_settings":             "User Settings"
+    "user_preferences":          "User Preferences"
   }
 }
