@@ -378,12 +378,12 @@ define(function(require) {
   };
 
   /**
-   * Set the document title, prefixed by config.title
+   * Set the document title, suffixed by config.title
    *
    * @param {String} title - new title to set
    */
   utils.title = function(title) {
-    document.title = title ? _.str.sprintf('%s - %s', config.title, title) :
+    document.title = title ? _.str.sprintf('%s - %s', title, config.title) :
       config.title;
   };
 
