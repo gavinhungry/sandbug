@@ -320,16 +320,15 @@ define(function(require) {
         var $form = $(form);
 
         utils.submit_form($form).done(function() {
-          user.get_prefs();
-          that.destroy();
-        }).fail(function() {
-
-          debugger;
-
-          // switch(xhr.statusCode().status) {
-          //   case 400: flash.message_bad('@preferences_invalid'); break;
-          //   default: flash.xhr_error(xhr, status, err);
-          // }
+          user.get_prefs().then(function() {
+            that.destroy();
+            flash.message_good('@user_preferences_updated');
+          });
+        }).fail(function(xhr, status, err) {
+          switch(xhr.statusCode().status) {
+            case 400: flash.message_bad('@user_preferences_invalid'); break;
+            default: flash.xhr_error(xhr, status, err);
+          }
         });
       });
     },

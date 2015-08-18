@@ -46,11 +46,12 @@
     "server_error":              "Server error",
     "server_error_msg":          "The requested action could not complete due to a server error",
     "settings":                  "Settings",
-    "preferences_invalid":       "Invalid preferences",
     "signup":                    "Sign Up",
     "url_slug":                  "URL slug",
     "user_exists":               "Username or email in use",
     "user_exists_msg":           "An account with this username or email already exists.",
-    "user_preferences":          "User Preferences"
+    "user_preferences":          "User preferences",
+    "user_preferences_invalid":  "Invalid user preferences",
+    "user_preferences_updated":  "User preferences updated"
   }
 }
