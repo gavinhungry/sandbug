@@ -394,6 +394,10 @@ define(function(require) {
           save();
         }
       });
+    },
+
+    post_render: function() {
+      this.$el.find('input[type="text"]').first().select();
     }
   });
 
@@ -434,9 +438,12 @@ define(function(require) {
     post_render: function() {
       var that = this;
 
-      _.each(this.extras, function(extra) {
-
+      _.each(this.extras, function(extra, i) {
         var $input = that.$el.find(_.str.sprintf("input[name='%s']", extra.name));
+
+        if (i === 0) {
+          $input.select();
+        }
 
         $input.on('input input-filter', function(e, no_copy) {
           var $this = $(this);
