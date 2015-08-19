@@ -24,9 +24,18 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
+
+  &.mobile {
+    .no-mobile {
+      display: none !important;
+    }
+
+    *:not(.transition) {
+      transition: none !important;
+    }
+  }
 }
 
-body.mobile *:not(.transition) { transition: none !important; }
 #output { background-color: #FAFAFA !important; }
 
 @popup_width: 800px;
