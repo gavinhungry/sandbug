@@ -372,15 +372,27 @@ define(function(require) {
       this.constructor.__super__.initialize.apply(this, arguments);
 
       this.on('submit', function(form) {
+        var that = this;
+
         var bug = this.model.get('extras').bug;
 
         var $form = $(form);
         var map = utils.form_map($form);
         map.private = !!map.private;
 
-        bug.set(map);
-        bus.trigger('bugs:save');
-        this.destroy();
+        var save = function() {
+          bug.set(map);
+          bus.trigger('bugs:save');
+          that.destroy();
+        };
+
+        if (!bug.get('private') && map.private && !config.username && !bug.get('username')) {
+          popups.confirm('@confirm_private', '@confirm_private_body').then(save, function() {
+            that.destroy();
+          });
+        } else {
+          save();
+        }
       });
     }
   });
@@ -451,6 +463,27 @@ define(function(require) {
           }
         }).trigger('input-filter', true); // filter existing values right away
       });
+    }
+  });
+
+  /**
+   * Confirmation popup
+   */
+  popups.ConfirmPopup = popups.Popup.extend({
+    defaults: {
+      small: true,
+      title: '@confirm'
+    }
+  });
+
+  popups.ConfirmPopupView = popups.PopupView.extend({
+    template: 'popup-confirm',
+
+    initialize: function(options) {
+      var that = this;
+
+      this.events = _.extend({}, this.events, this._events);
+      this.constructor.__super__.initialize.apply(this, arguments);
     }
   });
 
@@ -589,8 +622,20 @@ define(function(require) {
     return popups.popup('input', title, utils.ensure_array(inputs));
   };
 
-  popups.type = function() {
-    return $(popupEl).data('type');
+  /**
+   * Prompt for user confirmation
+   *
+   * @param {String} title - locale key to use as popup title
+   * @param {String} body - locale key to use as popup body
+   * @return {Promise}
+   */
+  popups.confirm = function(title, body) {
+    return locales.prefixed(body).then(function(bodyStr) {
+      return popups.popup('confirm', title, {
+        body: bodyStr,
+        affirmClass: 'warning'
+      });
+    });
   };
 
   return popups;

@@ -1,0 +1,17 @@
+<form id='confirm_form'>
+  <p>
+    <%- data.extras.body %>
+  </p>
+
+  <div class='popup-actionbar'>
+    <div class='btn-group right'>
+      <button type='submit' class='btn-small <%- data.extras.affirmClass || "action" %>' data-localize='ok'>OK</button>
+    </div>
+
+    <div class='btn-group right'>
+      <button class='btn-small popup-cancel' data-localize='cancel'>Cancel</button>
+    </div>
+
+    <div class='clear'></div>
+  </div>
+</form>
