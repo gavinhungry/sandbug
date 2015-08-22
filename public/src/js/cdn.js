@@ -16,6 +16,7 @@ define(function(require) {
   var Backbone  = require('backbone');
   var dom       = require('dom');
   var keys      = require('keys');
+  var locales   = require('locales');
   var templates = require('templates');
 
   // ---
