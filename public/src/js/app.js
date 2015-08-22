@@ -21,6 +21,7 @@ define(function(require) {
   var locales   = require('locales');
   var mirrors   = require('mirrors');
   var panels    = require('panels');
+  var popups    = require('popups');
   var router    = require('router');
   var templates = require('templates');
   var themes    = require('themes');
