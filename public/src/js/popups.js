@@ -36,6 +36,10 @@ define(function(require) {
     });
   });
 
+  var superViewInit = function(view, args) {
+    view.constructor.__super__.initialize.apply(view, args);
+  };
+
   /**
    * Base popup Model
    *
@@ -63,7 +67,7 @@ define(function(require) {
         return $.get(uri).then(function(data) {
           return that.set(key, data);
         }, function(err) {
-          flash.message_bad('@server_error', '@server_error_msg');
+          flash.message_bad('@server_error');
         });
       });
 
@@ -79,6 +83,8 @@ define(function(require) {
 
     initialize: function(options) {
       var that = this;
+
+      _.extend(this.events, this.subevents);
       _.extend(this, _.pick(options, 'template', 'post_render'));
 
       $.when.apply(null, this.model.pre_ready)
@@ -122,6 +128,7 @@ define(function(require) {
       var that = this;
       keys.unregister_handler(popupKeyHander);
 
+      this.undelegateEvents();
       this.$el.removeData('type');
 
       popups.hide().always(function() {
@@ -160,7 +167,7 @@ define(function(require) {
         });
 
         // remove any existing popups first
-        popups.hide().done(function() {
+        popups.hide().then(function() {
           that.$el.html(popupHtml);
           that.$el.data('type', that.template);
 
@@ -170,6 +177,7 @@ define(function(require) {
           });
 
           locales.localize_dom_nodes(that.$el).then(function() {
+            that.delegateEvents();
             popups.show().done(function() {
               if (_.isFunction(that.post_transition)) {
                 that.post_transition();
@@ -184,7 +192,7 @@ define(function(require) {
 
         return that.trigger('render');
 
-      }).fail(function(err) {
+      }, function(err) {
         var that = _.first(utils.ensure_array(this));
         var msg = _.str.sprintf('Error rendering "%s": %s', that.template, err);
         popups.console.error(msg);
@@ -206,17 +214,16 @@ define(function(require) {
     template: 'popup-login',
 
     initialize: function(options) {
-      this.events = _.extend({}, this.events, this._events);
-      this.constructor.__super__.initialize.apply(this, arguments);
+      superViewInit(this, arguments);
 
       this.on('submit', function(form) {
         var that = this;
         var $form = $(form);
 
-        utils.submit_form($form).done(function(username) {
+        utils.submit_form($form).then(function(username) {
           bus.trigger('user:login', username);
           that.destroy();
-        }).fail(function() {
+        }, function() {
           that.show_invalid_login(); // invalid credentials
         });
       });
@@ -228,7 +235,7 @@ define(function(require) {
 
     show_invalid_login: function() {
       this.$el.find('input[name="password"]').select();
-      flash.message_bad('@invalid_creds', '@invalid_creds_msg');
+      flash.message_bad('@invalid_creds');
     }
   });
 
@@ -246,15 +253,14 @@ define(function(require) {
     template: 'popup-signup',
 
     initialize: function(options) {
-      this.events = _.extend({}, this.events, this._events);
-      this.constructor.__super__.initialize.apply(this, arguments);
+      superViewInit(this, arguments);
 
       this.on('submit', function(form) {
         var that = this;
         var $form = $(form);
 
         if (this.$username.val().length < 3) {
-          return flash.message_bad('@invalid_username', '@invalid_username_msg');
+          return flash.message_bad('@invalid_username');
         }
 
         if (this.$email.is(':invalid') || !this.$email.val()) {
@@ -266,14 +272,18 @@ define(function(require) {
         }
 
         if (this.$password.val().length < 8) {
-          return flash.message_bad('@invalid_password', '@invalid_password_msg');
+          return flash.message_bad('@invalid_password');
         }
 
-        utils.submit_form($form).done(function(username) {
+        utils.submit_form($form).then(function(username) {
           bus.trigger('user:login', username);
           that.destroy();
-        }).fail(function(xhr) {
-          flash.locale_message_bad(xhr.responseJSON);
+        }, function(xhr, status, err) {
+          switch(xhr.statusCode().status) {
+            case 400: flash.message_bad('@invalid_form'); break;
+            case 409: flash.message_bad('@user_exists'); break;
+            default: flash.xhr_error(xhr, status, err);
+          }
        });
       });
     },
@@ -321,24 +331,44 @@ define(function(require) {
   popups.SettingsPopupView = popups.PopupView.extend({
     template: 'popup-settings',
 
+    subevents: {
+      'input [name="current"]': function(e) {
+        var $passwords = this.$el.find('[name="password"], [name="confirm"]');
+
+        if ($(e.target).val()) {
+          $passwords.removeAttr('disabled');
+        } else {
+          $passwords.attr('disabled', 'disabled');
+        }
+      }
+    },
+
     initialize: function(options) {
       var that = this;
-
-      this.events = _.extend({}, this.events, this._events);
-      this.constructor.__super__.initialize.apply(this, arguments);
+      superViewInit(this, arguments);
 
       this.on('submit', function(form) {
-        var that = this;
         var $form = $(form);
 
-        utils.submit_form($form).done(function() {
+        if (this.$password.is(':enabled')) {
+          if (this.$password.val() !== this.$confirm.val()) {
+            return flash.message_bad('@password_mismatch');
+          }
+
+          if (this.$password.val().length < 8) {
+            return flash.message_bad('@invalid_password');
+          }
+        }
+
+        utils.submit_form($form).then(function() {
           user.get_settings().then(function() {
             that.destroy();
             flash.message_good('@settings_updated');
           });
-        }).fail(function(xhr, status, err) {
+        }, function(xhr, status, err) {
           switch(xhr.statusCode().status) {
-            case 400: flash.message_bad('@settings_invalid'); break;
+            case 400: flash.message_bad('@invalid_settings'); break;
+            case 403: flash.message_bad('@incorrect_current_password'); break;
             default: flash.xhr_error(xhr, status, err);
           }
         });
@@ -347,7 +377,7 @@ define(function(require) {
 
     post_render: function() {
       dom.cache(this, this.$el, {
-        'by_name': ['locales',]
+        'by_name': ['password', 'confirm']
       });
     }
   });
@@ -367,13 +397,9 @@ define(function(require) {
 
     initialize: function(options) {
       var that = this;
-
-      this.events = _.extend({}, this.events, this._events);
-      this.constructor.__super__.initialize.apply(this, arguments);
+      superViewInit(this, arguments);
 
       this.on('submit', function(form) {
-        var that = this;
-
         var bug = this.model.get('extras').bug;
 
         var $form = $(form);
@@ -416,8 +442,8 @@ define(function(require) {
 
     initialize: function(options) {
       var that = this;
+      var args = _.toArray(arguments);
 
-      this.events = _.extend({}, this.events, this._events);
       this.extras = utils.ensure_array(this.model.get('extras'));
 
       var placeholder_p = _.map(this.extras, function(extra) {
@@ -427,7 +453,7 @@ define(function(require) {
       });
 
       $.when.apply(null, placeholder_p).done(function() {
-        that.constructor.__super__.initialize.apply(that, arguments);
+        superViewInit(that, args);
       });
 
       this.on('submit', function(form) {
@@ -487,10 +513,7 @@ define(function(require) {
     template: 'popup-confirm',
 
     initialize: function(options) {
-      var that = this;
-
-      this.events = _.extend({}, this.events, this._events);
-      this.constructor.__super__.initialize.apply(this, arguments);
+      superViewInit(this, arguments);
     }
   });
 

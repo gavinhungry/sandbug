@@ -92,6 +92,11 @@ button {
   &.purple { .button(@button_purple_base_color); }
   &.slate { .button(@button_slate_base_color); }
 
+  &.warning {
+    border-color: fadein(@button_small_border_color, 5%);
+    border-bottom-color: fadein(@button_small_bottom_border_color, 5%);
+  }
+
   &.toggle {
     &::before {
       content: '';

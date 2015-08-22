@@ -83,10 +83,7 @@ define(function(require) {
             if (err) { utils.server_error(res, err); }
             else { res.json(user.username); }
           });
-        }, function(msg) {
-          if (msg instanceof utils.LocaleMsg) { res.status(409).json(msg); }
-          else { utils.server_error(res); }
-        }).done();
+        }, utils.server_error_handler(res)).done();
       },
 
       login: function(req, res) {
@@ -97,7 +94,7 @@ define(function(require) {
 
       logout: function(req, res) {
         req.logout();
-        res.json(true);
+        res.end();
       },
 
       bug: function(req, res) {
@@ -178,10 +175,20 @@ define(function(require) {
       user: function(req, res) {
         var user = req.user || {};
         var username = user.username;
+        var p = req.body.password || {};
 
-        auth.crud.update(username, {
-          settings: req.body
-        }, auth.crud.rest(res));
+        var updateSettings = function() {
+          auth.crud.update(username, {
+            settings: req.body.settings
+          }, auth.crud.rest(res));
+        };
+
+        if (!p || !p.password) {
+          return updateSettings();
+        }
+
+        auth.change_password(username, p.current, p.password, p.confirm).then(updateSettings,
+          utils.server_error_handler(res)).done();
       }
     },
 

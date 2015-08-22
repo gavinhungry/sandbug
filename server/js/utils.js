@@ -170,10 +170,14 @@ define(function(require) {
    * @param {Object} [err]
    */
   utils.server_error = function(res, err) {
-    if (err) { console.error(err); }
+    if (err) {
+      console.error(err);
+    }
 
     if (!res || !res.status) { return; } // !(res instanceof express.response)
-    res.status(500).json(new utils.LocaleMsg('server_error'));
+
+    var statusCode = err instanceof utils.ServerStatus ? err.statusCode : 500;
+    res.status(statusCode).end();
   };
 
   /**
@@ -183,38 +187,9 @@ define(function(require) {
    * @return {Function}
    */
   utils.server_error_handler = function(res) {
-    return function() { utils.server_error(res); };
-  };
-
-  /**
-   * Constructor for client messages, which consist of a localizable template
-   * string ID and optional data to fill the string
-   *
-   * @param {String} id - localizable template string ID
-   * @param {Array} [data] - data to fill template string on client
-   */
-  utils.LocaleMsg = function(id, head_args, msg_args) {
-    this.set_id(id);
-    this.args = {};
-
-    this.set_head_args(head_args);
-    this.set_msg_args(msg_args);
-  };
-
-  utils.LocaleMsg.prototype = {
-    set_id: function(id) { this.localize = id; return this; },
-    set_head_args: function(args) {
-      if (args && args.length) {
-        this.args.head = utils.ensure_array(data);
-      } else { delete this.args.head; }
-      return this;
-    },
-    set_msg_args: function(args) {
-      if (args && args.length) {
-        this.args.msg = utils.ensure_array(data);
-      } else { delete this.args.msg; }
-      return this;
-    }
+    return function(err) {
+      utils.server_error(res, err);
+    };
   };
 
   /**
@@ -239,6 +214,15 @@ define(function(require) {
    */
   utils.timestamp_now = function() {
     return Math.floor(Date.now() / 1000);
+  };
+
+  /**
+   * Status code object
+   *
+   * @param {Number} status - HTTP status code
+   */
+  utils.ServerStatus = function(status) {
+    this.statusCode = status;
   };
 
   return utils;

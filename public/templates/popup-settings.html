@@ -1,7 +1,7 @@
 <form id='settings_form' action='/api/user' method='put'>
   <div class='flex'>
     <label data-localize='locale'>Locale</label>
-    <select name='locale' class='plain full'>
+    <select data-form-group='settings' name='locale' class='plain full'>
     <% _.each(data.locales, function(name, localeId) { %>
       <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
     <% }); %>
@@ -10,7 +10,7 @@
 
   <div class='flex'>
     <label data-localize='default_theme'>Default theme</label>
-    <select name='theme' class='plain full'>
+    <select data-form-group='settings' name='theme' class='plain full'>
     <% _.each(data.themes, function(name, themeId) { %>
       <option value='<%- themeId %>' <% config.theme === themeId && print('selected') %>><%- name %></option>
     <% }); %>
@@ -19,7 +19,7 @@
 
   <div class='flex no-mobile'>
     <label data-localize='default_layout'>Default layout</label>
-    <select name='layout' class='plain full'>
+    <select data-form-group='settings' name='layout' class='plain full'>
     <% _.each(data.layouts, function(name, layoutId) { %>
       <option value='<%- layoutId %>' <% config.layout === layoutId && print('selected') %>><%- name %></option>
     <% }); %>
@@ -28,15 +28,18 @@
 
   <div class='flex'>
     <label data-localize='default_cdn'>Default CDN</label>
-    <select name='cdn' class='plain full'>
+    <select data-form-group='settings' name='cdn' class='plain full'>
     <% _.each(data.cdns, function(name, cdnId) { %>
       <option value='<%- cdnId %>' <% config.cdn === cdnId && print('selected') %>><%- name %></option>
     <% }); %>
     </select>
   </div>
 
-  <input disabled='disabled' name='password' data-localize-placeholder='change_password' type='password' class='plain full' maxlength='1024'>
-  <input disabled='disabled' name='confirm' data-localize-placeholder='confirm_password' type='password' class='plain full' maxlength='1024'>
+  <div class='popup-separator' data-localize='password_required_settings'>%</div>
+
+  <input data-form-group='password' name='current' data-localize-placeholder='current_password' type='password' class='plain full' maxlength='1024'>
+  <input data-form-group='password' name='password' disabled='disabled' data-localize-placeholder='new_password' type='password' class='plain full' maxlength='1024'>
+  <input data-form-group='password' name='confirm' disabled='disabled' data-localize-placeholder='confirm_password' type='password' class='plain full' maxlength='1024'>
 
   <div class='popup-actionbar'>
     <div class='btn-group right'>

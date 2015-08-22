@@ -76,6 +76,13 @@ input[type='search'], input[type='email'], select, .chosen-container {
     &:-ms-input-placeholder {
       opacity: 0.4; color: @input_plain_placeholder_color;
     }
+
+    &:disabled {
+      background: @input_plain_bg_disabled_color;
+      -webkit-user-select: none !important;
+      cursor: default;
+      color: #666 !important;
+    }
   }
 }
 

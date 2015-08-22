@@ -338,7 +338,7 @@ define(function(require) {
     $form = utils.ensure_jquery($form);
 
     var uri = $form.attr('action');
-    var data = $form.serialize();
+    var data = utils.form_map($form);
 
     var method = utils.ensure_string($form.attr('method')) || 'get';
     return $.ajax({
@@ -356,7 +356,18 @@ define(function(require) {
    */
   utils.form_map = function($form) {
     return _.reduce($form.serializeArray(), function(obj, prop) {
-      obj[prop.name] = prop.value; return obj;
+
+      var $input = $form.find(_.str.sprintf('[name="%s"]', prop.name)).first();
+      var group = $input.data('form-group');
+
+      if (group) {
+        obj[group] = obj[group] || {};
+        obj[group][prop.name] = prop.value;
+      } else {
+        obj[prop.name] = prop.value;
+      }
+
+      return obj;
     }, {});
   };
 
@@ -379,11 +390,6 @@ define(function(require) {
     var value_m = _.isFunction(value) ? value(): value;
     return $.when(value_m).then(utils.value);
   };
-
-  /**
-   * Dummy NOP function
-   */
-  utils.nop = function(){};
 
   /**
    * Return the current Unix timestamp

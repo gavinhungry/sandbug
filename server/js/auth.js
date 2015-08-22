@@ -214,44 +214,53 @@ define(function(require) {
    * @return {Promise} resolves to new user record on success
    */
   auth.create_user = function(username, email, plaintext, confirm) {
-    var d = Q.defer();
-
     username = _.str.clean(username);
     email = _.str.clean(email);
 
-    if (!auth.is_valid_username(username)) {
-      return utils.reject(new utils.LocaleMsg('invalid_username'));
-    }
-
-    if (!auth.is_valid_email(email)) {
-      return utils.reject(new utils.LocaleMsg('invalid_email'));
-    }
-
-    if (plaintext !== confirm) {
-      return utils.reject(new utils.LocaleMsg('password_mismatch'));
-    }
-
-    if (!auth.is_valid_password(plaintext)) {
-      return utils.reject(new utils.LocaleMsg('invalid_password'));
+    if (!auth.is_valid_username(username) || !auth.is_valid_email(email) ||
+      plaintext !== confirm || !auth.is_valid_password(plaintext))
+    {
+      return utils.reject(new utils.ServerStatus(400));
     }
 
     // check that the login is available first
-    db.login_exists(username, email).then(function(exists) {
-      if (exists) { return d.reject(new utils.LocaleMsg('user_exists')); }
+    return db.login_exists(username, email).then(function(exists) {
+      if (exists) {
+        return utils.reject(new utils.ServerStatus(409));
+      }
 
-      // get a hash for the plaintext password
-      auth.generate_hash(plaintext).then(function(hash) {
-        // actually create the user
-        db.create_user(username, email, hash).then(function(user) {
+      return auth.generate_hash(plaintext).then(function(hash) {
+        return db.create_user(username, email, hash);
+      });
+    });
+  };
 
-          // success! resolve to this new user record
-          d.resolve(user);
+  /**
+   * Change the password for a user
+   * @param {String} username
+   * @param {String} current - current plaintext password
+   * @param {String} plaintext - new plaintext password
+   * @param {String} confirm - new plaintext password confirmation
+   * @return {Promise}
+   */
+  auth.change_password = function(username, current, plaintext, confirm) {
+    username = _.str.clean(username);
 
-        }, d.reject);
-      }, d.reject);
-    }, d.reject);
+    if (!auth.is_valid_username(username) || plaintext !== confirm ||
+      !auth.is_valid_password(plaintext))
+    {
+      return utils.reject(new utils.ServerStatus(400));
+    }
 
-    return d.promise;
+    return auth.get_user_by_login(username, current).then(function(user) {
+      if (!user) {
+        return utils.reject(new utils.ServerStatus(403));
+      }
+
+      return auth.generate_hash(plaintext).then(function(hash) {
+        return db.change_password_hash(username, hash);
+      });
+    });
   };
 
   /**

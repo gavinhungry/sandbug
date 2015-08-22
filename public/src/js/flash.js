@@ -52,7 +52,7 @@ define(function(require) {
     opts = opts || {};
 
     var $flash = $(flashEl);
-    var timeout_fn = opts.no_timeout ? utils.nop : start_dismiss_timeout;
+    var timeout_fn = opts.no_timeout ? _.noop : start_dismiss_timeout;
 
     var template_p = templates.get('flash');
 
@@ -97,46 +97,14 @@ define(function(require) {
     });
   };
 
-  /**
-   * Flash a LocaleMsg from the server
-   *
-   * @param {Object} msg - LocaleMsg
-   * @param {String} [priority] - override the priority of the LocaleMsg
-   */
-  flash.locale_message = function(msg, priority) {
-    if (_.isString(msg)) {
-      return flash.message(msg, null, null, priority);
-    }
-
-    if (!msg || !msg.localize) {
-      return;
-    }
-
-    var heading = utils.ensure_string(msg.localize);
-    var body = _.str.sprintf('%s_msg', heading);
-
-    var head_args = utils.ensure_array(msg.args.head);
-    head_args.unshift(heading);
-
-    var msg_args = utils.ensure_array(msg.args.msg);
-    msg_args.unshift(body);
-
-    var heading_p = locales.string(head_args);
-    var body_p = locales.string(msg_args);
-
-    flash.message(heading_p, body_p, null, msg.priority || priority);
-  };
-
   // eg. flash.message_bad
   _.each(priorities, function(priority) {
-    _.each(['message', 'locale_message'], function(method) {
-      flash[method + '_' + priority] = function() {
-        var args = _.toArray(arguments);
-        args.length = flash[method].length - 1;
-        args.push(priority);
-        return flash[method].apply(null, args);
-      };
-    });
+    flash['message_' + priority] = function() {
+      var args = _.toArray(arguments);
+      args.length = flash.message.length - 1;
+      args.push(priority);
+      return flash.message.apply(null, args);
+    };
   });
 
   /**
@@ -146,7 +114,7 @@ define(function(require) {
    */
   flash.xhr_error = function(xhr, status, err) {
     var statusString = _.str.sprintf('%s %s', xhr.statusCode().status, xhr.statusText);
-    flash.locale_message_bad(xhr.responseJSON || xhr.responseText || statusString);
+    flash.message_bad(statusString);
   };
 
   /**

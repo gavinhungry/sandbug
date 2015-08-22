@@ -120,6 +120,33 @@ define(function(require) {
   };
 
   /**
+   * Change the password hash of an existing user
+   *
+   * @param {String} username
+   * @param {String} hash
+   * @return {Promise}
+   */
+  db.change_password_hash = function(username, hash) {
+    var d = Q.defer();
+
+    db.raw.users.update({
+      username: username
+    }, {
+      $set: {
+        hash: hash
+      }
+    }, function(err, n) {
+      if (err) {
+        d.reject(err);
+      } else {
+        d.resolve(n.nModified > 0);
+      }
+    });
+
+    return d.promise;
+  };
+
+  /**
    * Get a user from a MongoDB _id
    *
    * @param {String} id - MongoDB _id
