@@ -23,7 +23,7 @@
       jqueryjs: '//cdn.jsdelivr.net/jquery/2.1/jquery.min',
       underscorejs: '//cdn.jsdelivr.net/underscorejs/1.8/underscore-min',
       backbonejs: '//cdn.jsdelivr.net/backbonejs/1.2/backbone-min',
-      codemirrorjs: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/codemirror.min',
+      codemirrorjs: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/codemirror.min',
       hammer: '//cdn.jsdelivr.net/hammerjs/2.0/hammer.min',
 
       // plugins
@@ -40,26 +40,26 @@
       deepclone: 'plugins/underscore.deepclone',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
-      cm_meta: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/meta.min',
-      cm_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/mode/overlay.min',
-      cm_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/search/searchcursor.min',
-      cm_scrollbars: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/addon/scroll/simplescrollbars.min',
+      cm_meta: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/meta.min',
+      cm_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/addon/mode/overlay.min',
+      cm_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/addon/search/searchcursor.min',
+      cm_scrollbars: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/addon/scroll/simplescrollbars.min',
 
       // CodeMirror markup
-      cm_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/xml/xml.min',
-      cm_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/htmlmixed/htmlmixed.min',
-      cm_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/markdown/markdown.min',
-      cm_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/gfm/gfm.min',
-      cm_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/jade/jade.min',
-      cm_ruby: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/ruby/ruby.min',
-      cm_haml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/haml/haml.min',
+      cm_xml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/xml/xml.min',
+      cm_html: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/htmlmixed/htmlmixed.min',
+      cm_markdown: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/markdown/markdown.min',
+      cm_gfm: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/gfm/gfm.min',
+      cm_jade: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/jade/jade.min',
+      cm_ruby: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/ruby/ruby.min',
+      cm_haml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/haml/haml.min',
 
       // CodeMirror style
-      cm_css: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/css/css',
+      cm_css: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/css/css',
 
       // CodeMirror script
-      cm_js: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/javascript/javascript',
-      cm_coffeescript: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.5.0/mode/coffeescript/coffeescript',
+      cm_js: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/javascript/javascript',
+      cm_coffeescript: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/coffeescript/coffeescript',
 
       jquery: 'libs/jquery',
       underscore: 'libs/underscore',
