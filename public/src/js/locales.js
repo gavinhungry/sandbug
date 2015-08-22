@@ -111,7 +111,7 @@ define(function(require) {
     locales.get(config.locale).done(function(locale) {
       var str = (locale.strings && strId) ? locale.strings[strId] : null;
       if (!str) {
-        bugs.console.warn(_.str.sprintf('No %s locale string: %s', config.locale, strId));
+        locales.console.warn(_.str.sprintf('No %s locale string: %s', config.locale, strId));
         return d.resolve(null);
       }
 
