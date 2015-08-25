@@ -395,12 +395,30 @@ define(function(require) {
   popups.BugPropertiesPopupView = popups.PopupView.extend({
     template: 'popup-bug-properties',
 
+    subevents: {
+      'click #delete_bug': function(e) {
+        var that = this;
+
+        popups.confirm('@confirm_delete_bug', '@confirm_delete_bug_body').then(function() {
+          this.destroy();
+          bus.trigger('bugs:delete');
+        });
+      }
+    },
+
     initialize: function(options) {
       var that = this;
-      superViewInit(this, arguments);
+      var args = _.toArray(arguments);
+
+      var extras = this.model.get('extras');
+      var bug = extras.bug;
+
+      bug.isWritable().then(function(writable) {
+        extras.writable = writable;
+        superViewInit(that, args);
+      });
 
       this.on('submit', function(form) {
-        var bug = this.model.get('extras').bug;
 
         var $form = $(form);
         var map = utils.form_map($form);
@@ -409,15 +427,16 @@ define(function(require) {
         var save = function() {
           bug.set(map);
           bus.trigger('bugs:save');
-          that.destroy();
         };
 
         if (!bug.get('private') && map.private && !config.username && !bug.get('username')) {
-          popups.confirm('@confirm_private', '@confirm_private_body').then(save, function() {
-            that.destroy();
+          popups.confirm('@confirm_private', '@confirm_private_body').then(function() {
+            save();
+            this.destroy();
           });
         } else {
           save();
+          this.destroy();
         }
       });
     },
@@ -563,7 +582,7 @@ define(function(require) {
         if (_.first(prop) === '_') { delete map[prop]; }
       });
 
-      d.resolve(map);
+      d.resolveWith(view, [map]);
     });
 
     return d.promise();

@@ -38,8 +38,8 @@ define(function(require) {
   var _bugAccessDenied = function(err, bug, req, enforcePrivate) {
     var user = req.user || {};
 
+    // the bug is private and
     return !err && bug &&
-      // the bug is private and
       (!enforcePrivate || bug.private) &&
       // the bug has no recorded origin, or origin tokens do not match and
       (!bug.origin || (auth.sha512(req.session.csrfSecret) !== bug.origin)) &&
@@ -52,6 +52,10 @@ define(function(require) {
 
   var userCanReadBug = function(req, res, next) {
     bugs.crud.read(req.params.slug, function(err, bug) {
+      if (!bug) {
+        return res.status(404).end();
+      }
+
       if (_bugAccessDenied(err, bug, req, true)) {
         return res.status(403).end();
       }
@@ -62,6 +66,10 @@ define(function(require) {
 
   var userCanWriteBug = function(req, res, next) {
     bugs.crud.read(req.params.slug, function(err, bug) {
+      if (!bug) {
+        return res.status(404).end();
+      }
+
       if (_bugAccessDenied(err, bug, req)) {
         return res.status(403).end();
       }
@@ -194,9 +202,7 @@ define(function(require) {
 
     delete: { // DELETE
       bug: function(req, res) {
-        // FIXME
-        res.status(403).end();
-        // bugs.crud.delete(req.params.slug, bugs.crud.rest(res));
+        bugs.crud.delete(req.params.slug, bugs.crud.rest(res));
       }
     }
   };
@@ -222,6 +228,10 @@ define(function(require) {
   server.get('/api/bug/:slug', userCanReadBug, routes.get.bug);
   server.put('/api/bug/:slug', userCanWriteBug, routes.put.bug);
   server.delete('/api/bug/:slug', userCanWriteBug, routes.delete.bug);
+
+  server.get('/api/bug/:slug/writable', userCanWriteBug, function(req, res) {
+    res.end();
+  });
 
   server.get('/api/user', routes.get.user);
   server.put('/api/user', routes.put.user);

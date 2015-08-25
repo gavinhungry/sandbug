@@ -56,7 +56,7 @@ define(function(require) {
         if (id !== config.base_locale) {
           return locales.get(config.base_locale).then(function(baseLocale) {
             return _.extend(baseLocale, locale);
-          })
+          });
         }
 
         return locale;

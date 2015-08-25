@@ -45,6 +45,10 @@ define('bugs', function(require) {
       bugs.save();
     });
 
+    bus.on('bugs:delete', function() {
+      bugs.delete();
+    });
+
     bus.on('mirrors:mode', function(panel, mode, label) {
       bugs.model().set(_.str.sprintf('map.%s.mode', panel), mode);
     });
@@ -68,6 +72,11 @@ define('bugs', function(require) {
   bugs.Bug = Backbone.DeepModel.extend({
     idAttribute: 'slug',
 
+    _url: '/api/bug/',
+    url: function() {
+      return this._url + this.get(this.idAttribute);
+    },
+
     isEmpty: function() {
       return _.every(this.get('map'), function(panel) {
         return _.str.isBlank(panel.content);
@@ -78,9 +87,13 @@ define('bugs', function(require) {
       return !this.has('_fetched') || (this.get('slug') !== this._lastSlug);
     },
 
-    _url: '/api/bug/',
-    url: function() {
-      return this._url + this.get(this.idAttribute);
+    isWritable: function() {
+      if (!this.get('slug')) {
+        return utils.resolve(false);
+      }
+
+      var writableUri = _.str.sprintf('%s/writable', this.url());
+      return utils.resolve_boolean($.get(writableUri));
     },
 
     sync: function(method, model, options) {
@@ -260,18 +273,14 @@ define('bugs', function(require) {
     var model = bugs.model();
 
     if (model.isNew()) {
-      return flash.message('this bug is new, it cannot be deleted!');
+      return utils.reject();
     }
 
     bugs.model().destroy().then(function() {
-      flash.message_good('Bug deleted!');
+      flash.message_good('@bug_deleted');
       bugs.display(bugs.create());
     }, function() {
-
-
-      flash.message_bad('Error deleting Bug');
-
-
+      flash.message_bad('@error_deleting_bug');
     });
   };
 
