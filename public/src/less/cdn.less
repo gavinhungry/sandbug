@@ -45,6 +45,16 @@
 }
 
 #cdn-filter {
+  &:focus {
+    ~ #cdn-loading {
+      background: @input_bg_focus_color;
+
+      .semicircle::before {
+        border-color: @input_bg_focus_color;
+      }
+    }
+  }
+
   &.error {
     background-color: @cdn_error_bg_color;
     border-color: @cdn_error_border_color;
