@@ -65,7 +65,7 @@
     "password_required_settings": "Password required past this point",
     "patch":                      "Patch",
     "private":                    "Private",
-    "private-tip":                "Can only be read by author and collaborators",
+    "private_tip":                "Can only be read by author and collaborators",
     "properties":                 "Properties",
     "run":                        "Run",
     "save":                       "Save",

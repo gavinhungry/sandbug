@@ -1,38 +1,40 @@
 <form id='settings_form' action='/api/user' method='put'>
-  <div class='flex'>
-    <label data-localize='locale'>Locale</label>
-    <select data-form-group='settings' name='locale' class='plain full'>
-    <% _.each(data.locales, function(name, localeId) { %>
-      <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
-    <% }); %>
-    </select>
-  </div>
+  <div class='table'>
+    <div class='row'>
+      <label data-localize='locale'>Locale</label>
+      <select data-form-group='settings' name='locale' class='plain full'>
+      <% _.each(data.locales, function(name, localeId) { %>
+        <option value='<%- localeId %>' <% config.locale === localeId && print('selected') %>><%- name %></option>
+      <% }); %>
+      </select>
+    </div>
 
-  <div class='flex'>
-    <label data-localize='default_theme'>Default theme</label>
-    <select data-form-group='settings' name='theme' class='plain full'>
-    <% _.each(data.themes, function(name, themeId) { %>
-      <option value='<%- themeId %>' <% config.theme === themeId && print('selected') %>><%- name %></option>
-    <% }); %>
-    </select>
-  </div>
+    <div class='row'>
+      <label data-localize='default_theme'>Default theme</label>
+      <select data-form-group='settings' name='theme' class='plain full'>
+      <% _.each(data.themes, function(name, themeId) { %>
+        <option value='<%- themeId %>' <% config.theme === themeId && print('selected') %>><%- name %></option>
+      <% }); %>
+      </select>
+    </div>
 
-  <div class='flex no-mobile'>
-    <label data-localize='default_layout'>Default layout</label>
-    <select data-form-group='settings' name='layout' class='plain full'>
-    <% _.each(data.layouts, function(name, layoutId) { %>
-      <option value='<%- layoutId %>' <% config.layout === layoutId && print('selected') %>><%- name %></option>
-    <% }); %>
-    </select>
-  </div>
+    <div class='row no-mobile'>
+      <label data-localize='default_layout'>Default layout</label>
+      <select data-form-group='settings' name='layout' class='plain full'>
+      <% _.each(data.layouts, function(name, layoutId) { %>
+        <option value='<%- layoutId %>' <% config.layout === layoutId && print('selected') %>><%- name %></option>
+      <% }); %>
+      </select>
+    </div>
 
-  <div class='flex'>
-    <label data-localize='default_cdn'>Default CDN</label>
-    <select data-form-group='settings' name='cdn' class='plain full'>
-    <% _.each(data.cdns, function(name, cdnId) { %>
-      <option value='<%- cdnId %>' <% config.cdn === cdnId && print('selected') %>><%- name %></option>
-    <% }); %>
-    </select>
+    <div class='row'>
+      <label data-localize='default_cdn'>Default CDN</label>
+      <select data-form-group='settings' name='cdn' class='plain full'>
+      <% _.each(data.cdns, function(name, cdnId) { %>
+        <option value='<%- cdnId %>' <% config.cdn === cdnId && print('selected') %>><%- name %></option>
+      <% }); %>
+      </select>
+    </div>
   </div>
 
   <div class='popup-separator' data-localize='password_required_settings'>%</div>

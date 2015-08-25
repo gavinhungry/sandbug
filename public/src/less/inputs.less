@@ -90,15 +90,26 @@ input[type='checkbox'] {
   display: none;
 
   + label {
+    color: fadeout(@popup_head_text_color, 25%) !important;
     font-size: 11px !important;
-    top: -8px;
+    height: auto;
     left: -6px;
-    line-height: 1em !important;
+    line-height: 100% !important;
     overflow: hidden;
+    padding-bottom: 0;
+    padding-left: 40px !important;
+    padding-top: 0;
     position: relative;
     text-overflow: ellipsis;
-    text-indent: 40px;
-    color: fadeout(@popup_head_text_color, 25%) !important;
+    top: -6px;
+
+    > span {
+      display: inline-block;
+      margin-top: -6px;
+      max-height: 2em;
+      overflow: hidden;
+      white-space: normal;
+    }
 
     &::before {
       display: inline-block;

@@ -42,20 +42,25 @@
     label {
       user-select: none;
       white-space: nowrap;
-      width: @popup_width * 0.4;
       height: 0;
       line-height: 0;
       padding: 22px 0;
       color: @popup_head_text_color;
       font-size: 0.8em;
+
+      &:first-child {
+        padding-right: 12px;
+      }
+    }
+
+    .table .row label:first-child {
+      width: 1px;
     }
 
     &.popup-small {
       @_small_width: round(@popup_width / 1.5);
       width:  @_small_width;
       left: calc(50% ~'-' round(@_small_width / 2));
-
-      label { width: @_small_width * 0.4; }
     }
 
     .flex :last-child {

@@ -97,6 +97,19 @@ html, body, #debuggerio {
   overflow: hidden;
 }
 
+.table {
+  display: table;
+  width: 100%;
+
+  > * {
+    display: table-row;
+
+    > * {
+      display: table-cell;
+    }
+  }
+}
+
 @import 'buttons.less';
 @import 'cdn.less';
 @import 'com.less';

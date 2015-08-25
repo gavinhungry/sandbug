@@ -49,22 +49,17 @@ define(function(require) {
       id = utils.sanitize_resource_id(id);
       if (!id || cache[id]) { return; }
 
-      var d = $.Deferred();
-      cache[id] = d.promise();
-
       var localeUri = _.str.sprintf('%s/%s.json', dir, id);
       if (!config.prod) { localeUri += '?v=' + (new Date()).getTime(); }
 
-      $.getJSON(localeUri).done(function(locale, status, xhr) {
+      cache[id] = $.getJSON(localeUri).then(function(locale, status, xhr) {
         if (id !== config.base_locale) {
-          locales.get(config.base_locale).done(function(baseLocale) {
-            d.resolve(_.extend(baseLocale, locale));
-          }).fail(d.reject);
-        } else {
-          d.resolve(locale);
+          return locales.get(config.base_locale).then(function(baseLocale) {
+            return _.extend(baseLocale, locale);
+          })
         }
-      }).fail(function(xhr, status, err) {
-        d.reject(err);
+
+        return locale;
       });
     });
   };
@@ -79,13 +74,10 @@ define(function(require) {
   locales.get = function(id) {
     id = utils.sanitize_resource_id(id);
     locales.load(id);
-    var d = $.Deferred();
 
-    cache[id].done(function(locale) {
-      d.resolve(utils.clone(locale));
-    }).fail(d.reject);
-
-    return d.promise();
+    return cache[id].then(function(locale) {
+      return utils.clone(locale);
+    });
   };
 
   /**
