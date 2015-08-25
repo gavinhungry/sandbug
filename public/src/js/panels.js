@@ -385,37 +385,23 @@ define(function(require) {
   };
 
   /**
-   * Enable or disable fullscreen
+   * Enable fullscreen output
    */
-  panels.cycle_fullscreen = function() {
+  panels.enable_fullscreen = function() {
     if (!screenfull.enabled) {
       return;
     }
 
     var $output = panels.get_output_panel();
 
-    if (!screenfull.isFullscreen) {
-      if (!$output.hasClass('fullscreen')) {
-        screenfull.request();
-      } else {
+    $(document).one(screenfull.raw.fullscreenchange, function(e) {
+      $(document).one(screenfull.raw.fullscreenchange, function(e) {
         $output.removeClass('fullscreen');
-      }
-    } else {
-      if (!$output.hasClass('fullscreen')) {
-        screenfull.request($output[0]);
-        $output.addClass('fullscreen');
+      });
+    });
 
-        $(document).one(screenfull.raw.fullscreenchange, function(e) {
-          $(document).one(screenfull.raw.fullscreenchange, function(e) {
-            $output.removeClass('fullscreen');
-          });
-        });
-
-      } else {
-        $output.removeClass('fullscreen');
-        screenfull.exit();
-      }
-    }
+    screenfull.request($output[0]);
+    $output.addClass('fullscreen');
   };
 
   /**
