@@ -13,6 +13,8 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
+  var platform = require('platform');
+
   // ---
 
   var keys = utils.module('keys');
@@ -30,13 +32,16 @@ define(function(require) {
     '/':     191
   };
 
+  var isMac = _.contains(['OS X', 'Mac OS'], platform.os.family);
+  var ctrlKey = isMac ? 'metaKey' : 'ctrlKey';
+
   bus.init(function(av) {
     keys.console.log('init keys module');
 
     $(document).on('keydown', function(e) {
       // hey, I just met you ...
       var keyHandlers = _.filter(handlers, function(h) {
-        return !h.paused && h.ctrl === e.ctrlKey && h.alt === e.altKey &&
+        return !h.paused && h.ctrl === e[ctrlKey] && h.alt === e.altKey &&
           h.shift === e.shiftKey && h.key === e.which;
       });
 

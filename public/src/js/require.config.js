@@ -40,6 +40,7 @@
       deepclone: 'plugins/underscore.deepclone',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
+      platform: '//cdnjs.cloudflare.com/ajax/libs/platform/1.3.0/platform.min',
       screenfull: '//cdnjs.cloudflare.com/ajax/libs/screenfull.js/2.0.0/screenfull.min',
 
       cm_meta: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/meta.min',
