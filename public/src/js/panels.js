@@ -385,32 +385,36 @@ define(function(require) {
   };
 
   /**
-   * Enable or disable fullscreen output
-   *
-   * @param {Boolean} fullscreen - fullscreen output if true
+   * Enable or disable fullscreen
    */
-  panels.set_output_fullscreen = function(fullscreen) {
+  panels.cycle_fullscreen = function() {
+    if (!screenfull.enabled) {
+      return;
+    }
+
     var $output = panels.get_output_panel();
-    $output.toggleClass('fullscreen', !!fullscreen);
 
-    if (fullscreen && screenfull.enabled) {
-      // one for going fullscreen
-      $(document).one(screenfull.raw.fullscreenchange, function(e) {
-        // and for then coming back out of fullscreen
+    if (!screenfull.isFullscreen) {
+      if (!$output.hasClass('fullscreen')) {
+        screenfull.request();
+      } else {
+        $output.removeClass('fullscreen');
+      }
+    } else {
+      if (!$output.hasClass('fullscreen')) {
+        screenfull.request($output[0]);
+        $output.addClass('fullscreen');
+
         $(document).one(screenfull.raw.fullscreenchange, function(e) {
-          $output.removeClass('fullscreen');
-
-          if ($output.find(flash._priv.flashEl).length) {
-            flash.dismiss();
-          }
+          $(document).one(screenfull.raw.fullscreenchange, function(e) {
+            $output.removeClass('fullscreen');
+          });
         });
-      });
 
-      screenfull.request($output[0]);
-
-      flash.message('@fullscreen_start', null, {
-        $parent: $output
-      });
+      } else {
+        $output.removeClass('fullscreen');
+        screenfull.exit();
+      }
     }
   };
 

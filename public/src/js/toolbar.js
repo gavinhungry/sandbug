@@ -76,7 +76,7 @@ define(function(require) {
       'click #signup': function(e) { popups.popup('signup'); },
       'click #login': function(e) { bus.trigger('login'); },
       'click #logout': function(e) { bus.trigger('logout'); },
-      'click #fullscreen': function(e) { panels.set_output_fullscreen(true); }
+      'click #fullscreen': function(e) { panels.cycle_fullscreen(); }
     },
 
     setConsoleStatus: function(status) {
