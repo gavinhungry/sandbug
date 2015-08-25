@@ -75,7 +75,8 @@ define(function(require) {
       'click #settings': function(e) { popups.popup('settings'); },
       'click #signup': function(e) { popups.popup('signup'); },
       'click #login': function(e) { bus.trigger('login'); },
-      'click #logout': function(e) { bus.trigger('logout'); }
+      'click #logout': function(e) { bus.trigger('logout'); },
+      'click #fullscreen': function(e) { panels.set_output_fullscreen(true); }
     },
 
     setConsoleStatus: function(status) {
@@ -104,6 +105,7 @@ define(function(require) {
 
     set_phone_mode: function(phone) {
       this.$layout.toggleClass('hide', phone);
+      this.$fullscreen.toggleClass('hide', !phone);
     },
 
     render: function() {
@@ -117,8 +119,8 @@ define(function(require) {
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           'by_id': [
-            'console', 'theme', 'layout', 'settings', 'logout', 'signup',
-            'login'
+            'console', 'theme', 'layout', 'fullscreen', 'settings', 'logout',
+            'signup', 'login'
           ]
         });
 

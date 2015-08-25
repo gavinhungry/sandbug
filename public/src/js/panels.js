@@ -13,8 +13,11 @@ define(function(require) {
   var config = require('config');
   var utils  = require('utils');
 
+  var screenfull = require('screenfull');
+
   var Hammer  = require('hammer');
   var dom     = require('dom');
+  var flash   = require('flash');
   var mirrors = require('mirrors');
 
   // ---
@@ -61,15 +64,6 @@ define(function(require) {
     bus.on('config:layout', function(layout) {
       if (config.mode.phone) { return; }
       panels.set_layout(layout, true);
-    });
-
-    bus.on('window:resize', function() {
-      if (!config.mode.phone) {
-        return;
-      }
-
-      var landscape = $(window).width() > $(window).height();
-      panels.set_output_fullscreen(landscape);
     });
 
     config._priv.set_option('layout', config.default_layout);
@@ -396,7 +390,28 @@ define(function(require) {
    * @param {Boolean} fullscreen - fullscreen output if true
    */
   panels.set_output_fullscreen = function(fullscreen) {
-    panels.get_output_panel().toggleClass('fullscreen', !!fullscreen);
+    var $output = panels.get_output_panel();
+    $output.toggleClass('fullscreen', !!fullscreen);
+
+    if (fullscreen && screenfull.enabled) {
+      // one for going fullscreen
+      $(document).one(screenfull.raw.fullscreenchange, function(e) {
+        // and for then coming back out of fullscreen
+        $(document).one(screenfull.raw.fullscreenchange, function(e) {
+          $output.removeClass('fullscreen');
+
+          if ($output.find(flash._priv.flashEl).length) {
+            flash.dismiss();
+          }
+        });
+      });
+
+      screenfull.request($output[0]);
+
+      flash.message('@fullscreen_start', null, {
+        $parent: $output
+      });
+    }
   };
 
   /**

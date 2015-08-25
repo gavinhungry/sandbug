@@ -40,6 +40,8 @@
       deepclone: 'plugins/underscore.deepclone',
       deepmodel: '//cdn.jsdelivr.net/backbone.deepmodel/0.10/deep-model.min',
 
+      screenfull: '//cdnjs.cloudflare.com/ajax/libs/screenfull.js/2.0.0/screenfull.min',
+
       cm_meta: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/mode/meta.min',
       cm_overlay: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/addon/mode/overlay.min',
       cm_search: '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.6.0/addon/search/searchcursor.min',
@@ -136,6 +138,8 @@
       objmap: { deps: ['underscorejs'] },
       deepclone: { deps: ['underscorejs'] },
       deepmodel: { deps: ['underscorejs', 'deepclone', 'backbonejs'] },
+
+      screenfull: { exports: 'screenfull' },
 
       cm_scrollbars: { deps: ['codemirrorjs'] },
       cm_overlay: { deps: ['codemirrorjs'] },

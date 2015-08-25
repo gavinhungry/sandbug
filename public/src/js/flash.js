@@ -21,7 +21,7 @@ define(function(require) {
 
   var flash = utils.module('flash');
 
-  var flashEl = '#flash';
+  var flashEl = flash._priv.flashEl = '#flash';
   var lastHeading;
   var lastBody;
   var timeout;
@@ -29,8 +29,11 @@ define(function(require) {
   var priorities = ['bad', 'good'];
   var transition_props;
 
+  var appView;
+
   bus.init(function(av) {
     flash.console.log('init flash module');
+    appView = av;
 
     transition_props = dom.css(_.str.sprintf('%s._transition', flashEl));
     $(flashEl).on('click', function(e) { flash.dismiss(); });
@@ -46,12 +49,20 @@ define(function(require) {
    * @param {Object} [opts] - additional options
    *   @param {Boolean} [no_timeout] - if true, do not timeout flash message
    *   @param {Boolean} [wide] - if true, make the flash message wider
+   *   @param {jQuery} [$parent] - move the message to a new DOM parent
    * @param {String} [priority] - string from `priorities` (default is neutral)
    */
   flash.message = function(heading_m, body_m, opts, priority) {
     opts = opts || {};
 
     var $flash = $(flashEl);
+
+    if (opts.$parent && opts.$parent.length) {
+      opts.$parent.append($flash);
+    } else {
+      appView.$el.append($flash);
+    }
+
     var timeout_fn = opts.no_timeout ? _.noop : start_dismiss_timeout;
 
     var template_p = templates.get('flash');
@@ -73,7 +84,7 @@ define(function(require) {
         return timeout_fn();
       }
 
-      flash.dismiss().done(function() {
+      return flash.dismiss().then(function() {
         $flash.toggleClass('wide', !!opts.wide);
 
         var html = template_fn({

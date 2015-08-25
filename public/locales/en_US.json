@@ -35,6 +35,8 @@
     "delete_account":             "Delete account",
     "email":                      "Email",
     "forgot_password":            "Forgot password",
+    "fullscreen_start":           "Fullscreen mode",
+    "fullscreen_start_msg":       "Shake device to exit",
     "incorrect_current_password": "Current password incorrect",
     "input":                      "Input",
     "invalid_creds":              "Invalid login credentials",

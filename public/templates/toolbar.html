@@ -1,8 +1,9 @@
 <button id='console'><i class='fa fa-lg fa-terminal icon-only'></i></button>
 <button id='layout'><i class='fa fa-lg fa-columns icon-only'></i></button>
+<button id='fullscreen'><i class='fa fa-lg fa-arrows-alt icon-only'></i></button>
 
 <% if (username) { %>
-  <button class='action dropdown-button' data-dropdown='user'><%- username %></button>
+  <button id='user' class='action dropdown-button' data-dropdown='user'><%- username %></button>
   <div class='dropdown-menu dropdown-right flow' data-dropdown='user'>
     <ul class='dropdown-menu-content'>
       <li class='dropdown-item' id='settings' data-localize='settings'>Settings</li>
