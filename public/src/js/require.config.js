@@ -34,7 +34,7 @@
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
       chosen: '//cdn.jsdelivr.net/chosen/1.1/chosen.jquery.min',
 
-      string: '//cdn.jsdelivr.net/underscore.string/3.1/underscore.string.min',
+      string: '//cdn.jsdelivr.net/underscore.string/3.2/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
       objmap: 'plugins/_.objMapFunctions.amd',
       deepclone: 'plugins/underscore.deepclone',
