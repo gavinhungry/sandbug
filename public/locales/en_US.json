@@ -40,7 +40,6 @@
     "email":                      "Email",
     "error_deleting_bug":         "Error deleting Bug",
     "error_deleting_bug_msg":     "The current user may not have permissions to delete this Bug",
-    "forgot_password":            "Forgot password",
     "incorrect_current_password": "Current password incorrect",
     "input":                      "Input",
     "invalid_creds":              "Invalid login credentials",

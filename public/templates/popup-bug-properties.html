@@ -12,7 +12,9 @@
 
   <div class='popup-actionbar'>
     <% if (!data.extras.bug.isNew() && data.extras.writable) { %>
-      <button type='button' id='delete_bug' class='btn-small danger' data-localize='delete_bug'>%</button>
+      <div class='btn-group left'>
+        <button type='button' id='delete_bug' class='btn-small danger' data-localize='delete_bug'>%</button>
+      </div>
     <% } %>
 
     <div class='btn-group right'>
