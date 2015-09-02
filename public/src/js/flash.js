@@ -103,7 +103,7 @@ define(function(require) {
         $flash.css({ 'margin-top': $flash.height() * -1 })
           .html(html)
           .css({ 'display': 'block' })
-          .transition(transition_props, timeout_fn);
+          .transition(transition_props, 'fast', timeout_fn);
       });
     });
   };

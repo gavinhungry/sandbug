@@ -204,7 +204,7 @@ define(function(require) {
 
     display: _.debounce(function(filter) {
       var that = this;
-      this.$cdn_loading.transitIn('fast');
+      this.$cdn_loading.transitIn();
 
       var uri = _.str.sprintf(jsdelivr_query, config.cdn, filter);
       $.getJSON(uri).then(function(packages) {
@@ -217,12 +217,12 @@ define(function(require) {
         var limited = _.first(sorted, config.cdn_results);
 
         that.resultsView.once('render', function() {
-          that.$cdn_loading.transitOut('fast');
+          that.$cdn_loading.transitOut();
         }).set_filter(filter);
 
         that.resultsCollection.reset(limited);
       }, function(err) {
-        that.$cdn_loading.transitOut('fast');
+        that.$cdn_loading.transitOut();
         if (that.$filter.val().trim()) { that.$filter.addClass('error'); }
       });
     }, config.cdn_delay),
@@ -379,7 +379,7 @@ define(function(require) {
       this.$el.css({ 'max-height': _.str.sprintf('%spx', maxHeight) });
 
       this.first_active();
-      this.$el.transition({ 'opacity': 1 });
+      this.$el.transition({ 'opacity': 1 }, 'fast');
     },
 
     hide: function(callback, stop_fn) {

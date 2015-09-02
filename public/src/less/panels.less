@@ -33,8 +33,8 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       height: @panel_options_height;
       width: 100%;
       padding: @panel_padding;
-      border-bottom: 4px solid @panel_resizer_color;
-      background: @panel_options_bg_color;
+      background: darken(@header_bg_color, 5%);
+      border-top: 1px solid darken(@header_bg_color, 15%);
       overflow: hidden;
 
       > * {
@@ -79,10 +79,12 @@ body.ew, body.ew * { cursor: ew-resize !important; }
           border: none;
         }
       }
+
+      &.CodeMirror-focused {
+        background: @mirror_focused_bg_color;
+      }
     }
   }
-
-  .panel:not(:first-child) { border-left: 2px solid @panel_resizer_color; }
 
   #output {
     background: @output_bg_color;
@@ -120,21 +122,38 @@ body.ew, body.ew * { cursor: ew-resize !important; }
       height: 100%;
       margin-left: -3px;
       cursor: ew-resize;
-      transition: background 0.1s;
-      transition-delay: 0.05s;
+
+      &::before {
+        content: '';
+        display: block;
+        height: 100%;
+        margin-left: 2px;
+        margin-top: 1px;
+        opacity: 0.25;
+        pointer-events: none;
+        transition: background 0.1s;
+        transition-delay: 0.05s;
+        user-select: none;
+        width: 2px;
+      }
+    }
+
+    &:hover > div::before {
+      background: darken(@header_bg_color, 5%);
     }
   }
-
-  &._transition { transition-duration: 300ms; }
 }
 
 #input.layout-top {
   white-space: normal;
 
   #output {
-    border-top: 2px solid @panel_resizer_color;
     border-left: none;
     width: 100%;
+
+    .panel-options {
+      border-top-color: transparent;
+    }
   }
 
   .panel-resizer { height: 50%; }
@@ -157,11 +176,16 @@ body.ew, body.ew * { cursor: ew-resize !important; }
   .panel.input-panel {
     display: block;
     border-right: none;
-    border-bottom: 2px solid @panel_resizer_color;
     border-left: none;
 
     width: 100%; // goes to 40%
     height: 33%;
+  }
+
+  #script, #style {
+    .panel-options {
+      border-top-color: transparent;
+    }
   }
 
   #style { height: 34%; }
@@ -172,7 +196,6 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     right: -60%; // goes to 0
     width: 60%;
     height: calc(100% ~'-' @header_height);
-    border-left: 2px solid @panel_resizer_color;
   }
 
   .panel-resizer {

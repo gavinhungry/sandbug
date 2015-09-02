@@ -245,7 +245,7 @@ define(function(require) {
   popups.SignupPopup = popups.Popup.extend({
     defaults: {
       small: true,
-      title: '@create_account'
+      title: '@signup'
     }
   });
 
@@ -506,7 +506,7 @@ define(function(require) {
             if (!filtering) { this.setSelectionRange(start, end); }
           }
 
-          if (extra.copy_to) {
+          if (extra.copy_to && _.isFunction(extra.copy_if) && extra.copy_if()) {
             var $dest = that.$el.find(_.str.sprintf("input[name='%s']", extra.copy_to));
             if (!$dest.val()) { $dest.data('touched', false); }
             if (!$dest.data('touched') && (!no_copy || !$dest.val())) {

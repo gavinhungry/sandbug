@@ -64,6 +64,17 @@ define('bugs', function(require) {
     keys.register_handler({ ctrl: true, shift: true, key: 's' }, function(e) {
       bugs.save_as();
     });
+
+    bus.on('bugs:title', function() {
+      locales.string('untitled_bug').then(function(untitled) {
+        var title = bugs.model().get('title') || untitled;
+        av.$title.text(title);
+      });
+    });
+
+    av.$title.on('input', function(e) {
+      bugs.model().set('title', av.$title.text());
+    });
   });
 
   /**
@@ -168,6 +179,7 @@ define('bugs', function(require) {
     bugs._priv.current.map = utils.clone(bug.get('map'));
 
     if (bug === bugs.model()) {
+      bus.trigger('bugs:title');
       return;
     }
 
@@ -176,6 +188,7 @@ define('bugs', function(require) {
       model: bug
     });
 
+    bus.trigger('bugs:title');
     bugs._priv.current.view.render();
   };
 
@@ -251,7 +264,10 @@ define('bugs', function(require) {
         name: 'title',
         placeholder: '@bug_title',
         value: model.get('title'),
-        copy_to: 'slug'
+        copy_to: 'slug',
+        copy_if: function() {
+          return model.isNew();
+        }
       }, {
         name: 'slug',
         placeholder: '@url_slug',

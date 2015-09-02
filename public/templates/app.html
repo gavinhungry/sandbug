@@ -1,13 +1,9 @@
 <header>
-  <div id='title'>
-    <% if (mode.phone) { %>
-      <span class='bold'>dbgr</span>
-    <% } else { %>
-      <span class='bold'>debugger</span><span>.io</span>
-    <% } %>
+  <div id='title-wrapper'>
+    <span id='title' spellcheck="false" contenteditable='true' data-localize='untitled_bug'>%</span>
+    <i id='edit-title' class='fa fa-lg fa-pencil icon-only'></i>
   </div>
-
-  <div id='toolbar' class='right flex noselect'></div>
+  <div id='toolbar' class='flex noselect'></div>
 </header>
 
 <main>

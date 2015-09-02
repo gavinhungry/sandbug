@@ -28,15 +28,14 @@
     }
 
     .overlay-msg {
-      max-width: 250px;
+      max-width: 350px;
       font-size: 32px;
       background: @overlay_inset_bg_color;
       border: 1px solid @overlay_inset_border_color;
-      box-shadow: 4px 4px 0 @overlay_inset_border_color;
       color: @overlay_inset_text_color;
 
       .overlay-progress {
-        height: 4px;
+        height: 16px;
         background-color: @overlay_progress_bg_color;
         margin-bottom: -@overlay_msg_padding;
         margin-top: @overlay_msg_padding;
@@ -44,7 +43,7 @@
         transition: background-color 300ms;
 
         &.transition {
-          transition: width 200ms;
+          transition: width 500ms;
         }
 
         &.timeout {
@@ -60,13 +59,14 @@
       font-size: 16px;
       background: @overlay_inset_err_bg_color;
       border: 1px solid @overlay_inset_err_border_color;
-      box-shadow: 4px 4px 0 @overlay_inset_err_border_color;
       color: @overlay_inset_err_text_color;
     }
   }
 
   &#loading .overlay-msg {
-    font-family: @logo_font;
-    letter-spacing: 1px;
+    padding: 0;
+    .overlay-progress {
+      margin: 0;
+    }
   }
 }

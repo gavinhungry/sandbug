@@ -28,7 +28,6 @@ define(function(require) {
   var layout_transitioning = false;
   var $active_panels;
   var min_size;
-  var duration;
 
   bus.init(function(av) {
     panels.console.log('init panels module');
@@ -37,10 +36,6 @@ define(function(require) {
 
     var optionsHeight = dom.css('#input > .panel .panel-options').height;
     min_size = (parseInt(optionsHeight, 10) || 0) + 10;
-
-    var css = dom.css('#input._transition');
-    var transition = css['transition-duration'] || css.transition;
-    duration = parseInt(transition, 10) || 0;
 
     bus.on('config:mode', function(mode) {
       // immediately update the layout in phone mode
@@ -362,25 +357,23 @@ define(function(require) {
   var reset_horiz_panel = function(panel, withResizer, callback) {
     var $panel = utils.ensure_jquery(panel);
     var h = $panel.data('default-height');
-    var dur = duration;
 
-    $panel.data('y-offset', 0).transition({ 'height': h }, dur, callback);
+    $panel.data('y-offset', 0).transition({ 'height': h }, 'fast', callback);
 
     if (withResizer) {
-      $panel.prev('.panel-resizer').transition({ 'height': h }, dur, callback);
+      $panel.prev('.panel-resizer').transition({ 'height': h }, 'fast', callback);
     }
   };
 
   var reset_vert_panel = function(panel, withResizer, callback) {
     var $panel = utils.ensure_jquery(panel);
     var w = $panel.data('default-width');
-    var dur = duration;
 
-    $panel.data('x-offset', 0).transition({ 'width': w }, dur, callback);
+    $panel.data('x-offset', 0).transition({ 'width': w }, 'fast', callback);
 
     if (withResizer) {
-      $panel.prev('.panel-resizer').transition({ 'width': w }, dur, callback);
-      panels.get_master_resizer().transition({ 'left': w }, dur, callback);
+      $panel.prev('.panel-resizer').transition({ 'width': w }, 'fast', callback);
+      panels.get_master_resizer().transition({ 'left': w }, 'fast', callback);
     }
   };
 
@@ -628,7 +621,7 @@ define(function(require) {
   panels.set_layout = function(layout, now) {
     if (layout_transitioning) { return; }
 
-    var dur = now ? 0 : duration;
+    var dur = now ? 0 : 'fast';
 
     // do nothing if an invalid layout or the current layout is requested
     if (!_.contains(layouts, layout) || layout === panels.get_layout()) {

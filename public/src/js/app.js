@@ -132,24 +132,14 @@ define(function(require) {
       this.trigger('reveal');
 
       _.delay(function() {
-        $('#loading').transition({ 'opacity': '0' }, function() {
+        $('#loading').transition({ 'opacity': '0' }, 'fast', function() {
           $(this).remove();
-          that.$title.transition({ 'opacity': 1 }, 'slow', that.welcome);
         });
       }, config.splash_delay);
-    },
 
-    // show a welcome message, but just once
-    welcome: function() {
-      // not used
-      if (false && !localStorage.getItem('seen')) {
-        localStorage.setItem('seen', true);
-
-        flash.message_good('@welcome', '@welcome_msg', {
-          no_timeout: true,
-          wide: true
-        });
-      }
+      this.$edit_title.on('click', function(e) {
+        that.$title.selectText();
+      });
     },
 
     render: function() {
@@ -164,8 +154,8 @@ define(function(require) {
         // cache elements to the Backbone View
         dom.cache(this, this.$el, {
           by_id: [
-            'title', 'markup', 'style', 'script', 'input', 'output', 'save',
-            'save_as', 'auto', 'patch', 'properties'
+            'title', 'edit-title', 'markup', 'style', 'script', 'input',
+            'output', 'save', 'save_as', 'auto', 'patch', 'properties'
           ],
           by_class: ['panel', 'input-panel', 'panel-options']
         });

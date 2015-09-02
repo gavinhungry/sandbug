@@ -40,6 +40,7 @@ function($) {
   };
 
   $.fn.transitIn = function(speed, easing, callback) {
+    speed = speed || 'fast';
     this.css({ display: 'block' });
     this.transition({ opacity: 1 }, speed, easing, function() {
       typeof callback === 'function' && callback.call(this);
@@ -49,6 +50,7 @@ function($) {
   };
 
   $.fn.transitOut = function(speed, easing, callback) {
+    speed = speed || 'fast';
     this.transition({ opacity: 0 }, speed, easing, function() {
     this.css({ display: 'none' });
       typeof callback === 'function' && callback.call(this);
@@ -74,7 +76,7 @@ function($) {
   };
 
   $.fn.flowUp = function() {
-    return this.transition({ opacity: 0, maxHeight: 0 }, 100, function() {
+    return this.transition({ opacity: 0, maxHeight: 0 }, 'fast', function() {
       this.hide();
     });
   };
@@ -88,6 +90,17 @@ function($) {
     var closed = cHeight > wHeight;
 
     return closed ? this.flowDown() : this.flowUp();
+  };
+
+  $.fn.selectText = function() {
+    var range = document.createRange();
+    range.selectNodeContents(this[0]);
+
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    return this.focus();
   };
 
   return $; // $.noConflict(false);

@@ -11,12 +11,13 @@
 @import url('//cdn.jsdelivr.net/chosen/1.1/chosen.min.css');
 
 @import url('//fonts.googleapis.com/css?family=Montserrat');
-@import url('//fonts.googleapis.com/css?family=Lobster+Two');
 @import url('//fonts.googleapis.com/css?family=Oxygen:300,400');
 @import url('//fonts.googleapis.com/css?family=Belgrano');
 @import url('//fonts.googleapis.com/css?family=Droid+Sans+Mono');
 
-* { transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; }
+@_transition_time: 0.1s;
+
+* { transition: background @_transition_time, border-color @_transition_time, box-shadow @_transition_time; }
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
@@ -48,7 +49,6 @@ body {
 // Fonts
 @font: 'Montserrat', sans-serif;
 @button_font: 'Oxygen', sans-serif;
-@logo_font: 'Lobster Two', cursive, sans-serif;
 @title_font: 'Oxygen', sans-serif;
 @serif_font: 'Belgrano', serif;
 @system_font: 'Ubuntu', sans-serif;
@@ -99,6 +99,8 @@ html, body, #debuggerio {
 
 .table {
   display: table;
+  border-spacing: 0 10px;
+  margin-top: -10px;
   width: 100%;
 
   > * {

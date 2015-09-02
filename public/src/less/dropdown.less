@@ -5,8 +5,6 @@
 .dropdown-menu, .chosen-drop {
   position: fixed;
   z-index: 25;
-  box-shadow: 0 0 4px @dropdown_box_shadow_color;
-  border: 2px solid @dropdown_border_color !important;
   background: @dropdown_bg_color !important;
   border-radius: 0 !important;
   min-width: 100px;
@@ -25,11 +23,10 @@
 
     .dropdown-item, li {
       color: @dropdown_item_text_color !important;
-      text-shadow: 1px 1px 0 darken(@dropdown_bg_color, 5%);
       overflow: hidden;
       user-select: none;
       font-family: @font;
-      font-size: @font_size;
+      font-size: @font_size - 1px;
       padding: 8px 5px;
       margin: 0 0 2px 0;
       white-space: nowrap;

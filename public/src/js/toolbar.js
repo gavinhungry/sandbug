@@ -95,7 +95,7 @@ define(function(require) {
       var d = $.Deferred();
 
       var that = this;
-      this.$el.transition({ opacity: 0 }, function() {
+      this.$el.transition({ opacity: 0 }, 'fast', function() {
         dom.destroy_view(that);
         d.resolve(true);
       });
@@ -133,7 +133,7 @@ define(function(require) {
         dom.dropdown(this.$el.find('.dropdown-button'));
 
         this.setConsoleStatus(config.com);
-        this.$el.transition({ opacity: 1 });
+        this.$el.transition({ opacity: 1 }, 'fast');
 
         return this.trigger('render');
       });

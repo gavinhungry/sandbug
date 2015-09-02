@@ -6,32 +6,62 @@ header {
   width: 100%;
   height: @header_height;
   background: @header_bg_color;
-  border-bottom: 4px solid @header_bottom_border_color;
   padding: @header_padding;
   overflow-x: auto;
   overflow-y: hidden;
+  display: flex;
 
-  #title {
-    display: inline-block;
-    user-select: none;
-    cursor: default;
-    height: 100%;
-    margin: 0 0 0 4px;
-    padding: (@header_height / 2) - 10px 0;
-    font-family: @logo_font;
-    font-size: @header_height - 16px;
-    letter-spacing: 1px;
-    line-height: 0;
-    color: @header_text_color;
-    text-shadow: 1px 1px 1px rgba(0,0,0, 0.2);
-    opacity: 0;
-    vertical-align: middle;
+  #title-wrapper {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    #title {
+      color: @header_text_color;
+      display: inline-block;
+      font-family: @title_font;
+      font-size: (@header_height / 2) - 2px;
+      height: 100%;
+      outline: none !important;
+      overflow: hidden;
+      padding: 6px 0;
+      white-space: nowrap;
+
+      br { display: none; }
+      * {
+        display: inline;
+        white-space: nowrap;
+      }
+
+      &:empty {
+        overflow: visible;
+      }
+    }
+
+    #edit-title {
+      color: @header_text_color;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: @header_height / 2.5;
+      margin-left: 8px;
+      margin-right: 5px;
+      margin-top: @header_height / 4;
+      transition: opacity @_transition_time * 2;
+      transition-delay: @_transition_time;
+      vertical-align: top;
+      opacity: 0;
+    }
+
+    &:hover #edit-title, #title:empty + #edit-title {
+      opacity: 1;
+    }
   }
 
   #toolbar {
-    position: absolute;
-    right: @header_padding;
-    top: @header_padding;
+    white-space: nowrap;
+    margin-left: 6px;
+    margin-right: -6px;
   }
 }
 

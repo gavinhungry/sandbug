@@ -206,7 +206,7 @@ define(function(require) {
 
     // HACK: wait for a repaint
     _.delay(function() {
-      $button.stop().transition({ 'min-width': 0, 'max-width': 300 });
+      $button.stop().transition({ 'min-width': 0, 'max-width': 300 }, 'fast');
     }, 10);
   };
 
@@ -232,6 +232,7 @@ define(function(require) {
       var $el = $(opts.el);
 
       var args = _.clone(utils.ensure_array(opts.args));
+      args.push('fast');
       args.push(d.resolve);
 
       $.fn.transition.apply($el.stop(), args);
