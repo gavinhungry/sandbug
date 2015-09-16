@@ -7,7 +7,7 @@
   "private": true,
 
   "devDependencies" : {
-    "del": "1.2.x",
+    "del": "2.0.x",
     "git-rev": "0.2.x",
     "gulp": "3.9.x",
     "gulp-less": "3.0.x",
@@ -19,7 +19,7 @@
   },
 
   "dependencies": {
-    "body-parser": "1.13.x",
+    "body-parser": "1.14.x",
     "cjson": "0.3.x",
     "connect-mobile-detection": "0.0.x",
     "consolidate": "0.13.x",
@@ -33,7 +33,7 @@
     "q": "1.4.x",
     "requirejs": "2.1.x",
     "rudiment": "0.5.x",
-    "scrypt": "4.0.x",
+    "scrypt": "5.1.x",
     "seasurf": "0.1.x",
     "underscore": "1.8.x",
     "underscore-deep-extend": "0.0.x",

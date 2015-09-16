@@ -24,7 +24,9 @@
       './public/css',
       './public/js',
       './frame/css/*.min.css'
-    ], done);
+    ]).then(function(paths) {
+      done();
+    });
   });
 
   /**

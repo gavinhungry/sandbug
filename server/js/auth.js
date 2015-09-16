@@ -57,11 +57,7 @@ define(function(require) {
   });
 
   // scrypt setup
-  var params = scrypt.params(config.auth.maxtime);
-  scrypt.hash.config.keyEncoding = 'ascii';
-  scrypt.hash.config.outputEncoding = 'base64';
-  scrypt.verify.config.hashEncoding = 'base64';
-  scrypt.verify.config.keyEncoding = 'ascii';
+  var params_p = scrypt.params(config.auth.maxtime);
 
   /**
    * @param {Express} server - Express server to init auth methods on
@@ -143,18 +139,15 @@ define(function(require) {
    * @return {Promise} to return salted hash
    */
   auth.generate_hash = function(plaintext) {
-    var d = Q.defer();
-
     if (!_.isString(plaintext) || !plaintext.length) {
       return utils.reject();
     }
 
-    scrypt.hash(plaintext, params, function(err, hash) {
-      if (err) { return d.reject(err); }
-      d.resolve(hash);
+    return params_p.then(function(params) {
+      return scrypt.kdf(plaintext, params).then(function(buf) {
+        return buf.toString('base64');
+      });
     });
-
-    return d.promise;
   };
 
   /**
@@ -175,8 +168,11 @@ define(function(require) {
       return utils.resolve(false);
     }
 
-    scrypt.verify(hash, plaintext, function(err, result) {
-      d.resolve(!err && !!result);
+    var kdf = new Buffer(hash, 'base64');
+    scrypt.verifyKdf(kdf, plaintext).then(function(result) {
+      d.resolve(result);
+    }, function(err) {
+      d.resolve(false);
     });
 
     return d.promise;
@@ -190,18 +186,16 @@ define(function(require) {
    * @return {Promise} to return a user or false if no matching user found
    */
   auth.get_user_by_login = function(login, plaintext) {
-    var d = Q.defer();
+    return db.get_user_by_login(login, true).then(function(user) {
+      if (!user || user.disabled) {
+        return false;
+      }
 
-    db.get_user_by_login(login, true).then(function(user) {
-      if (!user || user.disabled) { d.resolve(false); }
-
-      auth.verify_hash(plaintext, user.hash).done(function(match) {
+      return auth.verify_hash(plaintext, user.hash).then(function(match) {
         delete user.hash;
-        d.resolve(match ? user : false);
+        return match ? user : false;
       });
-    }, d.reject);
-
-    return d.promise;
+    });
   };
 
   /**
