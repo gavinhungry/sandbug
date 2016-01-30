@@ -30,7 +30,6 @@
     "default_compact_layout": "layout-top",
 
     // Default theme stylesheet
-    // One of: [light, dark]
     "default_theme": "dark",
 
     // Default CDN to use

@@ -2,7 +2,7 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-.dropdown-menu, .chosen-drop {
+.dropdown-menu {
   position: fixed;
   z-index: 25;
   background: @dropdown_bg_color !important;
@@ -12,11 +12,7 @@
 
   * { cursor: default !important; }
 
-  .chosen-results {
-    margin: 0;
-  }
-
-  .dropdown-menu-content, .chosen-results {
+  .dropdown-menu-content {
     padding: 4px;
 
     .dropdown-item { transition: none; }
@@ -36,13 +32,11 @@
 
       &:hover, &.highlighted {
         background: @dropdown_item_hover_bg_color !important;
-        text-shadow: 1px 1px 0 darken(@dropdown_item_hover_bg_color, 5%) !important;
         color: @dropdown_item_hover_text_color !important;
       }
 
       &.active, &.result-selected {
         background: @dropdown_item_active_bg_color !important;
-        text-shadow: 1px 1px 0 darken(@dropdown_item_active_bg_color, 5%) !important;
       }
 
       > .subtext {
@@ -53,7 +47,6 @@
       &.danger:hover {
         background: @button_danger_base_color !important;
         color: rgba(255, 255, 255, 0.95) !important;
-        text-shadow: 1px 1px 0 rgba(0,0,0, 0.5) !important;
       }
     }
 

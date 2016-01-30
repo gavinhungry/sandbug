@@ -6,42 +6,36 @@ textarea, input, button, select {
   &:focus { outline: none; }
 }
 
-select { padding-left: 6px !important; }
+select {
+  padding-left: 6px !important;
+}
 
 input[type='text'], input[type='password'],
-input[type='search'], input[type='email'], select, .chosen-container {
-  &.chosen-container {
-    margin-bottom: 10px;
-  }
-
+input[type='search'], input[type='email'], select {
   &:not(.plain) {
     background: @input_bg_color;
     color: @input_text_color;
-    padding: 2px 4px;
+    padding: 2px 6px;
     font-family: @system_font;
     font-size: @font_size;
 
-    border: 1px solid fade(@input_border_color, 80%);
-    box-shadow: 0 0 1px fade(@input_border_color, 50%),
-      inset 0 0 2px fade(@input_border_color, 10%);
+    border: 1px solid @input_border_color;
 
     &:focus {
       background: @input_bg_focus_color;
       border-color: fade(@input_border_focus_color, 95%);
-      box-shadow: 0 0 1px fade(@input_border_focus_color, 50%),
-        inset 0 0 2px fade(@input_border_focus_color, 30%);
     }
 
     &:disabled { background: @input_bg_disabled_color; }
 
     &::-webkit-input-placeholder {
-      opacity: 0.4; color: @input_placeholder_color;
+      opacity: 0.6; color: @input_placeholder_color;
     }
     &::-moz-placeholder {
-      opacity: 0.4; color: @input_placeholder_color;
+      opacity: 0.6; color: @input_placeholder_color;
     }
     &:-ms-input-placeholder {
-      opacity: 0.4; color: @input_placeholder_color;
+      opacity: 0.6; color: @input_placeholder_color;
     }
   }
 
@@ -50,20 +44,22 @@ input[type='search'], input[type='email'], select, .chosen-container {
     background: @input_plain_bg_color;
     color: @input_plain_text_color;
     border: 2px solid @input_plain_border_color;
-    box-shadow: 0 0 4px @input_plain_box_shadow_color;
     padding: 6px 8px;
     font-family: @font;
     font-size: @font_size + 2px;
 
-    &:focus, &.chosen-with-drop {
+    &:focus {
       background: @input_plain_bg_focus_color;
       border-color: @input_plain_border_focus_color;
     }
 
     &.full {
       width: 100% !important;
-      margin-bottom: 10px;
       padding: 10px;
+
+      &:not(select) {
+        margin-bottom: 10px;
+      }
     }
 
     &:invalid {
@@ -88,6 +84,13 @@ input[type='search'], input[type='email'], select, .chosen-container {
       color: #666 !important;
     }
   }
+}
+
+select option {
+  background: #EEE;
+  color: #333;
+  font-size: 12px;
+  transition: none !important;
 }
 
 input[type='checkbox'] {
@@ -128,51 +131,10 @@ input[type='checkbox'] {
       background-color: @input_plain_bg_color;
       padding: 5px !important;
       border: 4px solid @input_plain_bg_color;
-      box-shadow: 0 0 0 2px @input_plain_border_color,
-        0 0 6px 1px @input_plain_box_shadow_color;
-
       position: absolute;
       left: 6px;
       bottom: 6px;
     }
   }
-
-  &:checked + label::before {
-    background-color: @toggle_checkbox_checked_bg_color;
-  }
-
-  &:active + label::before {
-    background-color: fadeout(@toggle_checkbox_checked_bg_color, 50%) !important;
-  }
 }
 
-#debuggerio select + .chosen-container {
-  * { transition: none; }
-  cursor: pointer;
-
-  .chosen-single {
-    height: 42px;
-    color: @input_plain_placeholder_color;
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
-    height: 18px;
-    line-height: 18px;
-    overflow: visible;
-
-    > span {
-      height: 100%;
-      color: @select_option_text_color;
-    }
-
-    > div {
-      top: -1px;
-      right: -8px;
-    }
-  }
-
-  .chosen-drop {
-    margin-top: 4px;
-  }
-}

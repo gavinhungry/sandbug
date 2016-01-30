@@ -66,7 +66,6 @@
     "onbeforeunload":             "This Bug has unsaved code!",
     "password":                   "Password",
     "password_mismatch":          "Passwords do not match",
-    "password_required_settings": "Password required past this point",
     "patch":                      "Patch",
     "private":                    "Private",
     "private_tip":                "Can only be read by the author",

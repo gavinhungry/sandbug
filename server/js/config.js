@@ -53,7 +53,7 @@ define(function(require) {
   config.client.build = config.build;
 
   // default theme goes last
-  config.themes = ['light', 'dark'];
+  config.themes = ['dark'];
   config.themes[_.indexOf(config.themes, config.client.default_theme)] = null;
   config.themes.push(config.client.default_theme);
   config.themes = _.uniq(_.compact(config.themes));

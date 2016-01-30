@@ -2,19 +2,15 @@
  * debugger.io: An interactive web scripting sandbox
  */
 
-.button (@base: @button_default_base_color) {
+.button (@base: @button_default_base_color, @darken: 10%) {
   background: @base;
-
-  @_text_shadow_color: desaturate(darken(@base, 15%), 10%);
-  text-shadow: 1px 1px @_text_shadow_color;
+  border: 1px solid darken(@base, @darken);
 
   &:hover {
     background: lighten(@base, 4%);
-    text-shadow: 1px 1px lighten(@_text_shadow_color, 4%);
   }
 
   &:active, &.active {
-    text-shadow: 1px 1px darken(@_text_shadow_color, 4%);
     background: darken(@base, 4%);
     padding-top: 2px !important;
   }
@@ -26,10 +22,7 @@ button {
   cursor: pointer;
   height: 33px;
   line-height: 28px;
-  border: 1px solid @button_small_border_color;
-  border-bottom: 1px solid @button_small_bottom_border_color;
   border-radius: 1px;
-  box-shadow: 0 1px 2px -1px @button_box_shadow_color;
   font-family: @button_font;
   font-weight: 300;
   font-size: @font_size;
@@ -71,8 +64,6 @@ button {
     text-align: center;
     margin-right: 4px;
     color: @button_text_color;
-    border-color: @button_small_border_color;
-    border-bottom-color: @button_small_bottom_border_color;
 
     > i.fa {
       margin-left: -8px;
@@ -83,17 +74,12 @@ button {
     }
   }
 
-  &.action { .button(@button_action_base_color); }
-  &.proceed { .button(@button_proceed_base_color); }
-  &.warning { .button(@button_warning_base_color); }
-  &.danger { .button(@button_danger_base_color); }
-  &.purple { .button(@button_purple_base_color); }
-  &.slate { .button(@button_slate_base_color); }
-
-  &.warning {
-    border-color: fadein(@button_small_border_color, 5%);
-    border-bottom-color: fadein(@button_small_bottom_border_color, 5%);
-  }
+  &.action { .button(@button_action_base_color, 30%); }
+  &.proceed { .button(@button_proceed_base_color, 50%); }
+  &.warning { .button(@button_warning_base_color, 50%); }
+  &.danger { .button(@button_danger_base_color, 50%); }
+  &.purple { .button(@button_purple_base_color, 30%); }
+  &.slate { .button(@button_slate_base_color, 50%); }
 
   &.toggle {
     &::before {
@@ -106,17 +92,15 @@ button {
       margin: -2px 6px 0 -2px;
       padding: 4px 3px 5px 5px;
       border: 2px solid @toggle_bg_color;
-      border-radius: 1px;
-      box-shadow: 0 0 0 1px lighten(@toggle_checked_bg_color, 5%),
-        0 0 2px darken(@toggle_checked_bg_color, 5%);
+      border-radius: 0px;
     }
 
     &.checked::before {
-      background-color: @toggle_checked_bg_color;
+      background-color: lighten(@toggle_bg_color, 40%);
     }
 
     &:active::before, &.active::before {
-      background-color: lighten(@toggle_checked_bg_color, 25%);
+      background-color: lighten(@toggle_bg_color, 20%);
     }
   }
 
@@ -147,5 +131,13 @@ body.alt {
 body.phone {
   button {
     font-weight: bold !important;
+  }
+}
+
+header button {
+  .button(lighten(@button_default_base_color, 15%), 25%);
+
+  &.action {
+    .button(desaturate(darken(@button_action_base_color, 15%), 10%), 40%);
   }
 }

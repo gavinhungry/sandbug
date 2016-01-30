@@ -29,13 +29,14 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     width: 25%;
 
     .panel-options {
+      background: lighten(@header_bg_color, 10%);
+      border-top: 1px solid darken(@header_bg_color, 15%);
+      border-bottom: 1px solid darken(@header_bg_color, 10%);
       display: flex;
       height: @panel_options_height;
-      width: 100%;
-      padding: @panel_padding;
-      background: darken(@header_bg_color, 5%);
-      border-top: 1px solid darken(@header_bg_color, 15%);
       overflow: hidden;
+      padding: @panel_padding;
+      width: 100%;
 
       > * {
         height: 100%;
@@ -152,7 +153,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     width: 100%;
 
     .panel-options {
-      border-top-color: transparent;
+      border-color: 1px solid darken(@header_bg_color, 10%);
     }
   }
 
@@ -184,7 +185,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
   #script, #style {
     .panel-options {
-      border-top-color: transparent;
+      border-color: darken(@header_bg_color, 10%);
     }
   }
 

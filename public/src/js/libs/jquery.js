@@ -9,7 +9,7 @@
  * jQuery Storage API, jQuery UI, jQuery UI Touch Punch
  */
 define([
-  'jqueryjs', 'transit', 'cookie', 'storage', 'ui', 'touchpunch', 'chosen'
+  'jqueryjs', 'transit', 'cookie', 'storage', 'ui', 'touchpunch'
 ],
 function($) {
   // jQuery.transit fallback to $.fn.animate
@@ -20,22 +20,22 @@ function($) {
     time = time || 1000; // 1 second default wait time
 
     return this.queue('fx', function (next, hooks) {
-        var i, t;
+      var i, t;
 
-        i = setInterval(function() {
-          if (fn.call(that)) {
-            done();
-            return next();
-          }
-        }, 1);
+      i = setInterval(function() {
+        if (fn.call(that)) {
+          done();
+          return next();
+        }
+      }, 1);
 
-        var done = function() {
-          clearInterval(i);
-          clearTimeout(t);
-        };
+      var done = function() {
+        clearInterval(i);
+        clearTimeout(t);
+      };
 
-        t = setTimeout(done, time);
-        hooks.stop = done;
+      t = setTimeout(done, time);
+      hooks.stop = done;
     });
   };
 

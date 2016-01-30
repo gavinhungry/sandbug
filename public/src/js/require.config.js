@@ -32,7 +32,6 @@
       transit: '//cdn.jsdelivr.net/jquery.transit/0.9/jquery.transit.min',
       cookie: '//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min',
       storage: '//cdn.jsdelivr.net/jquery.storage-api/1.7.2/jquery.storageapi.min',
-      chosen: '//cdn.jsdelivr.net/chosen/1.1/chosen.jquery.min',
 
       string: '//cdn.jsdelivr.net/underscore.string/3.2/underscore.string.min',
       inflection: '//cdn.jsdelivr.net/underscore.inflection/1.0/underscore.inflection.min',
@@ -132,7 +131,6 @@
       cookie: { deps: ['jqueryjs'] },
       storage: { deps: ['jqueryjs', 'cookie'] },
       hammer: { deps: ['jqueryjs'] },
-      chosen: { deps: ['jqueryjs'] },
 
       string: { deps: ['underscorejs'], exports: '_.str' },
       inflection: { deps: ['underscorejs'] },

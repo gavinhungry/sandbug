@@ -171,11 +171,6 @@ define(function(require) {
           that.$el.html(popupHtml);
           that.$el.data('type', that.template);
 
-          that.$el.find('select').chosen({
-            disable_search: true,
-            inherit_select_classes: true
-          });
-
           locales.localize_dom_nodes(that.$el).then(function() {
             that.delegateEvents();
             popups.show().done(function() {

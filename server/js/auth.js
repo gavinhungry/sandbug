@@ -42,7 +42,7 @@ define(function(require) {
         cdn: ['jsdelivr', 'cdnjs', 'google'],
         layout: ['layout-cols', 'layout-top', 'layout-left'],
         locale: ['en_US'],
-        theme: ['light', 'dark']
+        theme: ['dark']
       }
     }), function(user) {
       return auth.is_valid_username(user.username) &&

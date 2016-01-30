@@ -7,7 +7,7 @@
   "private": true,
 
   "devDependencies" : {
-    "del": "2.1.x",
+    "del": "2.2.x",
     "git-rev": "0.2.x",
     "gulp": "3.9.x",
     "gulp-less": "3.0.x",
@@ -22,22 +22,22 @@
     "body-parser": "1.14.x",
     "cjson": "0.3.x",
     "connect-mobile-detection": "0.0.x",
-    "consolidate": "0.13.x",
+    "consolidate": "0.14.x",
     "cookie-parser": "1.4.x",
     "cookie-session": "1.2.x",
     "express": "4.13.x",
     "js-schema": "1.0.x",
-    "mongojs": "1.4.x",
+    "mongojs": "2.3.x",
     "passport": "0.3.x",
     "passport-local": "1.0.x",
     "q": "1.4.x",
     "requirejs": "2.1.x",
     "rudiment": "0.5.x",
-    "scrypt": "5.4.x",
+    "scrypt": "https://github.com/barrysteyn/node-scrypt#v6",
     "seasurf": "0.1.x",
     "underscore": "1.8.x",
     "underscore-deep-extend": "0.0.x",
     "underscore.string": "3.2.x",
-    "validator": "4.3.x"
+    "validator": "4.5.x"
   }
 }
