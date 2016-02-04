@@ -38,6 +38,6 @@
     "underscore": "1.8.x",
     "underscore-deep-extend": "0.0.x",
     "underscore.string": "3.2.x",
-    "validator": "4.5.x"
+    "validator": "4.6.x"
   }
 }
