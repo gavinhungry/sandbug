@@ -33,7 +33,7 @@
     "q": "1.4.x",
     "requirejs": "2.1.x",
     "rudiment": "0.5.x",
-    "scrypt": "https://github.com/barrysteyn/node-scrypt#v6",
+    "scrypt": "5.4.x",
     "seasurf": "0.1.x",
     "underscore": "1.8.x",
     "underscore-deep-extend": "0.0.x",
