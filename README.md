@@ -1,4 +1,4 @@
-debugger.io
+Debugger.io
 ===========
 An interactive web scripting sandbox.
 
@@ -66,5 +66,4 @@ The icons used throughout the interface are from the
 
 License
 -------
-`debugger.io` is released under the terms of the
-[MIT license](http://tldrlegal.com/license/mit-license). See **LICENSE**.
+This software is released under the terms of the **MIT license**. See `LICENSE`.
