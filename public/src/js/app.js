@@ -132,6 +132,8 @@ define(function(require) {
       this.trigger('reveal');
 
       _.delay(function() {
+        mirrors.focus('script');
+
         $('#loading').transition({ 'opacity': '0' }, 'fast', function() {
           $(this).remove();
         });
