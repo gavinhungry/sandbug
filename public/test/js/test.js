@@ -14,10 +14,10 @@
       urlArgs: ('v=' + (new Date()).getTime()),
 
       paths: {
-        jasminejs: '//cdn.jsdelivr.net/jasmine/2.0.0/jasmine',
-        jasmine_html: '//cdn.jsdelivr.net/jasmine/2.0.0/jasmine-html',
-        jasmine_boot: '//cdn.jsdelivr.net/jasmine/2.0.0/boot',
-        jasmine_jquery: '//cdn.jsdelivr.net/jasmine.jquery/2.0/jasmine-jquery.min',
+        jasminejs: '//cdn.jsdelivr.net/jasmine/2.4/jasmine',
+        jasmine_html: '//cdn.jsdelivr.net/jasmine/2.4/jasmine-html',
+        jasmine_boot: '//cdn.jsdelivr.net/jasmine/2.4/boot',
+        jasmine_jquery: '//cdn.jsdelivr.net/jasmine.jquery/2/jasmine-jquery.min',
 
         jasmine: TEST + '/js/libs/jasmine',
         matchers: TEST + '/js/matchers'

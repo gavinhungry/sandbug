@@ -10,7 +10,7 @@
     "del": "2.2.x",
     "git-rev": "0.2.x",
     "gulp": "3.9.x",
-    "gulp-less": "3.0.x",
+    "gulp-less": "3.1.x",
     "gulp-nodemon": "2.0.x",
     "gulp-rename": "1.2.x",
     "gulp-symlink": "2.1.x",
@@ -19,25 +19,25 @@
   },
 
   "dependencies": {
-    "body-parser": "1.14.x",
-    "cjson": "0.3.x",
+    "body-parser": "1.15.x",
+    "cjson": "0.4.x",
     "connect-mobile-detection": "0.0.x",
     "consolidate": "0.14.x",
     "cookie-parser": "1.4.x",
     "cookie-session": "1.2.x",
     "express": "4.13.x",
     "js-schema": "1.0.x",
-    "mongojs": "2.3.x",
+    "mongojs": "2.4.x",
     "passport": "0.3.x",
     "passport-local": "1.0.x",
     "q": "1.4.x",
-    "requirejs": "2.1.x",
+    "requirejs": "2.2.x",
     "rudiment": "0.5.x",
-    "scrypt": "5.4.x",
+    "scrypt": "6.0.x",
     "seasurf": "0.1.x",
     "underscore": "1.8.x",
-    "underscore-deep-extend": "0.0.x",
-    "underscore.string": "3.2.x",
-    "validator": "4.6.x"
+    "underscore-deep-extend": "1.0.x",
+    "underscore.string": "3.3.x",
+    "validator": "5.2.x"
   }
 }
