@@ -45,7 +45,7 @@
     $(function() {
 
       var origin, source, win;
-      var dd = diffDOM();
+      var dd = new diffDOM();
 
       var frame_selector = '#frame';
       var reset_frame = function() {
