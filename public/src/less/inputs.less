@@ -155,5 +155,9 @@ input[type='checkbox'] {
       bottom: 6px;
     }
   }
+
+  &:checked + label::before {
+    background: lighten(@input_plain_bg_color, 30%);
+  }
 }
 

@@ -57,6 +57,12 @@ define('bugs', function(require) {
       bugs.model().set(_.str.sprintf('map.%s.content', panel), content);
     });
 
+    bus.on('user:logout', function() {
+      if (bugs.model().get('private')) {
+        bugs.display(bugs.create());
+      }
+    });
+
     keys.register_handler({ ctrl: true, key: 's' }, function(e) {
       bugs.save();
     });
