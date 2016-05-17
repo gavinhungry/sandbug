@@ -25,7 +25,9 @@ define(function(require) {
     bus.on('user:login', user.get_settings);
 
     if (config.username) {
-      user.get_settings();
+      _.defer(function() {
+        user.get_settings();
+      });
     }
   });
 
