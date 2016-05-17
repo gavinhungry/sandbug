@@ -68,6 +68,12 @@ define(function(require) {
         that.$patch.toggleClass('checked', patch);
       });
 
+      bus.on('mirrors:mode mirrors:content bugs:saved', function(panel) {
+        _.defer(function() {
+          that.$save.prop('disabled', !bugs.dirty());
+        });
+      });
+
       this.render().done(function() {
         bus.trigger('init', this);
 

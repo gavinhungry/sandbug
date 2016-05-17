@@ -238,9 +238,17 @@ define('bugs', function(require) {
       return bugs.save_as();
     }
 
+    var isNew = model.isNew();
+
     bugs.console.log('Saving bug', slug);
     return model.save().then(function(res) {
-      flash.message_good('@bug_saved', locales.string('bug_saved_msg', res.slug));
+      _.defer(function() {
+        bus.trigger('bugs:saved');
+      });
+
+      if (isNew) {
+        flash.message_good('@bug_saved', locales.string('bug_saved_msg', res.slug));
+      }
 
       bugs.display(model);
     }, function(xhr, status, err) {
