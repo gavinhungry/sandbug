@@ -2,7 +2,7 @@
  * debugger.io: An interactive web scripting sandbox
  * https://github.com/gavinhungry/debugger.io
  *
- * Copyright (C) 2013 - 2015 Gavin Lloyd <gavinhungry@gmail.com>
+ * Copyright (C) 2013 - 2016 Gavin Lloyd <gavinhungry@gmail.com>
  * This is free software distributed under the terms of the MIT license
  */
 
