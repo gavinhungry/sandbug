@@ -188,8 +188,10 @@ define('bugs', function(require) {
       model: bug
     });
 
-    bus.trigger('bugs:title');
-    bugs._priv.current.view.render();
+    _.defer(function() {
+      bus.trigger('bugs:title');
+      bugs._priv.current.view.render();
+    });
   };
 
   /**
