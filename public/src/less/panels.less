@@ -10,7 +10,6 @@ body.ew, body.ew * { cursor: ew-resize !important; }
 
 // layout-cols
 #input {
-
   background: @panel_options_bg_color;
 
   height: 100%;
@@ -87,6 +86,12 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     }
   }
 
+  #markup, #style, #script {
+    .panel-options {
+      padding-right: @panel_padding + 1px;
+    }
+  }
+
   #output {
     background: @output_bg_color;
     > iframe {
@@ -121,32 +126,34 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -3px;
+      margin-left: -5px;
       cursor: ew-resize;
 
       &::before {
+        background: darken(@header_bg_color, 10%);
         content: '';
         display: block;
-        height: 100%;
-        margin-left: 2px;
+        margin-left: 4px;
         margin-top: 1px;
-        opacity: 0.25;
         pointer-events: none;
-        transition: background 0.1s;
+        position: relative;
+        top: @panel_options_height - 1px;
         transition-delay: 0.05s;
+        transition: background 0.1s;
         user-select: none;
-        width: 2px;
+        width: 1px;
+        height: calc(100% ~'-' @panel_options_height);
       }
-    }
-
-    &:hover > div::before {
-      background: darken(@header_bg_color, 5%);
     }
   }
 }
 
 #input.layout-top {
   white-space: normal;
+
+  #script .panel-options {
+    padding-right: @panel_padding;
+  }
 
   #output {
     border-left: none;
@@ -189,6 +196,12 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     }
   }
 
+  #markup, #style, #script, #output {
+    .panel-options {
+      padding-right: @panel_padding;
+    }
+  }
+
   #style { height: 34%; }
   #script { border-bottom: none; }
   #output {
@@ -222,7 +235,7 @@ body.ew, body.ew * { cursor: ew-resize !important; }
     > div {
       width: 8px;
       height: 100%;
-      margin-left: -3px;
+      margin-left: -5px;
       margin-top: 0;
       cursor: ew-resize;
     }

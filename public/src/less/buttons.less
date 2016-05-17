@@ -11,8 +11,40 @@
   }
 
   &:active, &.active {
-    background: darken(@base, 4%);
+    background: darken(@base, 2%);
     padding-top: 2px !important;
+  }
+
+  &.light {
+    @lightbase: desaturate(lighten(@base, 10%), 1%);
+
+    background: @lightbase;
+    border-color: darken(@lightbase, @darken * 1.5);
+
+    &:hover {
+      background: lighten(@lightbase, 4%);
+    }
+
+    &:active, &.active {
+      background: darken(@lightbase, 2%);
+    }
+  }
+
+  &.toggle {
+    @toggle_bg_color: darken(@base, @darken * 1.5);
+
+    &::before {
+      background-color: @toggle_bg_color;
+      border: 2px solid @toggle_bg_color;
+    }
+
+    &.checked::before {
+      background-color: lighten(@toggle_bg_color, 40%);
+    }
+
+    &:active::before, &.active::before {
+      background-color: lighten(@toggle_bg_color, 20%);
+    }
   }
 }
 
@@ -44,13 +76,14 @@ button {
   > i.fa {
     width: 22px;
     display: inline-block;
+    font-size: 14px;
     text-align: center;
     margin: 0 4px 0 -3px;
     padding-top: 4px;
     pointer-events: none;
 
     &.icon-only { margin-right: -3px; }
-    &.fa-eye.fa-lg, &.fa-sort.fa-lg { vertical-align: -1px; }
+    &.fa-eye, &.fa-sort { vertical-align: -1px; }
   }
 
   .button(@button_default_base_color);
@@ -79,7 +112,7 @@ button {
   &.warning { .button(@button_warning_base_color, 50%); }
   &.danger { .button(@button_danger_base_color, 50%); }
   &.purple { .button(@button_purple_base_color, 30%); }
-  &.slate { .button(@button_slate_base_color, 50%); }
+  &.slate { .button(@button_slate_base_color, 15%); }
 
   &.toggle {
     &::before {
@@ -88,19 +121,9 @@ button {
       font-size: 0;
       line-height: 0;
       vertical-align: top;
-      background-color: @toggle_bg_color;
       margin: -2px 6px 0 -2px;
       padding: 4px 3px 5px 5px;
-      border: 2px solid @toggle_bg_color;
       border-radius: 0px;
-    }
-
-    &.checked::before {
-      background-color: lighten(@toggle_bg_color, 40%);
-    }
-
-    &:active::before, &.active::before {
-      background-color: lighten(@toggle_bg_color, 20%);
     }
   }
 

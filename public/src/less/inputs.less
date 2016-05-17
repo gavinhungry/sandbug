@@ -37,6 +37,25 @@ input[type='search'], input[type='email'], select {
     &:-ms-input-placeholder {
       opacity: 0.6; color: @input_placeholder_color;
     }
+
+    &.slate {
+      background: lighten(@button_slate_base_color, 2%);
+      border-color: darken(@button_slate_base_color, 15%);
+
+      &:focus {
+        background: desaturate(lighten(@button_slate_base_color, 6%), 2%);
+      }
+
+      &::-webkit-input-placeholder {
+        opacity: 0.6; color: lighten(@button_slate_base_color, 70%);
+      }
+      &::-moz-placeholder {
+        opacity: 0.6; color: lighten(@button_slate_base_color, 70%);
+      }
+      &:-ms-input-placeholder {
+        opacity: 0.6; color: lighten(@button_slate_base_color, 70%);
+      }
+    }
   }
 
   &.plain {

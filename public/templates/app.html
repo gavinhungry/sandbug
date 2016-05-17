@@ -1,7 +1,7 @@
 <header>
   <div id='title-wrapper'>
     <span id='title' spellcheck="false" contenteditable='true' data-localize='untitled_bug'>%</span>
-    <i id='edit-title' class='fa fa-lg fa-pencil icon-only'></i>
+    <i id='edit-title' class='fa fa-pencil icon-only'></i>
   </div>
   <div id='toolbar' class='flex noselect'></div>
 </header>
@@ -12,7 +12,7 @@
     <!-- MARKUP -->
     <div id='markup' class='panel input-panel transition'>
       <div class='panel-options'>
-        <button class='btn-small cycle'>HTML</button>
+        <button class='btn-small slate cycle'>HTML</button>
         <div class='panel-controls noselect'></div>
       </div>
       <input class='mode' type='hidden' name='markup_mode' value='htmlmixed'>
@@ -23,7 +23,7 @@
     <!-- STYLE -->
     <div id='style' class='panel input-panel transition'>
       <div class='panel-options noselect'>
-        <button class='btn-small cycle'>CSS</button>
+        <button class='btn-small slate cycle'>CSS</button>
         <div class='panel-controls'></div>
       </div>
       <input class='mode' type='hidden' name='style_mode' value='css'>
@@ -34,9 +34,9 @@
     <!-- SCRIPT -->
     <div id='script' class='panel input-panel transition'>
       <div class='panel-options'>
-        <button class='btn-small cycle'>JavaScript</button>
+        <button class='btn-small slate cycle'>JavaScript</button>
         <div class='panel-controls noselect'></div>
-        <button id='auto' class='btn-small toggle right' data-localize='autorun'>Autorun</button>
+        <button id='auto' class='btn-small slate toggle right' data-localize='autorun'>Autorun</button>
       </div>
       <input class='mode' type='hidden' name='script_mode' value='javascript'>
       <textarea class='textarea' name='script'></textarea>
@@ -46,13 +46,13 @@
     <!-- OUTPUT -->
     <div id='output' class='panel'>
       <div class='panel-options'>
-        <button class='btn-small' id='save' data-localize='save'>Save</button>
-        <button class='btn-small' id='save_as' data-localize='save_as'>Save As</button>
-        <button class='btn-small' id='properties' data-localize='properties'>Properties</button>
+        <button class='btn-small slate' id='save' data-localize='save'>Save</button>
+        <button class='btn-small slate' id='save_as' data-localize='save_as'>Save As</button>
+        <button class='btn-small slate' id='properties' data-localize='properties'>Properties</button>
 
         <div class='panel-controls noselect'></div>
-        <button id='patch' class='btn-small right toggle' data-localize='patch'>Patch</button>
-        <button id='run' class='btn-small right purple' data-localize='run'>Run</button>
+        <button id='patch' class='btn-small slate right toggle' data-localize='patch'>Patch</button>
+        <button id='run' class='btn-small slate right' data-localize='run'>Run</button>
       </div>
       <iframe name='proxy' allowTransparency='true'
         src='<%- frame %>'></iframe>

@@ -57,6 +57,26 @@
     }
   }
 
+  &.slate {
+    ~ #cdn-loading {
+      background: lighten(@button_slate_base_color, 2%);
+
+      .semicircle::before {
+        border-color: lighten(@button_slate_base_color, 2%);
+      }
+    }
+
+    &:focus {
+      ~ #cdn-loading {
+        background: desaturate(lighten(@button_slate_base_color, 6%), 2%);
+
+        .semicircle::before {
+          border-color: desaturate(lighten(@button_slate_base_color, 6%), 2%);
+        }
+      }
+    }
+  }
+
   &.error {
     background-color: @cdn_error_bg_color;
     border-color: @cdn_error_border_color;
