@@ -121,8 +121,6 @@ define(function(require) {
         var nopointer = bus.fn_trigger('output:nopointer');
         var pointer = bus.fn_trigger('output:pointer');
 
-        console.log(this.dimensions);
-
         this.$el.draggable({
           containment: 'body',
           handle: '.com-title',
