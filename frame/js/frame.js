@@ -24,9 +24,9 @@
       sass: '//cdn.jsdelivr.net/sass.js/0.3/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
-      coffeescript: '//cdn.jsdelivr.net/coffeescript/1.7/coffee-script.min',
-      'typescript-api': '//cdn.jsdelivr.net/typescript/1.0/typescript.min',
-      typestring: '//cdn.jsdelivr.net/typestring/1.0/typestring.min',
+      coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.10.0/coffee-script.min',
+      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/1.8.10/typescript.min',
+      typestring: '//cdn.rawgit.com/gavinhungry/typestring/1.8.10/dist/typestring.min',
       gorillascript: '//cdn.jsdelivr.net/gorillascript/0.9/gorillascript.min',
       diffdom: '//cdn.jsdelivr.net/diffdom/0.0/diffdom.min'
     },
