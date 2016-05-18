@@ -10,6 +10,7 @@ define('bugs', function(require) {
   var $      = require('jquery');
   var _      = require('underscore');
   var bus    = require('bus');
+  var com    = require('com');
   var config = require('config');
   var utils  = require('utils');
 
@@ -305,6 +306,7 @@ define('bugs', function(require) {
     bugs.model().destroy().then(function() {
       flash.message_good('@bug_deleted');
       bugs.display(bugs.create());
+      com.flush();
     }, function() {
       flash.message_bad('@error_deleting_bug');
     });
