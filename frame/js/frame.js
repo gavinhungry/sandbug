@@ -20,7 +20,7 @@
       marked: '//cdn.jsdelivr.net/marked/0.3/marked.min',
       jade: '//cdn.jsdelivr.net/jade/1.3/jade.min',
       haml: '//cdn.jsdelivr.net/clientside-haml-js/5.4/haml.min',
-      less: '//cdn.jsdelivr.net/less/2.6/less.min',
+      less: '//cdn.jsdelivr.net/less/2.7/less.min',
       sass: '//cdn.jsdelivr.net/sass.js/0.3/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
