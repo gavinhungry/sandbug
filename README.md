@@ -25,12 +25,12 @@ Currently supported language modes are:
 Installation
 ------------
 
-    $ git update-index --assume-unchanged deploy.json
+    $ git update-index --assume-unchanged config.deploy deploy.json
 
     # npm -g install gulp
     $ npm install
     $ gulp
-    
+
     $ node debuggerio.js
     > debugger.io running on port 8080
 
