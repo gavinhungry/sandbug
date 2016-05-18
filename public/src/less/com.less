@@ -3,25 +3,50 @@
  */
 
 #com {
+  box-shadow: 2px 2px rgba(32,32,32, 0.9);
   position: absolute;
   z-index: 19;
   overflow: hidden;
 
+  &._dimensions {
+    @width: 400px;
+
+    width: @width;
+    height: calc(@console_title_height + 2px ~'+' 8em);
+    min-width: @width;
+    min-height: @console_title_height;
+  }
+
   &._position {
-    top: 4px;
+    top: 5px;
     left: 4px;
   }
 
   user-select: none;
-
   background-color: @console_bg_color;
   border: 2px solid @console_border_color;
-
-  width: 512px;
 
   display: none;
   opacity: 0;
   &._opacity { opacity: 0.95; }
+
+  .ui-resizable-se {
+    background: none;
+    margin-bottom: -1px;
+    margin-right: -1px;
+
+    &::after {
+      border-left: 2px solid @console_border_color;
+      border-right: 2px solid @console_border_color;
+      content: '';
+      display: block;
+      margin-left: 8px;
+      margin-top: 3px;
+      transform: rotate(45deg);
+      width: 6px;
+      height: 20px;
+    }
+  }
 
   .com-title {
     display: flex;
@@ -32,12 +57,20 @@
     padding: 0 8px;
     height: @console_title_height;
     line-height: @console_title_height;
-    font-size: @font_size + 2px;
+    font-size: @font_size + 1px;
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  .com-close {
+    margin-top: 3px;
+    margin-right: -5px;
   }
 
   .com-wrapper {
-    min-height: 2em;
-    max-height: calc(80vh ~'-' 2 * @console_title_height);
+    max-height: calc(100% ~'-' @console_title_height);
     overflow-y: auto;
 
     .com-messages {
@@ -45,14 +78,14 @@
       overflow: hidden;
       margin: 4px;
 
-      font-size: @font_size - 2px;
+      font-size: @font_size - 1px;
       font-family: monospace;
       line-height: 1.25em;
 
       .com-msg {
         display: table-row;
         color: @console_msg_text_color;
-        text-shadow: 1px 1px 1px darken(@console_bg_color, 5%);
+        text-shadow: 1px 1px darken(@console_bg_color, 3%);
 
         &.com-msg-debug .com-args { color: @console_msg_text_color_debug; }
         &.com-msg-error .com-args { color: @console_msg_text_color_error; }
@@ -60,13 +93,17 @@
       }
 
       .com-time {
-        display: table-cell;
-        padding-right: 1em;
+        border-right: 1px solid lighten(@console_bg_color, 15%);
+        color: lighten(@console_msg_text_color, 25%);
         cursor: default;
+        display: table-cell;
+        font-size: @font_size - 3px;
+        padding-right: 4px;
       }
 
       .com-args {
         display: table-cell;
+        padding-left: 4px;
         user-select: text;
       }
     }

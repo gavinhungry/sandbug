@@ -95,38 +95,65 @@ define(function(require) {
   var ComView = Backbone.View.extend({
     template: 'com',
     _el: '#com',
+    comMsgViews: [],
 
     events: {
-      'dblclick .com-title': 'corner'
+      'dblclick .com-title': function(e) {
+        if (!$(e.target).is('.com-close')) {
+          this.corner();
+        }
+      },
+
+      'click .com-close': 'hide'
     },
 
     initialize: function() {
+      this.dimensions = dom.css(_.str.sprintf('%s._dimensions', this._el));
       this.position = dom.css(_.str.sprintf('%s._position', this._el));
       this.opacity = dom.css(_.str.sprintf('%s._opacity', this._el)).opacity || 1;
 
       this.setElement(this._el);
+      this.$el.css(this.dimensions);
 
       this.collection.on('add', this.append.bind(this));
-      this.$el.draggable({
-        containment: 'window',
-        handle: '.com-title',
-        start: bus.fn_trigger('output:nopointer'),
-        stop: bus.fn_trigger('output:pointer')
-      });
 
-      this.render();
+      this.render().then(function() {
+        var nopointer = bus.fn_trigger('output:nopointer');
+        var pointer = bus.fn_trigger('output:pointer');
+
+        console.log(this.dimensions);
+
+        this.$el.draggable({
+          containment: 'body',
+          handle: '.com-title',
+          start: nopointer,
+          stop: pointer
+        }).resizable({
+          containment: 'body',
+          minHeight: this.dimensions['min-height'],
+          maxWidth: '50%',
+          handles: 'se',
+          start: nopointer,
+          stop: pointer
+        });
+      });
     },
 
     append: function(comMsgModel) {
       var comMsgView = new ComMsgView({ model: comMsgModel });
+      this.comMsgViews.push(comMsgView);
       this.$com_messages.append(comMsgView.$el);
       this.scroll_bottom();
     },
 
     reset: function() {
+      _.each(this.comMsgViews, function(comMsgView) {
+        comMsgView.remove();
+      });
+
+      this.comMsgViews = [];
       this.collection.reset();
       config.com = null;
-      this.render();
     },
 
     corner: function() {

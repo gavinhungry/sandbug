@@ -17,7 +17,7 @@
         var e = new CustomEvent('console', {
           detail: {
             timestamp: new Date(),
-            time: Math.round(performance.now()) / 1000,
+            time: performance.now() / 1000,
             type: method,
             args: Array.prototype.slice.call(arguments)
           }

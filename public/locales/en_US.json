@@ -27,7 +27,7 @@
     "confirm_password":           "Confirm password",
     "confirm_private":            "Make this Bug private?",
     "confirm_private_body":       "A private Bug saved anonymously will become inaccessible once the current user session has expired.",
-    "console_output":             "Console output",
+    "console_output":             "Console Output",
     "current_password":           "Current password",
     "dark":                       "Dark",
     "default_cdn":                "Default CDN",

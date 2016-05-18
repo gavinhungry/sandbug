@@ -93,6 +93,14 @@ button {
   }
 
   .button(@button_default_base_color);
+  &.action { .button(@button_action_base_color, 30%); }
+  &.proceed { .button(@button_proceed_base_color, 50%); }
+  &.warning { .button(@button_warning_base_color, 50%); }
+  &.danger { .button(@button_danger_base_color, 50%); }
+  &.purple { .button(@button_purple_base_color, 30%); }
+  &.slate { .button(@button_slate_base_color, 15%); }
+  &.ghost { .button(transparent); }
+
   &.btn-small {
     height: 32px;
     line-height: 0;
@@ -113,12 +121,19 @@ button {
     }
   }
 
-  &.action { .button(@button_action_base_color, 30%); }
-  &.proceed { .button(@button_proceed_base_color, 50%); }
-  &.warning { .button(@button_warning_base_color, 50%); }
-  &.danger { .button(@button_danger_base_color, 50%); }
-  &.purple { .button(@button_purple_base_color, 30%); }
-  &.slate { .button(@button_slate_base_color, 15%); }
+  &.btn-tiny {
+    font-size: 10px;
+    height: 24px;
+    line-height: 23px;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    &:not([disabled]) {
+      &:active, &.active {
+        padding-top: 1px !important;
+      }
+    }
+  }
 
   &.toggle {
     &::before {
