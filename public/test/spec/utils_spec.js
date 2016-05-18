@@ -160,6 +160,20 @@ function(utils, config, $, _) {
   });
 
   /**
+   *  utils.uri
+   */
+  describe('utils.uri', function() {
+    it('should return an absolute URI', function() {
+      expect(utils.uri('foobar')).toEqual(config.root + 'foobar');
+      expect(utils.uri()).toEqual(config.root);
+    });
+
+    it('should return the URI when URI is already absolute', function() {
+      expect(utils.uri(config.root + 'foobar')).toEqual(config.root + 'foobar');
+    });
+  });
+
+  /**
    * utils.extension
    */
   describe('utils.extension', function() {
@@ -258,8 +272,8 @@ function(utils, config, $, _) {
   /**
    * utils.resolve
    */
-  describe('utils.resolve', function(done) {
-    it('should return a promise to resolve to a value', function() {
+  describe('utils.resolve', function() {
+    it('should return a promise to resolve to a value', function(done) {
       utils.resolve('foobar').done(function(val) {
         expect(val).toEqual('foobar');
       }).fail(function() {
@@ -271,13 +285,46 @@ function(utils, config, $, _) {
   /**
    * utils.reject
    */
-  describe('utils.reject', function(done) {
-    it('should return a promise to reject to a value', function() {
+  describe('utils.reject', function() {
+    it('should return a promise to reject to a value', function(done) {
       utils.reject('foobar').done(function() {
         expect('promise to reject to an expected value').toEqual(true);
       }).fail(function(val) {
         expect(val).toEqual('foobar');
       }).always(done);
+    });
+  });
+
+  /**
+   * utils.resolve_boolean
+   */
+  describe('utils.resolve_boolean', function() {
+    it('should resolve an immediate value to true', function(done) {
+      utils.resolve_boolean(5).always(function(val) {
+        expect(this.state()).toEqual('resolved');
+        expect(val).toEqual(true);
+        done();
+      });
+    });
+
+    it('should resolve an resolved promise to true', function(done) {
+      var p = utils.resolve(null);
+
+      utils.resolve_boolean(p).always(function(val) {
+        expect(this.state()).toEqual('resolved');
+        expect(val).toEqual(true);
+        done();
+      });
+    });
+
+    it('should resolve an rejected promise to false', function(done) {
+      var p = utils.reject(null);
+
+      utils.resolve_boolean(p).always(function(val) {
+        expect(this.state()).toEqual('resolved');
+        expect(val).toEqual(false);
+        done();
+      });
     });
   });
 
@@ -337,37 +384,163 @@ function(utils, config, $, _) {
   });
 
   /**
+   * utils.parse_json
+   */
+  describe('utils.parse_json', function() {
+    it('should parse JSON', function() {
+      expect(utils.parse_json('{ "foo": "bar" }')).toHaveProperty('foo');
+    });
+
+    it('should return null if JSON cannot be parsed', function() {
+      expect(utils.parse_json('{ // this is not JSON ! }')).toEqual(null);
+    });
+  });
+
+  /**
+   * utils.memoize_hasher
+   */
+  describe('utils.memoize_hasher', function() {
+    it('should join arguments uniquely', function() {
+      expect(utils.memoize_hasher()).toEqual('');
+      expect(utils.memoize_hasher('foo')).toEqual('foo');
+      expect(utils.memoize_hasher('foo', 'bar')).toEqual('foo<<<!>>>bar');
+      expect(utils.memoize_hasher('foo', 'bar', 'baz')).toEqual('foo<<<!>>>bar<<<!>>>baz');
+    });
+  });
+
+  /**
+   * utils.sanitize_resource_id
+   */
+  describe('utils.sanitize_resource_id', function() {
+    it('should remove unsanitary characters', function() {
+      expect(utils.sanitize_resource_id('foo#bar')).toEqual('foobar');
+      expect(utils.sanitize_resource_id('foo/bar')).toEqual('foobar');
+      expect(utils.sanitize_resource_id('#--foo/bar--#')).toEqual('--foobar--');
+      expect(utils.sanitize_resource_id('foo!@#$%^&*()bar#baz')).toEqual('foobarbaz');
+      expect(utils.sanitize_resource_id('foo-bar')).toEqual('foo-bar');
+      expect(utils.sanitize_resource_id('foo_bar')).toEqual('foo_bar');
+    });
+  });
+
+  /**
+   * utils.minify_css_selector
+   */
+  describe('utils.minify_css_selector', function() {
+    it('should minify CSS selectors without changing the selector', function() {
+      expect(utils.minify_css_selector('div > span')).toEqual('div>span');
+      expect(utils.minify_css_selector('div + span')).toEqual('div+span');
+      expect(utils.minify_css_selector('div  span')).toEqual('div span');
+    });
+  });
+
+  /**
+   * utils.form_map
+   */
+  describe('utils.form_map', function() {
+    var $form;
+
+    beforeEach(function() {
+      $form = $('<form><input name="first" value="Gavin"><div><<input name="last" value="Lloyd"></form');
+    });
+
+    it('should return a map of form inputs', function() {
+      var $form = $('<form><input name="first" value="Gavin"><div><input name="last" value="Lloyd"></form');
+      var map = utils.form_map($form);
+
+      expect(map).toBeDefined();
+      expect(map).toHaveProperty('first');
+      expect(map.first).toEqual('Gavin');
+      expect(map).toHaveProperty('last');
+      expect(map.last).toEqual('Lloyd');
+    });
+
+    it('should use the last seen value if name is reused', function() {
+      var $form = $('<form><input name="first" value="Gavin"><input name="first" value="Lloyd"></form');
+      var map = utils.form_map($form);
+
+      expect(map).toBeDefined();
+      expect(map).toHaveProperty('first');
+      expect(map.first).toEqual('Lloyd');
+    });
+  });
+
+  /**
    * utils.value
    */
-  describe('utils.value', function(done) {
-    it('should read a value passed directly', function() {
+  describe('utils.value', function() {
+    it('should read a value passed directly', function(done) {
       utils.value('foo_A').done(function(val) {
         expect(val).toEqual('foo_A');
       }).always(done);
     });
 
-    it('should read a value passed from a function', function() {
+    it('should read a value passed from a function', function(done) {
       utils.value(function() { return 'foo_B'; }).done(function(val) {
         expect(val).toEqual('foo_B');
       }).always(done);
     });
 
-    it('should read a value passed from a promise', function() {
+    it('should read a value passed from a promise', function(done) {
       utils.value(utils.resolve('foo_C')).done(function(val) {
         expect(val).toEqual('foo_C');
       }).always(done);
     });
 
-    it('should read a value passed from a promise-returning function', function() {
+    it('should read a value passed from a promise-returning function', function(done) {
       utils.value(function() { return utils.resolve('foo_D'); }).done(function(val) {
         expect(val).toEqual('foo_D');
       }).always(done);
     });
 
-    it('should read a value passed from a function-resolving promise', function() {
+    it('should read a value passed from a function-resolving promise', function(done) {
       utils.value(utils.resolve(function() { return 'foo_E'; })).done(function(val) {
         expect(val).toEqual('foo_E');
       }).always(done);
+    });
+  });
+
+  /**
+   * utils.timestamp_now
+   */
+  describe('utils.timestamp_now', function() {
+    it('should be a whole number', function() {
+      expect(utils.timestamp_now()).toBeWholeNumber();
+    });
+
+    it('should be greater than 0', function() {
+      expect(utils.timestamp_now()).toBeGreaterThan(0);
+    });
+  });
+
+  /**
+   * utils.runtime
+   */
+  describe('utils.runtime', function() {
+    it('should be a whole number', function() {
+      expect(utils.runtime()).toBeWholeNumber();
+    });
+
+    it('should be greater than 0', function() {
+      expect(utils.runtime()).toBeGreaterThan(-1);
+    });
+  });
+
+  /**
+   * utils.title
+   */
+  describe('utils.title', function() {
+    afterEach(function() {
+      utils.title();
+    });
+
+    it('should set document.title with existing title correctly', function() {
+      utils.title('foo');
+      expect(document.title).toEqual('foo - ' + config.title);
+    });
+
+    it('should reset document.title when no arguments are passed', function() {
+      utils.title();
+      expect(document.title).toEqual(config.title);
     });
   });
 

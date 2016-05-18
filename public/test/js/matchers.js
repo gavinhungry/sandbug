@@ -34,6 +34,14 @@ function($, _, jasmine) {
 
     toBeAnArray: create_matcher(function(actual, expected) {
       return _.isArray(actual);
+    }),
+
+    toHaveProperty: create_matcher(function(actual, expected) {
+      return actual && actual.hasOwnProperty(expected);
+    }),
+
+    toBeWholeNumber: create_matcher(function(actual, expected) {
+      return _.isFinite(actual) && Math.floor(actual) === actual;
     })
   };
 

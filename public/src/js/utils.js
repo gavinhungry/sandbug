@@ -106,12 +106,17 @@ define(function(require) {
 
   /**
    * Get an absolute URI on the debugger.io domain
-   * TODO: if URI is already absolute, return the string unmodified
    *
    * @param {String} path - relative or absolute URI
    * @return {String} absolute URI
    */
   utils.uri = function(path) {
+    path = utils.ensure_string(path);
+
+    if (_.str.startsWith(path, config.root)) {
+      return path;
+    }
+
     return config.root + path;
   };
 
