@@ -87,6 +87,7 @@ define(function(require) {
       var removeClasses = utils.ensure_array(classes.remove).join(' ');
       var addClasses = utils.ensure_array(classes.add).join(' ');
 
+      this.$console.toggleClass('light', _.isEmpty(addClasses));
       this.$console.removeClass(removeClasses);
       this.$console.addClass(addClasses);
     },

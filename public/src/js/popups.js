@@ -677,7 +677,7 @@ define(function(require) {
     return locales.prefixed(body).then(function(bodyStr) {
       return popups.popup('confirm', title, {
         body: bodyStr,
-        affirmClass: 'warning'
+        affirmClass: 'warning light'
       });
     });
   };
