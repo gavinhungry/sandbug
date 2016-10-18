@@ -11,7 +11,7 @@
     "git-rev": "0.2.x",
     "gulp": "3.9.x",
     "gulp-less": "3.1.x",
-    "gulp-nodemon": "2.0.x",
+    "gulp-nodemon": "2.2.x",
     "gulp-rename": "1.2.x",
     "gulp-symlink": "2.1.x",
     "gulp-uglifycss": "1.0.x",
@@ -25,19 +25,19 @@
     "consolidate": "0.14.x",
     "cookie-parser": "1.4.x",
     "cookie-session": "1.2.x",
-    "express": "4.13.x",
+    "express": "4.14.x",
     "js-schema": "1.0.x",
     "mongojs": "2.4.x",
     "passport": "0.3.x",
     "passport-local": "1.0.x",
     "q": "1.4.x",
-    "requirejs": "2.2.x",
-    "rudiment": "0.6.x",
+    "requirejs": "2.3.x",
+    "rudiment": "1.0.x",
     "scrypt": "6.0.x",
     "seasurf": "0.1.x",
     "underscore": "1.8.x",
     "underscore-deep-extend": "1.1.x",
     "underscore.string": "3.3.x",
-    "validator": "5.2.x"
+    "validator": "6.1.x"
   }
 }
