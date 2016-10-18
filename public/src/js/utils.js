@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  *
  * utils.js: utility functions
  */
@@ -105,7 +105,7 @@ define(function(require) {
   };
 
   /**
-   * Get an absolute URI on the debugger.io domain
+   * Get an absolute URI on the sandbug domain
    *
    * @param {String} path - relative or absolute URI
    * @return {String} absolute URI

@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  */
 
 define(function(require) {
@@ -60,7 +60,7 @@ define(function(require) {
   /**
    * Get an object of JSON from a directory
    *
-   * @param {String} dir - directory path relative to debugger root
+   * @param {String} dir - directory path relative to sandbug root
    * @param {String} [prop] - property name to be returned as value
    * @return {Promise}
    */

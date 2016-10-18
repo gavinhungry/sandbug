@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  *
  * frame.js: sandboxed iframe
  */

@@ -1,6 +1,6 @@
 /**
- * debugger.io: An interactive web scripting sandbox
- * https://github.com/gavinhungry/debugger.io
+ * sandbug: An interactive web scripting sandbox
+ * https://github.com/gavinhungry/sandbug
  *
  * Copyright (C) 2013 - 2016 Gavin Lloyd <gavinhungry@gmail.com>
  * This is free software distributed under the terms of the MIT license

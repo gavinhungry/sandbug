@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  *
  * config.js: simple configuration manager
  */
@@ -11,7 +11,7 @@ define(function(require) {
 
   // ---
 
-  delete window._debugger_io;
+  delete window.__sandbug;
   if (!config.prod) { window.config = config; }
   return config;
 });
@@ -28,14 +28,14 @@ define('config_p', function(require) {
     _priv: { value: Object.create(null) }
   });
 
-  var locals = window._debugger_io || {};
+  var locals = window.__sandbug || {};
   var hostname = window.location.hostname;
   var protocol = window.location.protocol;
   var proxyable_sub_options = ['mode'];
 
   // default options
   var options = {
-    github: 'https://github.com/gavinhungry/debugger.io',
+    github: 'https://github.com/gavinhungry/sandbug',
     root: _.str.sprintf('%s//%s/', protocol, hostname),
     frame: _.str.sprintf('%s//frame.%s', protocol, hostname),
     username: locals.username,
@@ -51,7 +51,7 @@ define('config_p', function(require) {
    * @param {String} option - option name
    */
   config._priv.proxy = function(option) {
-    $(document).trigger('_debugger_io-config', {
+    $(document).trigger('_sandbug-config', {
       option: option,
       value: config[option]
     });

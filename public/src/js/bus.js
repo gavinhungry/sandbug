@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  *
  * bus.js: Backbone event bus
  */
@@ -51,7 +51,7 @@ define(function(require) {
       bus.console.log('init bus module');
 
       // proxy config updates to event bus
-      $(document).on('_debugger_io-config', function(e, opt) {
+      $(document).on('_sandbug-config', function(e, opt) {
         bus.trigger('config:' + opt.option, opt.value);
       });
 

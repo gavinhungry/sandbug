@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  */
 
 (function() {
@@ -81,8 +81,8 @@
       require(['app'], function(app) {
         if (hasError) { return; }
 
-        var debuggerio = new app.App();
-        debuggerio.once('reveal', progression.complete);
+        var sandbug = new app.App();
+        sandbug.once('reveal', progression.complete);
       }, progression.error);
     });
   });

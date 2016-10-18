@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  *
  * themes.js: theme manager
  */
@@ -24,7 +24,7 @@ define(function(require) {
   bus.init(function(av) {
     themes.console.log('init themes module');
 
-    var themeRegex = /\/debuggerio\.(\w+)\.min\.css(\?v=.*)?$/;
+    var themeRegex = /\/sandbug\.(\w+)\.min\.css(\?v=.*)?$/;
 
     _.each(document.styleSheets, function(stylesheet) {
       var href = $(stylesheet.ownerNode).attr('data-href');

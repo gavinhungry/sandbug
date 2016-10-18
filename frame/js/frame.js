@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  */
 
 (function() {
@@ -108,7 +108,7 @@
 
         // live-update of CSS only
         if (win && oe.data.css) {
-          var $style = $(win.document).find('#_debugger_io_style_output');
+          var $style = $(win.document).find('#_sandbug_style_output');
 
           // build the entire document as usual if no existing style is found
           if ($style.length) {

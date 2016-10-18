@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  */
 
 (function() {
@@ -18,7 +18,7 @@
 
   requirejs(['../app', 'utils'], function(app, utils) {
     app.init();
-    utils.log('debugger.io running on port ' + app.port);
+    utils.log('sandbug running on port ' + app.port);
   });
 
   // export with local config

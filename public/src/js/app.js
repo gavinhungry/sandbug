@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  */
 
 define(function(require) {
@@ -33,7 +33,7 @@ define(function(require) {
 
   app.App = Backbone.View.extend({
     template: 'app',
-    el: '#debuggerio',
+    el: '#sandbug',
 
     initialize: function() {
       app.console.log('init app module');

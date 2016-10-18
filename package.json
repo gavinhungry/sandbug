@@ -1,5 +1,5 @@
 {
-  "name": "debugger.io",
+  "name": "sandbug",
   "version": "0.0.0",
   "author": "Gavin Lloyd <gavinhungry@gmail.com>",
   "description": "An interactive web scripting sandbox",

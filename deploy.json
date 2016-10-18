@@ -1,9 +1,9 @@
 {
   // database
   "db": {
-    "name": "debuggerio",
-    "user": "debuggerio",
-    "pass": "debuggerio",
+    "name": "sandbug",
+    "user": "sandbug",
+    "pass": "sandbug",
     "host": "localhost"
   },
 

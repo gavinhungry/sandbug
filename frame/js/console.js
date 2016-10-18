@@ -1,5 +1,5 @@
 /*
- * debugger.io: An interactive web scripting sandbox
+ * sandbug: An interactive web scripting sandbox
  */
 
 (function(console) {
@@ -13,7 +13,7 @@
         // send to built-in console
         fn.apply(console, arguments);
 
-        // send up towards debugger conn
+        // send up towards sandbug conn
         var e = new CustomEvent('console', {
           detail: {
             timestamp: new Date(),

@@ -31,26 +31,26 @@ Installation
     $ npm install
     $ gulp
 
-    $ node debuggerio.js
-    > debugger.io running on port 8080
+    $ node sandbug.js
+    > sandbug running on port 8080
 
 ### Example Nginx configuration
 
 ```nginx
 server {
   listen 80;
-  server_name debugger.example.tld;
+  server_name sandbug.example.tld;
 
   location / { proxy_pass http://127.0.0.1:8080; }
   location ~* ^(/test/?|.+\.(html|js|css|woff|png|jpg|gif|ico|txt|json))$ {
-    root /srv/http/debugger.io/public;
+    root /srv/http/sandbug/public;
   }
 }
 
 server {
   listen 80;
-  server_name frame.debugger.example.tld;
-  root /srv/http/debugger.io/frame;
+  server_name frame.sandbug.example.tld;
+  root /srv/http/sandbug/frame;
 }
 ```
 

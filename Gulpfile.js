@@ -50,7 +50,7 @@
       mainConfigFile: './public/src/js/require.config.js',
 
       name: 'main',
-      out: './public/js/debuggerio.min.js',
+      out: './public/js/sandbug.min.js',
 
       pragmas: { bustCache: true },
       findNestedDependencies: true,
@@ -71,7 +71,7 @@
    * Build LESS files for each theme into a single compressed CSS file
    */
   gulp.task('less', function(done) {
-    return gulp.src('./public/src/less/debuggerio.*.less')
+    return gulp.src('./public/src/less/sandbug.*.less')
       .pipe(less())
       .on('error', function(err) {
         console.error(err.message);
@@ -117,7 +117,7 @@
    */
   gulp.task('dev', ['watch'], function(done) {
     nodemon({
-      script: 'debuggerio.js',
+      script: 'sandbug.js',
       ext: 'js json',
       ignore: ['.git', 'node_modules', 'frame', 'public']
     }).on('quit', done);
