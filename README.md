@@ -1,5 +1,5 @@
-Debugger.io
-===========
+sandbug
+=======
 An interactive web scripting sandbox.
 
 Modes
