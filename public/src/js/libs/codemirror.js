@@ -9,7 +9,7 @@
  */
 define([
   'codemirrorjs', 'cm_overlay', 'cm_search', 'cm_scrollbars', 'cm_xml',
-  'cm_html', 'cm_markdown', 'cm_gfm', 'cm_jade', 'cm_haml', 'cm_css', 'cm_js',
+  'cm_html', 'cm_markdown', 'cm_gfm', 'cm_haml', 'cm_css', 'cm_js',
   'cm_coffeescript'
 ],
 function(CodeMirror) {

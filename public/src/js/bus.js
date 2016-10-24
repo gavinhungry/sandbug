@@ -38,7 +38,10 @@ define(function(require) {
 
     // otherwise, wait for the init event
     bus.once('init', function() {
-      if (!init_args) { init_args = arguments; }
+      if (!init_args) {
+        init_args = arguments;
+      }
+
       callback.apply(null, init_args);
       initialized = true;
     });

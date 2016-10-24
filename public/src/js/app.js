@@ -75,10 +75,10 @@ define(function(require) {
       });
 
       this.render().done(function() {
-        bus.trigger('init', this);
+        bus.trigger('init', that);
 
-        this.register_keys();
-        this.reveal();
+        that.register_keys();
+        that.reveal();
       });
 
       window.onbeforeunload = function() {

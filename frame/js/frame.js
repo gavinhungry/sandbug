@@ -13,7 +13,7 @@
 
   requirejs.config({
     paths: {
-      jquery: '//cdn.jsdelivr.net/jquery/2.2/jquery.min',
+      jquery: '//cdn.jsdelivr.net/jquery/3.1/jquery.min',
       underscore: '//cdn.jsdelivr.net/underscorejs/1.8/underscore-min',
       string: '//cdn.jsdelivr.net/underscore.string/3.3/underscore.string.min',
 
@@ -24,9 +24,9 @@
       sass: '//cdn.jsdelivr.net/sass.js/0.3/sass.min',
       traceur: '/js/lib/compilers/traceur.min',
       traceur_api: '/js/lib/compilers/traceur-api.min',
-      coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.10.0/coffee-script.min',
-      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/1.8.10/typescript.min',
-      typestring: '//cdn.rawgit.com/gavinhungry/typestring/1.8.10/dist/typestring.min',
+      coffeescript: '//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.11.1/coffee-script.min',
+      'typescript-api': '//cdnjs.cloudflare.com/ajax/libs/typescript/2.0.3/typescript.min',
+      typestring: '//cdn.rawgit.com/gavinhungry/typestring/2.0.3/dist/typestring.min',
       gorillascript: '//cdn.jsdelivr.net/gorillascript/0.9/gorillascript.min',
       diffdom: '//cdn.jsdelivr.net/diffdom/0.0/diffdom.min'
     },

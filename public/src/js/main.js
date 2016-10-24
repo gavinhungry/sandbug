@@ -29,6 +29,7 @@
     var loading = document.querySelector('#loading');
     var progBar = loading.querySelector('.overlay-progress');
     var overlayError = loading.querySelector('.overlay-err');
+    var overlayErrorText = loading.querySelector('.overlay-err-text');
 
     var i, p = 0;
     var completed = false;
@@ -52,7 +53,11 @@
     var error = function(err) {
       stop();
 
-      if (err) { console.error(err.message); }
+      if (err) {
+        console.error(err.message);
+        overlayErrorText.innerText = err.message.split('\n')[0];
+      }
+
       overlayError.style.opacity = 1;
       progBar.classList.add('timeout');
 

@@ -108,6 +108,8 @@ define(function(require) {
     },
 
     initialize: function() {
+      var that = this;
+
       this.dimensions = dom.css(_.str.sprintf('%s._dimensions', this._el));
       this.position = dom.css(_.str.sprintf('%s._position', this._el));
       this.opacity = dom.css(_.str.sprintf('%s._opacity', this._el)).opacity || 1;
@@ -121,14 +123,14 @@ define(function(require) {
         var nopointer = bus.fn_trigger('output:nopointer');
         var pointer = bus.fn_trigger('output:pointer');
 
-        this.$el.draggable({
+        that.$el.draggable({
           containment: 'body',
           handle: '.com-title',
           start: nopointer,
           stop: pointer
         }).resizable({
           containment: 'body',
-          minHeight: this.dimensions['min-height'],
+          minHeight: that.dimensions['min-height'],
           maxWidth: '50%',
           handles: 'se',
           start: nopointer,

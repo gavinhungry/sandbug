@@ -1,5 +1,9 @@
 {
-  // database
+  "server": {
+    "port": 10081
+  },
+
+    // database
   "db": {
     "name": "sandbug",
     "user": "sandbug",
