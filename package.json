@@ -10,7 +10,7 @@
     "del": "2.2.x",
     "git-rev": "0.2.x",
     "gulp": "3.9.x",
-    "gulp-less": "3.1.x",
+    "gulp-less": "3.3.x",
     "gulp-nodemon": "2.2.x",
     "gulp-rename": "1.2.x",
     "gulp-symlink": "2.1.x",
@@ -38,6 +38,6 @@
     "underscore": "1.8.x",
     "underscore-deep-extend": "1.1.x",
     "underscore.string": "3.3.x",
-    "validator": "6.1.x"
+    "validator": "6.2.x"
   }
 }
