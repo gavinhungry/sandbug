@@ -19,8 +19,8 @@
   },
 
   "dependencies": {
-    "body-parser": "1.15.x",
-    "cjson": "0.4.x",
+    "body-parser": "1.16.x",
+    "cjson": "0.5.x",
     "connect-mobile-detection": "0.0.x",
     "consolidate": "0.14.x",
     "cookie-parser": "1.4.x",
